@@ -1,0 +1,24 @@
+<% header = form_action == api_session_url ? "Log in" : "Sign up" %>
+
+  <h1><%= header %></h1>
+
+  <form action="<%= form_action %>" method="POST">
+    <%= auth_token %>
+
+    <label>
+      Name
+      <input type="text" name="user[user_name]" value="">
+    </label>
+
+    <label>
+      Email
+      <input type="text" name="user[email]" value="">
+    </label>
+
+    <label>
+      Password
+      <input type="password" name="user[password]" value="">
+    </label>
+
+    <input type="submit" value="Submit">
+  </form>
