@@ -15,13 +15,12 @@ class User < ActiveRecord::Base
   #   foreign_key: :team_id
   # )
   #
-  # has_many(
-  #   :boards,
-  #   class_name: "Board",
-  #   primary_key: :id,
-  #   foreign_key: :author_id
-  # )
-
+  has_many(
+    :boards,
+    class_name: "Board",
+    primary_key: :id,
+    foreign_key: :author_id
+  )
 
   def self.find_by_name(user_name, password)
     user = User.find_by(user_name: user_name)

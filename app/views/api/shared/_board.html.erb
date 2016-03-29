@@ -1,0 +1,22 @@
+<% header = form_action == new_api_boards_url ? "New board" : "Edit" %>
+
+  <h1><%= header %></h1>
+
+
+<form action="<%= form_action %>" method="POST">
+
+  <%= auth_token %>
+
+  <label>
+    Title
+    <input type="text" name="board[title]">
+  </label>
+
+  <label>
+    Description
+    <input type="text" name="board[description]">
+  </label>
+
+  <input type="submit" value="Submit">
+
+</form>
