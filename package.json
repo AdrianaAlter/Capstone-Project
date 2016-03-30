@@ -35,5 +35,9 @@
     "react-addons-linked-state-mixin": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-router": "1.0.3"
-  }
+  },
+  "engines": {
+   "node": "5.1.0",
+   "npm": "3.3.12"
+},
 }
