@@ -11,7 +11,7 @@ class Board < ActiveRecord::Base
   )
 
   def self.find_by_author(author_id)
-    board = Board.where("author_id = 'author_id'")
+    board = Board.where("author_id = author_id")
     board ? board : nil
   end
 

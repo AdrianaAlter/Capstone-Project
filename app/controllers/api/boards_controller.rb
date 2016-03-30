@@ -22,6 +22,7 @@ class Api::BoardsController < ApplicationController
   end
 
   def edit
+    @board = Board.find(params[:id])
     render :edit
   end
 
@@ -34,10 +35,10 @@ class Api::BoardsController < ApplicationController
     end
   end
 
-  # def show
-  #   @board = Board.find(params[:id])
-  #   render :show
-  # end
+  def show
+    @board = Board.find(params[:id])
+    render :show
+  end
 
   def destroy
     @board = Board.find(params[:id])

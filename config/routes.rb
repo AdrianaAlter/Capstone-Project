@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   namespace :api do
     resources :users, only: [:index, :new, :create, :show]
     resource :session, only: [:new, :create, :destroy]
-    resource :boards 
+    resources :boards, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   end
 end

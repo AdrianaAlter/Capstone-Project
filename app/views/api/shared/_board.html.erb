@@ -1,20 +1,21 @@
-<% header = form_action == new_api_boards_url ? "New board" : "Edit" %>
+<% header = form_action == api_boards_url ? "New board" : "Edit" %>
+<% method = form_action == api_boards_url ? "POST" : "PATCH" %>
 
-  <h1><%= header %></h1>
-
+<h1><%= header %></h1>
 
 <form action="<%= form_action %>" method="POST">
+  <input type="hidden" name="_method" value="<%= method %>">
 
   <%= auth_token %>
 
   <label>
     Title
-    <input type="text" name="board[title]">
+    <input type="text" name="board[title]" value="<%= board.title %>">
   </label>
 
   <label>
     Description
-    <input type="text" name="board[description]">
+    <input type="text" name="board[description]" value="<%= board.description %>">
   </label>
 
   <input type="submit" value="Submit">
