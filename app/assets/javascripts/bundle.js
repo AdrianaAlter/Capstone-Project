@@ -49,8 +49,9 @@
 	var Router = __webpack_require__(159).Router;
 	var Route = __webpack_require__(159).Route;
 	var BoardIndex = __webpack_require__(208);
+	var App = __webpack_require__(234);
 	
-	var routes = React.createElement(Route, { path: '/', component: BoardIndex });
+	var routes = React.createElement(Route, { path: '/', component: App });
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  ReactDOM.render(React.createElement(
@@ -24324,7 +24325,7 @@
 	  },
 	
 	  componentDidMount: function () {
-	    this.listener = BoardStore.addListener(this._onChange());
+	    this.listener = BoardStore.addListener(this._onChange);
 	    ApiUtil.fetchAllBoards();
 	  },
 	
@@ -24340,8 +24341,12 @@
 	    var boardItems = this.state.boards.map(function (board) {
 	      return React.createElement(
 	        'li',
-	        { id: board.id },
-	        board.title
+	        { key: board.id },
+	        React.createElement(
+	          'div',
+	          { className: 'board-title' },
+	          board.title
+	        )
 	      );
 	    });
 	    return React.createElement(
@@ -24350,6 +24355,11 @@
 	      React.createElement(
 	        'ul',
 	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'board-index-label' },
+	          'My Boards'
+	        ),
 	        boardItems
 	      )
 	    );
@@ -24382,10 +24392,10 @@
 	
 	  switch (payload.actionType) {
 	    case BoardConstants.ALL_BOARDS_RECEIVED:
-	      reset(payload.boards);
+	      BoardStore.reset(payload.boards);
+	      BoardStore.__emitChange();
 	      break;
 	  }
-	  BoardStore.__emitChange();
 	};
 	
 	module.exports = BoardStore;
@@ -31171,10 +31181,8 @@
 	var BoardActions = {
 	
 	  receiveAllBoards: function (boards) {
-	    debugger;
-	
 	    Dispatcher.dispatch({
-	      actionType: "BoardConstants.ALL_BOARDS_RECEIVED",
+	      actionType: BoardConstants.ALL_BOARDS_RECEIVED,
 	      boards: boards
 	    });
 	  }
@@ -31208,6 +31216,47 @@
 	};
 	
 	module.exports = ApiUtil;
+
+/***/ },
+/* 234 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Header = __webpack_require__(235);
+	var BoardIndex = __webpack_require__(208);
+	
+	var App = React.createClass({
+	  displayName: 'App',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { id: 'app' },
+	      React.createElement(Header, null),
+	      React.createElement(BoardIndex, null)
+	    );
+	  }
+	});
+	
+	module.exports = App;
+
+/***/ },
+/* 235 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Header = React.createClass({
+	  displayName: "Header",
+	
+	  render: function () {
+	
+	    return React.createElement("div", { className: "header group" });
+	  }
+	
+	});
+	
+	module.exports = Header;
 
 /***/ }
 /******/ ]);

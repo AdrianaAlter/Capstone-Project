@@ -10,10 +10,10 @@ class Board < ActiveRecord::Base
     foreign_key: :author_id
   )
 
-  def self.find_by_author(author_id)
-    board = Board.where("author_id = author_id")
-    board ? board : nil
-  end
+  # def self.find_by_author(author_id)
+  #   board = Board.where("author_id = author_id")
+  #   board ? board : nil
+  # end
 
 
 

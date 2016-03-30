@@ -10,7 +10,7 @@ var BoardIndex = React.createClass({
   },
 
   componentDidMount: function () {
-    this.listener = BoardStore.addListener(this._onChange());
+    this.listener = BoardStore.addListener(this._onChange);
     ApiUtil.fetchAllBoards();
   },
 
@@ -24,11 +24,12 @@ var BoardIndex = React.createClass({
 
   render: function () {
     var boardItems = this.state.boards.map(function (board) {
-      return <li id = {board.id}>{board.title}</li>;
+      return <li key={board.id}><div className="board-title">{board.title}</div></li>;
     });
     return (
       <div>
         <ul>
+          <div className="board-index-label">My Boards</div>
           {boardItems}
         </ul>
       </div>

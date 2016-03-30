@@ -3,7 +3,7 @@ class Api::BoardsController < ApplicationController
   # before_action :must_log_in
 
   def index
-    @boards = Board.find_by_author(current_user.id)
+    @boards = current_user.boards
     render :index
   end
 

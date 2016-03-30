@@ -17,10 +17,10 @@ BoardStore.__onDispatch = function (payload) {
 
   switch (payload.actionType) {
     case BoardConstants.ALL_BOARDS_RECEIVED:
-      reset(payload.boards);
+      BoardStore.reset(payload.boards);
+      BoardStore.__emitChange();
       break;
   }
-  BoardStore.__emitChange();
 
 };
 
