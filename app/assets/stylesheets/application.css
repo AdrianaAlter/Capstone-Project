@@ -43,7 +43,13 @@ body {
   font-weight: bold;
   line-height: 18px;
   height: 100%;
+}
 
+.logout-button {
+  display: block;
+  background: black;
+  height: 100px;
+  width: 100px;
 }
 
 

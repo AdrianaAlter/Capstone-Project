@@ -6,6 +6,7 @@ var Header = React.createClass({
     return(
       <header className="header">
         <nav className="header-nav group">
+          <h1 className="header-logo">CatTrello</h1>
           <ul className="header-list group">
             <li><a href="#"></a></li>
             <li><a href="#"></a></li>

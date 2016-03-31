@@ -7,14 +7,22 @@
 
 }
 
+
 .header a {
   display: block;
 }
 
+
 .header-nav {
   margin: auto;
+  content: "CatTrello";
+  text-align: center;
   // width: 900px;
+}
 
+.header-logo {
+  color: white;
+  float: left;
 }
 
 .header-list {

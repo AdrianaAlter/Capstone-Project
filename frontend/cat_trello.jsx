@@ -7,7 +7,7 @@ var App = require('./components/app.jsx');
 var LogInForm = require('./components/log_in.jsx');
 var hashHistory = require('react-router').hashHistory;
 var ApiUtil = require('./util/api_util.js');
-// var SessionStore = require('./stores/session_store.js');
+var SessionStore = require('./store/session_store.js');
 
 
 var routes = (
@@ -25,3 +25,26 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('content')
   );
 });
+
+
+function _mustLogIn(nextState, replace, asyncCompletionCallback) {
+  if (!SessionStore.currentUserFetched()) {
+    ApiUtil.fetchCurrentUser(_mustLogIn);
+  }
+  else {
+    _redirectToLogIn();
+  }
+
+  function _redirectToLogIn() {
+    if (!SessionStore.isLoggedIn()) {
+      replace("/login");
+    }
+    asyncCompletionCallback();
+  }
+}
+
+
+
+
+
+}

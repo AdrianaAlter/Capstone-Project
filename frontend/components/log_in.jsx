@@ -32,7 +32,7 @@ var LogInForm = React.createClass({
   render: function () {
     return(
       <div className="log-in-page group">
-        <h1>Log in</h1>
+        <h1>Log in to CatTrello!</h1>
           <form onSubmit={this.handleSubmit}>
             <div className="log-in-form group">
               <label htmlFor="name">Name</label>
