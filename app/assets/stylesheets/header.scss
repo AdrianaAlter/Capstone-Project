@@ -1,7 +1,33 @@
-// .header {
-//   margin: auto;
-//   display: block;
-//   height: 30px;
-//   padding: 5px;
-//   background: #026AA7;
-// }
+.header {
+  height: 30px;
+  padding: 5px;
+  background: #026AA7;
+  position: relative;
+  color: #f3f3f3;
+
+}
+
+.header a {
+  display: block;
+}
+
+.header-nav {
+  margin: auto;
+  // width: 900px;
+
+}
+
+.header-list {
+  float: right;
+  margin-top: 0;
+}
+
+.header-list > li {
+  float: left;
+  background: #b6e2fc;
+  height: 30px;
+  width: 30px;
+  border-radius: 10%;
+  margin-top: 0;
+  margin-right: 3px;
+}

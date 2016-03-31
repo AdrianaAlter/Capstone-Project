@@ -34,10 +34,23 @@ group:after {
   display: block;
 }
 
-.header {
+body {
+  font-size: 14px;
+  box-sizing: content-box;
+  color: black;
+  background: white;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  font-weight: bold;
+  line-height: 18px;
+  height: 100%;
+
+}
+
+
+/*.header {
   margin: auto;
   display: block;
   height: 30px;
   padding: 5px;
   background: #026AA7;
-}
+}*/

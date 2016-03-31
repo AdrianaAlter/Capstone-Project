@@ -1,5 +1,5 @@
 {
-  "name": "Capstone-Project",
+  "name": "catTrello-Project",
   "version": "1.0.0",
   "description": "== README",
   "main": "index.js",
@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AdrianaAlter/Capstone-Project.git"
+    "url": "git+https://github.com/AdrianaAlter/catTrello-Project.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AdrianaAlter/Capstone-Project/issues"
+    "url": "https://github.com/AdrianaAlter/catTrello-Project/issues"
   },
-  "homepage": "https://github.com/AdrianaAlter/Capstone-Project#readme",
+  "homepage": "https://github.com/AdrianaAlter/catTrello-Project#readme",
   "devDependencies": {
     "babel-core": "^6.2.0",
     "babel-loader": "^6.2.0",
@@ -34,10 +34,10 @@
     "react": "^0.14.2",
     "react-addons-linked-state-mixin": "^0.14.2",
     "react-dom": "^0.14.2",
-    "react-router": "1.0.3"
+    "react-router": "2.0.1"
   },
   "engines": {
    "node": "5.1.0",
    "npm": "3.3.12"
-},
+}
 }

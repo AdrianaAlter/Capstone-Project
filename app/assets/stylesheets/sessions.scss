@@ -1,3 +1,60 @@
 // Place all the styles related to the sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.log-in-page {
+  font-family: "jaf-facitweb", "Helvetica Neue", Arial,sans-serif;
+  color: #4d4d4d;
+  margin: 144px auto;
+  width: 500px;
+  display: block;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 23px;
+  padding: 64 16px;
+
+}
+
+h1 {
+    font-size: 36px;
+    line-height: 19px;
+    margin-top: 25px;
+    margin-bottom: 40px;
+    display: block;
+    font-weight: bold;
+}
+
+.log-in-form {
+  width: 585;
+  height: 289;
+  display: block;
+  margin-bottom: 44px;
+}
+
+label {
+    display: block;
+    margin: 35px 0 16px 0;
+    width: 585px;
+    height: 28px;
+}
+
+input {
+  background: #edeff0;
+  border-radius: 4px;
+  border: 1px solid #cdd2d4;
+  box-sizing: border-box;
+  padding: 8px;
+  max-width: 400px;
+  width: 100%;
+}
+
+button {
+  display: block;
+  margin-top: 40px;
+  color: white;
+  background: #61bd4f;
+  box-shadow: 0 2px 0 #3f6f21;
+  border-radius: 4px;
+  font-weight: bold;
+  padding: 9px 20px;
+}

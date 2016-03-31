@@ -8,8 +8,15 @@ var BoardActions = {
       actionType: BoardConstants.ALL_BOARDS_RECEIVED,
       boards: boards
     });
+  },
 
+  receiveSingleBoard: function (board) {
+    Dispatcher.dispatch({
+      actionType: BoardConstants.SINGLE_BOARD_RECEIVED,
+      board: board
+    });
   }
+
 };
 
 module.exports = BoardActions;

@@ -4,14 +4,24 @@ var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var BoardIndex = require('./components/board_index.jsx');
 var App = require('./components/app.jsx');
+var LogInForm = require('./components/log_in.jsx');
+var hashHistory = require('react-router').hashHistory;
+var ApiUtil = require('./util/api_util.js');
+// var SessionStore = require('./stores/session_store.js');
+
 
 var routes = (
-  <Route path="/" component={App} />
+    <Router history={hashHistory}>
+      <Route path="/" component={App}>
+        <Route path="boards" component={BoardIndex} />
+      </Route>
+      <Route path="/login" component={LogInForm}/>
+    </Router>
 );
 
 document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(
-    <Router>{routes}</Router>,
+    routes,
     document.getElementById('content')
   );
 });

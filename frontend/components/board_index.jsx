@@ -2,6 +2,7 @@ var React = require('react');
 var BoardStore = require('../store/board_store.js');
 var BoardActions = require('../actions/board_actions.js');
 var ApiUtil = require('../util/api_util.js');
+var BoardIndexItem = require('./board_index_item.jsx');
 
 var BoardIndex = React.createClass({
 

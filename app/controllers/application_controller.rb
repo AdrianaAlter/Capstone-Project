@@ -6,13 +6,13 @@ class ApplicationController < ActionController::Base
   def log_in(user)
     @current_user = user
     session[:session_token] = user.reset_session_token!
-    redirect_to api_users_url
+    # redirect_to api_boards_url
   end
 
   def log_out
     current_user.try(:reset_session_token!)
     session[:session_token] = nil
-    redirect_to new_api_session_url
+    # redirect_to new_api_session_url
   end
 
   def current_user
@@ -23,9 +23,9 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
-  def must_log_in!
-    redirect_to new_api_session_url unless logged_in
-  end
+  # def must_log_in!
+  #   redirect_to new_api_session_url unless logged_in
+  # end
 
 
 end

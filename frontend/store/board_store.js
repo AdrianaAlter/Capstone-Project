@@ -20,6 +20,10 @@ BoardStore.__onDispatch = function (payload) {
       BoardStore.reset(payload.boards);
       BoardStore.__emitChange();
       break;
+    case BoardConstants.SINGLE_BOARD_RECEIVED:
+      BoardStore.reset(payload.board);
+      BoardStore._emitChange();
+      break;
   }
 
 };

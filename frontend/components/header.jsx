@@ -4,7 +4,16 @@ var Header = React.createClass({
   render: function () {
 
     return(
-      <div className="header group"></div>
+      <header className="header">
+        <nav className="header-nav group">
+          <ul className="header-list group">
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+          </ul>
+        </nav>
+      </header>
     );
 
   }

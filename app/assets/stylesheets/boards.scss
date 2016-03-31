@@ -2,14 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body {
-  font-family: 'Helvetica Neue', 'Arial', sans-serif;
-  font-weight: bold;
-  height: 100%;
-  color: #4d4d4d;
-  font-size: 14px;
-  line-height: 18px;
-}
 
 
 ul {
@@ -29,9 +21,14 @@ li {
   margin: 16px 8px;
 }
 
+li:hover {
+  background: maroon;
+}
+
 .board-index-label {
   margin-left: 8px;
   font-size: 16px;
+  color: #4d4d4d;
 }
 
 .board-title {
@@ -40,4 +37,8 @@ li {
   padding: 10px;
   position: absolute;
   display: block;
+}
+
+.board-index-item {
+  background: red;
 }
