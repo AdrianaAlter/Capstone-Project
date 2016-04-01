@@ -24791,6 +24791,7 @@
 	  },
 	
 	  render: function () {
+	
 	    var boardItems = this.state.boards.map(function (board) {
 	      return React.createElement(
 	        'li',
@@ -24826,7 +24827,8 @@
 	            'a',
 	            { href: '#' },
 	            'Create new board...'
-	          )
+	          ),
+	          NewBoardForm
 	        ),
 	        React.createElement(
 	          'li',
@@ -31960,10 +31962,18 @@
 	          { className: 'header-logo' },
 	          'CatTrello'
 	        ),
-	        React.createElement(SessionButtons, null),
 	        React.createElement(
 	          'ul',
 	          { className: 'header-list group' },
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'ul',
+	              { className: 'session-buttons' },
+	              React.createElement(SessionButtons, null)
+	            )
+	          ),
 	          React.createElement(
 	            'li',
 	            null,
@@ -32049,7 +32059,7 @@
 	
 			return React.createElement(
 				'div',
-				{ className: 'session-buttons group' },
+				null,
 				button,
 				loggedInAs
 			);
@@ -32208,11 +32218,12 @@
 			};
 			BoardActions.createNewBoard(data);
 			this.setState({ title: "" });
+			this.toggleDisplayed();
 		},
 	
 		render: function () {
 	
-			var className = this.state.status === false ? "new-board-form hidden" : "new-board-form";
+			var className = this.state.displayed === false ? "new-board-form hidden" : "new-board-form";
 	
 			return React.createElement(
 				'div',

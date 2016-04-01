@@ -9,8 +9,10 @@ var Header = React.createClass({
       <header className="header">
         <nav className="header-nav group">
 					<h1 className="header-logo">CatTrello</h1>
-					<SessionButtons />
 					<ul className="header-list group">
+						<li>
+							<ul className="session-buttons"><SessionButtons /></ul>
+						</li>
             <li><a href="#"></a></li>
             <li><a href="#"></a></li>
             <li><a href="#"></a></li>

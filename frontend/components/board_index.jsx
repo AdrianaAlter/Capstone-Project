@@ -29,6 +29,7 @@ var BoardIndex = React.createClass({
 	},
 
   render: function () {
+
     var boardItems = this.state.boards.map(function (board) {
       return <li key={board.id}><div className="board-title">{board.title}</div></li>;
     });
@@ -40,7 +41,10 @@ var BoardIndex = React.createClass({
           	{boardItems}
 				</ul>
 				<ul className="new-board-buttons">
-					<li onClick={this.getNewBoardForm}><a href="#">Create new board...</a></li>
+					<li onClick={this.getNewBoardForm}>
+						<a href="#">Create new board...</a>
+						{NewBoardForm}
+					</li>
 					<li><a href="#">Create new board...</a></li>
 					<li><a href="#">Create new board...</a></li>
 				</ul>

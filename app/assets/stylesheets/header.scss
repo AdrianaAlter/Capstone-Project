@@ -18,8 +18,11 @@
 }
 
 .session-buttons {
-	position: absolute;
+	// position: absolute;
+	display: inline-block;
 	float: right;
+	margin: 0;
+	height: 100px;
 }
 
 .logout-button {

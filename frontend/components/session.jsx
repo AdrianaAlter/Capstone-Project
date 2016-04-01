@@ -48,7 +48,7 @@ var SessionButtons = React.createClass ({
     }
 
 		return(
-			<div className="session-buttons group">
+			<div>
 				{button}
 				{loggedInAs}
 			</div>

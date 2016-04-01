@@ -26,12 +26,14 @@ var NewBoardForm = React.createClass({
 		};
 		BoardActions.createNewBoard(data);
 		this.setState({ title: "" });
+		this.toggleDisplayed();
 	},
 
 
 	render: function () {
 
-		var className = this.state.status === false ? "new-board-form hidden" : "new-board-form";
+		var className = this.state.displayed === false ? "new-board-form hidden" : "new-board-form";
+
 
 		return(
 			<div className={className}>
