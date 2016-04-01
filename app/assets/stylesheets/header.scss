@@ -4,7 +4,6 @@
   background: #026AA7;
   position: relative;
   color: #f3f3f3;
-
 }
 
 
@@ -15,19 +14,51 @@
 
 .header-nav {
   margin: auto;
-  content: "CatTrello";
-  text-align: center;
-  // width: 900px;
+	position: relative;
+}
+
+.session-buttons {
+	position: absolute;
+	float: right;
+}
+
+.logout-button {
+	float: left;
+	display: block;
+	color: white;
+	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
+	box-shadow: 0 2px 0 #3f6f21;
+	border-radius: 4px;
+	font-weight: bold;
+	padding: 9px 20px;
+	margin: 3px;
+	cursor: pointer;
+}
+
+.user-name {
+	font-family: cursive;
+	display: block;
+	font-weight: bold;
+	margin-right: 8px;
+  padding: 0;
+	font-size: 14px;
+	color: black;
+	float: right;
+	border-radius: 4px;
 }
 
 .header-logo {
   color: white;
-  float: left;
+	font-family: cursive;
+	text-align: center;
+	font-size: 24px;
+	margin: 5px auto;
 }
 
 .header-list {
   float: right;
-  margin-top: 0;
+  margin: 0;
+
 }
 
 .header-list > li {

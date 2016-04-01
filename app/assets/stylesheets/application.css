@@ -45,18 +45,14 @@ body {
   height: 100%;
 }
 
-.logout-button {
-  display: block;
-  background: black;
-  height: 100px;
-  width: 100px;
-}
-
-
-/*.header {
-  margin: auto;
-  display: block;
-  height: 30px;
-  padding: 5px;
-  background: #026AA7;
+/*.logout-button {
+	display: block;
+	color: white;
+	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
+	box-shadow: 0 2px 0 #3f6f21;
+	border-radius: 4px;
+	font-weight: bold;
+	padding: 9px 20px;
+	margin: 3px;
+	cursor: pointer;
 }*/

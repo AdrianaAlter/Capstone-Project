@@ -8,12 +8,13 @@ var LogInForm = require('./components/log_in.jsx');
 var hashHistory = require('react-router').hashHistory;
 var ApiUtil = require('./util/api_util.js');
 var SessionStore = require('./store/session_store.js');
-
+var NewBoardForm = require('./components/new_board_form.jsx');
 
 var routes = (
     <Router history={hashHistory}>
-      <Route path="/" component={App}>
+      <Route path="/" component={App} onEnter={_mustLogIn}>
         <Route path="boards" component={BoardIndex} />
+				<Route path="/boards/new" component={NewBoardForm} />
       </Route>
       <Route path="/login" component={LogInForm}/>
     </Router>
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function _mustLogIn(nextState, replace, asyncCompletionCallback) {
   if (!SessionStore.currentUserFetched()) {
-    ApiUtil.fetchCurrentUser(_mustLogIn);
+    ApiUtil.fetchCurrentUser(_redirectToLogIn);
   }
   else {
     _redirectToLogIn();
@@ -41,10 +42,4 @@ function _mustLogIn(nextState, replace, asyncCompletionCallback) {
     }
     asyncCompletionCallback();
   }
-}
-
-
-
-
-
 }

@@ -12,7 +12,7 @@ var SessionActions = {
   logOut: function () {
     Dispatcher.dispatch({
       actionType: SessionConstants.LOGOUT,
-    });    
+    });
   }
 
 };

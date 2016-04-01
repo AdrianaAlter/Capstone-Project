@@ -36,11 +36,22 @@ ApiUtil = {
 
   },
 
-  // createNewBoard: function () {
-  //
-  //
-  //
-  // }
+  createNewBoard: function (data) {
+		$.ajax({
+			url: "api/boards",
+			type: "POST",
+			data: { board: data },
+			success: function (board) {
+				BoardActions.receiveSingleBoard(board);
+			},
+			error: function () {
+				console.log("Error in ApiUtil createNewBoard function");
+			}
+		});
+
+
+
+  },
 
   logIn: function (userInfo, callback) {
 
@@ -77,15 +88,17 @@ ApiUtil = {
 
   },
 
-  fetchCurrentUser: function () {
+  fetchCurrentUser: function (completion) {
     $.ajax({
       type: "GET",
       url: "/api/session",
       dataType: "json",
       success: function (currentUser) {
         SessionActions.currentUserReceived(currentUser);
+				console.log("Success!!");
       },
       error: function () {
+				SessionActions.currentUserReceived(null);
         console.log('Error fetching current user');
       },
       complete: function () {

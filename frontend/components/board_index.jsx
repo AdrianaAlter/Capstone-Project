@@ -3,6 +3,7 @@ var BoardStore = require('../store/board_store.js');
 var BoardActions = require('../actions/board_actions.js');
 var ApiUtil = require('../util/api_util.js');
 var BoardIndexItem = require('./board_index_item.jsx');
+var NewBoardForm = require('./new_board_form.jsx');
 
 var BoardIndex = React.createClass({
 
@@ -23,17 +24,27 @@ var BoardIndex = React.createClass({
     this.setState({ boards: BoardStore.all() });
   },
 
+	getNewBoardForm: function () {
+
+	},
+
   render: function () {
     var boardItems = this.state.boards.map(function (board) {
       return <li key={board.id}><div className="board-title">{board.title}</div></li>;
     });
+
     return (
-      <div>
+      <div className="board-index group">
         <ul>
           <div className="board-index-label">My Boards</div>
-          {boardItems}
-        </ul>
-      </div>
+          	{boardItems}
+				</ul>
+				<ul className="new-board-buttons">
+					<li><a href="#">Create new board...</a></li>
+					<li><a href="#">Create new board...</a></li>
+					<li><a href="#">Create new board...</a></li>
+				</ul>
+			</div>
     );
   }
 

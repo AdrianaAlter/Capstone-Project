@@ -50,18 +50,20 @@
 	var Route = __webpack_require__(159).Route;
 	var BoardIndex = __webpack_require__(216);
 	var App = __webpack_require__(245);
-	var LogInForm = __webpack_require__(247);
+	var LogInForm = __webpack_require__(249);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ApiUtil = __webpack_require__(241);
-	// var SessionStore = require('./stores/session_store.js');
+	var SessionStore = __webpack_require__(248);
+	var NewBoardForm = __webpack_require__(250);
 	
 	var routes = React.createElement(
 	  Router,
 	  { history: hashHistory },
 	  React.createElement(
 	    Route,
-	    { path: '/', component: App },
-	    React.createElement(Route, { path: 'boards', component: BoardIndex })
+	    { path: '/', component: App, onEnter: _mustLogIn },
+	    React.createElement(Route, { path: 'boards', component: BoardIndex }),
+	    React.createElement(Route, { path: '/boards/new', component: NewBoardForm })
 	  ),
 	  React.createElement(Route, { path: '/login', component: LogInForm })
 	);
@@ -69,6 +71,21 @@
 	document.addEventListener("DOMContentLoaded", function () {
 	  ReactDOM.render(routes, document.getElementById('content'));
 	});
+	
+	function _mustLogIn(nextState, replace, asyncCompletionCallback) {
+	  if (!SessionStore.currentUserFetched()) {
+	    ApiUtil.fetchCurrentUser(_redirectToLogIn);
+	  } else {
+	    _redirectToLogIn();
+	  }
+	
+	  function _redirectToLogIn() {
+	    if (!SessionStore.isLoggedIn()) {
+	      replace("/login");
+	    }
+	    asyncCompletionCallback();
+	  }
+	}
 
 /***/ },
 /* 1 */
@@ -24747,6 +24764,7 @@
 	var BoardActions = __webpack_require__(240);
 	var ApiUtil = __webpack_require__(241);
 	var BoardIndexItem = __webpack_require__(244);
+	var NewBoardForm = __webpack_require__(250);
 	
 	var BoardIndex = React.createClass({
 	  displayName: 'BoardIndex',
@@ -24769,6 +24787,8 @@
 	    this.setState({ boards: BoardStore.all() });
 	  },
 	
+	  getNewBoardForm: function () {},
+	
 	  render: function () {
 	    var boardItems = this.state.boards.map(function (board) {
 	      return React.createElement(
@@ -24781,9 +24801,10 @@
 	        )
 	      );
 	    });
+	
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'board-index group' },
 	      React.createElement(
 	        'ul',
 	        null,
@@ -24793,6 +24814,37 @@
 	          'My Boards'
 	        ),
 	        boardItems
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'new-board-buttons' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Create new board...'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Create new board...'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Create new board...'
+	          )
+	        )
 	      )
 	    );
 	  }
@@ -31629,6 +31681,10 @@
 	      actionType: BoardConstants.SINGLE_BOARD_RECEIVED,
 	      board: board
 	    });
+	  },
+	
+	  createNewBoard: function (board) {
+	    ApiUtil.createNewBoard(data);
 	  }
 	
 	};
@@ -31674,11 +31730,19 @@
 	    });
 	  },
 	
-	  // createNewBoard: function () {
-	  //
-	  //
-	  //
-	  // }
+	  createNewBoard: function (data) {
+	    $.ajax({
+	      url: "api/boards",
+	      type: "POST",
+	      data: { board: data },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      error: function () {
+	        console.log("Error in ApiUtil createNewBoard function");
+	      }
+	    });
+	  },
 	
 	  logIn: function (userInfo, callback) {
 	
@@ -31713,15 +31777,17 @@
 	    });
 	  },
 	
-	  fetchCurrentUser: function () {
+	  fetchCurrentUser: function (completion) {
 	    $.ajax({
 	      type: "GET",
 	      url: "/api/session",
 	      dataType: "json",
 	      success: function (currentUser) {
 	        SessionActions.currentUserReceived(currentUser);
+	        console.log("Success!!");
 	      },
 	      error: function () {
+	        SessionActions.currentUserReceived(null);
 	        console.log('Error fetching current user');
 	      },
 	      complete: function () {
@@ -31809,11 +31875,56 @@
 	var React = __webpack_require__(1);
 	var Header = __webpack_require__(246);
 	var BoardIndex = __webpack_require__(216);
+	var SessionStore = __webpack_require__(248);
+	var ApiUtil = __webpack_require__(241);
 	
 	var App = React.createClass({
 	  displayName: 'App',
 	
+	
+	  // contextTypes: {
+	  //   router: React.PropTypes.object.isRequired
+	  // },
+	  //
+	  // getInitialState: function () {
+	  //   return {
+	  //     currentUser: null
+	  //   };
+	  // },
+	  //
+	  // componentDidMount: function () {
+	  //   this.sessionStoreToken = SessionStore.addListener(this.handleChange);
+	  //   this.handleChange();
+	  // },
+	  //
+	  // componentWillUnmount: function () {
+	  //   this.sessionStoreToken.remove();
+	  // },
+	  //
+	  // handleChange: function () {
+	  //   if (SessionStore.isLoggedIn()) {
+	  //     this.setState({ currentUser: SessionStore.currentUser() });
+	  //   }
+	  //   else {
+	  //     this.context.router.push("/login");
+	  //   }
+	  // },
+	
 	  render: function () {
+	
+	    // var button;
+	    // var loggedInAs;
+	    //
+	    // if (this.state.currentUser) {
+	    //   button =
+	    // 		<button
+	    // 			className="logout-button"
+	    // 			onClick={ApiUtil.logOut}>
+	    // 			Logout
+	    // 		</button>;
+	    //   loggedInAs = <h1 className="user-name">{this.state.currentUser.name}</h1>;
+	    // }
+	
 	    return React.createElement(
 	      'div',
 	      { id: 'app' },
@@ -31830,40 +31941,42 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	
+	var ApiUtil = __webpack_require__(241);
+	var SessionButtons = __webpack_require__(247);
 	var Header = React.createClass({
-	  displayName: "Header",
+	  displayName: 'Header',
 	
 	  render: function () {
 	
 	    return React.createElement(
-	      "header",
-	      { className: "header" },
+	      'header',
+	      { className: 'header' },
 	      React.createElement(
-	        "nav",
-	        { className: "header-nav group" },
+	        'nav',
+	        { className: 'header-nav group' },
 	        React.createElement(
-	          "ul",
-	          { className: "header-list group" },
+	          'h1',
+	          { className: 'header-logo' },
+	          'CatTrello'
+	        ),
+	        React.createElement(SessionButtons, null),
+	        React.createElement(
+	          'ul',
+	          { className: 'header-list group' },
 	          React.createElement(
-	            "li",
+	            'li',
 	            null,
-	            React.createElement("a", { href: "#" })
+	            React.createElement('a', { href: '#' })
 	          ),
 	          React.createElement(
-	            "li",
+	            'li',
 	            null,
-	            React.createElement("a", { href: "#" })
+	            React.createElement('a', { href: '#' })
 	          ),
 	          React.createElement(
-	            "li",
+	            'li',
 	            null,
-	            React.createElement("a", { href: "#" })
-	          ),
-	          React.createElement(
-	            "li",
-	            null,
-	            React.createElement("a", { href: "#" })
+	            React.createElement('a', { href: '#' })
 	          )
 	        )
 	      )
@@ -31876,6 +31989,117 @@
 
 /***/ },
 /* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(248);
+	var ApiUtil = __webpack_require__(241);
+	
+	var SessionButtons = React.createClass({
+		displayName: 'SessionButtons',
+	
+	
+		contextTypes: {
+			router: React.PropTypes.object.isRequired
+		},
+	
+		getInitialState: function () {
+			return {
+				currentUser: null
+			};
+		},
+	
+		componentDidMount: function () {
+			this.sessionStoreToken = SessionStore.addListener(this.handleChange);
+			this.handleChange();
+		},
+	
+		componentWillUnmount: function () {
+			this.sessionStoreToken.remove();
+		},
+	
+		handleChange: function () {
+			if (SessionStore.isLoggedIn()) {
+				this.setState({ currentUser: SessionStore.currentUser() });
+			} else {
+				this.context.router.push("/login");
+			}
+		},
+	
+		render: function () {
+	
+			var button;
+			var loggedInAs;
+			if (this.state.currentUser) {
+				button = React.createElement(
+					'button',
+					{
+						className: 'logout-button',
+						onClick: ApiUtil.logOut },
+					'Logout'
+				);
+				loggedInAs = React.createElement(
+					'h1',
+					{ className: 'user-name' },
+					'Logged in as: ',
+					this.state.currentUser.user_name
+				);
+			}
+	
+			return React.createElement(
+				'div',
+				{ className: 'session-buttons group' },
+				button,
+				loggedInAs
+			);
+		}
+	});
+	
+	module.exports = SessionButtons;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var SessionConstants = __webpack_require__(243);
+	var Dispatcher = __webpack_require__(236);
+	
+	var SessionStore = new Store(Dispatcher);
+	
+	var _currentUser;
+	var _currentUserFetched = false;
+	
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
+	SessionStore.currentUserFetched = function () {
+	  return _currentUserFetched;
+	};
+	
+	SessionStore.isLoggedIn = function () {
+	  return !!_currentUser;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.CURRENT_USER_RECEIVED:
+	      _currentUser = payload.currentUser;
+	      _currentUserFetched = true;
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _currentUser = null;
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -31917,7 +32141,7 @@
 	      React.createElement(
 	        'h1',
 	        null,
-	        'Log in'
+	        'Log in to CatTrello!'
 	      ),
 	      React.createElement(
 	        'form',
@@ -31950,6 +32174,65 @@
 	});
 	
 	module.exports = LogInForm;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var BoardActions = __webpack_require__(240);
+	
+	var NewBoardForm = React.createClass({
+		displayName: 'NewBoardForm',
+	
+	
+		getInitialState: function () {
+			return { title: "" };
+		},
+	
+		componentDidMount: function () {},
+	
+		updateTitle: function (e) {
+			var newTitle = event.currentTarget.value;
+			this.setState({ title: newTitle });
+		},
+	
+		handleSubmit: function (e) {
+			event.preventDefault();
+			var data = {
+				title: this.state.title,
+				body: this.state.body
+			};
+			BoardActions.createNewBoard(data);
+			this.setState({ title: "" });
+		},
+	
+		render: function () {
+			return React.createElement(
+				'div',
+				{ className: 'new-board-form' },
+				React.createElement(
+					'h1',
+					null,
+					'Create Board'
+				),
+				React.createElement(
+					'form',
+					{ onSubmit: this.handleSubmit },
+					React.createElement(
+						'h2',
+						null,
+						'Title'
+					),
+					React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onInput: this.updateTitle }),
+					React.createElement('input', { className: 'create-board', type: 'submit', value: 'Create' })
+				)
+			);
+		}
+	
+	});
+	
+	module.exports = NewBoardForm;
 
 /***/ }
 /******/ ]);
