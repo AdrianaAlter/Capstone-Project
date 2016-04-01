@@ -14,7 +14,6 @@ var routes = (
     <Router history={hashHistory}>
       <Route path="/" component={App} onEnter={_mustLogIn}>
         <Route path="boards" component={BoardIndex} />
-				<Route path="/boards/new" component={NewBoardForm} />
       </Route>
       <Route path="/login" component={LogInForm}/>
     </Router>

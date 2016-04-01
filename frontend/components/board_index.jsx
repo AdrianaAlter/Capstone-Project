@@ -25,7 +25,7 @@ var BoardIndex = React.createClass({
   },
 
 	getNewBoardForm: function () {
-
+		NewBoardForm.toggleDisplayed();
 	},
 
   render: function () {
@@ -40,7 +40,7 @@ var BoardIndex = React.createClass({
           	{boardItems}
 				</ul>
 				<ul className="new-board-buttons">
-					<li><a href="#">Create new board...</a></li>
+					<li onClick={this.getNewBoardForm}><a href="#">Create new board...</a></li>
 					<li><a href="#">Create new board...</a></li>
 					<li><a href="#">Create new board...</a></li>
 				</ul>

@@ -62,8 +62,7 @@
 	  React.createElement(
 	    Route,
 	    { path: '/', component: App, onEnter: _mustLogIn },
-	    React.createElement(Route, { path: 'boards', component: BoardIndex }),
-	    React.createElement(Route, { path: '/boards/new', component: NewBoardForm })
+	    React.createElement(Route, { path: 'boards', component: BoardIndex })
 	  ),
 	  React.createElement(Route, { path: '/login', component: LogInForm })
 	);
@@ -24787,7 +24786,9 @@
 	    this.setState({ boards: BoardStore.all() });
 	  },
 	
-	  getNewBoardForm: function () {},
+	  getNewBoardForm: function () {
+	    NewBoardForm.toggleDisplayed();
+	  },
 	
 	  render: function () {
 	    var boardItems = this.state.boards.map(function (board) {
@@ -24820,7 +24821,7 @@
 	        { className: 'new-board-buttons' },
 	        React.createElement(
 	          'li',
-	          null,
+	          { onClick: this.getNewBoardForm },
 	          React.createElement(
 	            'a',
 	            { href: '#' },
@@ -32187,10 +32188,12 @@
 	
 	
 		getInitialState: function () {
-			return { title: "" };
+			return { title: "", displayed: false };
 		},
 	
-		componentDidMount: function () {},
+		toggleDisplayed: function () {
+			this.setState({ displayed: true });
+		},
 	
 		updateTitle: function (e) {
 			var newTitle = event.currentTarget.value;
@@ -32208,9 +32211,12 @@
 		},
 	
 		render: function () {
+	
+			var className = this.state.status === false ? "new-board-form hidden" : "new-board-form";
+	
 			return React.createElement(
 				'div',
-				{ className: 'new-board-form' },
+				{ className: className },
 				React.createElement(
 					'h1',
 					null,
