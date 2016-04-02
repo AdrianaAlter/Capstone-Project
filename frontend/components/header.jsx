@@ -1,6 +1,8 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util.js');
 var SessionButtons = require('./session.jsx');
+var Search = require('./search.jsx');
+
 var Header = React.createClass({
   render: function () {
 
@@ -8,6 +10,7 @@ var Header = React.createClass({
     return(
       <header className="header">
         <nav className="header-nav group">
+					<Search />
 					<h1 className="header-logo">CatTrello</h1>
 					<ul className="header-list group">
 						<li>

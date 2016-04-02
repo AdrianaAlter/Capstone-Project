@@ -6,12 +6,12 @@ var BoardActions = require('../actions/board_actions.js');
 var NewBoardForm = React.createClass({
 
 	getInitialState: function () {
-		return({ title: "", displayed: false });
+		return({ title: "" });
 	},
 
-	toggleDisplayed: function () {
-		this.setState({ displayed: true });
-	},
+	// toggleDisplayed: function () {
+	// 	this.setState({ displayed: true });
+	// },
 
 	updateTitle: function (e) {
 		var newTitle = event.currentTarget.value;
@@ -32,11 +32,11 @@ var NewBoardForm = React.createClass({
 
 	render: function () {
 
-		var className = this.state.displayed === false ? "new-board-form hidden" : "new-board-form";
+		// var className = this.state.displayed === false ? "new-board-form hidden" : "new-board-form";
 
 
 		return(
-			<div className={className}>
+			<div className="new-board-form">
 				<h1>Create Board</h1>
 				<form onSubmit={this.handleSubmit}>
 					<h2>Title</h2>

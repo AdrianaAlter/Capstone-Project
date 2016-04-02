@@ -1,21 +1,18 @@
 var React = require('react');
+var ListIndex = require('./list_index.jsx');
 
-var BoardIndexItem = React.createClass({
+var BoardDetail= React.createClass({
 
   render: function () {
 
     return (
       <div>
         <p>{this.props.title}</p>
-        <p>{this.props.description}</p>
+    		{ListIndex}
       </div>
     );
   }
-
-
-
-
 });
 
 
-module.exports = BoardIndexItem;
+module.exports = BoardDetail;

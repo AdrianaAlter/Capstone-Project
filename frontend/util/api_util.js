@@ -1,5 +1,6 @@
 var BoardActions = require('../actions/board_actions.js');
 var SessionActions = require('../actions/session_actions.js');
+var SearchResultActions = require('./../actions/search_result_actions');
 
 ApiUtil = {
 
@@ -11,7 +12,6 @@ ApiUtil = {
       dataType: "json",
       success: function (boards) {
         BoardActions.receiveAllBoards(boards);
-
       },
       error: function () {
         console.log('Error in AJAX request to fetch all boards via ApiUtil');
@@ -19,6 +19,7 @@ ApiUtil = {
     });
 
   },
+
 
   fetchSingleBoard: function (id) {
 
@@ -36,6 +37,22 @@ ApiUtil = {
 
   },
 
+	fetchAllLists: function (board_id) {
+		$.ajax({
+			url: "api/" + board_id + "/lists",
+			type: "GET",
+			dataType: "json",
+			success: function (lists) {
+				ListActions.receiveAllLists(lists);
+			},
+			error: function () {
+				console.log('Error in ApiUtil fetch all lists function');
+			}
+
+		});
+
+	},
+	
   createNewBoard: function (data) {
 		$.ajax({
 			url: "api/boards",
@@ -95,8 +112,7 @@ ApiUtil = {
       dataType: "json",
       success: function (currentUser) {
         SessionActions.currentUserReceived(currentUser);
-				console.log("Success!!");
-      },
+			},
       error: function () {
 				SessionActions.currentUserReceived(null);
         console.log('Error fetching current user');
@@ -106,7 +122,23 @@ ApiUtil = {
       }
     });
 
-  }
+  },
+
+	search: function (query, page) {
+		$.ajax({
+			type: "GET",
+			url: "/api/searches",
+			dataType: "json",
+			data: {query: query, page: page},
+			success: function (response) {
+				SearchResultActions.receiveResults(response);
+			},
+			error: function () {
+				console.log('Error in ApiUtil search function');
+			}
+		});
+
+	}
 
 };
 

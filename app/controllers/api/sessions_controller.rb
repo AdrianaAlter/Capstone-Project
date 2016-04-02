@@ -12,11 +12,12 @@ class Api::SessionsController < ApplicationController
     #     params[:user][:password]
     #   )
     # else
-    
+
       @user = User.find_by_name(
         params[:name],
         params[:password]
       )
+
     # end
 
     if @user

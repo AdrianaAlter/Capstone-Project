@@ -3,7 +3,11 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .board-index {
-
+	display: block;
+	width: 1250px;
+	height: 460px;
+	margin: 80px 16px;
+	padding: 16px;
 }
 
 
@@ -49,7 +53,6 @@ li:hover {
 	width: 300px;
 	margin-top: 118px;
 	margin-left: 20px;
-
 }
 
 .new-board-buttons li {

@@ -17,12 +17,45 @@
 	position: relative;
 }
 
+
+.search {
+	color: black;
+}
+
+.search input {
+	background-color: rgba(255,255,255,.3);
+	height: 27px;
+	margin: 0 auto;
+	border: none;
+	border-radius: 3px;
+	width: 180px;
+	font-size: 13px;
+	padding-right: 30px;
+	padding-left: 8px;
+	line-height: 19px;
+	float: left;
+
+}
+
+.search input:focus {
+	background-color: white;
+	width: 380px;
+}
+
+.search button {
+	display: none;
+}
+
+
+
 .session-buttons {
-	// position: absolute;
+	position: absolute;
 	display: inline-block;
 	float: right;
 	margin: 0;
-	height: 100px;
+	// height: 100px;
+	top: 0;
+	width: 300px;
 }
 
 .logout-button {
@@ -36,6 +69,7 @@
 	padding: 9px 20px;
 	margin: 3px;
 	cursor: pointer;
+
 }
 
 .user-name {
@@ -53,7 +87,7 @@
 .header-logo {
   color: white;
 	font-family: cursive;
-	text-align: center;
+	width: 200px;
 	font-size: 24px;
 	margin: 5px auto;
 }
@@ -61,11 +95,10 @@
 .header-list {
   float: right;
   margin: 0;
-
 }
 
 .header-list > li {
-  float: left;
+	float: left;
   background: #b6e2fc;
   height: 30px;
   width: 30px;

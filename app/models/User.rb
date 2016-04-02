@@ -22,10 +22,16 @@ class User < ActiveRecord::Base
     foreign_key: :author_id
   )
 
+	has_many(
+		:lists,
+		through: :boards,
+		source: :lists
+	)
+
   def self.find_by_name(user_name, password)
     user = User.find_by(user_name: user_name)
     (user && user.is_password?(password)) ? user : nil
-  end
+	end
 
   def self.find_by_email(email, password)
     user = User.find_by(email: email)
