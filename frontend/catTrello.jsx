@@ -16,7 +16,7 @@ var BoardDetail = require('./components/board_detail.jsx');
 var routes = (
     <Router history={hashHistory}>
       <Route path="/" component={App} onEnter={_mustLogIn}>
-      			<Route path="board/:board_id" component={BoardDetail} />
+      			// <Route path="board/:board_id" component={BoardDetail} />
 			</Route>
 
       <Route path="/login" component={LogInForm}/>

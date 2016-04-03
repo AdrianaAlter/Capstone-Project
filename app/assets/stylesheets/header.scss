@@ -2,33 +2,48 @@
   height: 30px;
   padding: 5px;
   background: #026AA7;
-  position: relative;
   color: #f3f3f3;
+  font-size: 14px;
+  margin-bottom: 40px;
 }
-
-
-.header a {
-  display: block;
-}
-
 
 .header-nav {
   margin: auto;
-	position: relative;
+  height: 30px;
 }
 
-
-.search {
-	color: black;
+.header-nav li {
+  display: block;
+  background-color: rgba(255,255,255,.3);
+  padding: 6px 8px 6px 12px;
+  border-radius: 3px;
+  float: left;
+  margin: auto 8px auto 0;
+  cursor: pointer;
 }
 
-.search input {
-	background-color: rgba(255,255,255,.3);
-	height: 27px;
-	margin: 0 auto;
-	border: none;
-	border-radius: 3px;
-	width: 180px;
+.header > li:first-child {
+  padding-left: 28px;
+}
+
+.header-nav li:hover {
+  background: lightblue;
+}
+
+.header-nav .search {
+  padding: 0;
+  margin: 0 auto;
+  width: 180px;
+  font-size: 13px;
+  color: black;
+  height: 29.5px;
+  background-color: rgba(255,255,255,.3);
+}
+
+.header-nav .search input {
+  border-radius: 3px;
+	width: 142px;
+  height: 29.5px;
 	font-size: 13px;
 	padding-right: 30px;
 	padding-left: 8px;
@@ -37,72 +52,82 @@
 
 }
 
-.search input:focus {
+.header-nav .search input:focus {
 	background-color: white;
-	width: 380px;
+	width: 280px;
 }
 
-.search button {
-	display: none;
-}
-
-
-
-.session-buttons {
-	position: absolute;
-	display: inline-block;
-	float: right;
-	margin: 0;
-	// height: 100px;
-	top: 0;
-	width: 300px;
-}
-
-.logout-button {
-	float: left;
-	display: block;
-	color: white;
-	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
-	box-shadow: 0 2px 0 #3f6f21;
-	border-radius: 4px;
-	font-weight: bold;
-	padding: 9px 20px;
-	margin: 3px;
-	cursor: pointer;
-
-}
-
-.user-name {
+.header-nav .header-logo {
+  background-color: transparent;
+  color: white;
 	font-family: cursive;
+	width: 450px;
+	font-size: 24px;
+  text-align: center;
+  cursor: auto;
+}
+
+.header-nav .header-logo:hover {
+  background: transparent;
+}
+
+.header-nav > .session-buttons {
+  float: right;
+}
+
+.header-nav > .session-buttons > li {
+  float: left;
+
+
+}
+
+// .session-buttons {
+// 	position: absolute;
+// 	display: inline-block;
+// 	float: right;
+// 	margin: 0;
+// 	// height: 100px;
+// 	top: 0;
+// 	width: 300px;
+// }
+
+// .logout-button {
+// 	float: left;
+// 	display: block;
+// 	color: white;
+// 	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
+// 	box-shadow: 0 2px 0 #3f6f21;
+// 	border-radius: 4px;
+// 	font-weight: bold;
+// 	padding: 9px 20px;
+// 	margin: 3px;
+// 	cursor: pointer;
+//
+// }
+//
+.user-name {
+
 	display: block;
 	font-weight: bold;
 	margin-right: 8px;
-  padding: 0;
+
 	font-size: 14px;
-	color: black;
-	float: right;
+
 	border-radius: 4px;
 }
 
-.header-logo {
-  color: white;
-	font-family: cursive;
-	width: 200px;
-	font-size: 24px;
-	margin: 5px auto;
-}
 
-.header-list {
-  float: right;
-  margin: 0;
-}
-
-.header-list > li {
-	float: left;
-  background: #b6e2fc;
-  height: 30px;
-  width: 30px;
-  border-radius: 10%;
-  margin-top: 0;
-  margin-right: 3px;
-}
+// .header-list {
+//   float: right;
+//   margin: 0;
+// }
+//
+// .header-list > li {
+// 	float: left;
+//   background: #b6e2fc;
+//   height: 30px;
+//   width: 30px;
+//   border-radius: 10%;
+//   margin-top: 0;
+//   margin-right: 3px;
+// }

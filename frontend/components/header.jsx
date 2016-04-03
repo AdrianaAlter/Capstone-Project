@@ -10,16 +10,12 @@ var Header = React.createClass({
     return(
       <header className="header">
         <nav className="header-nav group">
-					<Search />
-					<h1 className="header-logo">CatTrello</h1>
-					<ul className="header-list group">
-						<li>
-							<ul className="session-buttons"><SessionButtons /></ul>
-						</li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
+          <ul>
+            <li>Boards</li>
+            <li className="search"><Search /></li>
+            <li className="header-logo">CatTrello</li>
           </ul>
+          <SessionButtons />
         </nav>
       </header>
     );

@@ -2,63 +2,162 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.log-in-page {
+.welcome-page {
   font-family: "jaf-facitweb", "Helvetica Neue", Arial,sans-serif;
   color: #4d4d4d;
-  margin: 144px auto;
-  width: 500px;
-  display: block;
-  font-size: 20px;
-  font-weight: 300;
-  line-height: 23px;
-  padding: 64 16px;
-
-}
-
-h1 {
-    font-size: 36px;
-    line-height: 19px;
-    margin-top: 25px;
-    margin-bottom: 40px;
-    display: block;
-    font-weight: bold;
-  }
-
-.log-in-form {
-  width: 585;
-  height: 289;
-  display: block;
-  margin-bottom: 44px;
-}
-
-label {
-    display: block;
-    margin: 35px 0 16px 0;
-    width: 585px;
-    height: 28px;
-}
-
-input {
-  background: #edeff0;
-  border-radius: 4px;
-  border: 1px solid #cdd2d4;
-  box-sizing: border-box;
-  padding: 8px;
-  max-width: 400px;
   width: 100%;
-}
-
-input:hover {
-  border: 1px solid #A4A8AA;
 }
 
 button {
   display: block;
-  margin-top: 40px;
+  font-size: 20px;
+  margin-top: 20px;
+  margin-left: 8px;
   color: white;
   background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
   box-shadow: 0 2px 0 #3f6f21;
   border-radius: 4px;
   font-weight: bold;
   padding: 9px 20px;
+  cursor: pointer;
+}
+
+.log-in-page {
+  background: #e4f0f6;
+  width: 100%;
+  display: block;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 23px;
+  padding: 64px 16px;
+  text-align: center;
+}
+
+.log-in-form {
+  width: 400px;
+  height: 400px;
+  display: block;
+  margin: auto;
+  padding: 0;
+  text-align: left;
+}
+
+.log-in-form > h1 {
+  font-size: 35.54px;
+  line-height: 19px;
+  margin-bottom: 23.812px;
+  display: block;
+  font-weight: bold;
+}
+.log-in-form label {
+    display: block;
+    margin-bottom: 8px;
+    margin-left: 8px;
+}
+
+.log-in-form input {
+  padding: 10px;
+  width: 333px;
+  margin-bottom: 24px;
+  margin-left: 8px;
+  background: #edeff0;
+  border-radius: 4px;
+  border: 1px solid #cdd2d4;
+}
+
+.log-in-form input:hover {
+  border: 1px solid #A4A8AA;
+}
+
+
+.info-page {
+  width: 100%;
+  background: white;
+  text-align: center;
+  font-weight: bold;
+  color: #4d4d4d;
+}
+
+.info-page h1 {
+  font-size: 64px;
+  color: #026AA7;
+  font-family: cursive;
+  margin-top: 100px;
+  margin-bottom: 40px;
+}
+
+.info-page h2 {
+  font-size: 35.54px;
+  line-height: 42.648px;
+  width: 770px;
+  margin: auto;
+}
+
+.info-page p {
+  margin: 20px auto;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 28.8px;
+}
+
+.info-page button {
+  margin: 0 auto 100px auto;
+  padding: 12px 26px;
+}
+
+.cat-logo {
+  width: 100%;
+  height: 96px;
+  padding: 80px 0;
+  background: rgb(0, 121, 191);
+  text-align: center;
+}
+
+.cat-logo p {
+  color: white;
+  font-size: 20px;
+  font-weight: normal;
+
+  top: 50%;
+  transform: translateY(200%);
+}
+
+footer {
+  height: 100px;
+  display: block;
+  margin: auto;
+  width: 540px;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
+footer ul {
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  text-decoration: underline;
+  font-weight: 300;
+  margin: 60px auto 40px auto;
+}
+
+footer ul li {
+  cursor: pointer;
+  display: block;
+  padding: 10px;
+}
+
+footer ul li:hover {
+  color: black;
+}
+
+footer ul li:last-child {
+  text-decoration: none;
+  display: block;
+  left: 50%;
+  transform: translateX(150%);
+  margin: 8px auto;
+}
+
+footer ul li:hover {
+  color: #999;
 }

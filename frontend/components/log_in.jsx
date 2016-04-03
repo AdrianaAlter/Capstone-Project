@@ -31,19 +31,45 @@ var LogInForm = React.createClass({
 
   render: function () {
     return(
-      <div className="log-in-page group">
-        <h1>Log in to CatTrello!</h1>
-          <form onSubmit={this.handleSubmit}>
-            <div className="log-in-form group">
-              <label htmlFor="name">Name</label>
-              <input onChange={this.updateName} type="text" value={this.state.name}/>
+      <div className="welcome-page group">
+        <section className="log-in-page group">
+            <form className="log-in-form group" onSubmit={this.handleSubmit}>
+                <h1>Welcome to CatTrello!</h1>
 
-              <label htmlFor="password">Password</label>
-              <input onChange={this.updatePassword} type="password" value={this.state.password}/>
-            </div>
-            <button>Log In</button>
-          </form>
-      </div>
+
+                <label htmlFor="name">Name</label>
+                <input onChange={this.updateName} type="text" value={this.state.name}/>
+
+                <label htmlFor="password">Password</label>
+                <input onChange={this.updatePassword} type="password" value={this.state.password}/>
+
+              <button>Log In</button>
+            </form>
+        </section>
+        <section className="info-page group">
+          <h1>CatTrello</h1>
+          <h2>CatTrello is a free web app for organizing projects and tasks!</h2>
+          <p>Because cats are widely known for their organizational skills.  Obviously.</p>
+          <button>Sign up! (Meow.)</button>
+        </section>
+        <section className="cat-logo"><p>Here, have a random picture of a cat.</p>
+        </section>
+
+        <footer group>
+          <ul>
+            <li>Tour</li>
+            <li>Pricing</li>
+            <li>Jobs</li>
+            <li>Blog</li>
+            <li>Developers</li>
+            <li>About</li>
+            <li>Help</li>
+            <li>Legal</li>
+            <li>© Copyright 2016</li>
+          </ul>
+
+        </footer>
+    </div>
     );
   }
 

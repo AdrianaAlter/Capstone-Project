@@ -47,15 +47,7 @@ var Search = React.createClass({
 	render: function () {
 		var meta = SearchResultsStore.meta();
 		return (
-			<article className="search group">
-				<input type="text" tabIndex="0" onChange={this.handleInputChange}>
-					<button onClick={this.search}>Search</button>
-				</input>
-
-				<ul>
-					{this.resultLis()}
-				</ul>
-			</article>
+				<input type="text" tabIndex="0" onChange={this.handleInputChange} onSubmit={this.search}></input>
 		);
 	}
 
@@ -63,6 +55,11 @@ var Search = React.createClass({
 
 module.exports = Search;
 
+// <article className="search group">
+//   <ul>
+//     {this.resultLis()}
+//   </ul>
+// </article>
 
 //
 // <nav>

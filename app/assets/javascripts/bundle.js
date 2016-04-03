@@ -65,6 +65,7 @@
 	  React.createElement(
 	    Route,
 	    { path: '/', component: App, onEnter: _mustLogIn },
+	    '// ',
 	    React.createElement(Route, { path: 'board/:board_id', component: BoardDetail })
 	  ),
 	  React.createElement(Route, { path: '/login', component: LogInForm })
@@ -24778,6 +24779,7 @@
 	var Modal = __webpack_require__(246);
 	var NewBoardForm = __webpack_require__(266);
 	var Link = __webpack_require__(159).Link;
+	var NewBoardButton = __webpack_require__(279);
 	
 	var BoardIndex = React.createClass({
 	  displayName: 'BoardIndex',
@@ -24824,55 +24826,35 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'board-index group' },
+	      null,
 	      React.createElement(
-	        'ul',
+	        'p',
 	        null,
-	        React.createElement(
-	          'div',
-	          { className: 'board-index-label' },
-	          'My Boards'
-	        ),
-	        boardItems
+	        'My Boards'
 	      ),
 	      React.createElement(
 	        'ul',
-	        { className: 'new-board-buttons' },
+	        { className: 'board-items group' },
+	        boardItems,
 	        React.createElement(
 	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { href: '#' },
-	            'Create new board...'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { href: '#' },
-	            'Create new board...'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { href: '#' },
-	            'Create new board...'
-	          )
+	          { className: 'new-board-button' },
+	          NewBoardButton
 	        )
 	      )
 	    );
 	  }
 	
 	});
-	Modal.setAppElement(BoardIndex);
+	// Modal.setAppElement(BoardIndex);
 	module.exports = BoardIndex;
 	
+	// <ul className="board-items group">
+	//   <div className="board-index-label">My Boards</div>
+	//   {boardItems}
+	// </ul>
+	// <NewBoardButton />
+
 	// <button onClick={this.openModal}>Create New Board</button>
 	// <Modal
 	// 	isOpen={this.state.modalIsOpen}
@@ -34001,40 +33983,26 @@
 	      React.createElement(
 	        'nav',
 	        { className: 'header-nav group' },
-	        React.createElement(Search, null),
-	        React.createElement(
-	          'h1',
-	          { className: 'header-logo' },
-	          'CatTrello'
-	        ),
 	        React.createElement(
 	          'ul',
-	          { className: 'header-list group' },
+	          null,
 	          React.createElement(
 	            'li',
 	            null,
-	            React.createElement(
-	              'ul',
-	              { className: 'session-buttons' },
-	              React.createElement(SessionButtons, null)
-	            )
+	            'Boards'
 	          ),
 	          React.createElement(
 	            'li',
-	            null,
-	            React.createElement('a', { href: '#' })
+	            { className: 'search' },
+	            React.createElement(Search, null)
 	          ),
 	          React.createElement(
 	            'li',
-	            null,
-	            React.createElement('a', { href: '#' })
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            React.createElement('a', { href: '#' })
+	            { className: 'header-logo' },
+	            'CatTrello'
 	          )
-	        )
+	        ),
+	        React.createElement(SessionButtons, null)
 	      )
 	    );
 	  }
@@ -34084,29 +34052,28 @@
 	
 		render: function () {
 	
-			var button;
+			var logout;
 			var loggedInAs;
 			if (this.state.currentUser) {
-				button = React.createElement(
-					'button',
+				logout = React.createElement(
+					'li',
 					{
 						className: 'logout-button',
 						onClick: ApiUtil.logOut },
 					'Logout'
 				);
 				loggedInAs = React.createElement(
-					'h1',
+					'li',
 					{ className: 'user-name' },
-					'Logged in as: ',
 					this.state.currentUser.user_name
 				);
 			}
 	
 			return React.createElement(
-				'div',
-				null,
-				button,
-				loggedInAs
+				'ul',
+				{ className: 'session-buttons' },
+				loggedInAs,
+				logout
 			);
 		}
 	});
@@ -34210,30 +34177,19 @@
 	
 		render: function () {
 			var meta = SearchResultsStore.meta();
-			return React.createElement(
-				'article',
-				{ className: 'search group' },
-				React.createElement(
-					'input',
-					{ type: 'text', tabIndex: '0', onChange: this.handleInputChange },
-					React.createElement(
-						'button',
-						{ onClick: this.search },
-						'Search'
-					)
-				),
-				React.createElement(
-					'ul',
-					null,
-					this.resultLis()
-				)
-			);
+			return React.createElement('input', { type: 'text', tabIndex: '0', onChange: this.handleInputChange, onSubmit: this.search });
 		}
 	
 	});
 	
 	module.exports = Search;
 	
+	// <article className="search group">
+	//   <ul>
+	//     {this.resultLis()}
+	//   </ul>
+	// </article>
+
 	//
 	// <nav>
 	// 	Page {meta.page} of {meta.total_pages}
@@ -34312,18 +34268,18 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'log-in-page group' },
+	      { className: 'welcome-page group' },
 	      React.createElement(
-	        'h1',
-	        null,
-	        'Log in to CatTrello!'
-	      ),
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
+	        'section',
+	        { className: 'log-in-page group' },
 	        React.createElement(
-	          'div',
-	          { className: 'log-in-form group' },
+	          'form',
+	          { className: 'log-in-form group', onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'h1',
+	            null,
+	            'Welcome to CatTrello!'
+	          ),
 	          React.createElement(
 	            'label',
 	            { htmlFor: 'name' },
@@ -34335,12 +34291,98 @@
 	            { htmlFor: 'password' },
 	            'Password'
 	          ),
-	          React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password })
+	          React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	          React.createElement(
+	            'button',
+	            null,
+	            'Log In'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'section',
+	        { className: 'info-page group' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'CatTrello'
+	        ),
+	        React.createElement(
+	          'h2',
+	          null,
+	          'CatTrello is a free web app for organizing projects and tasks!'
+	        ),
+	        React.createElement(
+	          'p',
+	          null,
+	          'Because cats are widely known for their organizational skills.  Obviously.'
 	        ),
 	        React.createElement(
 	          'button',
 	          null,
-	          'Log In'
+	          'Sign up! (Meow.)'
+	        )
+	      ),
+	      React.createElement(
+	        'section',
+	        { className: 'cat-logo' },
+	        React.createElement(
+	          'p',
+	          null,
+	          'Here, have a random picture of a cat.'
+	        )
+	      ),
+	      React.createElement(
+	        'footer',
+	        { group: true },
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            null,
+	            'Tour'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Pricing'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Jobs'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Blog'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Developers'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'About'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Help'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Legal'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            '© Copyright 2016'
+	          )
 	        )
 	      )
 	    );
@@ -34384,7 +34426,7 @@
 
 	var React = __webpack_require__(1);
 	var ListStore = __webpack_require__(276);
-	var ListActions = __webpack_require__(277);
+	var ListActions = __webpack_require__(278);
 	var ApiUtil = __webpack_require__(241);
 	
 	var ListIndex = React.createClass({
@@ -34448,7 +34490,7 @@
 
 	var Store = __webpack_require__(218).Store;
 	var Dispatcher = __webpack_require__(236);
-	var ListConstants = __webpack_require__(278);
+	var ListConstants = __webpack_require__(277);
 	
 	var ListStore = new Store(Dispatcher);
 	var _lists = [];
@@ -34475,9 +34517,19 @@
 
 /***/ },
 /* 277 */
+/***/ function(module, exports) {
+
+	var ListConstants = {
+		ALL_LISTS_RECEIVED: "ALL_LISTS_RECEIVED"
+	};
+	
+	module.exports = ListConstants;
+
+/***/ },
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ListConstants = __webpack_require__(278);
+	var ListConstants = __webpack_require__(277);
 	var Dispatcher = __webpack_require__(236);
 	
 	var ListActions = {
@@ -34494,14 +34546,25 @@
 	module.exports = ListActions;
 
 /***/ },
-/* 278 */
-/***/ function(module, exports) {
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
 
-	var ListConstants = {
-		ALL_LISTS_RECEIVED: "ALL_LISTS_RECEIVED"
-	};
+	var React = __webpack_require__(1);
+	var BoardStore = __webpack_require__(217);
+	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(246);
+	var NewBoardForm = __webpack_require__(266);
+	var NewBoardButton = React.createClass({
+	  displayName: 'NewBoardButton',
 	
-	module.exports = ListConstants;
+	
+	  render: function () {
+	    return React.createElement('div', null);
+	  }
+	
+	});
+	
+	module.exports = NewBoardButton;
 
 /***/ }
 /******/ ]);

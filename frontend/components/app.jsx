@@ -52,8 +52,8 @@ var App = React.createClass({
     return(
       <div id="app">
         <Header />
-				<BoardIndex />
-          {this.props.children}
+        <BoardIndex />
+        {this.props.children}
       </div>
     );
   }

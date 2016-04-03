@@ -35,23 +35,23 @@ var SessionButtons = React.createClass ({
 
 	render: function () {
 
-		var button;
+		var logout;
     var loggedInAs;
     if (this.state.currentUser) {
-      button =
-				<button
+      logout =
+				<li
 					className="logout-button"
 					onClick={ApiUtil.logOut}>
 					Logout
-				</button>;
-      loggedInAs = <h1 className="user-name">Logged in as: {this.state.currentUser.user_name}</h1>;
+				</li>;
+      loggedInAs = <li className="user-name">{this.state.currentUser.user_name}</li>;
     }
 
 		return(
-			<div>
-				{button}
-				{loggedInAs}
-			</div>
+			<ul className="session-buttons">
+        {loggedInAs}
+				{logout}
+			</ul>
 		);
 	}
 });

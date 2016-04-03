@@ -5,6 +5,7 @@ var ApiUtil = require('../util/api_util.js');
 var Modal = require('react-modal');
 var NewBoardForm = require('./new_board_form.jsx');
 var Link = require('react-router').Link;
+var NewBoardButton = require('./new_board_button.jsx');
 
 
 var BoardIndex = React.createClass({
@@ -45,25 +46,26 @@ var BoardIndex = React.createClass({
     });
 
     return (
-      <div className="board-index group">
-        <ul>
-          <div className="board-index-label">My Boards</div>
-          	{boardItems}
-				</ul>
+      <div>
+        <p>My Boards</p>
+        <ul className="board-items group">
+          {boardItems}
+          <li className="new-board-button">{NewBoardButton}</li>
+        </ul>
+      </div>
 
-				<ul className="new-board-buttons">
-					<li><a href="#">Create new board...</a></li>
-					<li><a href="#">Create new board...</a></li>
-					<li><a href="#">Create new board...</a></li>
-				</ul>
-			</div>
     );
   }
 
 });
-Modal.setAppElement(BoardIndex);
+// Modal.setAppElement(BoardIndex);
 module.exports = BoardIndex;
 
+// <ul className="board-items group">
+//   <div className="board-index-label">My Boards</div>
+//   {boardItems}
+// </ul>
+// <NewBoardButton />
 
 
 // <button onClick={this.openModal}>Create New Board</button>

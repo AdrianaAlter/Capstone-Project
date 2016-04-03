@@ -2,132 +2,121 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.board-index {
-	display: block;
-	width: 1250px;
-	height: 460px;
-	margin: 80px 16px;
-	padding: 16px;
-}
-
-
-ul {
+p {
   margin-left: 16px;
-  margin-top: 100px;
-  list-style: none;
-  float: left;
-	width: 300px;
-}
-
-li {
-  display: block;
-  height: 106px;
-  width: 290.75px;
-  background: #B04632;
-  border-radius: 3px;
-  position: relative;
-  float: left;
-  margin: 16px 0;
-	cursor: pointer;
-	font-size: 16px;
-}
-
-li:hover {
-  background: darkred;
-}
-
-.board-index-label {
-  margin-left: 8px;
   font-size: 16px;
   color: #4d4d4d;
 }
 
-.board-title {
+.board-items {
+  display: block;
+  // min-width: 300px;
+  max-width: 1200px;
+  min-height: 200px;
+  position: relative;
+  margin-left: 8px;
+}
+
+.board-items > li {
+  background: #B04632;
   color: white;
+  width: 230px;
+  border-radius: 3px;
+  height: 60px;
   padding: 10px;
+  position: relative;
+  display: block;
+  float: left;
+  margin: 8px;
+  cursor: pointer;
+}
+
+.board-items > li:hover {
+  background: darkred;
+}
+
+.board-items > li:last-child {
+  background: #e2e4e6;
+
+  color: #8c8c8c;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 5px;
+
+  position: relative;
+}
+
+.board-items > li:last-child:after {
+  content: "Create new board...";
   position: absolute;
   display: block;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+
 }
 
-.new-board-buttons {
-	width: 300px;
-	margin-top: 118px;
-	margin-left: 20px;
+.board-items > li:last-child:hover {
+  	background: #8c8c8c;
+  	color: black;
 }
 
-.new-board-buttons li {
-	vertical-align: middle;
-	background: #e2e4e6;
-	text-align: center;
-	color: #8c8c8c;
-	font-weight: normal;
-	padding: 40px;
-	height: 26px;
-  width: 210.75px;
-	position: relative;
-}
 
-.new-board-buttons a {
-	margin-top: 40px;
-	margin-bottom: 50px;
-}
+//
+//
 
-.new-board-buttons li:hover {
-	background: #8c8c8c;
-	color: black;
-}
-
-.new-board-form {
-	width: 280px;
-	height: 227px;
-	display: block;
-	border: 1px solid #8c8c8c;
-	margin: 20px auto;
-	padding: 10px;
-	border-radius: 3px;
-	position: absolute;
-}
-
-.hidden {
-	display: none;
-}
-.new-board-form h1 {
-	display: block;
-	padding: 0 32px;
-	box-sizing: border-box;
-	color: #8c8c8c;
-	font-size: 14px;
-	position: relative;
-	border-bottom: 1px solid #8c8c8c;
-	text-align: center;
-	margin: 0 10px;
-}
-
-.new-board-form h2 {
-	display: block;
-	color: #4d4d4d;
-	font-size: 14px;
-	position: relative;
-	margin-bottom: 4px;
-}
-
-.title-field {
-	width: 280px;
-	margin: 0;
-	background: #e2e4e6;
-}
-
-.create-board {
-	display: block;
-	color: white;
-	text-align: center;
-	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
-	box-shadow: 0 1px 0 #3f6f21;
-	border-radius: 4px;
-	font-weight: bold;
-	padding: 7px 30px;
-	width: 104px;
-	margin: 8px 4px 0 0;
-	cursor: pointer;
-	position: absolute;
-}
+// .new-board-form {
+// 	width: 280px;
+// 	height: 227px;
+// 	display: block;
+// 	border: 1px solid #8c8c8c;
+// 	margin: 20px auto;
+// 	padding: 10px;
+// 	border-radius: 3px;
+// 	position: absolute;
+// }
+//
+// .hidden {
+// 	display: none;
+// }
+// .new-board-form h1 {
+// 	display: block;
+// 	padding: 0 32px;
+// 	box-sizing: border-box;
+// 	color: #8c8c8c;
+// 	font-size: 14px;
+// 	position: relative;
+// 	border-bottom: 1px solid #8c8c8c;
+// 	text-align: center;
+// 	margin: 0 10px;
+// }
+//
+// .new-board-form h2 {
+// 	display: block;
+// 	color: #4d4d4d;
+// 	font-size: 14px;
+// 	position: relative;
+// 	margin-bottom: 4px;
+// }
+//
+// .title-field {
+// 	width: 280px;
+// 	margin: 0;
+// 	background: #e2e4e6;
+// }
+//
+// .create-board {
+// 	display: block;
+// 	color: white;
+// 	text-align: center;
+// 	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
+// 	box-shadow: 0 1px 0 #3f6f21;
+// 	border-radius: 4px;
+// 	font-weight: bold;
+// 	padding: 7px 30px;
+// 	width: 104px;
+// 	margin: 8px 4px 0 0;
+// 	cursor: pointer;
+// 	position: absolute;
+// }
