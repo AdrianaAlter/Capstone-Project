@@ -1,26 +1,14 @@
 var React = require('react');
-
+var Link = require('react-router').Link;
 
 var BoardIndexItem = React.createClass({
-
-
-  contextTypes: { route: React.PropTypes.object },
-  showDetail: function () {
-    var router = this.context.router;
-    ApiUtil.fetchSingleBoard(this.props.board.id, function () {
-      router.push("/" + this.props.route);
-    });
-  },
 
   render: function () {
 
     return(
-
-      <li onClick={this.showDetail}>{this.props.board.title}</li>
+      <li><Link to={"/boards/" + this.props.board.id}>{this.props.board.title}</Link></li>
     );
   }
-
-
 });
 
 module.exports = BoardIndexItem;

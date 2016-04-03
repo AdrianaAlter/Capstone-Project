@@ -33894,48 +33894,7 @@
 	  displayName: 'App',
 	
 	
-	  // contextTypes: {
-	  //   router: React.PropTypes.object.isRequired
-	  // },
-	  //
-	  // getInitialState: function () {
-	  //   return {
-	  //     currentUser: null
-	  //   };
-	  // },
-	  //
-	  // componentDidMount: function () {
-	  //   this.sessionStoreToken = SessionStore.addListener(this.handleChange);
-	  //   this.handleChange();
-	  // },
-	  //
-	  // componentWillUnmount: function () {
-	  //   this.sessionStoreToken.remove();
-	  // },
-	  //
-	  // handleChange: function () {
-	  //   if (SessionStore.isLoggedIn()) {
-	  //     this.setState({ currentUser: SessionStore.currentUser() });
-	  //   }
-	  //   else {
-	  //     this.context.router.push("/login");
-	  //   }
-	  // },
-	
 	  render: function () {
-	
-	    // var button;
-	    // var loggedInAs;
-	    //
-	    // if (this.state.currentUser) {
-	    //   button =
-	    // 		<button
-	    // 			className="logout-button"
-	    // 			onClick={ApiUtil.logOut}>
-	    // 			Logout
-	    // 		</button>;
-	    //   loggedInAs = <h1 className="user-name">{this.state.currentUser.name}</h1>;
-	    // }
 	
 	    return React.createElement(
 	      'div',
@@ -34619,28 +34578,24 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
 	
 	var BoardIndexItem = React.createClass({
-	  displayName: "BoardIndexItem",
+	  displayName: 'BoardIndexItem',
 	
-	
-	  contextTypes: { route: React.PropTypes.object },
-	  showDetail: function () {
-	    var router = this.context.router;
-	    ApiUtil.fetchSingleBoard(this.props.board.id, function () {
-	      router.push("/" + this.props.route);
-	    });
-	  },
 	
 	  render: function () {
 	
 	    return React.createElement(
-	      "li",
-	      { onClick: this.showDetail },
-	      this.props.board.title
+	      'li',
+	      null,
+	      React.createElement(
+	        Link,
+	        { to: "/boards/" + this.props.board.id },
+	        this.props.board.title
+	      )
 	    );
 	  }
-	
 	});
 	
 	module.exports = BoardIndexItem;
