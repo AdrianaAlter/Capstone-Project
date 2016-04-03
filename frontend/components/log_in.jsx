@@ -16,7 +16,7 @@ var LogInForm = React.createClass({
 
     var router = this.context.router;
     ApiUtil.logIn(this.state, function () {
-      router.push("/boards");
+      router.push("/");
     });
   },
 

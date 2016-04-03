@@ -11,17 +11,18 @@ var SessionStore = require('./store/session_store.js');
 var NewBoardForm = require('./components/new_board_form.jsx');
 var BoardDetail = require('./components/board_detail.jsx');
 // var Search = require('./components/search.jsx');
-// var Modal = require('react-modal');
+var Modal = require('react-modal');
 
 var routes = (
     <Router history={hashHistory}>
-      <Route path="/" component={App} onEnter={_mustLogIn}>
-      			// <Route path="board/:board_id" component={BoardDetail} />
-			</Route>
+      <Route path="/boards" component={App} onEnter={_mustLogIn} />
+      <Route path="/boards/:board_id" component={BoardDetail} />
 
       <Route path="/login" component={LogInForm}/>
     </Router>
 );
+
+// </Route>
 
 // document.addEventListener("DOMContentLoaded", function () {
 //   ReactDOM.render(
@@ -33,7 +34,7 @@ var routes = (
 
 document.addEventListener("DOMContentLoaded", function() {
   var container = document.getElementById("content");
-
+  Modal.setAppElement(container);
   ReactDOM.render(routes, container);
 });
 

@@ -24,10 +24,11 @@ ApiUtil = {
   fetchSingleBoard: function (id) {
 
     $.ajax({
-      url: "api/board" + id,
+      url: "api/boards/" + id,
       type: "GET",
       dataType: "json",
       success: function (board) {
+
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
@@ -52,7 +53,7 @@ ApiUtil = {
 		});
 
 	},
-	
+
   createNewBoard: function (data) {
 		$.ajax({
 			url: "api/boards",

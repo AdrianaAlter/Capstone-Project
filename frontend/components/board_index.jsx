@@ -2,10 +2,11 @@ var React = require('react');
 var BoardStore = require('../store/board_store.js');
 var BoardActions = require('../actions/board_actions.js');
 var ApiUtil = require('../util/api_util.js');
-var Modal = require('react-modal');
+// var Modal = require('react-modal');
 var NewBoardForm = require('./new_board_form.jsx');
-var Link = require('react-router').Link;
+// var Link = require('react-router').Link;
 var NewBoardButton = require('./new_board_button.jsx');
+var BoardIndexItem = require('./board_index_item.jsx');
 
 
 var BoardIndex = React.createClass({
@@ -14,13 +15,7 @@ var BoardIndex = React.createClass({
     return { boards: BoardStore.all() };
   },
 
-	// openModal: function () {
-	// 	this.setState({modalIsOpen: true});
-	// },
-	//
-	// closeModal: function () {
-	// 	this.setState({modalIsOpen: false});
-	// },
+
 
   componentDidMount: function () {
     this.listener = BoardStore.addListener(this._onChange);
@@ -42,8 +37,9 @@ var BoardIndex = React.createClass({
   render: function () {
 
     var boardItems = this.state.boards.map(function (board) {
-      return <li key={board.id}	className="board-title">{board.title}</li>;
+      return <BoardIndexItem key={board.id}	className="board-title" board={board}/>;
     });
+
 
     return (
       <div>
@@ -58,7 +54,7 @@ var BoardIndex = React.createClass({
   }
 
 });
-// Modal.setAppElement(BoardIndex);
+
 module.exports = BoardIndex;
 
 // <ul className="board-items group">
@@ -66,11 +62,3 @@ module.exports = BoardIndex;
 //   {boardItems}
 // </ul>
 // <NewBoardButton />
-
-
-// <button onClick={this.openModal}>Create New Board</button>
-// <Modal
-// 	isOpen={this.state.modalIsOpen}
-// 	onRequestClose={this.closeModal}>
-// 	{NewBoardForm}
-// </Modal>

@@ -36,14 +36,12 @@ var NewBoardForm = React.createClass({
 
 
 		return(
-			<div className="new-board-form">
-				<h1>Create Board</h1>
-				<form onSubmit={this.handleSubmit}>
+				<form className="new-board-form" onSubmit={this.handleSubmit}>
+          <h1>Create Board</h1>
 					<h2>Title</h2>
 					<input className="title-field" type="text" value={this.state.title} onInput={this.updateTitle} />
 					<input className="create-board" type="submit" value="Create" />
 				</form>
-			</div>
 		);
 	}
 

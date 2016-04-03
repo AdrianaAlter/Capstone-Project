@@ -57,19 +57,17 @@
 	var NewBoardForm = __webpack_require__(266);
 	var BoardDetail = __webpack_require__(274);
 	// var Search = require('./components/search.jsx');
-	// var Modal = require('react-modal');
+	var Modal = __webpack_require__(246);
 	
 	var routes = React.createElement(
 	  Router,
 	  { history: hashHistory },
-	  React.createElement(
-	    Route,
-	    { path: '/', component: App, onEnter: _mustLogIn },
-	    '// ',
-	    React.createElement(Route, { path: 'board/:board_id', component: BoardDetail })
-	  ),
+	  React.createElement(Route, { path: '/boards', component: App, onEnter: _mustLogIn }),
+	  React.createElement(Route, { path: '/boards/:board_id', component: BoardDetail }),
 	  React.createElement(Route, { path: '/login', component: LogInForm })
 	);
+	
+	// </Route>
 	
 	// document.addEventListener("DOMContentLoaded", function () {
 	//   ReactDOM.render(
@@ -81,7 +79,7 @@
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  var container = document.getElementById("content");
-	
+	  Modal.setAppElement(container);
 	  ReactDOM.render(routes, container);
 	});
 	
@@ -24776,10 +24774,11 @@
 	var BoardStore = __webpack_require__(217);
 	var BoardActions = __webpack_require__(240);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(246);
+	// var Modal = require('react-modal');
 	var NewBoardForm = __webpack_require__(266);
-	var Link = __webpack_require__(159).Link;
+	// var Link = require('react-router').Link;
 	var NewBoardButton = __webpack_require__(279);
+	var BoardIndexItem = __webpack_require__(280);
 	
 	var BoardIndex = React.createClass({
 	  displayName: 'BoardIndex',
@@ -24788,14 +24787,6 @@
 	  getInitialState: function () {
 	    return { boards: BoardStore.all() };
 	  },
-	
-	  // openModal: function () {
-	  // 	this.setState({modalIsOpen: true});
-	  // },
-	  //
-	  // closeModal: function () {
-	  // 	this.setState({modalIsOpen: false});
-	  // },
 	
 	  componentDidMount: function () {
 	    this.listener = BoardStore.addListener(this._onChange);
@@ -24817,11 +24808,7 @@
 	  render: function () {
 	
 	    var boardItems = this.state.boards.map(function (board) {
-	      return React.createElement(
-	        'li',
-	        { key: board.id, className: 'board-title' },
-	        board.title
-	      );
+	      return React.createElement(BoardIndexItem, { key: board.id, className: 'board-title', board: board });
 	    });
 	
 	    return React.createElement(
@@ -24846,7 +24833,7 @@
 	  }
 	
 	});
-	// Modal.setAppElement(BoardIndex);
+	
 	module.exports = BoardIndex;
 	
 	// <ul className="board-items group">
@@ -24854,13 +24841,6 @@
 	//   {boardItems}
 	// </ul>
 	// <NewBoardButton />
-
-	// <button onClick={this.openModal}>Create New Board</button>
-	// <Modal
-	// 	isOpen={this.state.modalIsOpen}
-	// 	onRequestClose={this.closeModal}>
-	// 	{NewBoardForm}
-	// </Modal>
 
 /***/ },
 /* 217 */
@@ -24874,23 +24854,32 @@
 	var _boards = [];
 	
 	BoardStore.all = function () {
-	  return _boards.slice(0);
+	  return _boards.slice();
 	};
 	
-	BoardStore.reset = function (boards) {
+	BoardStore.resetBoards = function (boards) {
 	  _boards = boards;
 	};
 	
-	BoardStore.__onDispatch = function (payload) {
+	BoardStore.resetBoard = function (board) {
+	  _boards = [];
+	  _boards.push(board);
+	}, BoardStore.find = function (id) {
+	  for (var i = 0; i < _boards.length; i++) {
+	    if (_boards[i].id === id) {
+	      return _boards[i];
+	    }
+	  }
+	}, BoardStore.__onDispatch = function (payload) {
 	
 	  switch (payload.actionType) {
 	    case BoardConstants.ALL_BOARDS_RECEIVED:
-	      BoardStore.reset(payload.boards);
+	      BoardStore.resetBoards(payload.boards);
 	      BoardStore.__emitChange();
 	      break;
 	    case BoardConstants.SINGLE_BOARD_RECEIVED:
-	      BoardStore.reset(payload.board);
-	      BoardStore._emitChange();
+	      BoardStore.resetBoard(payload.board);
+	      BoardStore.__emitChange();
 	      break;
 	  }
 	};
@@ -31728,10 +31717,11 @@
 	  fetchSingleBoard: function (id) {
 	
 	    $.ajax({
-	      url: "api/board" + id,
+	      url: "api/boards/" + id,
 	      type: "GET",
 	      dataType: "json",
 	      success: function (board) {
+	
 	        BoardActions.receiveSingleBoard(board);
 	      },
 	      error: function () {
@@ -33869,24 +33859,20 @@
 			// var className = this.state.displayed === false ? "new-board-form hidden" : "new-board-form";
 	
 			return React.createElement(
-				'div',
-				{ className: 'new-board-form' },
+				'form',
+				{ className: 'new-board-form', onSubmit: this.handleSubmit },
 				React.createElement(
 					'h1',
 					null,
 					'Create Board'
 				),
 				React.createElement(
-					'form',
-					{ onSubmit: this.handleSubmit },
-					React.createElement(
-						'h2',
-						null,
-						'Title'
-					),
-					React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onInput: this.updateTitle }),
-					React.createElement('input', { className: 'create-board', type: 'submit', value: 'Create' })
-				)
+					'h2',
+					null,
+					'Title'
+				),
+				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onInput: this.updateTitle }),
+				React.createElement('input', { className: 'create-board', type: 'submit', value: 'Create' })
 			);
 		}
 	
@@ -34253,7 +34239,7 @@
 	
 	    var router = this.context.router;
 	    ApiUtil.logIn(this.state, function () {
-	      router.push("/boards");
+	      router.push("/");
 	    });
 	  },
 	
@@ -34398,22 +34384,62 @@
 
 	var React = __webpack_require__(1);
 	var ListIndex = __webpack_require__(275);
+	var BoardStore = __webpack_require__(217);
 	
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
 	
 	
-	  render: function () {
+	  getInitialState: function () {
+	    return { board: this.getStateFromStore() };
+	  },
 	
+	  getStateFromStore: function () {
+	
+	    var boardId = parseInt(this.props.params.board_id);
+	    return BoardStore.find(boardId);
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.listener = BoardStore.addListener(this.setNewState);
+	    ApiUtil.fetchSingleBoard(newProps.params.boardId);
+	  },
+	
+	  setNewState: function () {
+	    this.setState({ board: this.getStateFromStore() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = BoardStore.addListener(this.setNewState);
+	    ApiUtil.fetchSingleBoard(this.state.board.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  render: function () {
 	    return React.createElement(
-	      'div',
-	      null,
+	      'ul',
+	      { className: 'board-detail' },
 	      React.createElement(
-	        'p',
+	        'li',
 	        null,
-	        this.props.title
+	        React.createElement(
+	          'h1',
+	          null,
+	          this.state.board.title
+	        )
 	      ),
-	      ListIndex
+	      React.createElement(
+	        'li',
+	        null,
+	        React.createElement(
+	          'h2',
+	          null,
+	          this.state.board.description
+	        )
+	      )
 	    );
 	  }
 	});
@@ -34554,17 +34580,70 @@
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(246);
 	var NewBoardForm = __webpack_require__(266);
+	
 	var NewBoardButton = React.createClass({
 	  displayName: 'NewBoardButton',
 	
 	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
 	  render: function () {
-	    return React.createElement('div', null);
+	    return React.createElement(
+	      'div',
+	      { onClick: this.openModal },
+	      React.createElement(
+	        Modal,
+	        { isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal },
+	        NewBoardForm
+	      )
+	    );
 	  }
 	
 	});
 	
 	module.exports = NewBoardButton;
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var BoardIndexItem = React.createClass({
+	  displayName: "BoardIndexItem",
+	
+	
+	  contextTypes: { route: React.PropTypes.object },
+	  showDetail: function () {
+	    var router = this.context.router;
+	    ApiUtil.fetchSingleBoard(this.props.board.id, function () {
+	      router.push("/" + this.props.route);
+	    });
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      "li",
+	      { onClick: this.showDetail },
+	      this.props.board.title
+	    );
+	  }
+	
+	});
+	
+	module.exports = BoardIndexItem;
 
 /***/ }
 /******/ ]);
