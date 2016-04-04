@@ -3,7 +3,7 @@ var ListIndex = require('./list_index.jsx');
 var BoardStore = require('../store/board_store.js');
 var Header = require('./header.jsx');
 
-var BoardDetail= React.createClass({
+var BoardDetail = React.createClass({
 
   getInitialState: function () {
     return { board: this.getStateFromStore() };
@@ -17,7 +17,7 @@ var BoardDetail= React.createClass({
 
   componentWillReceiveProps: function (newProps) {
     this.listener = BoardStore.addListener(this.setNewState);
-    ApiUtil.fetchSingleBoard(newProps.params.boardId);
+    ApiUtil.fetchSingleBoard(newProps.params.board_id);
   },
 
   setNewState: function () {
@@ -25,8 +25,10 @@ var BoardDetail= React.createClass({
   },
 
   componentDidMount: function () {
+
     this.listener = BoardStore.addListener(this.setNewState);
-    ApiUtil.fetchSingleBoard(this.state.board.id);
+
+    ApiUtil.fetchSingleBoard(this.props.params.board_id);
 
   },
 
@@ -35,17 +37,22 @@ var BoardDetail= React.createClass({
   },
 
   render: function () {
-    return (
-      <div className="board-detail">
-        <header>
-          <Header />
-        </header>
-        <ul>
-          <li><h1>{this.state.board.title}</h1></li>
-          <li><h2>{this.state.board.description}</h2></li>
-        </ul>
-      </div>
-    );
+    if (!this.state.board) {
+      return (
+        <div></div>
+      );
+    }
+    else {
+      return (
+          <section className="board-detail">
+            <header className="detail-header"></header>
+            <ul>
+              <li><h1>Title: {this.state.board.title}</h1></li>
+              <li><h2>Description: {this.state.board.description}</h2></li>
+            </ul>
+          </section>
+      );
+    }
   }
 });
 

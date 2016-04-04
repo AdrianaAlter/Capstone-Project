@@ -8,11 +8,9 @@ var App = React.createClass({
 
   render: function () {
 
-
-    return(
+  return(
       <div id="app">
         <Header />
-        <BoardIndex />
         {this.props.children}
       </div>
     );

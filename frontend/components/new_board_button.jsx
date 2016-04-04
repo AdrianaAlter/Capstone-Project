@@ -20,17 +20,45 @@ var NewBoardButton = React.createClass({
   },
 
   render: function () {
+    var styles = { overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }, content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" } };
     return (
-      <div onClick={this.openModal}>
-        <Modal isOpen={this.state.modalOpen}
-          onRequestClose={this.closeModal}>
-          {NewBoardForm}
+      <li className="new-board-button" onClick={this.openModal}>
+        <Modal className="modal" isOpen={this.state.modalOpen}
+          onRequestClose={this.closeModal}
+          style={styles}
+          theme="modal-theme"
+          >
+          <NewBoardForm />
         </Modal>
-      </div>
+    </li>
     );
   }
 
-
+  // styles: {
+  //   overlay : {
+  //     position          : 'fixed',
+  //     top               : 0,
+  //     left              : 0,
+  //     right             : 0,
+  //     bottom            : 0,
+  //     backgroundColor   : transparent
+  //   },
+  //   content : {
+  //     position                   : 'absolute',
+  //     top                        : '40px',
+  //     left                       : '40px',
+  //     right                      : '40px',
+  //     bottom                     : '40px',
+  //     border                     : '1px solid #ccc',
+  //     background                 : '#fff',
+  //     overflow                   : 'auto',
+  //     WebkitOverflowScrolling    : 'touch',
+  //     borderRadius               : '4px',
+  //     outline                    : 'none',
+  //     padding                    : '20px'
+  //
+  //   }
+  // }
 });
 
 

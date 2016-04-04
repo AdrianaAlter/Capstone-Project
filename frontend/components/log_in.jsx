@@ -45,6 +45,7 @@ var LogInForm = React.createClass({
 
               <button>Log In</button>
             </form>
+             <a className="fb" href="/auth/facebook">Log in with Facebook</a>
         </section>
         <section className="info-page group">
           <h1>CatTrello</h1>

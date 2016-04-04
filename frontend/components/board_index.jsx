@@ -42,11 +42,11 @@ var BoardIndex = React.createClass({
 
 
     return (
-      <div>
-        <p>My Boards</p>
+      <div className="board-index">
+        <h1>My Boards</h1>
         <ul className="board-items group">
           {boardItems}
-          <li className="new-board-button">{NewBoardButton}</li>
+          <NewBoardButton />
         </ul>
       </div>
 
@@ -56,9 +56,3 @@ var BoardIndex = React.createClass({
 });
 
 module.exports = BoardIndex;
-
-// <ul className="board-items group">
-//   <div className="board-index-label">My Boards</div>
-//   {boardItems}
-// </ul>
-// <NewBoardButton />

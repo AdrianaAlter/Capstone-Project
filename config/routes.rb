@@ -8,4 +8,5 @@ Rails.application.routes.draw do
 			resources :lists, only: [:index, :new, :create]
 		end
   end
+   get "auth/facebook/callback", to: "omniauth#facebook"
 end

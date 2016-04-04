@@ -1,8 +1,11 @@
 // Place all the styles related to the Boards controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.board-index {
+  margin-top: 40px;
+}
 
-p {
+.board-index h1 {
   margin-left: 16px;
   font-size: 16px;
   color: #4d4d4d;
@@ -35,7 +38,7 @@ p {
   background: darkred;
 }
 
-.board-items > li:last-child {
+.board-items .new-board-button {
   background: #e2e4e6;
 
   color: #8c8c8c;
@@ -46,7 +49,7 @@ p {
   position: relative;
 }
 
-.board-items > li:last-child:after {
+.board-items .new-board-button:after {
   content: "Create new board...";
   position: absolute;
   display: block;
@@ -57,7 +60,7 @@ p {
 
 }
 
-.board-items > li:last-child:hover {
+.board-items .new-board-button:hover {
   	background: #8c8c8c;
   	color: black;
 }
@@ -65,24 +68,31 @@ p {
 
 
 
-
 .board-detail {
   display: block;
-  height: 100%;
+  min-height: 1000px;
   width: 100%;
-  background: #b04632;
+  background-color: #b04632;
   color: white;
   font-weight: bold;
   font-size: 18px;
   line-height: 30px;
 }
 
+// .board-detail > .detail-header {
+//   position: absolute;
+//   top: 0;
+//   width: 100%;
+//   height: 30px;
+//   padding: 5px;
+//   background: rgba(176, 70, 50, 0.6);
+// }
 .board-detail > ul {
   display: block;
   padding: 0 8px;
 }
-
-// .board-detail .header-overlay {
+//
+// .board-detail > .detail-header {
 //   display: block;
 //   background: #b04632;
 //   width: 100%;
@@ -92,63 +102,71 @@ p {
 //   margin: auto;
 // }
 
-.board-detail header {
-  background: rgba(0, 0, 0, 0.14902);
-}
+
 //
 //
 
-// .new-board-form {
-// 	width: 280px;
+.new-board-form {
+	width: 280px;
+	height: 227px;
+	display: block;
+	border: 1px solid #8c8c8c;
+	// margin: auto;
+	padding: 10px;
+	border-radius: 3px;
+	// position: absolute;
+  top: 0;
+  left: 0;
+}
+
+// .board-items .new-board-button .modal {
+//   position: absolute;
+//   top: 100%;
+//   width: 280px;
 // 	height: 227px;
-// 	display: block;
-// 	border: 1px solid #8c8c8c;
-// 	margin: 20px auto;
-// 	padding: 10px;
-// 	border-radius: 3px;
-// 	position: absolute;
+//   background: transparent;
+//   border: 0;
 // }
-//
-// .hidden {
-// 	display: none;
-// }
-// .new-board-form h1 {
-// 	display: block;
-// 	padding: 0 32px;
-// 	box-sizing: border-box;
-// 	color: #8c8c8c;
-// 	font-size: 14px;
-// 	position: relative;
-// 	border-bottom: 1px solid #8c8c8c;
-// 	text-align: center;
-// 	margin: 0 10px;
-// }
-//
-// .new-board-form h2 {
-// 	display: block;
-// 	color: #4d4d4d;
-// 	font-size: 14px;
-// 	position: relative;
-// 	margin-bottom: 4px;
-// }
-//
-// .title-field {
-// 	width: 280px;
-// 	margin: 0;
-// 	background: #e2e4e6;
-// }
-//
-// .create-board {
-// 	display: block;
-// 	color: white;
-// 	text-align: center;
-// 	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
-// 	box-shadow: 0 1px 0 #3f6f21;
-// 	border-radius: 4px;
-// 	font-weight: bold;
-// 	padding: 7px 30px;
-// 	width: 104px;
-// 	margin: 8px 4px 0 0;
-// 	cursor: pointer;
-// 	position: absolute;
-// }
+.new-board-form h1 {
+	display: block;
+	padding: 0 32px;
+	box-sizing: border-box;
+	color: #8c8c8c;
+	font-size: 14px;
+	position: relative;
+	border-bottom: 1px solid #8c8c8c;
+	text-align: center;
+	margin: 0 10px;
+}
+
+.new-board-form h2 {
+	display: block;
+	color: #4d4d4d;
+	font-size: 14px;
+	position: relative;
+	margin-bottom: 4px;
+}
+
+.new-board-form input {
+	width: 266px;
+	margin: 0;
+  padding: 7px;
+	background: #e2e4e6;
+}
+
+.new-board-form > button {
+	display: block;
+	color: white;
+  font-size: 14px;
+	text-align: center;
+	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
+	box-shadow: 0 1px 0 #3f6f21;
+	border-radius: 4px;
+	font-weight: bold;
+	padding: 7px 30px;
+	width: 45px;
+  height: 22px;
+	margin: 8px 4px 0 0;
+	cursor: pointer;
+	position: absolute;
+}

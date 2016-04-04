@@ -48,13 +48,14 @@
 	var ReactDOM = __webpack_require__(158);
 	var Router = __webpack_require__(159).Router;
 	var Route = __webpack_require__(159).Route;
+	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var BoardIndex = __webpack_require__(216);
 	var App = __webpack_require__(269);
 	var LogInForm = __webpack_require__(275);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ApiUtil = __webpack_require__(241);
 	var SessionStore = __webpack_require__(272);
-	var NewBoardForm = __webpack_require__(246);
+	var NewBoardButton = __webpack_require__(247);
 	var BoardDetail = __webpack_require__(276);
 	// var Search = require('./components/search.jsx');
 	var Modal = __webpack_require__(248);
@@ -62,8 +63,12 @@
 	var routes = React.createElement(
 	  Router,
 	  { history: hashHistory },
-	  React.createElement(Route, { path: '/', component: App, onEnter: _mustLogIn }),
-	  React.createElement(Route, { path: '/boards/:board_id', component: BoardDetail }),
+	  React.createElement(
+	    Route,
+	    { path: '/', component: App, onEnter: _mustLogIn },
+	    React.createElement(IndexRoute, { component: BoardIndex }),
+	    React.createElement(Route, { path: 'boards/:board_id', component: BoardDetail })
+	  ),
 	  React.createElement(Route, { path: '/login', component: LogInForm })
 	);
 	
@@ -75,7 +80,7 @@
 	//     document.getElementById('content')
 	//   );
 	// });
-	// Modal.setAppElement(BoardIndex);
+	Modal.setAppElement(NewBoardButton);
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  var container = document.getElementById("content");
@@ -24813,9 +24818,9 @@
 	
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'board-index' },
 	      React.createElement(
-	        'p',
+	        'h1',
 	        null,
 	        'My Boards'
 	      ),
@@ -24823,11 +24828,7 @@
 	        'ul',
 	        { className: 'board-items group' },
 	        boardItems,
-	        React.createElement(
-	          'li',
-	          { className: 'new-board-button' },
-	          NewBoardButton
-	        )
+	        React.createElement(NewBoardButton, null)
 	      )
 	    );
 	  }
@@ -24835,12 +24836,6 @@
 	});
 	
 	module.exports = BoardIndex;
-	
-	// <ul className="board-items group">
-	//   <div className="board-index-label">My Boards</div>
-	//   {boardItems}
-	// </ul>
-	// <NewBoardButton />
 
 /***/ },
 /* 217 */
@@ -31721,7 +31716,6 @@
 	      type: "GET",
 	      dataType: "json",
 	      success: function (board) {
-	
 	        BoardActions.receiveSingleBoard(board);
 	      },
 	      error: function () {
@@ -31746,6 +31740,7 @@
 	  },
 	
 	  createNewBoard: function (data) {
+	
 	    $.ajax({
 	      url: "api/boards",
 	      type: "POST",
@@ -31927,7 +31922,7 @@
 			};
 			BoardActions.createNewBoard(data);
 			this.setState({ title: "" });
-			this.toggleDisplayed();
+			// this.toggleDisplayed();
 		},
 	
 		render: function () {
@@ -31948,7 +31943,11 @@
 					'Title'
 				),
 				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onInput: this.updateTitle }),
-				React.createElement('input', { className: 'create-board', type: 'submit', value: 'Create' })
+				React.createElement(
+					'button',
+					null,
+					'Create'
+				)
 			);
 		}
 	
@@ -31983,18 +31982,47 @@
 	  },
 	
 	  render: function () {
+	    var styles = { overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }, content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" } };
 	    return React.createElement(
-	      'div',
-	      { onClick: this.openModal },
+	      'li',
+	      { className: 'new-board-button', onClick: this.openModal },
 	      React.createElement(
 	        Modal,
-	        { isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal },
-	        NewBoardForm
+	        { className: 'modal', isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: styles,
+	          theme: 'modal-theme'
+	        },
+	        React.createElement(NewBoardForm, null)
 	      )
 	    );
 	  }
 	
+	  // styles: {
+	  //   overlay : {
+	  //     position          : 'fixed',
+	  //     top               : 0,
+	  //     left              : 0,
+	  //     right             : 0,
+	  //     bottom            : 0,
+	  //     backgroundColor   : transparent
+	  //   },
+	  //   content : {
+	  //     position                   : 'absolute',
+	  //     top                        : '40px',
+	  //     left                       : '40px',
+	  //     right                      : '40px',
+	  //     bottom                     : '40px',
+	  //     border                     : '1px solid #ccc',
+	  //     background                 : '#fff',
+	  //     overflow                   : 'auto',
+	  //     WebkitOverflowScrolling    : 'touch',
+	  //     borderRadius               : '4px',
+	  //     outline                    : 'none',
+	  //     padding                    : '20px'
+	  //
+	  //   }
+	  // }
 	});
 	
 	module.exports = NewBoardButton;
@@ -33941,7 +33969,7 @@
 	      null,
 	      React.createElement(
 	        Link,
-	        { to: "/boards/" + this.props.board.id },
+	        { to: "boards/" + this.props.board.id },
 	        this.props.board.title
 	      )
 	    );
@@ -33970,7 +33998,6 @@
 	      'div',
 	      { id: 'app' },
 	      React.createElement(Header, null),
-	      React.createElement(BoardIndex, null),
 	      this.props.children
 	    );
 	  }
@@ -33994,7 +34021,7 @@
 	
 	    return React.createElement(
 	      'header',
-	      { className: 'header group' },
+	      { className: 'header' },
 	      React.createElement(
 	        'nav',
 	        { className: 'header-nav group' },
@@ -34060,13 +34087,10 @@
 		handleChange: function () {
 			if (SessionStore.isLoggedIn()) {
 				this.setState({ currentUser: SessionStore.currentUser() });
-			} else {
-				this.context.router.push("/login");
 			}
 		},
 	
 		render: function () {
-	
 			var logout;
 			var loggedInAs;
 			if (this.state.currentUser) {
@@ -34086,7 +34110,7 @@
 	
 			return React.createElement(
 				'ul',
-				{ className: 'session-buttons' },
+				{ className: 'session-buttons group' },
 				loggedInAs,
 				logout
 			);
@@ -34312,6 +34336,11 @@
 	            null,
 	            'Log In'
 	          )
+	        ),
+	        React.createElement(
+	          'a',
+	          { className: 'fb', href: '/auth/facebook' },
+	          'Log in with Facebook'
 	        )
 	      ),
 	      React.createElement(
@@ -34433,7 +34462,7 @@
 	
 	  componentWillReceiveProps: function (newProps) {
 	    this.listener = BoardStore.addListener(this.setNewState);
-	    ApiUtil.fetchSingleBoard(newProps.params.boardId);
+	    ApiUtil.fetchSingleBoard(newProps.params.board_id);
 	  },
 	
 	  setNewState: function () {
@@ -34441,8 +34470,10 @@
 	  },
 	
 	  componentDidMount: function () {
+	
 	    this.listener = BoardStore.addListener(this.setNewState);
-	    ApiUtil.fetchSingleBoard(this.state.board.id);
+	
+	    ApiUtil.fetchSingleBoard(this.props.params.board_id);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -34450,37 +34481,39 @@
 	  },
 	
 	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'board-detail' },
-	      React.createElement(
-	        'header',
-	        null,
-	        React.createElement(Header, null)
-	      ),
-	      React.createElement(
-	        'ul',
-	        null,
+	    if (!this.state.board) {
+	      return React.createElement('div', null);
+	    } else {
+	      return React.createElement(
+	        'section',
+	        { className: 'board-detail' },
+	        React.createElement('header', { className: 'detail-header' }),
 	        React.createElement(
-	          'li',
+	          'ul',
 	          null,
 	          React.createElement(
-	            'h1',
+	            'li',
 	            null,
-	            this.state.board.title
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
+	            React.createElement(
+	              'h1',
+	              null,
+	              'Title: ',
+	              this.state.board.title
+	            )
+	          ),
 	          React.createElement(
-	            'h2',
+	            'li',
 	            null,
-	            this.state.board.description
+	            React.createElement(
+	              'h2',
+	              null,
+	              'Description: ',
+	              this.state.board.description
+	            )
 	          )
 	        )
-	      )
-	    );
+	      );
+	    }
 	  }
 	});
 	

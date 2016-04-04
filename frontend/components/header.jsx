@@ -6,9 +6,8 @@ var Search = require('./search.jsx');
 var Header = React.createClass({
   render: function () {
 
-
-    return(
-      <header className="header group">
+  return(
+      <header className="header">
         <nav className="header-nav group">
           <ul>
             <li>Boards</li>

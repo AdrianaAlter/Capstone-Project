@@ -25,16 +25,11 @@ var SessionButtons = React.createClass ({
 
 	handleChange: function () {
 		if (SessionStore.isLoggedIn()) {
-			this.setState({ currentUser: SessionStore.currentUser() });
+      this.setState({ currentUser: SessionStore.currentUser() });
 		}
-		else {
-			this.context.router.push("/login");
-		}
-
 	},
 
 	render: function () {
-
 		var logout;
     var loggedInAs;
     if (this.state.currentUser) {
@@ -46,9 +41,9 @@ var SessionButtons = React.createClass ({
 				</li>;
       loggedInAs = <li className="user-name">{this.state.currentUser.user_name}</li>;
     }
-
+    
 		return(
-			<ul className="session-buttons">
+			<ul className="session-buttons group">
         {loggedInAs}
 				{logout}
 			</ul>

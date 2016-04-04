@@ -6,7 +6,7 @@ var BoardIndexItem = React.createClass({
   render: function () {
 
     return(
-      <li><Link to={"/boards/" + this.props.board.id}>{this.props.board.title}</Link></li>
+      <li><Link to={"boards/" + this.props.board.id}>{this.props.board.title}</Link></li>
     );
   }
 });
