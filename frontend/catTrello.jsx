@@ -15,7 +15,7 @@ var Modal = require('react-modal');
 
 var routes = (
     <Router history={hashHistory}>
-      <Route path="/boards" component={App} onEnter={_mustLogIn} />
+      <Route path="/" component={App} onEnter={_mustLogIn} />
       <Route path="/boards/:board_id" component={BoardDetail} />
 
       <Route path="/login" component={LogInForm}/>

@@ -8,7 +8,7 @@ var Header = React.createClass({
 
 
     return(
-      <header className="header">
+      <header className="header group">
         <nav className="header-nav group">
           <ul>
             <li>Boards</li>

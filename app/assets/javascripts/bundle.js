@@ -49,20 +49,20 @@
 	var Router = __webpack_require__(159).Router;
 	var Route = __webpack_require__(159).Route;
 	var BoardIndex = __webpack_require__(216);
-	var App = __webpack_require__(267);
-	var LogInForm = __webpack_require__(273);
+	var App = __webpack_require__(269);
+	var LogInForm = __webpack_require__(275);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ApiUtil = __webpack_require__(241);
-	var SessionStore = __webpack_require__(270);
-	var NewBoardForm = __webpack_require__(266);
-	var BoardDetail = __webpack_require__(274);
+	var SessionStore = __webpack_require__(272);
+	var NewBoardForm = __webpack_require__(246);
+	var BoardDetail = __webpack_require__(276);
 	// var Search = require('./components/search.jsx');
-	var Modal = __webpack_require__(246);
+	var Modal = __webpack_require__(248);
 	
 	var routes = React.createElement(
 	  Router,
 	  { history: hashHistory },
-	  React.createElement(Route, { path: '/boards', component: App, onEnter: _mustLogIn }),
+	  React.createElement(Route, { path: '/', component: App, onEnter: _mustLogIn }),
 	  React.createElement(Route, { path: '/boards/:board_id', component: BoardDetail }),
 	  React.createElement(Route, { path: '/login', component: LogInForm })
 	);
@@ -24775,10 +24775,10 @@
 	var BoardActions = __webpack_require__(240);
 	var ApiUtil = __webpack_require__(241);
 	// var Modal = require('react-modal');
-	var NewBoardForm = __webpack_require__(266);
+	var NewBoardForm = __webpack_require__(246);
 	// var Link = require('react-router').Link;
-	var NewBoardButton = __webpack_require__(279);
-	var BoardIndexItem = __webpack_require__(280);
+	var NewBoardButton = __webpack_require__(247);
+	var BoardIndexItem = __webpack_require__(268);
 	
 	var BoardIndex = React.createClass({
 	  displayName: 'BoardIndex',
@@ -31899,20 +31899,124 @@
 /* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(247);
+	var React = __webpack_require__(1);
+	var BoardActions = __webpack_require__(240);
 	
-
+	var NewBoardForm = React.createClass({
+		displayName: 'NewBoardForm',
+	
+	
+		getInitialState: function () {
+			return { title: "" };
+		},
+	
+		// toggleDisplayed: function () {
+		// 	this.setState({ displayed: true });
+		// },
+	
+		updateTitle: function (e) {
+			var newTitle = event.currentTarget.value;
+			this.setState({ title: newTitle });
+		},
+	
+		handleSubmit: function (e) {
+			event.preventDefault();
+			var data = {
+				title: this.state.title,
+				body: this.state.body
+			};
+			BoardActions.createNewBoard(data);
+			this.setState({ title: "" });
+			this.toggleDisplayed();
+		},
+	
+		render: function () {
+	
+			// var className = this.state.displayed === false ? "new-board-form hidden" : "new-board-form";
+	
+			return React.createElement(
+				'form',
+				{ className: 'new-board-form', onSubmit: this.handleSubmit },
+				React.createElement(
+					'h1',
+					null,
+					'Create Board'
+				),
+				React.createElement(
+					'h2',
+					null,
+					'Title'
+				),
+				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onInput: this.updateTitle }),
+				React.createElement('input', { className: 'create-board', type: 'submit', value: 'Create' })
+			);
+		}
+	
+	});
+	
+	module.exports = NewBoardForm;
 
 /***/ },
 /* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var React = __webpack_require__(1);
+	var BoardStore = __webpack_require__(217);
+	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(248);
+	var NewBoardForm = __webpack_require__(246);
+	
+	var NewBoardButton = React.createClass({
+	  displayName: 'NewBoardButton',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { onClick: this.openModal },
+	      React.createElement(
+	        Modal,
+	        { isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal },
+	        NewBoardForm
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = NewBoardButton;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(249);
+	
+
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(248);
-	var ModalPortal = React.createFactory(__webpack_require__(249));
-	var ariaAppHider = __webpack_require__(264);
-	var elementClass = __webpack_require__(265);
+	var ExecutionEnvironment = __webpack_require__(250);
+	var ModalPortal = React.createFactory(__webpack_require__(251));
+	var ariaAppHider = __webpack_require__(266);
+	var elementClass = __webpack_require__(267);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -31991,7 +32095,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 248 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32036,14 +32140,14 @@
 
 
 /***/ },
-/* 249 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(250);
-	var scopeTab = __webpack_require__(252);
-	var Assign = __webpack_require__(253);
+	var focusManager = __webpack_require__(252);
+	var scopeTab = __webpack_require__(254);
+	var Assign = __webpack_require__(255);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32240,10 +32344,10 @@
 
 
 /***/ },
-/* 250 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(251);
+	var findTabbable = __webpack_require__(253);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -32314,7 +32418,7 @@
 
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32370,10 +32474,10 @@
 
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(251);
+	var findTabbable = __webpack_require__(253);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -32391,7 +32495,7 @@
 
 
 /***/ },
-/* 253 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32402,9 +32506,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(254),
-	    createAssigner = __webpack_require__(260),
-	    keys = __webpack_require__(256);
+	var baseAssign = __webpack_require__(256),
+	    createAssigner = __webpack_require__(262),
+	    keys = __webpack_require__(258);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -32477,7 +32581,7 @@
 
 
 /***/ },
-/* 254 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32488,8 +32592,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(255),
-	    keys = __webpack_require__(256);
+	var baseCopy = __webpack_require__(257),
+	    keys = __webpack_require__(258);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -32510,7 +32614,7 @@
 
 
 /***/ },
-/* 255 */
+/* 257 */
 /***/ function(module, exports) {
 
 	/**
@@ -32548,7 +32652,7 @@
 
 
 /***/ },
-/* 256 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32559,9 +32663,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(257),
-	    isArguments = __webpack_require__(258),
-	    isArray = __webpack_require__(259);
+	var getNative = __webpack_require__(259),
+	    isArguments = __webpack_require__(260),
+	    isArray = __webpack_require__(261);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -32790,7 +32894,7 @@
 
 
 /***/ },
-/* 257 */
+/* 259 */
 /***/ function(module, exports) {
 
 	/**
@@ -32933,7 +33037,7 @@
 
 
 /***/ },
-/* 258 */
+/* 260 */
 /***/ function(module, exports) {
 
 	/**
@@ -33182,7 +33286,7 @@
 
 
 /***/ },
-/* 259 */
+/* 261 */
 /***/ function(module, exports) {
 
 	/**
@@ -33368,7 +33472,7 @@
 
 
 /***/ },
-/* 260 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33379,9 +33483,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(261),
-	    isIterateeCall = __webpack_require__(262),
-	    restParam = __webpack_require__(263);
+	var bindCallback = __webpack_require__(263),
+	    isIterateeCall = __webpack_require__(264),
+	    restParam = __webpack_require__(265);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -33426,7 +33530,7 @@
 
 
 /***/ },
-/* 261 */
+/* 263 */
 /***/ function(module, exports) {
 
 	/**
@@ -33497,7 +33601,7 @@
 
 
 /***/ },
-/* 262 */
+/* 264 */
 /***/ function(module, exports) {
 
 	/**
@@ -33635,7 +33739,7 @@
 
 
 /***/ },
-/* 263 */
+/* 265 */
 /***/ function(module, exports) {
 
 	/**
@@ -33708,7 +33812,7 @@
 
 
 /***/ },
-/* 264 */
+/* 266 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -33755,7 +33859,7 @@
 
 
 /***/ },
-/* 265 */
+/* 267 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -33820,74 +33924,40 @@
 
 
 /***/ },
-/* 266 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var BoardActions = __webpack_require__(240);
+	var Link = __webpack_require__(159).Link;
 	
-	var NewBoardForm = React.createClass({
-		displayName: 'NewBoardForm',
+	var BoardIndexItem = React.createClass({
+	  displayName: 'BoardIndexItem',
 	
 	
-		getInitialState: function () {
-			return { title: "" };
-		},
+	  render: function () {
 	
-		// toggleDisplayed: function () {
-		// 	this.setState({ displayed: true });
-		// },
-	
-		updateTitle: function (e) {
-			var newTitle = event.currentTarget.value;
-			this.setState({ title: newTitle });
-		},
-	
-		handleSubmit: function (e) {
-			event.preventDefault();
-			var data = {
-				title: this.state.title,
-				body: this.state.body
-			};
-			BoardActions.createNewBoard(data);
-			this.setState({ title: "" });
-			this.toggleDisplayed();
-		},
-	
-		render: function () {
-	
-			// var className = this.state.displayed === false ? "new-board-form hidden" : "new-board-form";
-	
-			return React.createElement(
-				'form',
-				{ className: 'new-board-form', onSubmit: this.handleSubmit },
-				React.createElement(
-					'h1',
-					null,
-					'Create Board'
-				),
-				React.createElement(
-					'h2',
-					null,
-					'Title'
-				),
-				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onInput: this.updateTitle }),
-				React.createElement('input', { className: 'create-board', type: 'submit', value: 'Create' })
-			);
-		}
-	
+	    return React.createElement(
+	      'li',
+	      null,
+	      React.createElement(
+	        Link,
+	        { to: "/boards/" + this.props.board.id },
+	        this.props.board.title
+	      )
+	    );
+	  }
 	});
 	
-	module.exports = NewBoardForm;
+	module.exports = BoardIndexItem;
 
 /***/ },
-/* 267 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Header = __webpack_require__(268);
+	var Header = __webpack_require__(270);
 	var BoardIndex = __webpack_require__(216);
-	var SessionStore = __webpack_require__(270);
+	var SessionStore = __webpack_require__(272);
 	var ApiUtil = __webpack_require__(241);
 	
 	var App = React.createClass({
@@ -33909,13 +33979,13 @@
 	module.exports = App;
 
 /***/ },
-/* 268 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var SessionButtons = __webpack_require__(269);
-	var Search = __webpack_require__(271);
+	var SessionButtons = __webpack_require__(271);
+	var Search = __webpack_require__(273);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -33924,7 +33994,7 @@
 	
 	    return React.createElement(
 	      'header',
-	      { className: 'header' },
+	      { className: 'header group' },
 	      React.createElement(
 	        'nav',
 	        { className: 'header-nav group' },
@@ -33957,11 +34027,11 @@
 	module.exports = Header;
 
 /***/ },
-/* 269 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(270);
+	var SessionStore = __webpack_require__(272);
 	var ApiUtil = __webpack_require__(241);
 	
 	var SessionButtons = React.createClass({
@@ -34026,7 +34096,7 @@
 	module.exports = SessionButtons;
 
 /***/ },
-/* 270 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -34067,11 +34137,11 @@
 	module.exports = SessionStore;
 
 /***/ },
-/* 271 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SearchResultsStore = __webpack_require__(272);
+	var SearchResultsStore = __webpack_require__(274);
 	var ApiUtil = __webpack_require__(241);
 	
 	var Search = React.createClass({
@@ -34142,7 +34212,7 @@
 	// </nav>
 
 /***/ },
-/* 272 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -34175,7 +34245,7 @@
 	module.exports = SearchResultsStore;
 
 /***/ },
-/* 273 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34255,7 +34325,7 @@
 	        React.createElement(
 	          'h2',
 	          null,
-	          'CatTrello is a free web app for organizing projects and tasks!'
+	          'CatTrello is a gratuitously cat-themed web app for organizing projects and tasks!'
 	        ),
 	        React.createElement(
 	          'p',
@@ -34270,7 +34340,8 @@
 	      ),
 	      React.createElement(
 	        'section',
-	        { className: 'cat-logo' },
+	        { className: 'cat-logo group' },
+	        React.createElement('div', { className: 'cat-pic' }),
 	        React.createElement(
 	          'p',
 	          null,
@@ -34326,7 +34397,7 @@
 	          React.createElement(
 	            'li',
 	            null,
-	            '© Copyright 2016'
+	            '© Copyright 2016 Gratuitously Cat-Themed Web Apps, Inc.'
 	          )
 	        )
 	      )
@@ -34338,12 +34409,13 @@
 	module.exports = LogInForm;
 
 /***/ },
-/* 274 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListIndex = __webpack_require__(275);
+	var ListIndex = __webpack_require__(277);
 	var BoardStore = __webpack_require__(217);
+	var Header = __webpack_require__(270);
 	
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
@@ -34379,24 +34451,33 @@
 	
 	  render: function () {
 	    return React.createElement(
-	      'ul',
+	      'div',
 	      { className: 'board-detail' },
 	      React.createElement(
-	        'li',
+	        'header',
 	        null,
-	        React.createElement(
-	          'h1',
-	          null,
-	          this.state.board.title
-	        )
+	        React.createElement(Header, null)
 	      ),
 	      React.createElement(
-	        'li',
+	        'ul',
 	        null,
 	        React.createElement(
-	          'h2',
+	          'li',
 	          null,
-	          this.state.board.description
+	          React.createElement(
+	            'h1',
+	            null,
+	            this.state.board.title
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'h2',
+	            null,
+	            this.state.board.description
+	          )
 	        )
 	      )
 	    );
@@ -34406,12 +34487,12 @@
 	module.exports = BoardDetail;
 
 /***/ },
-/* 275 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListStore = __webpack_require__(276);
-	var ListActions = __webpack_require__(278);
+	var ListStore = __webpack_require__(278);
+	var ListActions = __webpack_require__(280);
 	var ApiUtil = __webpack_require__(241);
 	
 	var ListIndex = React.createClass({
@@ -34470,12 +34551,12 @@
 	module.exports = ListIndex;
 
 /***/ },
-/* 276 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
 	var Dispatcher = __webpack_require__(236);
-	var ListConstants = __webpack_require__(277);
+	var ListConstants = __webpack_require__(279);
 	
 	var ListStore = new Store(Dispatcher);
 	var _lists = [];
@@ -34501,7 +34582,7 @@
 	module.exports = ListStore;
 
 /***/ },
-/* 277 */
+/* 279 */
 /***/ function(module, exports) {
 
 	var ListConstants = {
@@ -34511,10 +34592,10 @@
 	module.exports = ListConstants;
 
 /***/ },
-/* 278 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ListConstants = __webpack_require__(277);
+	var ListConstants = __webpack_require__(279);
 	var Dispatcher = __webpack_require__(236);
 	
 	var ListActions = {
@@ -34529,76 +34610,6 @@
 	};
 	
 	module.exports = ListActions;
-
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var BoardStore = __webpack_require__(217);
-	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(246);
-	var NewBoardForm = __webpack_require__(266);
-	
-	var NewBoardButton = React.createClass({
-	  displayName: 'NewBoardButton',
-	
-	
-	  getInitialState: function () {
-	    return { modalOpen: false };
-	  },
-	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { onClick: this.openModal },
-	      React.createElement(
-	        Modal,
-	        { isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal },
-	        NewBoardForm
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = NewBoardButton;
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(159).Link;
-	
-	var BoardIndexItem = React.createClass({
-	  displayName: 'BoardIndexItem',
-	
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'li',
-	      null,
-	      React.createElement(
-	        Link,
-	        { to: "/boards/" + this.props.board.id },
-	        this.props.board.title
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = BoardIndexItem;
 
 /***/ }
 /******/ ]);

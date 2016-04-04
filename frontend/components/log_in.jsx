@@ -48,11 +48,13 @@ var LogInForm = React.createClass({
         </section>
         <section className="info-page group">
           <h1>CatTrello</h1>
-          <h2>CatTrello is a free web app for organizing projects and tasks!</h2>
+          <h2>CatTrello is a gratuitously cat-themed web app for organizing projects and tasks!</h2>
           <p>Because cats are widely known for their organizational skills.  Obviously.</p>
           <button>Sign up! (Meow.)</button>
         </section>
-        <section className="cat-logo"><p>Here, have a random picture of a cat.</p>
+        <section className="cat-logo group">
+          <div className="cat-pic"></div>
+          <p>Here, have a random picture of a cat.</p>
         </section>
 
         <footer group>
@@ -65,7 +67,7 @@ var LogInForm = React.createClass({
             <li>About</li>
             <li>Help</li>
             <li>Legal</li>
-            <li>© Copyright 2016</li>
+            <li>© Copyright 2016 Gratuitously Cat-Themed Web Apps, Inc.</li>
           </ul>
 
         </footer>

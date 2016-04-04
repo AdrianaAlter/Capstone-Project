@@ -63,6 +63,38 @@ p {
 }
 
 
+
+
+
+.board-detail {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: #b04632;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.board-detail > ul {
+  display: block;
+  padding: 0 8px;
+}
+
+// .board-detail .header-overlay {
+//   display: block;
+//   background: #b04632;
+//   width: 100%;
+//   height: 30px;
+//   padding: 5px;
+//   z-index: 1;
+//   margin: auto;
+// }
+
+.board-detail header {
+  background: rgba(0, 0, 0, 0.14902);
+}
 //
 //
 
