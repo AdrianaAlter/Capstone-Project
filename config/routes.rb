@@ -11,4 +11,5 @@ Rails.application.routes.draw do
     end
 	end
    get "auth/facebook/callback", to: "omniauth#facebook"
+   get "*any", via: :all, to: "errors#not_found"
 end
