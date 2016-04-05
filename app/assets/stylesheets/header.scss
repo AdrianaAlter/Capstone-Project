@@ -102,6 +102,7 @@
   width: 950px;
   position: relative;
   font-family: cursive;
+
   font-weight: bold;
   text-align: center;
   background: #e4f0f6;
@@ -132,5 +133,17 @@
   position: absolute;
   top: 80%;
   left: 50%;
+  line-height: 80px;
+  transform: translateX(-50%);
+}
+
+.surprise > h3 {
+  display: block;
+  font-size: 14px;
+  color: #026AA7;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  line-height: 80px;
   transform: translateX(-50%);
 }

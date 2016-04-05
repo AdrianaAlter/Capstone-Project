@@ -46,7 +46,6 @@ ApiUtil = {
 			type: "GET",
 			dataType: "json",
     	success: function (lists) {
-        console.log(lists);
         ListActions.receiveAllLists(lists);
 			},
 			error: function () {
@@ -71,6 +70,22 @@ ApiUtil = {
         console.log("Error in ApiUtil createNewBoard function");
 			}
 		});
+  },
+
+  createNewList: function (list, boardId, callback) {
+
+      $.ajax({
+        url: "api/boards/" + boardId + "/lists",
+        type: "POST",
+        data: { list: list },
+        success: function (list) {
+          ListActions.receiveSingleList(list);
+          callback && callback(list.id);
+        },
+        error: function () {
+          console.log("Error in ApiUtil createNewList function");
+        }
+      });
   },
 
   deleteBoard: function (id) {

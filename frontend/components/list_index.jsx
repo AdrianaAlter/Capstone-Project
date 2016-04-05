@@ -2,6 +2,7 @@ var React = require('react');
 var ListStore = require('../store/list_store.js');
 var ListActions = require('../actions/list_actions.js');
 var ListIndexItem = require('./list_index_item.jsx');
+var NewListButton = require('./new_list_button.jsx');
 
 var ApiUtil = require('../util/api_util.js');
 
@@ -59,8 +60,8 @@ var ListIndex = React.createClass({
         return (
           <ul className="list-index">
               {listItems}
-              <li><button className="new-list-button">Add a list...</button></li>
-    				</ul>
+              <NewListButton boardId={this.props.boardId}/>
+    			</ul>
     	  );
     }
 

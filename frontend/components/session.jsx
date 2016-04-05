@@ -46,9 +46,10 @@ var SessionButtons = React.createClass ({
 
 	render: function () {
     var surprise = <section className="surprise">
-      <h1>Congratulations, you have discovered the extra-special bonus content!</h1>
+      <h1>Congratulations, you have discovered the extra-special bonus content!!!!!</h1>
       <div className="surprise-pic"></div>
-      <h2>It's a cat.</h2>
+      <h2>(It's a cat.)</h2>
+      <h3>(Meow.)</h3>
     </section>;
 
     var styles = {

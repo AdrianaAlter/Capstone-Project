@@ -2,7 +2,7 @@ class Api::ListsController < ApplicationController
 
 	def index
     @lists = List.where(board_id: current_board_id)
-    
+
     render :index
 	end
 
@@ -12,10 +12,9 @@ class Api::ListsController < ApplicationController
 
 	def create
 		@list = List.new(list_params)
-    @list.author_id = current_user.id
-		@list.board_id = current_board_id
+  	@list.board_id = current_board_id
     if @list.save
-      redirect_to api_lists_url
+      render json: @list
     else
       render :new
     end

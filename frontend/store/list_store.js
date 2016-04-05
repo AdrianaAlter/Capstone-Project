@@ -13,11 +13,18 @@ ListStore.reset = function (lists) {
   _lists = lists;
 };
 
+ListStore.resetSingleList = function (list) {
+  _lists = [];
+  _lists.push(list);
+};
+
 ListStore.find = function (id) {
   for (var i = 0; i < _lists.length; i++) {
     if (_lists[i].id === id) { return _lists[i]; }
   }
 };
+
+
 
 ListStore.__onDispatch = function (payload) {
 
@@ -28,8 +35,11 @@ ListStore.__onDispatch = function (payload) {
       ListStore.__emitChange();
 
       break;
+    case ListConstants.SINGLE_LIST_RECEIVED:
+      ListStore.resetSingleList(payload.list);
+      ListStore.__emitChange();
+      break;
   }
-
 
 };
 

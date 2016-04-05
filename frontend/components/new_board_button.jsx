@@ -26,9 +26,7 @@ var NewBoardButton = React.createClass({
       <li className="new-board-button" onClick={this.openModal}>
         <Modal className="modal" isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}
-          style={styles}
-          theme="modal-theme"
-          >
+          style={styles}>
           <NewBoardForm closeModal={this.closeModal}/>
         </Modal>
     </li>

@@ -8,10 +8,15 @@ var ListActions = {
 		 Dispatcher.dispatch({
 			 actionType: ListConstants.ALL_LISTS_RECEIVED,
 			 lists: lists
-
 		 });
-   }
+   },
 
+   receiveSingleList: function (list) {
+     Dispatcher.dispatch({
+       actionType: ListConstants.SINGLE_LIST_RECEIVED,
+       list: list
+     });
+   }
 
 };
 

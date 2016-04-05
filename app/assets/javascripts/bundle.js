@@ -31731,7 +31731,6 @@
 	      type: "GET",
 	      dataType: "json",
 	      success: function (lists) {
-	        console.log(lists);
 	        ListActions.receiveAllLists(lists);
 	      },
 	      error: function () {
@@ -31753,6 +31752,22 @@
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil createNewBoard function");
+	      }
+	    });
+	  },
+	
+	  createNewList: function (list, boardId, callback) {
+	
+	    $.ajax({
+	      url: "api/boards/" + boardId + "/lists",
+	      type: "POST",
+	      data: { list: list },
+	      success: function (list) {
+	        ListActions.receiveSingleList(list);
+	        callback && callback(list.id);
+	      },
+	      error: function () {
+	        console.log("Error in ApiUtil createNewList function");
 	      }
 	    });
 	  },
@@ -31917,14 +31932,20 @@
 	
 	var ListActions = {
 	
-		receiveAllLists: function (lists) {
+	  receiveAllLists: function (lists) {
 	
-			Dispatcher.dispatch({
-				actionType: ListConstants.ALL_LISTS_RECEIVED,
-				lists: lists
+	    Dispatcher.dispatch({
+	      actionType: ListConstants.ALL_LISTS_RECEIVED,
+	      lists: lists
+	    });
+	  },
 	
-			});
-		}
+	  receiveSingleList: function (list) {
+	    Dispatcher.dispatch({
+	      actionType: ListConstants.SINGLE_LIST_RECEIVED,
+	      list: list
+	    });
+	  }
 	
 	};
 	
@@ -31935,7 +31956,8 @@
 /***/ function(module, exports) {
 
 	var ListConstants = {
-		ALL_LISTS_RECEIVED: "ALL_LISTS_RECEIVED"
+	  ALL_LISTS_RECEIVED: "ALL_LISTS_RECEIVED",
+	  SINGLE_LIST_RECEIVED: "SINGLE_LIST_RECEIVED"
 	};
 	
 	module.exports = ListConstants;
@@ -32039,9 +32061,7 @@
 	        Modal,
 	        { className: 'modal', isOpen: this.state.modalOpen,
 	          onRequestClose: this.closeModal,
-	          style: styles,
-	          theme: 'modal-theme'
-	        },
+	          style: styles },
 	        React.createElement(NewBoardForm, { closeModal: this.closeModal })
 	      )
 	    );
@@ -34177,13 +34197,18 @@
 	      React.createElement(
 	        'h1',
 	        null,
-	        'Congratulations, you have discovered the extra-special bonus content!'
+	        'Congratulations, you have discovered the extra-special bonus content!!!!!'
 	      ),
 	      React.createElement('div', { className: 'surprise-pic' }),
 	      React.createElement(
 	        'h2',
 	        null,
-	        'It\'s a cat.'
+	        '(It\'s a cat.)'
+	      ),
+	      React.createElement(
+	        'h3',
+	        null,
+	        '(Meow.)'
 	      )
 	    );
 	
@@ -34651,6 +34676,7 @@
 	var ListStore = __webpack_require__(280);
 	var ListActions = __webpack_require__(246);
 	var ListIndexItem = __webpack_require__(281);
+	var NewListButton = __webpack_require__(283);
 	
 	var ApiUtil = __webpack_require__(241);
 	
@@ -34710,15 +34736,7 @@
 	      'ul',
 	      { className: 'list-index' },
 	      listItems,
-	      React.createElement(
-	        'li',
-	        null,
-	        React.createElement(
-	          'button',
-	          { className: 'new-list-button' },
-	          'Add a list...'
-	        )
-	      )
+	      React.createElement(NewListButton, { boardId: this.props.boardId })
 	    );
 	  }
 	
@@ -34745,6 +34763,11 @@
 	  _lists = lists;
 	};
 	
+	ListStore.resetSingleList = function (list) {
+	  _lists = [];
+	  _lists.push(list);
+	};
+	
 	ListStore.find = function (id) {
 	  for (var i = 0; i < _lists.length; i++) {
 	    if (_lists[i].id === id) {
@@ -34761,6 +34784,10 @@
 	      ListStore.reset(payload.lists);
 	      ListStore.__emitChange();
 	
+	      break;
+	    case ListConstants.SINGLE_LIST_RECEIVED:
+	      ListStore.resetSingleList(payload.list);
+	      ListStore.__emitChange();
 	      break;
 	  }
 	};
@@ -34787,6 +34814,111 @@
 	});
 	
 	module.exports = ListIndexItem;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ListActions = __webpack_require__(246);
+	
+	var NewListForm = React.createClass({
+		displayName: 'NewListForm',
+	
+	
+		getInitialState: function () {
+			return { title: "" };
+		},
+	
+		createNewList: function (e) {
+			e.preventDefault();
+			var list = {};
+			list.title = this.state.title;
+	
+			ApiUtil.createNewList(list, this.props.boardId);
+			this.setState({ title: "" });
+			this.props.closeModal();
+		},
+	
+		updateTitle: function (e) {
+			var newTitle = e.currentTarget.value;
+			this.setState({ title: newTitle });
+		},
+	
+		render: function () {
+	
+			return React.createElement(
+				'form',
+				{ className: 'new-list-form' },
+				React.createElement(
+					'h1',
+					null,
+					'Create List'
+				),
+				React.createElement(
+					'h2',
+					null,
+					'Title'
+				),
+				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
+				React.createElement(
+					'button',
+					{ onClick: this.createNewList },
+					'Create'
+				)
+			);
+		}
+	
+	});
+	
+	module.exports = NewListForm;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ListStore = __webpack_require__(280);
+	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(250);
+	var NewListForm = __webpack_require__(282);
+	
+	var NewListButton = React.createClass({
+	  displayName: 'NewListButton',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  render: function () {
+	    var styles = {
+	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
+	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
+	    };
+	
+	    return React.createElement(
+	      'li',
+	      { className: 'new-list-button', onClick: this.openModal },
+	      'Add a list...',
+	      React.createElement(
+	        Modal,
+	        { className: 'modal', isOpen: this.state.modalOpen, onRequestClose: this.closeModal, style: styles },
+	        React.createElement(NewListForm, { closeModal: this.closeModal, boardId: this.props.boardId })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NewListButton;
 
 /***/ }
 /******/ ]);
