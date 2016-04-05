@@ -31740,6 +31740,21 @@
 	    });
 	  },
 	
+	  fetchAllCards: function (boardId, listId) {
+	    $.ajax({
+	      url: "api/boards/" + boardId + "/lists/" + listId,
+	      type: "GET",
+	      dataType: "json",
+	      success: function (cards) {
+	        CardActions.receiveAllCards(cards);
+	      },
+	      error: function () {
+	        console.log('Error in ApiUtil fetch all cards function');
+	      }
+	
+	    });
+	  },
+	
 	  createNewBoard: function (board, callback) {
 	
 	    $.ajax({
@@ -31768,6 +31783,22 @@
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil createNewList function");
+	      }
+	    });
+	  },
+	
+	  createNewCard: function (card, boardId, listId, callback) {
+	
+	    $.ajax({
+	      url: "api/boards/" + boardId + "/lists/" + listId,
+	      type: "POST",
+	      data: { card: card },
+	      success: function (card) {
+	        CardActions.receiveSingleCard(card);
+	        callback && callback(card.id);
+	      },
+	      error: function () {
+	        console.log("Error in ApiUtil createNewCard function");
 	      }
 	    });
 	  },
