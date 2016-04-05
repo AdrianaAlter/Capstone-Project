@@ -14,7 +14,7 @@ BoardStore.resetBoards = function (boards) {
 };
 //
 BoardStore.resetBoard = function (board) {
-  // _boards = [];
+  _boards = [];
   _boards.push(board);
 };
 //

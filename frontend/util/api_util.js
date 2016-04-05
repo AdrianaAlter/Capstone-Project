@@ -41,12 +41,12 @@ ApiUtil = {
   },
 
 	fetchAllLists: function (board) {
-
 		$.ajax({
 			url: "api/boards/" + board + "/lists",
 			type: "GET",
 			dataType: "json",
     	success: function (lists) {
+        console.log(lists);
         ListActions.receiveAllLists(lists);
 			},
 			error: function () {

@@ -10,7 +10,8 @@ var BoardDetail = React.createClass({
 	},
 
   getInitialState: function () {
-    return { board: this.getStateFromStore(), mounted: false, deleted: false };
+
+    return { board: this.getStateFromStore(), deleted: false };
   },
 
   getStateFromStore: function () {
@@ -18,25 +19,32 @@ var BoardDetail = React.createClass({
     return BoardStore.find(boardId);
   },
 
+  // getLists: function () {
+  //   var boardId = parseInt(this.props.params.board_id);
+  //   return ApiUtil.fetchAllLists(boardId);
+  //
+  // },
+
   componentWillReceiveProps: function (newProps) {
-    this.listener = BoardStore.addListener(this.setNewState);
+    this.listener2 = BoardStore.addListener(this.setNewState);
     ApiUtil.fetchSingleBoard(newProps.params.board_id);
   },
   //
   setNewState: function () {
-    if (this.state.mounted === true) {
+    // if (this.state.mounted === true) {
       this.setState( { board: this.getStateFromStore() });
-    }
+    // }
   },
   //
   componentDidMount: function () {
     this.listener = BoardStore.addListener(this.setNewState);
     ApiUtil.fetchSingleBoard(this.props.params.board_id);
-    this.setState({ mounted: true });
+    // this.setState({ mounted: true });
   },
   //
   componentWillUnmount: function () {
-    this.listener.remove();
+    if (this.listener) {this.listener.remove();}
+    if (this.listener2) {this.listener2.remove();}
   },
 
   deleteBoard: function () {
@@ -52,37 +60,28 @@ var BoardDetail = React.createClass({
       );
     }
 
-    // if (this.state.board && !this.state.board.lists) {
-    //   return(
-    //     <section className="board-detail">
-    //       <header className="detail-header"></header>
-    //       <div></div>
-    //     </section>
-    //   );
-    // }
 
-    else {
-// debugger
-      var listItems = this.state.board.lists.map (function (list) {
-        return (<li className="list-item" key={list.id} list={list}>{list.title}</li>);
-      });
 
       return (
-          <section className="board-detail group">
-            <header className="detail-header"></header>
-            <h1>{this.state.board.title}</h1>
-            <ul className="list-index group">
-              {listItems}
-            <li><button className="new-list-button">Add a list...</button></li>
-          </ul>
-          <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button>
-          </section>
-      );
-    }
-  }
+            <section className="board-detail group">
+              <header className="detail-header"></header>
+              <h1>{this.state.board.title}</h1>
+              <ul className="list-index group">
+                <ListIndex boardId={this.props.params.board_id} />
+              </ul>
+              <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button>
 
+            </section>
+          );
+    }
 
 });
+
+
+// listItems = this.state.board.lists.map(function (list) {
+//   return (<li className="list-item" key={list.id} list={list}>{list.title}</li>);
+// });
+
 
 
 module.exports = BoardDetail;

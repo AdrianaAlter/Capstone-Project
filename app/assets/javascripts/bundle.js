@@ -24857,7 +24857,7 @@
 	};
 	//
 	BoardStore.resetBoard = function (board) {
-	  // _boards = [];
+	  _boards = [];
 	  _boards.push(board);
 	};
 	//
@@ -31726,12 +31726,12 @@
 	  },
 	
 	  fetchAllLists: function (board) {
-	
 	    $.ajax({
 	      url: "api/boards/" + board + "/lists",
 	      type: "GET",
 	      dataType: "json",
 	      success: function (lists) {
+	        console.log(lists);
 	        ListActions.receiveAllLists(lists);
 	      },
 	      error: function () {
@@ -34011,7 +34011,18 @@
 	  displayName: 'BoardIndexItem',
 	
 	
+	  // getInitialState: function () {
+	  //     return { lists: [] };
+	  // },
+	  //
+	  // getLists: function () {
+	  //   var fetchedLists = ApiUtil.fetchAllLists(this.props.board.id);
+	  //   this.setState({ lists: fetchedLists });
+	  //
+	  // },
+	
 	  render: function () {
+	    // var listStatus = this.state.lists ? "full" : "empty";
 	
 	    return React.createElement(
 	      'li',
@@ -34550,7 +34561,8 @@
 	  },
 	
 	  getInitialState: function () {
-	    return { board: this.getStateFromStore(), mounted: false, deleted: false };
+	
+	    return { board: this.getStateFromStore(), deleted: false };
 	  },
 	
 	  getStateFromStore: function () {
@@ -34558,25 +34570,36 @@
 	    return BoardStore.find(boardId);
 	  },
 	
+	  // getLists: function () {
+	  //   var boardId = parseInt(this.props.params.board_id);
+	  //   return ApiUtil.fetchAllLists(boardId);
+	  //
+	  // },
+	
 	  componentWillReceiveProps: function (newProps) {
-	    this.listener = BoardStore.addListener(this.setNewState);
+	    this.listener2 = BoardStore.addListener(this.setNewState);
 	    ApiUtil.fetchSingleBoard(newProps.params.board_id);
 	  },
 	  //
 	  setNewState: function () {
-	    if (this.state.mounted === true) {
-	      this.setState({ board: this.getStateFromStore() });
-	    }
+	    // if (this.state.mounted === true) {
+	    this.setState({ board: this.getStateFromStore() });
+	    // }
 	  },
 	  //
 	  componentDidMount: function () {
 	    this.listener = BoardStore.addListener(this.setNewState);
 	    ApiUtil.fetchSingleBoard(this.props.params.board_id);
-	    this.setState({ mounted: true });
+	    // this.setState({ mounted: true });
 	  },
 	  //
 	  componentWillUnmount: function () {
-	    this.listener.remove();
+	    if (this.listener) {
+	      this.listener.remove();
+	    }
+	    if (this.listener2) {
+	      this.listener2.remove();
+	    }
 	  },
 	
 	  deleteBoard: function () {
@@ -34589,58 +34612,33 @@
 	      return React.createElement('div', null);
 	    }
 	
-	    // if (this.state.board && !this.state.board.lists) {
-	    //   return(
-	    //     <section className="board-detail">
-	    //       <header className="detail-header"></header>
-	    //       <div></div>
-	    //     </section>
-	    //   );
-	    // }
-	
-	    else {
-	        // debugger
-	        var listItems = this.state.board.lists.map(function (list) {
-	          return React.createElement(
-	            'li',
-	            { className: 'list-item', key: list.id, list: list },
-	            list.title
-	          );
-	        });
-	
-	        return React.createElement(
-	          'section',
-	          { className: 'board-detail group' },
-	          React.createElement('header', { className: 'detail-header' }),
-	          React.createElement(
-	            'h1',
-	            null,
-	            this.state.board.title
-	          ),
-	          React.createElement(
-	            'ul',
-	            { className: 'list-index group' },
-	            listItems,
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'button',
-	                { className: 'new-list-button' },
-	                'Add a list...'
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'button',
-	            { className: 'delete-board-button', onClick: this.deleteBoard },
-	            'Delete this board...'
-	          )
-	        );
-	      }
+	    return React.createElement(
+	      'section',
+	      { className: 'board-detail group' },
+	      React.createElement('header', { className: 'detail-header' }),
+	      React.createElement(
+	        'h1',
+	        null,
+	        this.state.board.title
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'list-index group' },
+	        React.createElement(ListIndex, { boardId: this.props.params.board_id })
+	      ),
+	      React.createElement(
+	        'button',
+	        { className: 'delete-board-button', onClick: this.deleteBoard },
+	        'Delete this board...'
+	      )
+	    );
 	  }
 	
 	});
+	
+	// listItems = this.state.board.lists.map(function (list) {
+	//   return (<li className="list-item" key={list.id} list={list}>{list.title}</li>);
+	// });
 	
 	module.exports = BoardDetail;
 	// <ListIndex board={this.props.params.board_id} />
@@ -34659,49 +34657,69 @@
 	var ListIndex = React.createClass({
 	  displayName: 'ListIndex',
 	
-	  getInitialState: function () {
 	
-	    return { lists: ListStore.all() };
+	  getInitialState: function () {
+	    return { lists: this.getStateFromStore() };
 	  },
 	
+	  getStateFromStore: function () {
+	    return ListStore.all();
+	  },
+	
+	  // componentWillReceiveProps: function (newProps) {
+	  //   this.listener = ListStore.addListener(this.setNewState);
+	  //   ApiUtil.fetchSingleList(newProps.params.list_id);
+	  // },
+	  //
+	  setNewState: function () {
+	
+	    this.setState({ lists: this.getStateFromStore() });
+	  },
+	  //
 	  componentDidMount: function () {
 	
 	    this.listener = ListStore.addListener(this.setNewState);
-	    ApiUtil.fetchAllLists(this.props.board);
-	  },
 	
+	    ApiUtil.fetchAllLists(this.props.boardId);
+	    // this.setState({ mounted: true });
+	  },
+	  //
 	  componentWillUnmount: function () {
 	    this.listener.remove();
 	  },
-	
-	  _onChange: function () {
-	    this.setState({ lists: ListStore.all() });
-	  },
+	  //
+	  // componentDidMount: function () {
+	  //   this.listener = ListStore.addListener(this._onChange);
+	  //   ApiUtil.fetchAllLists(this.props.boardId);
+	  // },
+	  //
+	  // componentWillUnmount: function () {
+	  //   this.listener.remove();
+	  // },
+	  //
+	  // _onChange: function () {
+	  //   this.setState({ lists: ListStore.all() });
+	  // },
 	
 	  render: function () {
-	    return React.createElement('div', null);
-	    // if (!this.state.lists) {
-	    //   return (
-	    //     <div></div>
-	    //   );
-	    // }
-	    //
-	    // else {
-	    //   var listItems = [];
-	    //   for (var i = 0; i < this.state.lists.length; i++) {
-	    //     var list = this.state.lists[i];
-	    //     listItems.push(<ListIndexItem key={list.id}	list={list}/>);
-	    //   }
-	    //
-	    //   return (
-	    //     <div className="list-index group">
-	    //       <ul className="list-items">
-	    //         {listItems}
-	    //         <li><button className="new-list-button">Add a list...</button></li>
-	    // 			</ul>
-	    // 		</div>
-	    //   );
-	    // }
+	    var listItems = this.state.lists.map(function (list) {
+	      return React.createElement(ListIndexItem, { key: list.id, list: list });
+	    });
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'list-index' },
+	      listItems,
+	      React.createElement(
+	        'li',
+	        null,
+	        React.createElement(
+	          'button',
+	          { className: 'new-list-button' },
+	          'Add a list...'
+	        )
+	      )
+	    );
 	  }
 	
 	});
@@ -34720,7 +34738,7 @@
 	var _lists = [];
 	
 	ListStore.all = function () {
-	  return _lists.slice;
+	  return _lists.slice();
 	};
 	
 	ListStore.reset = function (lists) {
@@ -34733,10 +34751,13 @@
 	      return _lists[i];
 	    }
 	  }
-	}, ListStore.__onDispatch = function (payload) {
+	};
+	
+	ListStore.__onDispatch = function (payload) {
 	
 	  switch (payload.actionType) {
 	    case ListConstants.ALL_LISTS_RECEIVED:
+	
 	      ListStore.reset(payload.lists);
 	      ListStore.__emitChange();
 	
@@ -34757,7 +34778,6 @@
 	
 	
 	  render: function () {
-	
 	    return React.createElement(
 	      "li",
 	      { className: "list-index-item" },
