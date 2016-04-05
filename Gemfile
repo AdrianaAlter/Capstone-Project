@@ -30,6 +30,7 @@ gem 'kaminari'
 gem 'figaro'
 gem 'omniauth-facebook'
 
+gem 'faker'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -39,7 +40,6 @@ gem 'omniauth-facebook'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'faker'
 end
 
 group :development do
