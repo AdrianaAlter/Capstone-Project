@@ -45,7 +45,15 @@ var SessionButtons = React.createClass ({
 	},
 
 	render: function () {
-    var surprise = <section className="surprise">testing</section>;
+    var surprise = <section className="surprise">
+      <h1>Congratulations, you have discovered the extra-special bonus content!</h1>
+      <div className="surprise-pic"></div>
+      <h2>It's a cat.</h2>
+    </section>;
+
+    var styles = {
+      content: {backgroundColor: "#e4f0f6"}
+    };
 		var logout;
     var loggedInAs;
     if (this.state.currentUser) {
@@ -57,7 +65,8 @@ var SessionButtons = React.createClass ({
 				</li>;
       loggedInAs = <li className="user-name" onClick={this.openModal}>{this.state.currentUser.user_name}
         <Modal className="modal" isOpen={this.state.modalOpen}
-          onRequestClose={this.closeModal}>
+          onRequestClose={this.closeModal}
+          style={styles}>
           {surprise}
         </Modal>
       </li>;

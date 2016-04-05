@@ -34117,84 +34117,99 @@
 	var Modal = __webpack_require__(250);
 	
 	var SessionButtons = React.createClass({
-		displayName: 'SessionButtons',
+	  displayName: 'SessionButtons',
 	
 	
-		contextTypes: {
-			router: React.PropTypes.object.isRequired
-		},
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	
-		getInitialState: function () {
-			return {
-				currentUser: null,
-				modalOpen: false
-			};
-		},
+	  getInitialState: function () {
+	    return {
+	      currentUser: null,
+	      modalOpen: false
+	    };
+	  },
 	
-		openModal: function () {
-			this.setState({ modalOpen: true });
-		},
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
 	
-		closeModal: function () {
-			this.setState({ modalOpen: false });
-		},
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
 	
-		logOut: function () {
-			ApiUtil.logOut();
-			this.context.router.push("/login");
-		},
+	  logOut: function () {
+	    ApiUtil.logOut();
+	    this.context.router.push("/login");
+	  },
 	
-		componentDidMount: function () {
-			this.sessionStoreToken = SessionStore.addListener(this.handleChange);
-			this.handleChange();
-		},
+	  componentDidMount: function () {
+	    this.sessionStoreToken = SessionStore.addListener(this.handleChange);
+	    this.handleChange();
+	  },
 	
-		componentWillUnmount: function () {
-			this.sessionStoreToken.remove();
-		},
+	  componentWillUnmount: function () {
+	    this.sessionStoreToken.remove();
+	  },
 	
-		handleChange: function () {
-			if (SessionStore.isLoggedIn()) {
-				this.setState({ currentUser: SessionStore.currentUser() });
-			}
-		},
+	  handleChange: function () {
+	    if (SessionStore.isLoggedIn()) {
+	      this.setState({ currentUser: SessionStore.currentUser() });
+	    }
+	  },
 	
-		render: function () {
-			var surprise = React.createElement(
-				'section',
-				{ className: 'surprise' },
-				'testing'
-			);
-			var logout;
-			var loggedInAs;
-			if (this.state.currentUser) {
-				logout = React.createElement(
-					'li',
-					{
-						className: 'logout-button',
-						onClick: this.logOut },
-					'Logout'
-				);
-				loggedInAs = React.createElement(
-					'li',
-					{ className: 'user-name', onClick: this.openModal },
-					this.state.currentUser.user_name,
-					React.createElement(
-						Modal,
-						{ className: 'modal', isOpen: this.state.modalOpen,
-							onRequestClose: this.closeModal },
-						surprise
-					)
-				);
-			}
+	  render: function () {
+	    var surprise = React.createElement(
+	      'section',
+	      { className: 'surprise' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Congratulations, you have discovered the extra-special bonus content!'
+	      ),
+	      React.createElement('div', { className: 'surprise-pic' }),
+	      React.createElement(
+	        'h2',
+	        null,
+	        'It\'s a cat.'
+	      )
+	    );
 	
-			return React.createElement(
-				'ul',
-				{ className: 'session-buttons group' },
-				loggedInAs,
-				logout
-			);
-		}
+	    var styles = {
+	      content: { backgroundColor: "#e4f0f6" }
+	    };
+	    var logout;
+	    var loggedInAs;
+	    if (this.state.currentUser) {
+	      logout = React.createElement(
+	        'li',
+	        {
+	          className: 'logout-button',
+	          onClick: this.logOut },
+	        'Logout'
+	      );
+	      loggedInAs = React.createElement(
+	        'li',
+	        { className: 'user-name', onClick: this.openModal },
+	        this.state.currentUser.user_name,
+	        React.createElement(
+	          Modal,
+	          { className: 'modal', isOpen: this.state.modalOpen,
+	            onRequestClose: this.closeModal,
+	            style: styles },
+	          surprise
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'session-buttons group' },
+	      loggedInAs,
+	      logout
+	    );
+	  }
 	});
 	
 	module.exports = SessionButtons;
@@ -34584,14 +34599,18 @@
 	    // }
 	
 	    else {
-	
-	        // var listItems = this.state.board.lists.map (function (list) {
-	        //   return (<li key={list.id} list={list}/>);
-	        // });
+	        // debugger
+	        var listItems = this.state.board.lists.map(function (list) {
+	          return React.createElement(
+	            'li',
+	            { className: 'list-item', key: list.id, list: list },
+	            list.title
+	          );
+	        });
 	
 	        return React.createElement(
 	          'section',
-	          { className: 'board-detail' },
+	          { className: 'board-detail group' },
 	          React.createElement('header', { className: 'detail-header' }),
 	          React.createElement(
 	            'h1',
@@ -34599,9 +34618,18 @@
 	            this.state.board.title
 	          ),
 	          React.createElement(
-	            'button',
-	            { className: 'new-list-button' },
-	            'Add a list...'
+	            'ul',
+	            { className: 'list-index group' },
+	            listItems,
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'button',
+	                { className: 'new-list-button' },
+	                'Add a list...'
+	              )
+	            )
 	          ),
 	          React.createElement(
 	            'button',

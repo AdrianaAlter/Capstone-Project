@@ -62,18 +62,20 @@ var BoardDetail = React.createClass({
     // }
 
     else {
-
-      // var listItems = this.state.board.lists.map (function (list) {
-      //   return (<li key={list.id} list={list}/>);
-      // });
+// debugger
+      var listItems = this.state.board.lists.map (function (list) {
+        return (<li className="list-item" key={list.id} list={list}>{list.title}</li>);
+      });
 
       return (
-          <section className="board-detail">
+          <section className="board-detail group">
             <header className="detail-header"></header>
             <h1>{this.state.board.title}</h1>
-
-            <button className="new-list-button">Add a list...</button>
-            <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button>
+            <ul className="list-index group">
+              {listItems}
+            <li><button className="new-list-button">Add a list...</button></li>
+          </ul>
+          <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button>
           </section>
       );
     }
