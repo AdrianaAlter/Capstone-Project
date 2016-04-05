@@ -8,5 +8,11 @@ class List < ActiveRecord::Base
 		foreign_key: :board_id
 	)
 
+  has_many(
+    :cards,
+    class_name: "Card",
+    primary_key: :id,
+    foreign_key: :list_id
+  )
 
 end
