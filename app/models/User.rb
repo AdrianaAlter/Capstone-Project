@@ -33,9 +33,23 @@ class User < ActiveRecord::Base
     (user && user.is_password?(password)) ? user : nil
 	end
 
-  def self.find_by_email(email, password)
-    user = User.find_by(email: email)
-    (user && user.is_password?(password)) ? user : nil
+  # def self.find_by_email(email, password)
+  #   user = User.find_by(email: email)
+  #   (user && user.is_password?(password)) ? user : nil
+  # end
+  def self.find_or_create_by_auth_hash(auth_hash)
+    provider = auth_hash[:provider]
+    uid = auth_hash[:uid]
+
+
+    user = User.find_by(provider: provider, uid: uid)
+    return user if user
+
+    User.create(
+    provider: provider,
+    uid: uid,
+    user_name: auth_hash[:extra][:raw_info][:name]
+    )
   end
 
   def password=(password)
@@ -53,20 +67,6 @@ class User < ActiveRecord::Base
     self.session_token
   end
 
-  def self.find_or_create_by_auth_hash(auth_hash)
-    provider = auth_hash[:provider]
-    uid = auth_hash[:uid]
-    
-
-    user = User.find_by(provider: provider, uid: uid)
-    return user if user
-
-    User.create(
-      provider: provider,
-      uid: uid,
-      user_name: auth_hash[:extra][:raw_info][:name]
-    )
-  end
 
   private
 

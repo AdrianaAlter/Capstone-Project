@@ -13,13 +13,15 @@ board1 = Board.create(author_id: user1.id, title: "#{Faker::Hacker.noun}", descr
 board2 = Board.create(author_id: user1.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
 board3 = Board.create(author_id: user1.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
 
-board13 = Board.create(author_id: user5.id, title: "Meow", description: "meow meow meow")
-board14 = Board.create(author_id: user5.id, title: "Still meowing", description: "meow meow meow")
-board15 = Board.create(author_id: user5.id, title: "Continuing to meow", description: "meow meow meow")
+board13 = Board.create(author_id: user5.id, title: "Meow")
+board14 = Board.create(author_id: user5.id, title: "Still meowing")
+board15 = Board.create(author_id: user5.id, title: "Continuing to meow")
 
 List.destroy_all
 
-list1 = List.create(title: "Chasing mice", board_id: user5.boards.first.id)
+list1 = List.create(title: "Chasing mice", board_id: board13.id)
+list2 = List.create(title: "Hiding under the furniture", board_id: board13.id)
+list3 = List.create(title: "Purrrrrrr", board_id: board15.id)
 
 # board4 = Board.create(author_id: user2.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
 # board5 = Board.create(author_id: user2.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")

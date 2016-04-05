@@ -15,12 +15,7 @@ var BoardActions = {
       actionType: BoardConstants.SINGLE_BOARD_RECEIVED,
       board: board
     });
-  },
-
-	createNewBoard: function (board) {
-		ApiUtil.createNewBoard(data);
-	}
-
+  }
 };
 
 module.exports = BoardActions;

@@ -50,15 +50,15 @@
 	var Route = __webpack_require__(159).Route;
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var BoardIndex = __webpack_require__(216);
-	var App = __webpack_require__(269);
-	var LogInForm = __webpack_require__(275);
+	var App = __webpack_require__(271);
+	var LogInForm = __webpack_require__(277);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ApiUtil = __webpack_require__(241);
-	var SessionStore = __webpack_require__(272);
-	var NewBoardButton = __webpack_require__(247);
-	var BoardDetail = __webpack_require__(276);
+	var SessionStore = __webpack_require__(274);
+	var NewBoardButton = __webpack_require__(249);
+	var BoardDetail = __webpack_require__(278);
 	// var Search = require('./components/search.jsx');
-	var Modal = __webpack_require__(248);
+	var Modal = __webpack_require__(250);
 	
 	var routes = React.createElement(
 	  Router,
@@ -24780,10 +24780,10 @@
 	var BoardActions = __webpack_require__(240);
 	var ApiUtil = __webpack_require__(241);
 	// var Modal = require('react-modal');
-	var NewBoardForm = __webpack_require__(246);
+	var NewBoardForm = __webpack_require__(248);
 	// var Link = require('react-router').Link;
-	var NewBoardButton = __webpack_require__(247);
-	var BoardIndexItem = __webpack_require__(268);
+	var NewBoardButton = __webpack_require__(249);
+	var BoardIndexItem = __webpack_require__(270);
 	
 	var BoardIndex = React.createClass({
 	  displayName: 'BoardIndex',
@@ -31674,12 +31674,7 @@
 	      actionType: BoardConstants.SINGLE_BOARD_RECEIVED,
 	      board: board
 	    });
-	  },
-	
-	  createNewBoard: function (board) {
-	    ApiUtil.createNewBoard(data);
 	  }
-	
 	};
 	
 	module.exports = BoardActions;
@@ -31691,6 +31686,7 @@
 	var BoardActions = __webpack_require__(240);
 	var SessionActions = __webpack_require__(242);
 	var SearchResultActions = __webpack_require__(244);
+	var ListActions = __webpack_require__(246);
 	
 	ApiUtil = {
 	
@@ -31716,6 +31712,7 @@
 	      type: "GET",
 	      dataType: "json",
 	      success: function (board) {
+	
 	        BoardActions.receiveSingleBoard(board);
 	      },
 	      error: function () {
@@ -31724,9 +31721,10 @@
 	    });
 	  },
 	
-	  fetchAllLists: function (board_id) {
+	  fetchAllLists: function (board) {
+	
 	    $.ajax({
-	      url: "api/" + board_id + "/lists",
+	      url: "api/boards/" + board + "/lists",
 	      type: "GET",
 	      dataType: "json",
 	      success: function (lists) {
@@ -31739,14 +31737,15 @@
 	    });
 	  },
 	
-	  createNewBoard: function (data) {
+	  createNewBoard: function (board, callback) {
 	
 	    $.ajax({
 	      url: "api/boards",
 	      type: "POST",
-	      data: { board: data },
+	      data: { board: board },
 	      success: function (board) {
 	        BoardActions.receiveSingleBoard(board);
+	        callback && callback(board.id);
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil createNewBoard function");
@@ -31894,6 +31893,38 @@
 /* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var ListConstants = __webpack_require__(247);
+	var Dispatcher = __webpack_require__(236);
+	
+	var ListActions = {
+	
+		receiveAllLists: function (lists) {
+	
+			Dispatcher.dispatch({
+				actionType: ListConstants.ALL_LISTS_RECEIVED,
+				lists: lists
+	
+			});
+		}
+	
+	};
+	
+	module.exports = ListActions;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports) {
+
+	var ListConstants = {
+		ALL_LISTS_RECEIVED: "ALL_LISTS_RECEIVED"
+	};
+	
+	module.exports = ListConstants;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	var BoardActions = __webpack_require__(240);
 	
@@ -31905,25 +31936,23 @@
 			return { title: "" };
 		},
 	
+		createNewBoard: function (e) {
+			e.preventDefault();
+			var board = {};
+			board.title = this.state.title;
+			ApiUtil.createNewBoard(board);
+			this.setState({ title: "" });
+		},
 		// toggleDisplayed: function () {
 		// 	this.setState({ displayed: true });
 		// },
 	
 		updateTitle: function (e) {
-			var newTitle = event.currentTarget.value;
+			var newTitle = e.currentTarget.value;
 			this.setState({ title: newTitle });
 		},
 	
-		handleSubmit: function (e) {
-			event.preventDefault();
-			var data = {
-				title: this.state.title,
-				body: this.state.body
-			};
-			BoardActions.createNewBoard(data);
-			this.setState({ title: "" });
-			// this.toggleDisplayed();
-		},
+		// this.toggleDisplayed();
 	
 		render: function () {
 	
@@ -31931,7 +31960,7 @@
 	
 			return React.createElement(
 				'form',
-				{ className: 'new-board-form', onSubmit: this.handleSubmit },
+				{ className: 'new-board-form' },
 				React.createElement(
 					'h1',
 					null,
@@ -31942,10 +31971,10 @@
 					null,
 					'Title'
 				),
-				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onInput: this.updateTitle }),
+				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
 				React.createElement(
 					'button',
-					null,
+					{ onClick: this.createNewBoard },
 					'Create'
 				)
 			);
@@ -31956,14 +31985,14 @@
 	module.exports = NewBoardForm;
 
 /***/ },
-/* 247 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(248);
-	var NewBoardForm = __webpack_require__(246);
+	var Modal = __webpack_require__(250);
+	var NewBoardForm = __webpack_require__(248);
 	
 	var NewBoardButton = React.createClass({
 	  displayName: 'NewBoardButton',
@@ -32028,23 +32057,23 @@
 	module.exports = NewBoardButton;
 
 /***/ },
-/* 248 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(249);
+	module.exports = __webpack_require__(251);
 	
 
 
 /***/ },
-/* 249 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(250);
-	var ModalPortal = React.createFactory(__webpack_require__(251));
-	var ariaAppHider = __webpack_require__(266);
-	var elementClass = __webpack_require__(267);
+	var ExecutionEnvironment = __webpack_require__(252);
+	var ModalPortal = React.createFactory(__webpack_require__(253));
+	var ariaAppHider = __webpack_require__(268);
+	var elementClass = __webpack_require__(269);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32123,7 +32152,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 250 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32168,14 +32197,14 @@
 
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(252);
-	var scopeTab = __webpack_require__(254);
-	var Assign = __webpack_require__(255);
+	var focusManager = __webpack_require__(254);
+	var scopeTab = __webpack_require__(256);
+	var Assign = __webpack_require__(257);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32372,10 +32401,10 @@
 
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(253);
+	var findTabbable = __webpack_require__(255);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -32446,7 +32475,7 @@
 
 
 /***/ },
-/* 253 */
+/* 255 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32502,10 +32531,10 @@
 
 
 /***/ },
-/* 254 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(253);
+	var findTabbable = __webpack_require__(255);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -32523,7 +32552,7 @@
 
 
 /***/ },
-/* 255 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32534,9 +32563,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(256),
-	    createAssigner = __webpack_require__(262),
-	    keys = __webpack_require__(258);
+	var baseAssign = __webpack_require__(258),
+	    createAssigner = __webpack_require__(264),
+	    keys = __webpack_require__(260);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -32609,7 +32638,7 @@
 
 
 /***/ },
-/* 256 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32620,8 +32649,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(257),
-	    keys = __webpack_require__(258);
+	var baseCopy = __webpack_require__(259),
+	    keys = __webpack_require__(260);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -32642,7 +32671,7 @@
 
 
 /***/ },
-/* 257 */
+/* 259 */
 /***/ function(module, exports) {
 
 	/**
@@ -32680,7 +32709,7 @@
 
 
 /***/ },
-/* 258 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32691,9 +32720,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(259),
-	    isArguments = __webpack_require__(260),
-	    isArray = __webpack_require__(261);
+	var getNative = __webpack_require__(261),
+	    isArguments = __webpack_require__(262),
+	    isArray = __webpack_require__(263);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -32922,7 +32951,7 @@
 
 
 /***/ },
-/* 259 */
+/* 261 */
 /***/ function(module, exports) {
 
 	/**
@@ -33065,7 +33094,7 @@
 
 
 /***/ },
-/* 260 */
+/* 262 */
 /***/ function(module, exports) {
 
 	/**
@@ -33314,7 +33343,7 @@
 
 
 /***/ },
-/* 261 */
+/* 263 */
 /***/ function(module, exports) {
 
 	/**
@@ -33500,7 +33529,7 @@
 
 
 /***/ },
-/* 262 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33511,9 +33540,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(263),
-	    isIterateeCall = __webpack_require__(264),
-	    restParam = __webpack_require__(265);
+	var bindCallback = __webpack_require__(265),
+	    isIterateeCall = __webpack_require__(266),
+	    restParam = __webpack_require__(267);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -33558,7 +33587,7 @@
 
 
 /***/ },
-/* 263 */
+/* 265 */
 /***/ function(module, exports) {
 
 	/**
@@ -33629,7 +33658,7 @@
 
 
 /***/ },
-/* 264 */
+/* 266 */
 /***/ function(module, exports) {
 
 	/**
@@ -33767,7 +33796,7 @@
 
 
 /***/ },
-/* 265 */
+/* 267 */
 /***/ function(module, exports) {
 
 	/**
@@ -33840,7 +33869,7 @@
 
 
 /***/ },
-/* 266 */
+/* 268 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -33887,7 +33916,7 @@
 
 
 /***/ },
-/* 267 */
+/* 269 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -33952,7 +33981,7 @@
 
 
 /***/ },
-/* 268 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -33979,13 +34008,13 @@
 	module.exports = BoardIndexItem;
 
 /***/ },
-/* 269 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Header = __webpack_require__(270);
+	var Header = __webpack_require__(272);
 	var BoardIndex = __webpack_require__(216);
-	var SessionStore = __webpack_require__(272);
+	var SessionStore = __webpack_require__(274);
 	var ApiUtil = __webpack_require__(241);
 	
 	var App = React.createClass({
@@ -34006,13 +34035,13 @@
 	module.exports = App;
 
 /***/ },
-/* 270 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var SessionButtons = __webpack_require__(271);
-	var Search = __webpack_require__(273);
+	var SessionButtons = __webpack_require__(273);
+	var Search = __webpack_require__(275);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -34054,11 +34083,11 @@
 	module.exports = Header;
 
 /***/ },
-/* 271 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(272);
+	var SessionStore = __webpack_require__(274);
 	var ApiUtil = __webpack_require__(241);
 	
 	var SessionButtons = React.createClass({
@@ -34073,6 +34102,11 @@
 			return {
 				currentUser: null
 			};
+		},
+	
+		logOut: function () {
+			ApiUtil.logOut();
+			this.context.router.push("/login");
 		},
 	
 		componentDidMount: function () {
@@ -34098,7 +34132,7 @@
 					'li',
 					{
 						className: 'logout-button',
-						onClick: ApiUtil.logOut },
+						onClick: this.logOut },
 					'Logout'
 				);
 				loggedInAs = React.createElement(
@@ -34120,7 +34154,7 @@
 	module.exports = SessionButtons;
 
 /***/ },
-/* 272 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -34161,11 +34195,11 @@
 	module.exports = SessionStore;
 
 /***/ },
-/* 273 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SearchResultsStore = __webpack_require__(274);
+	var SearchResultsStore = __webpack_require__(276);
 	var ApiUtil = __webpack_require__(241);
 	
 	var Search = React.createClass({
@@ -34236,7 +34270,7 @@
 	// </nav>
 
 /***/ },
-/* 274 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -34269,7 +34303,7 @@
 	module.exports = SearchResultsStore;
 
 /***/ },
-/* 275 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34438,13 +34472,13 @@
 	module.exports = LogInForm;
 
 /***/ },
-/* 276 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListIndex = __webpack_require__(277);
+	var ListIndex = __webpack_require__(279);
 	var BoardStore = __webpack_require__(217);
-	var Header = __webpack_require__(270);
+	var Header = __webpack_require__(272);
 	
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
@@ -34464,81 +34498,87 @@
 	    this.listener = BoardStore.addListener(this.setNewState);
 	    ApiUtil.fetchSingleBoard(newProps.params.board_id);
 	  },
-	
+	  //
 	  setNewState: function () {
+	
 	    this.setState({ board: this.getStateFromStore() });
 	  },
-	
+	  //
 	  componentDidMount: function () {
 	
 	    this.listener = BoardStore.addListener(this.setNewState);
 	
 	    ApiUtil.fetchSingleBoard(this.props.params.board_id);
 	  },
-	
+	  //
 	  componentWillUnmount: function () {
 	    this.listener.remove();
 	  },
-	
+	  //
 	  render: function () {
 	    if (!this.state.board) {
 	      return React.createElement('div', null);
+	    }
+	
+	    if (this.state.board && !this.state.board.lists) {
+	      return React.createElement(
+	        'section',
+	        { className: 'board-detail' },
+	        React.createElement('header', { className: 'detail-header' }),
+	        React.createElement('div', null)
+	      );
 	    } else {
+	
+	      // var listItems = this.state.board.lists.map (function (list) {
+	      //   return (<li key={list.id} list={list}/>);
+	      // });
+	
 	      return React.createElement(
 	        'section',
 	        { className: 'board-detail' },
 	        React.createElement('header', { className: 'detail-header' }),
 	        React.createElement(
-	          'ul',
+	          'h1',
 	          null,
-	          React.createElement(
-	            'li',
-	            null,
-	            React.createElement(
-	              'h1',
-	              null,
-	              'Title: ',
-	              this.state.board.title
-	            )
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            React.createElement(
-	              'h2',
-	              null,
-	              'Description: ',
-	              this.state.board.description
-	            )
-	          )
+	          this.state.board.title
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'new-list-button' },
+	          'Add a list...'
 	        )
 	      );
 	    }
 	  }
+	
 	});
 	
 	module.exports = BoardDetail;
+	// <ListIndex board={this.props.params.board_id} />
 
 /***/ },
-/* 277 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListStore = __webpack_require__(278);
-	var ListActions = __webpack_require__(280);
+	var ListStore = __webpack_require__(280);
+	var ListActions = __webpack_require__(246);
+	var ListIndexItem = __webpack_require__(281);
+	
 	var ApiUtil = __webpack_require__(241);
 	
 	var ListIndex = React.createClass({
 	  displayName: 'ListIndex',
 	
-	
 	  getInitialState: function () {
+	
 	    return { lists: ListStore.all() };
 	  },
 	
 	  componentDidMount: function () {
-	    this.listener = ListStore.addListener(this._onChange);
-	    ApiUtil.fetchAllLists();
+	
+	    this.listener = ListStore.addListener(this.setNewState);
+	    ApiUtil.fetchAllLists(this.props.board);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -34550,33 +34590,29 @@
 	  },
 	
 	  render: function () {
-	
-	    var listItems = this.state.lists.map(function (list) {
-	      return React.createElement(
-	        'li',
-	        { key: list.id },
-	        React.createElement(
-	          'div',
-	          { className: 'list-title' },
-	          list.title
-	        )
-	      );
-	    });
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'list-index group' },
-	      React.createElement(
-	        'ul',
-	        { className: 'list-items' },
-	        listItems
-	      ),
-	      React.createElement(
-	        'button',
-	        { className: 'new-list-button' },
-	        'Add a list...'
-	      )
-	    );
+	    return React.createElement('div', null);
+	    // if (!this.state.lists) {
+	    //   return (
+	    //     <div></div>
+	    //   );
+	    // }
+	    //
+	    // else {
+	    //   var listItems = [];
+	    //   for (var i = 0; i < this.state.lists.length; i++) {
+	    //     var list = this.state.lists[i];
+	    //     listItems.push(<ListIndexItem key={list.id}	list={list}/>);
+	    //   }
+	    //
+	    //   return (
+	    //     <div className="list-index group">
+	    //       <ul className="list-items">
+	    //         {listItems}
+	    //         <li><button className="new-list-button">Add a list...</button></li>
+	    // 			</ul>
+	    // 		</div>
+	    //   );
+	    // }
 	  }
 	
 	});
@@ -34584,30 +34620,37 @@
 	module.exports = ListIndex;
 
 /***/ },
-/* 278 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
 	var Dispatcher = __webpack_require__(236);
-	var ListConstants = __webpack_require__(279);
+	var ListConstants = __webpack_require__(247);
 	
 	var ListStore = new Store(Dispatcher);
 	var _lists = [];
 	
 	ListStore.all = function () {
-	  return _lists.slice(0);
+	  return _lists.slice;
 	};
 	
 	ListStore.reset = function (lists) {
 	  _lists = lists;
 	};
 	
-	ListStore.__onDispatch = function (payload) {
+	ListStore.find = function (id) {
+	  for (var i = 0; i < _lists.length; i++) {
+	    if (_lists[i].id === id) {
+	      return _lists[i];
+	    }
+	  }
+	}, ListStore.__onDispatch = function (payload) {
 	
 	  switch (payload.actionType) {
 	    case ListConstants.ALL_LISTS_RECEIVED:
 	      ListStore.reset(payload.lists);
 	      ListStore.__emitChange();
+	
 	      break;
 	  }
 	};
@@ -34615,34 +34658,26 @@
 	module.exports = ListStore;
 
 /***/ },
-/* 279 */
-/***/ function(module, exports) {
-
-	var ListConstants = {
-		ALL_LISTS_RECEIVED: "ALL_LISTS_RECEIVED"
-	};
-	
-	module.exports = ListConstants;
-
-/***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ListConstants = __webpack_require__(279);
-	var Dispatcher = __webpack_require__(236);
+	var React = __webpack_require__(1);
 	
-	var ListActions = {
+	var ListIndexItem = React.createClass({
+	  displayName: "ListIndexItem",
 	
-		receiveAllLists: function () {
-			Dispatcher.dispatch({
-				actionType: ListConstants.ALL_LISTS_RECEIVED,
-				lists: lists
-			});
-		}
 	
-	};
+	  render: function () {
 	
-	module.exports = ListActions;
+	    return React.createElement(
+	      "li",
+	      { className: "list-index-item" },
+	      this.props.list.title
+	    );
+	  }
+	});
+	
+	module.exports = ListIndexItem;
 
 /***/ }
 /******/ ]);

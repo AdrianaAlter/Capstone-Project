@@ -5,6 +5,7 @@ var Header = require('./header.jsx');
 
 var BoardDetail = React.createClass({
 
+
   getInitialState: function () {
     return { board: this.getStateFromStore() };
   },
@@ -19,11 +20,13 @@ var BoardDetail = React.createClass({
     this.listener = BoardStore.addListener(this.setNewState);
     ApiUtil.fetchSingleBoard(newProps.params.board_id);
   },
-
+  //
   setNewState: function () {
-    this.setState( { board: this.getStateFromStore() });
-  },
 
+    this.setState( { board: this.getStateFromStore() });
+
+  },
+  //
   componentDidMount: function () {
 
     this.listener = BoardStore.addListener(this.setNewState);
@@ -31,30 +34,47 @@ var BoardDetail = React.createClass({
     ApiUtil.fetchSingleBoard(this.props.params.board_id);
 
   },
-
+  //
   componentWillUnmount: function () {
     this.listener.remove();
   },
-
+  //
   render: function () {
     if (!this.state.board) {
       return (
         <div></div>
       );
     }
+
+    if (this.state.board && !this.state.board.lists) {
+      return(
+        <section className="board-detail">
+          <header className="detail-header"></header>
+          <div></div>
+        </section>
+      );
+    }
+
     else {
+
+      // var listItems = this.state.board.lists.map (function (list) {
+      //   return (<li key={list.id} list={list}/>);
+      // });
+
       return (
           <section className="board-detail">
             <header className="detail-header"></header>
-            <ul>
-              <li><h1>Title: {this.state.board.title}</h1></li>
-              <li><h2>Description: {this.state.board.description}</h2></li>
-            </ul>
+            <h1>{this.state.board.title}</h1>
+
+            <button className="new-list-button">Add a list...</button>
           </section>
       );
     }
   }
+
+
 });
 
 
 module.exports = BoardDetail;
+// <ListIndex board={this.props.params.board_id} />

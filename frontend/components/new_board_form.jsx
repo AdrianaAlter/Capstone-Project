@@ -7,25 +7,26 @@ var NewBoardForm = React.createClass({
 		return({ title: "" });
 	},
 
+
+  createNewBoard: function (e) {
+      e.preventDefault();
+      var board = {};
+      board.title = this.state.title;
+      ApiUtil.createNewBoard(board);
+      this.setState({ title: "" });
+  },
 	// toggleDisplayed: function () {
 	// 	this.setState({ displayed: true });
 	// },
 
 	updateTitle: function (e) {
-		var newTitle = event.currentTarget.value;
+		var newTitle = e.currentTarget.value;
 		this.setState({ title: newTitle });
+
 	},
 
-	handleSubmit: function (e) {
-		event.preventDefault();
-		var data = {
-			title: this.state.title,
-			body: this.state.body
-		};
-		BoardActions.createNewBoard(data);
-		this.setState({ title: "" });
 		// this.toggleDisplayed();
-	},
+
 
 
 	render: function () {
@@ -34,11 +35,11 @@ var NewBoardForm = React.createClass({
 
 
 		return(
-				<form className="new-board-form" onSubmit={this.handleSubmit}>
+				<form className="new-board-form">
           <h1>Create Board</h1>
 					<h2>Title</h2>
-					<input className="title-field" type="text" value={this.state.title} onInput={this.updateTitle}></input>
-					<button>Create</button>
+					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
+					<button onClick={this.createNewBoard}>Create</button>
 				</form>
 		);
 	}

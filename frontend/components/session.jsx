@@ -14,6 +14,11 @@ var SessionButtons = React.createClass ({
 		};
 	},
 
+  logOut: function () {
+    ApiUtil.logOut();
+    this.context.router.push("/login");
+  },
+
 	componentDidMount: function () {
 		this.sessionStoreToken = SessionStore.addListener(this.handleChange);
 		this.handleChange();
@@ -36,12 +41,12 @@ var SessionButtons = React.createClass ({
       logout =
 				<li
 					className="logout-button"
-					onClick={ApiUtil.logOut}>
+					onClick={this.logOut}>
 					Logout
 				</li>;
       loggedInAs = <li className="user-name">{this.state.currentUser.user_name}</li>;
     }
-    
+
 		return(
 			<ul className="session-buttons group">
         {loggedInAs}

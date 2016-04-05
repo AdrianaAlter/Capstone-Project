@@ -20,6 +20,7 @@ class Api::SessionsController < ApplicationController
 
     # end
 
+
     if @user
       log_in(@user)
       render json: @user

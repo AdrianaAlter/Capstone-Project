@@ -1,8 +1,8 @@
 class Api::ListsController < ApplicationController
 
 	def index
-		@lists = List.where(board_id: current_board_id)
-		render :index
+    @lists = List.where(board_id: current_board_id)
+    render :index
 	end
 
 	def new

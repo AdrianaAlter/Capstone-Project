@@ -12,6 +12,7 @@ class Api::BoardsController < ApplicationController
   end
 
   def create
+
     @board = Board.new(board_params)
     @board.author_id = current_user.id
     if @board.save
@@ -49,7 +50,7 @@ class Api::BoardsController < ApplicationController
   private
 
   def board_params
-    params.require(:board).permit(:title, :description)
+    params.require(:board).permit(:title)
   end
 
 end

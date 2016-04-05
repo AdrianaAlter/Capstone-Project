@@ -1,8 +1,10 @@
 var BoardActions = require('../actions/board_actions.js');
 var SessionActions = require('../actions/session_actions.js');
-var SearchResultActions = require('./../actions/search_result_actions');
+var SearchResultActions = require('../actions/search_result_actions.js');
+var ListActions = require('../actions/list_actions.js');
 
 ApiUtil = {
+
 
   fetchAllBoards: function () {
 
@@ -29,6 +31,7 @@ ApiUtil = {
       type: "GET",
       dataType: "json",
       success: function (board) {
+
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
@@ -38,13 +41,14 @@ ApiUtil = {
 
   },
 
-	fetchAllLists: function (board_id) {
+	fetchAllLists: function (board) {
+
 		$.ajax({
-			url: "api/" + board_id + "/lists",
+			url: "api/boards/" + board + "/lists",
 			type: "GET",
 			dataType: "json",
-			success: function (lists) {
-				ListActions.receiveAllLists(lists);
+    	success: function (lists) {
+        ListActions.receiveAllLists(lists);
 			},
 			error: function () {
 				console.log('Error in ApiUtil fetch all lists function');
@@ -54,26 +58,24 @@ ApiUtil = {
 
 	},
 
-  createNewBoard: function (data) {
+  createNewBoard: function (board, callback) {
 
 		$.ajax({
 			url: "api/boards",
 			type: "POST",
-			data: { board: data },
+			data: { board: board },
 			success: function (board) {
 				BoardActions.receiveSingleBoard(board);
+        callback && callback(board.id);
 			},
 			error: function () {
 				console.log("Error in ApiUtil createNewBoard function");
 			}
 		});
-
-
-
   },
 
-  logIn: function (userInfo, callback) {
 
+  logIn: function (userInfo, callback) {
 
     $.ajax({
       type: "POST",

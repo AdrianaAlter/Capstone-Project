@@ -16,7 +16,6 @@ var BoardIndex = React.createClass({
   },
 
 
-
   componentDidMount: function () {
     this.listener = BoardStore.addListener(this._onChange);
     ApiUtil.fetchAllBoards();

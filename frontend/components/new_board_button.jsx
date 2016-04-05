@@ -22,6 +22,7 @@ var NewBoardButton = React.createClass({
   render: function () {
     var styles = { overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }, content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" } };
     return (
+
       <li className="new-board-button" onClick={this.openModal}>
         <Modal className="modal" isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}

@@ -6,12 +6,18 @@ var ListStore = new Store(Dispatcher);
 var _lists = [];
 
 ListStore.all = function () {
-  return _lists.slice(0);
+  return _lists.slice;
 };
 
 ListStore.reset = function (lists) {
   _lists = lists;
 };
+
+ListStore.find = function (id) {
+  for (var i = 0; i < _lists.length; i++) {
+    if (_lists[i].id === id) { return _lists[i]; }
+  }
+},
 
 ListStore.__onDispatch = function (payload) {
 
@@ -19,8 +25,10 @@ ListStore.__onDispatch = function (payload) {
     case ListConstants.ALL_LISTS_RECEIVED:
       ListStore.reset(payload.lists);
       ListStore.__emitChange();
+
       break;
   }
+  
 
 };
 
