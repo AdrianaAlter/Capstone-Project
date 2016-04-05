@@ -11,6 +11,7 @@ var BoardActions = {
   },
 
   receiveSingleBoard: function (board) {
+
     Dispatcher.dispatch({
       actionType: BoardConstants.SINGLE_BOARD_RECEIVED,
       board: board

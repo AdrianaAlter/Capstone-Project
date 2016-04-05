@@ -28,7 +28,7 @@ ListStore.__onDispatch = function (payload) {
 
       break;
   }
-  
+
 
 };
 

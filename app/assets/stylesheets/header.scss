@@ -94,3 +94,16 @@
 
 	border-radius: 4px;
 }
+
+.surprise {
+  color: blue;
+  background-image: asset-url("surprise.jpg");
+  display: block;
+  height: 340px;
+  width: 940px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  // position: absolute;
+  // left: 50%;
+  // transform: translateX(-50%);
+}

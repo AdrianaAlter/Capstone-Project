@@ -31,7 +31,6 @@ ApiUtil = {
       type: "GET",
       dataType: "json",
       success: function (board) {
-
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
@@ -64,14 +63,29 @@ ApiUtil = {
 			url: "api/boards",
 			type: "POST",
 			data: { board: board },
-			success: function (board) {
-				BoardActions.receiveSingleBoard(board);
+      success: function (board) {
+    		BoardActions.receiveSingleBoard(board);
         callback && callback(board.id);
 			},
 			error: function () {
-				console.log("Error in ApiUtil createNewBoard function");
+        console.log("Error in ApiUtil createNewBoard function");
 			}
 		});
+  },
+
+  deleteBoard: function (id) {
+
+    $.ajax({
+      url: "api/boards/" + id,
+      type: "DELETE",
+      success: function (boards) {
+        BoardActions.receiveAllBoards(boards);
+        window.location.href= "/";
+      },
+      error: function () {
+        console.log("Error in ApiUtil deleteBoard function");
+      }
+    });
   },
 
 

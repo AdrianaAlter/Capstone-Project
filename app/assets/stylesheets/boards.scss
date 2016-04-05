@@ -112,6 +112,26 @@
 .board-detail .new-list-button:hover {
   background: #943;
 }
+
+.board-detail .delete-board-button {
+
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: normal;
+  color: #e2e4e6;
+  background: #a43;
+  display: block;
+  border-radius: 3px;
+  height: 32px;
+  width: auto;
+  padding: 5px 20px;
+  margin-left: 12px;
+  margin-top: 12px;
+}
+
+.board-detail .delete-board-button:hover {
+  background: #943;
+}
 //
 // .board-detail ul {
 //   display: block;

@@ -24851,21 +24851,25 @@
 	BoardStore.all = function () {
 	  return _boards.slice();
 	};
-	
+	//
 	BoardStore.resetBoards = function (boards) {
 	  _boards = boards;
 	};
-	
+	//
 	BoardStore.resetBoard = function (board) {
-	  _boards = [];
+	  // _boards = [];
 	  _boards.push(board);
-	}, BoardStore.find = function (id) {
+	};
+	//
+	BoardStore.find = function (id) {
 	  for (var i = 0; i < _boards.length; i++) {
 	    if (_boards[i].id === id) {
 	      return _boards[i];
 	    }
 	  }
-	}, BoardStore.__onDispatch = function (payload) {
+	};
+	
+	BoardStore.__onDispatch = function (payload) {
 	
 	  switch (payload.actionType) {
 	    case BoardConstants.ALL_BOARDS_RECEIVED:
@@ -31670,6 +31674,7 @@
 	  },
 	
 	  receiveSingleBoard: function (board) {
+	
 	    Dispatcher.dispatch({
 	      actionType: BoardConstants.SINGLE_BOARD_RECEIVED,
 	      board: board
@@ -31712,7 +31717,6 @@
 	      type: "GET",
 	      dataType: "json",
 	      success: function (board) {
-	
 	        BoardActions.receiveSingleBoard(board);
 	      },
 	      error: function () {
@@ -31749,6 +31753,21 @@
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil createNewBoard function");
+	      }
+	    });
+	  },
+	
+	  deleteBoard: function (id) {
+	
+	    $.ajax({
+	      url: "api/boards/" + id,
+	      type: "DELETE",
+	      success: function (boards) {
+	        BoardActions.receiveAllBoards(boards);
+	        window.location.href = "/";
+	      },
+	      error: function () {
+	        console.log("Error in ApiUtil deleteBoard function");
 	      }
 	    });
 	  },
@@ -31942,6 +31961,7 @@
 			board.title = this.state.title;
 			ApiUtil.createNewBoard(board);
 			this.setState({ title: "" });
+			this.props.closeModal();
 		},
 		// toggleDisplayed: function () {
 		// 	this.setState({ displayed: true });
@@ -32022,7 +32042,7 @@
 	          style: styles,
 	          theme: 'modal-theme'
 	        },
-	        React.createElement(NewBoardForm, null)
+	        React.createElement(NewBoardForm, { closeModal: this.closeModal })
 	      )
 	    );
 	  }
@@ -34042,6 +34062,7 @@
 	var ApiUtil = __webpack_require__(241);
 	var SessionButtons = __webpack_require__(273);
 	var Search = __webpack_require__(275);
+	var Link = __webpack_require__(159).Link;
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -34060,7 +34081,11 @@
 	          React.createElement(
 	            'li',
 	            null,
-	            'Boards'
+	            React.createElement(
+	              Link,
+	              { to: "/" },
+	              'Boards'
+	            )
 	          ),
 	          React.createElement(
 	            'li',
@@ -34089,6 +34114,7 @@
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(274);
 	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(250);
 	
 	var SessionButtons = React.createClass({
 		displayName: 'SessionButtons',
@@ -34100,8 +34126,17 @@
 	
 		getInitialState: function () {
 			return {
-				currentUser: null
+				currentUser: null,
+				modalOpen: false
 			};
+		},
+	
+		openModal: function () {
+			this.setState({ modalOpen: true });
+		},
+	
+		closeModal: function () {
+			this.setState({ modalOpen: false });
 		},
 	
 		logOut: function () {
@@ -34125,6 +34160,11 @@
 		},
 	
 		render: function () {
+			var surprise = React.createElement(
+				'section',
+				{ className: 'surprise' },
+				'testing'
+			);
 			var logout;
 			var loggedInAs;
 			if (this.state.currentUser) {
@@ -34137,8 +34177,14 @@
 				);
 				loggedInAs = React.createElement(
 					'li',
-					{ className: 'user-name' },
-					this.state.currentUser.user_name
+					{ className: 'user-name', onClick: this.openModal },
+					this.state.currentUser.user_name,
+					React.createElement(
+						Modal,
+						{ className: 'modal', isOpen: this.state.modalOpen,
+							onRequestClose: this.closeModal },
+						surprise
+					)
 				);
 			}
 	
@@ -34484,12 +34530,15 @@
 	  displayName: 'BoardDetail',
 	
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
 	  getInitialState: function () {
-	    return { board: this.getStateFromStore() };
+	    return { board: this.getStateFromStore(), mounted: false, deleted: false };
 	  },
 	
 	  getStateFromStore: function () {
-	
 	    var boardId = parseInt(this.props.params.board_id);
 	    return BoardStore.find(boardId);
 	  },
@@ -34500,19 +34549,24 @@
 	  },
 	  //
 	  setNewState: function () {
-	
-	    this.setState({ board: this.getStateFromStore() });
+	    if (this.state.mounted === true) {
+	      this.setState({ board: this.getStateFromStore() });
+	    }
 	  },
 	  //
 	  componentDidMount: function () {
-	
 	    this.listener = BoardStore.addListener(this.setNewState);
-	
 	    ApiUtil.fetchSingleBoard(this.props.params.board_id);
+	    this.setState({ mounted: true });
 	  },
 	  //
 	  componentWillUnmount: function () {
 	    this.listener.remove();
+	  },
+	
+	  deleteBoard: function () {
+	    var boardId = parseInt(this.props.params.board_id);
+	    ApiUtil.deleteBoard(boardId);
 	  },
 	  //
 	  render: function () {
@@ -34520,35 +34574,42 @@
 	      return React.createElement('div', null);
 	    }
 	
-	    if (this.state.board && !this.state.board.lists) {
-	      return React.createElement(
-	        'section',
-	        { className: 'board-detail' },
-	        React.createElement('header', { className: 'detail-header' }),
-	        React.createElement('div', null)
-	      );
-	    } else {
+	    // if (this.state.board && !this.state.board.lists) {
+	    //   return(
+	    //     <section className="board-detail">
+	    //       <header className="detail-header"></header>
+	    //       <div></div>
+	    //     </section>
+	    //   );
+	    // }
 	
-	      // var listItems = this.state.board.lists.map (function (list) {
-	      //   return (<li key={list.id} list={list}/>);
-	      // });
+	    else {
 	
-	      return React.createElement(
-	        'section',
-	        { className: 'board-detail' },
-	        React.createElement('header', { className: 'detail-header' }),
-	        React.createElement(
-	          'h1',
-	          null,
-	          this.state.board.title
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'new-list-button' },
-	          'Add a list...'
-	        )
-	      );
-	    }
+	        // var listItems = this.state.board.lists.map (function (list) {
+	        //   return (<li key={list.id} list={list}/>);
+	        // });
+	
+	        return React.createElement(
+	          'section',
+	          { className: 'board-detail' },
+	          React.createElement('header', { className: 'detail-header' }),
+	          React.createElement(
+	            'h1',
+	            null,
+	            this.state.board.title
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'new-list-button' },
+	            'Add a list...'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'delete-board-button', onClick: this.deleteBoard },
+	            'Delete this board...'
+	          )
+	        );
+	      }
 	  }
 	
 	});

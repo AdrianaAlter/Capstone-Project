@@ -15,8 +15,9 @@ class Api::BoardsController < ApplicationController
 
     @board = Board.new(board_params)
     @board.author_id = current_user.id
+
     if @board.save
-      redirect_to api_boards_url
+      render json: @board
     else
       render :new
     end
@@ -30,7 +31,7 @@ class Api::BoardsController < ApplicationController
   def update
     @board = Board.find(params[:id])
     if @board.update(board_params)
-      redirect_to api_boards_url
+      render json: @board
     else
       render :edit
     end
@@ -44,7 +45,8 @@ class Api::BoardsController < ApplicationController
   def destroy
     @board = Board.find(params[:id])
     @board.destroy
-    redirect_to api_boards_url
+    @boards = current_user.boards
+    render :index
   end
 
   private

@@ -14,6 +14,7 @@ var NewBoardForm = React.createClass({
       board.title = this.state.title;
       ApiUtil.createNewBoard(board);
       this.setState({ title: "" });
+      this.props.closeModal();
   },
 	// toggleDisplayed: function () {
 	// 	this.setState({ displayed: true });

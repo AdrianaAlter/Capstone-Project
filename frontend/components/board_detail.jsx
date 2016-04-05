@@ -5,13 +5,15 @@ var Header = require('./header.jsx');
 
 var BoardDetail = React.createClass({
 
+  contextTypes: {
+		router: React.PropTypes.object.isRequired
+	},
 
   getInitialState: function () {
-    return { board: this.getStateFromStore() };
+    return { board: this.getStateFromStore(), mounted: false, deleted: false };
   },
 
   getStateFromStore: function () {
-
     var boardId = parseInt(this.props.params.board_id);
     return BoardStore.find(boardId);
   },
@@ -22,21 +24,25 @@ var BoardDetail = React.createClass({
   },
   //
   setNewState: function () {
-
-    this.setState( { board: this.getStateFromStore() });
-
+    if (this.state.mounted === true) {
+      this.setState( { board: this.getStateFromStore() });
+    }
   },
   //
   componentDidMount: function () {
-
     this.listener = BoardStore.addListener(this.setNewState);
-
     ApiUtil.fetchSingleBoard(this.props.params.board_id);
-
+    this.setState({ mounted: true });
   },
   //
   componentWillUnmount: function () {
     this.listener.remove();
+  },
+
+  deleteBoard: function () {
+    var boardId = parseInt(this.props.params.board_id);
+    ApiUtil.deleteBoard(boardId);
+
   },
   //
   render: function () {
@@ -46,14 +52,14 @@ var BoardDetail = React.createClass({
       );
     }
 
-    if (this.state.board && !this.state.board.lists) {
-      return(
-        <section className="board-detail">
-          <header className="detail-header"></header>
-          <div></div>
-        </section>
-      );
-    }
+    // if (this.state.board && !this.state.board.lists) {
+    //   return(
+    //     <section className="board-detail">
+    //       <header className="detail-header"></header>
+    //       <div></div>
+    //     </section>
+    //   );
+    // }
 
     else {
 
@@ -67,6 +73,7 @@ var BoardDetail = React.createClass({
             <h1>{this.state.board.title}</h1>
 
             <button className="new-list-button">Add a list...</button>
+            <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button>
           </section>
       );
     }

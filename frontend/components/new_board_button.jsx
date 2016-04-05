@@ -29,7 +29,7 @@ var NewBoardButton = React.createClass({
           style={styles}
           theme="modal-theme"
           >
-          <NewBoardForm />
+          <NewBoardForm closeModal={this.closeModal}/>
         </Modal>
     </li>
     );

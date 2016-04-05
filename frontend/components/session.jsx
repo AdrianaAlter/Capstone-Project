@@ -1,6 +1,7 @@
 var React = require('react');
 var SessionStore = require('../store/session_store.js');
 var ApiUtil = require('../util/api_util');
+var Modal = require('react-modal');
 
 var SessionButtons = React.createClass ({
 
@@ -10,9 +11,18 @@ var SessionButtons = React.createClass ({
 
 	getInitialState: function () {
 		return {
-			currentUser: null
+			currentUser: null,
+      modalOpen: false
 		};
 	},
+
+  openModal: function () {
+    this.setState({ modalOpen: true });
+  },
+
+  closeModal: function () {
+    this.setState({ modalOpen: false });
+  },
 
   logOut: function () {
     ApiUtil.logOut();
@@ -35,6 +45,7 @@ var SessionButtons = React.createClass ({
 	},
 
 	render: function () {
+    var surprise = <section className="surprise">testing</section>;
 		var logout;
     var loggedInAs;
     if (this.state.currentUser) {
@@ -44,7 +55,12 @@ var SessionButtons = React.createClass ({
 					onClick={this.logOut}>
 					Logout
 				</li>;
-      loggedInAs = <li className="user-name">{this.state.currentUser.user_name}</li>;
+      loggedInAs = <li className="user-name" onClick={this.openModal}>{this.state.currentUser.user_name}
+        <Modal className="modal" isOpen={this.state.modalOpen}
+          onRequestClose={this.closeModal}>
+          {surprise}
+        </Modal>
+      </li>;
     }
 
 		return(
