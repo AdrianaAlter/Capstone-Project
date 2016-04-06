@@ -172,26 +172,18 @@
 //
 
 .new-board-form {
-	width: 280px;
-	height: 227px;
-	display: block;
-	border: 1px solid #8c8c8c;
-	// margin: auto;
-	padding: 10px;
-	border-radius: 3px;
-	// position: absolute;
-  top: 0;
-  left: 0;
+  display: block;
+  border: 1px solid #8c8c8c;
+  padding: 10px;
+  border-radius: 3px;
+  width: 280px;
+  height: 227px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
 }
 
-// .board-items .new-board-button .modal {
-//   position: absolute;
-//   top: 100%;
-//   width: 280px;
-// 	height: 227px;
-//   background: transparent;
-//   border: 0;
-// }
 .new-board-form h1 {
 	display: block;
 	padding: 0 32px;
@@ -202,8 +194,6 @@
 	border-bottom: 1px solid #8c8c8c;
 	text-align: center;
 	margin: 0 10px;
-  width: 280px;
-	height: 227px;
 }
 
 .new-board-form h2 {

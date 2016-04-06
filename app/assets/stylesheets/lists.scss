@@ -11,10 +11,9 @@
 
 .list-index .list-index-item {
   float: left;
-  background-color: #e2e4e6;
+  background: #e2e4e6;
   display: block;
-  height: 64px;
-  width: 190px;
+  width: 265px;
   padding: 5px;
   color: #666;
   border-radius: 3px;
@@ -22,12 +21,65 @@
   font-size: 15px;
   line-height: 18px;
   font-weight: bold;
+  position: relative;
 }
 
 .list-index .list-index-item:hover {
   background: #666;
   color: black;
 }
+
+.list-index .list-index-item > h1 {
+    padding: 8px 10px;
+}
+
+.list-index .list-index-item .list-detail {
+
+}
+
+
+
+.list-index .list-index-item .list-detail > button {
+  float: left;
+  background: #e2e4e6;
+  box-shadow: none;
+  display: block;
+  width: 245px;
+  padding: 8px 10px;
+  color: #8c8c8c;
+  border-radius: 3px;
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  font-weight: normal;
+  position: relative;
+  cursor: pointer;
+}
+
+.list-detail {
+
+}
+
+
+
+// .delete-list-button {
+//   float: left;
+//   background: #e2e4e6;
+//   box-shadow: none;
+//   display: block;
+//   width: 250px;
+//   padding: 8px 10px;
+//   color: #8c8c8c;
+//   border-radius: 3px;
+//   margin: 0;
+//   font-size: 14px;
+//   font-weight: normal;
+//   position: relative;
+//   cursor: pointer;
+// }
+//
+// .delete-list-button:hover {
+//   background: #943;
+// }
 
 .new-list-button {
   float: left;
@@ -104,4 +156,20 @@
 	margin: 8px 4px 0 0;
 	cursor: pointer;
 	position: absolute;
+}
+
+.list-index .list-index-item .list-detail .new-card-button {
+  float: left;
+  background: #e2e4e6;
+  box-shadow: none;
+  display: block;
+  width: 245px;
+  padding: 8px 10px;
+  color: #8c8c8c;
+  border-radius: 3px;
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  font-weight: normal;
+  position: relative;
+  cursor: pointer;
 }

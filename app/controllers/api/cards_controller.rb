@@ -1,6 +1,7 @@
 class Api::CardsController < ApplicationController
   def index
     @cards = Card.where(list_id: current_list_id)
+
     render :index
   end
 
@@ -9,6 +10,7 @@ class Api::CardsController < ApplicationController
   end
 
   def create
+    
     @card = Card.new(card_params)
     @card.list_id = current_list_id
     if @card.save

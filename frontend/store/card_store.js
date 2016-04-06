@@ -8,16 +8,16 @@ var _cards = [];
 CardStore.all = function () {
   return _cards.slice();
 };
-//
+
 CardStore.resetCards = function (cards) {
   _cards = cards;
 };
-//
+
 CardStore.resetCard = function (card) {
   _cards = [];
   _cards.push(card);
 };
-//
+
 CardStore.find = function (id) {
   for (var i = 0; i < _cards.length; i++) {
     if (_cards[i].id === id) { return _cards[i]; }

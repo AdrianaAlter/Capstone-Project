@@ -1,3 +1,83 @@
 // Place all the styles related to the Cards controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.card-index {
+  display: block;
+  margin: 10px;
+  background: transparent;
+  width: 252px;
+
+}
+
+
+.card-index-item {
+  display: block;
+  height: 24px;
+  width: 242px;
+  background: white;
+  padding: 4px;
+  line-height: 20px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: #4d4d4d;
+  font-size: 14px;
+  margin: 6px 0;
+  font-weight: normal;
+}
+
+.new-card-form {
+  display: block;
+  border: 1px solid #8c8c8c;
+  padding: 10px;
+  border-radius: 3px;
+  width: 280px;
+  height: 227px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+.new-card-form h1 {
+	display: block;
+	padding: 0 32px;
+	box-sizing: border-box;
+	color: #8c8c8c;
+	font-size: 14px;
+	position: relative;
+	border-bottom: 1px solid #8c8c8c;
+	text-align: center;
+	margin: 0 10px;
+}
+
+.new-card-form h2 {
+	display: block;
+	color: #4d4d4d;
+	font-size: 14px;
+	position: relative;
+	margin-bottom: 4px;
+}
+
+.new-card-form input {
+	width: 266px;
+	margin: 0;
+  padding: 7px;
+	background: #e2e4e6;
+}
+
+.new-card-form > button {
+	display: block;
+	color: white;
+  font-size: 14px;
+	text-align: center;
+	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
+	box-shadow: 0 1px 0 #3f6f21;
+	border-radius: 4px;
+	font-weight: bold;
+	padding: 7px 30px;
+	width: 45px;
+  height: 22px;
+	margin: 8px 4px 0 0;
+	cursor: pointer;
+	position: absolute;
+}

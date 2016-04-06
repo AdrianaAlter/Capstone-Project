@@ -10,7 +10,6 @@ var BoardDetail = React.createClass({
 	},
 
   getInitialState: function () {
-
     return { board: this.getStateFromStore(), deleted: false };
   },
 

@@ -31692,6 +31692,7 @@
 	var SessionActions = __webpack_require__(242);
 	var SearchResultActions = __webpack_require__(244);
 	var ListActions = __webpack_require__(246);
+	var CardActions = __webpack_require__(287);
 	
 	ApiUtil = {
 	
@@ -31740,9 +31741,25 @@
 	    });
 	  },
 	
-	  fetchAllCards: function (boardId, listId) {
+	  fetchSingleList: function (board, id) {
 	    $.ajax({
-	      url: "api/boards/" + boardId + "/lists/" + listId,
+	      url: "api/boards/" + board + "/lists/" + id,
+	      type: "GET",
+	      dataType: "json",
+	      success: function (list) {
+	
+	        ListActions.receiveSingleList(list);
+	      },
+	      error: function () {
+	        console.log('Error in AJAX request to fetch single list via ApiUtil');
+	      }
+	    });
+	  },
+	
+	  fetchAllCards: function (boardId, listId) {
+	
+	    $.ajax({
+	      url: "api/boards/" + boardId + "/lists/" + listId + "/cards",
 	      type: "GET",
 	      dataType: "json",
 	      success: function (cards) {
@@ -31790,7 +31807,7 @@
 	  createNewCard: function (card, boardId, listId, callback) {
 	
 	    $.ajax({
-	      url: "api/boards/" + boardId + "/lists/" + listId,
+	      url: "api/boards/" + boardId + "/lists/" + listId + "/cards",
 	      type: "POST",
 	      data: { card: card },
 	      success: function (card) {
@@ -31814,6 +31831,21 @@
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil deleteBoard function");
+	      }
+	    });
+	  },
+	
+	  deleteList: function (board, id) {
+	
+	    $.ajax({
+	      url: "api/boards/" + board + "/lists/" + id,
+	      type: "DELETE",
+	      success: function (lists) {
+	        ListActions.receiveAllLists(lists);
+	        // window.location.href= "/";
+	      },
+	      error: function () {
+	        console.log("Error in ApiUtil deleteList function");
 	      }
 	    });
 	  },
@@ -32084,7 +32116,11 @@
 	  },
 	
 	  render: function () {
-	    var styles = { overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }, content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" } };
+	    var styles = {
+	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
+	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
+	    };
+	
 	    return React.createElement(
 	      'li',
 	      { className: 'new-board-button', onClick: this.openModal },
@@ -34062,18 +34098,7 @@
 	  displayName: 'BoardIndexItem',
 	
 	
-	  // getInitialState: function () {
-	  //     return { lists: [] };
-	  // },
-	  //
-	  // getLists: function () {
-	  //   var fetchedLists = ApiUtil.fetchAllLists(this.props.board.id);
-	  //   this.setState({ lists: fetchedLists });
-	  //
-	  // },
-	
 	  render: function () {
-	    // var listStatus = this.state.lists ? "full" : "empty";
 	
 	    return React.createElement(
 	      'li',
@@ -34085,6 +34110,7 @@
 	      )
 	    );
 	  }
+	
 	});
 	
 	module.exports = BoardIndexItem;
@@ -34617,7 +34643,6 @@
 	  },
 	
 	  getInitialState: function () {
-	
 	    return { board: this.getStateFromStore(), deleted: false };
 	  },
 	
@@ -34707,13 +34732,11 @@
 	var ListStore = __webpack_require__(280);
 	var ListActions = __webpack_require__(246);
 	var ListIndexItem = __webpack_require__(281);
-	var NewListButton = __webpack_require__(283);
-	
+	var NewListButton = __webpack_require__(282);
 	var ApiUtil = __webpack_require__(241);
 	
 	var ListIndex = React.createClass({
 	  displayName: 'ListIndex',
-	
 	
 	  getInitialState: function () {
 	    return { lists: this.getStateFromStore() };
@@ -34723,44 +34746,27 @@
 	    return ListStore.all();
 	  },
 	
-	  // componentWillReceiveProps: function (newProps) {
-	  //   this.listener = ListStore.addListener(this.setNewState);
-	  //   ApiUtil.fetchSingleList(newProps.params.list_id);
-	  // },
-	  //
 	  setNewState: function () {
-	
 	    this.setState({ lists: this.getStateFromStore() });
 	  },
-	  //
+	
 	  componentDidMount: function () {
-	
 	    this.listener = ListStore.addListener(this.setNewState);
-	
 	    ApiUtil.fetchAllLists(this.props.boardId);
-	    // this.setState({ mounted: true });
 	  },
-	  //
+	
 	  componentWillUnmount: function () {
 	    this.listener.remove();
 	  },
-	  //
-	  // componentDidMount: function () {
-	  //   this.listener = ListStore.addListener(this._onChange);
-	  //   ApiUtil.fetchAllLists(this.props.boardId);
-	  // },
-	  //
-	  // componentWillUnmount: function () {
-	  //   this.listener.remove();
-	  // },
-	  //
-	  // _onChange: function () {
-	  //   this.setState({ lists: ListStore.all() });
-	  // },
 	
 	  render: function () {
+	
+	    if (!this.state.lists) {
+	      return React.createElement('div', null);
+	    }
+	
 	    var listItems = this.state.lists.map(function (list) {
-	      return React.createElement(ListIndexItem, { key: list.id, list: list });
+	      return React.createElement(ListIndexItem, { key: list.id, list: list, boardId: list.board_id });
 	    });
 	
 	    return React.createElement(
@@ -34811,10 +34817,8 @@
 	
 	  switch (payload.actionType) {
 	    case ListConstants.ALL_LISTS_RECEIVED:
-	
 	      ListStore.reset(payload.lists);
 	      ListStore.__emitChange();
-	
 	      break;
 	    case ListConstants.SINGLE_LIST_RECEIVED:
 	      ListStore.resetSingleList(payload.list);
@@ -34830,16 +34834,23 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ListDetail = __webpack_require__(289);
 	
 	var ListIndexItem = React.createClass({
-	  displayName: "ListIndexItem",
+	  displayName: 'ListIndexItem',
 	
 	
 	  render: function () {
+	
 	    return React.createElement(
-	      "li",
-	      { className: "list-index-item" },
-	      this.props.list.title
+	      'section',
+	      { className: 'list-index-item' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        this.props.list.title
+	      ),
+	      React.createElement(ListDetail, { boardId: this.props.boardId, listId: this.props.list.id })
 	    );
 	  }
 	});
@@ -34848,6 +34859,53 @@
 
 /***/ },
 /* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ListStore = __webpack_require__(280);
+	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(250);
+	var NewListForm = __webpack_require__(283);
+	
+	var NewListButton = React.createClass({
+	  displayName: 'NewListButton',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  render: function () {
+	    var styles = {
+	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
+	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
+	    };
+	
+	    return React.createElement(
+	      'li',
+	      { className: 'new-list-button', onClick: this.openModal },
+	      'Add a list...',
+	      React.createElement(
+	        Modal,
+	        { className: 'modal', isOpen: this.state.modalOpen, onRequestClose: this.closeModal, style: styles },
+	        React.createElement(NewListForm, { closeModal: this.closeModal, boardId: this.props.boardId })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NewListButton;
+
+/***/ },
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34905,17 +34963,254 @@
 	module.exports = NewListForm;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var CardStore = __webpack_require__(285);
+	var CardActions = __webpack_require__(287);
+	var CardIndexItem = __webpack_require__(288);
+	var ApiUtil = __webpack_require__(241);
+	
+	var CardIndex = React.createClass({
+	  displayName: 'CardIndex',
+	
+	
+	  getInitialState: function () {
+	    return { cards: this.getStateFromStore() };
+	  },
+	
+	  getStateFromStore: function () {
+	    return CardStore.all();
+	  },
+	
+	  setNewState: function () {
+	    this.setState({ cards: this.getStateFromStore() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = CardStore.addListener(this.setNewState);
+	    ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  render: function () {
+	    if (!this.state.cards) {
+	      return React.createElement('div', null);
+	    }
+	
+	    var cardItems = this.state.cards.map(function (card) {
+	      return React.createElement(CardIndexItem, { key: card.id, card: card });
+	    });
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'card-index group' },
+	      cardItems
+	    );
+	  }
+	
+	});
+	
+	module.exports = CardIndex;
+	
+	// <NewCardButton listId={this.props.listId}/>
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var Dispatcher = __webpack_require__(236);
+	var CardConstants = __webpack_require__(286);
+	
+	var CardStore = new Store(Dispatcher);
+	var _cards = [];
+	
+	CardStore.all = function () {
+	  return _cards.slice();
+	};
+	
+	CardStore.resetCards = function (cards) {
+	  _cards = cards;
+	};
+	
+	CardStore.resetCard = function (card) {
+	  _cards = [];
+	  _cards.push(card);
+	};
+	
+	CardStore.find = function (id) {
+	  for (var i = 0; i < _cards.length; i++) {
+	    if (_cards[i].id === id) {
+	      return _cards[i];
+	    }
+	  }
+	};
+	
+	CardStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case CardConstants.ALL_CARDS_RECEIVED:
+	      CardStore.resetCards(payload.cards);
+	      CardStore.__emitChange();
+	      break;
+	    case CardConstants.SINGLE_CARD_RECEIVED:
+	      CardStore.resetCard(payload.card);
+	      CardStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = CardStore;
+
+/***/ },
+/* 286 */
+/***/ function(module, exports) {
+
+	var CardConstants = {
+	  ALL_CARDS_RECEIVED: "ALL_CARDS_RECEIVED",
+	  SINGLE_CARD_RECEIVED: "SINGLE_CARD_RECEIVED"
+	};
+	
+	module.exports = CardConstants;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var CardConstants = __webpack_require__(286);
+	var Dispatcher = __webpack_require__(236);
+	
+	var CardActions = {
+	
+	  receiveAllCards: function (cards) {
+	
+	    Dispatcher.dispatch({
+	      actionType: CardConstants.ALL_CARDS_RECEIVED,
+	      cards: cards
+	    });
+	  },
+	
+	  receiveSingleCard: function (card) {
+	    Dispatcher.dispatch({
+	      actionType: CardConstants.SINGLE_CARD_RECEIVED,
+	      card: card
+	    });
+	  }
+	};
+	
+	module.exports = CardActions;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var CardIndexItem = React.createClass({
+	  displayName: "CardIndexItem",
+	
+	
+	  render: function () {
+	    return React.createElement(
+	      "li",
+	      { className: "card-index-item" },
+	      this.props.card.title
+	    );
+	  }
+	});
+	
+	module.exports = CardIndexItem;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var CardIndex = __webpack_require__(284);
+	var NewCardButton = __webpack_require__(290);
 	var ListStore = __webpack_require__(280);
+	
+	var ListDetail = React.createClass({
+	  displayName: 'ListDetail',
+	
+	
+	  getInitialState: function () {
+	    return { list: this.getStateFromStore(), deleted: false };
+	  },
+	
+	  getStateFromStore: function () {
+	    var listId = parseInt(this.props.listId);
+	    return ListStore.find(listId);
+	  },
+	
+	  // componentWillReceiveProps: function (newProps) {
+	  //   this.listener2 = ListStore.addListener(this.setNewState);
+	  //   ApiUtil.fetchSingleList(this.props.boardId, newProps.listId);
+	  // },
+	
+	  setNewState: function () {
+	    this.setState({ list: this.getStateFromStore() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = ListStore.addListener(this.setNewState);
+	    ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    if (this.listener) {
+	      this.listener.remove();
+	    }
+	    if (this.listener2) {
+	      this.listener2.remove();
+	    }
+	  },
+	
+	  deleteList: function () {
+	    var board = this.props.boardId;
+	    var listId = parseInt(this.props.listId);
+	    ApiUtil.deleteList(board, listId);
+	  },
+	
+	  render: function () {
+	    if (!this.state.list) {
+	      return React.createElement('div', null);
+	    }
+	
+	    return React.createElement(
+	      'section',
+	      { className: 'list-detail group' },
+	      React.createElement(CardIndex, { boardId: this.props.boardId, listId: this.props.listId }),
+	      React.createElement(NewCardButton, { boardId: this.props.boardId, listId: this.props.listId }),
+	      React.createElement(
+	        'button',
+	        { className: 'delete-list-button', onClick: this.deleteList },
+	        'Delete this list...'
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = ListDetail;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var CardStore = __webpack_require__(285);
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(250);
-	var NewListForm = __webpack_require__(282);
+	var NewCardForm = __webpack_require__(291);
 	
-	var NewListButton = React.createClass({
-	  displayName: 'NewListButton',
+	var NewCardButton = React.createClass({
+	  displayName: 'NewCardButton',
 	
 	
 	  getInitialState: function () {
@@ -34938,18 +35233,76 @@
 	
 	    return React.createElement(
 	      'li',
-	      { className: 'new-list-button', onClick: this.openModal },
-	      'Add a list...',
+	      { className: 'new-card-button', onClick: this.openModal },
+	      'Add a new card...',
 	      React.createElement(
 	        Modal,
-	        { className: 'modal', isOpen: this.state.modalOpen, onRequestClose: this.closeModal, style: styles },
-	        React.createElement(NewListForm, { closeModal: this.closeModal, boardId: this.props.boardId })
+	        { className: 'modal', isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: styles },
+	        React.createElement(NewCardForm, { boardId: this.props.boardId, listId: this.props.listId, closeModal: this.closeModal })
 	      )
 	    );
 	  }
 	});
 	
-	module.exports = NewListButton;
+	module.exports = NewCardButton;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var CardActions = __webpack_require__(287);
+	var NewCardForm = React.createClass({
+		displayName: 'NewCardForm',
+	
+	
+		getInitialState: function () {
+			return { title: "" };
+		},
+	
+		createNewCard: function (e) {
+			e.preventDefault();
+			var card = {};
+			card.title = this.state.title;
+			ApiUtil.createNewCard(card, this.props.boardId, this.props.listId);
+			this.setState({ title: "" });
+			this.props.closeModal();
+		},
+	
+		updateTitle: function (e) {
+			var newTitle = e.currentTarget.value;
+			this.setState({ title: newTitle });
+		},
+	
+		render: function () {
+	
+			return React.createElement(
+				'form',
+				{ className: 'new-card-form' },
+				React.createElement(
+					'h1',
+					null,
+					'Create Card'
+				),
+				React.createElement(
+					'h2',
+					null,
+					'Title'
+				),
+				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
+				React.createElement(
+					'button',
+					{ onClick: this.createNewCard },
+					'Create'
+				)
+			);
+		}
+	
+	});
+	
+	module.exports = NewCardForm;
 
 /***/ }
 /******/ ]);

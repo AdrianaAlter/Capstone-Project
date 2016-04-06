@@ -30,10 +30,8 @@ ListStore.__onDispatch = function (payload) {
 
   switch (payload.actionType) {
     case ListConstants.ALL_LISTS_RECEIVED:
-
       ListStore.reset(payload.lists);
       ListStore.__emitChange();
-
       break;
     case ListConstants.SINGLE_LIST_RECEIVED:
       ListStore.resetSingleList(payload.list);
