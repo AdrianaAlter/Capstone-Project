@@ -10,7 +10,8 @@ var NewCardForm = React.createClass({
       e.preventDefault();
       var card = {};
       card.title = this.state.title;
-      ApiUtil.createNewCard(card, this.props.boardId, this.props.listId);
+      card.list_id = this.props.listId;
+      ApiUtil.createNewCard(card, this.props.boardId);
       this.setState({ title: "" });
       this.props.closeModal();
   },

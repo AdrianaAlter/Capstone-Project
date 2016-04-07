@@ -24878,7 +24878,6 @@
 	};
 	
 	BoardStore.find = function (id) {
-	  // debugger
 	  for (var i = 0; i < _boards.length; i++) {
 	    if (_boards[i].id == id) {
 	      return _boards[i];
@@ -24912,6 +24911,7 @@
 	      BoardStore.resetSingleList(payload.list);
 	      BoardStore.__emitChange();
 	      break;
+	
 	  }
 	};
 	
@@ -31740,7 +31740,7 @@
 	var BoardActions = __webpack_require__(240);
 	var SessionActions = __webpack_require__(242);
 	var SearchResultActions = __webpack_require__(244);
-	var ListActions = __webpack_require__(246);
+	// var ListActions = require('../actions/list_actions.js');
 	var CardActions = __webpack_require__(248);
 	
 	ApiUtil = {
@@ -31766,7 +31766,8 @@
 	      type: "GET",
 	      dataType: "json",
 	      success: function (lists) {
-	        ListActions.receiveAllLists(lists);
+	
+	        BoardActions.receiveAllLists(lists);
 	      },
 	      error: function () {
 	        console.log('Error in ApiUtil fetch all lists function');
@@ -31775,14 +31776,14 @@
 	    });
 	  },
 	
-	  fetchAllCards: function (boardId, listId) {
+	  fetchAllCards: function (boardId) {
 	
 	    $.ajax({
-	      url: "api/boards/" + boardId + "/lists/" + listId + "/cards",
+	      url: "api/boards/" + boardId + "/cards",
 	      type: "GET",
 	      dataType: "json",
 	      success: function (cards) {
-	        ListActions.receiveAllCards(cards);
+	        CardActions.receiveAllCards(cards);
 	      },
 	      error: function () {
 	        console.log('Error in ApiUtil fetch all cards function');
@@ -31814,7 +31815,8 @@
 	      type: "GET",
 	      dataType: "json",
 	      success: function (list) {
-	        ListActions.receiveSingleList(list);
+	
+	        BoardActions.receiveSingleList(list);
 	      },
 	      error: function () {
 	        console.log('Error in AJAX request to fetch single list via ApiUtil');
@@ -31854,13 +31856,14 @@
 	    });
 	  },
 	
-	  createNewCard: function (card, boardId, listId, callback) {
+	  createNewCard: function (card, boardId, callback) {
+	
 	    $.ajax({
-	      url: "api/boards/" + boardId + "/lists/" + listId + "/cards",
+	      url: "api/boards/" + boardId + "/cards",
 	      type: "POST",
 	      data: { card: card },
 	      success: function (card) {
-	        ListActions.receiveSingleCard(card);
+	        CardActions.receiveSingleCard(card);
 	        callback && callback(card.id);
 	      },
 	      error: function () {
@@ -31904,16 +31907,18 @@
 	    });
 	  },
 	
-	  deleteCard: function (boardId, listId, id) {
+	  deleteCard: function (boardId, id) {
 	    $.ajax({
-	      url: "api/boards/" + boardId + "/lists/" + listId + "/cards/" + id,
+	      url: "api/boards/" + boardId + "/cards/" + id,
 	      type: "DELETE",
-	      success: function (info) {
-	        if (info[0] && info[0].list_id) {
-	          ListActions.receiveAllCards(info);
-	        } else {
-	          ListActions.resetSingleList(info);
-	        }
+	      success: function (list) {
+	        // if (info[0] && info[0].list_id) {
+	        //   ListActions.receiveAllCards(info);
+	        // }
+	        // else {
+	
+	        BoardActions.receiveSingleList(list);
+	        //   }
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil deleteCard function");
@@ -31945,7 +31950,7 @@
 	      dataType: "json",
 	      data: { list: list },
 	      success: function (list) {
-	        ListActions.receiveSingleList(list);
+	        BoardActions.receiveSingleList(list);
 	      },
 	      error: function () {
 	        console.log('Error in AJAX request to edit list via ApiUtil');
@@ -31953,15 +31958,15 @@
 	    });
 	  },
 	
-	  editCard: function (card, boardId, listId, id) {
+	  editCard: function (card, boardId, id) {
 	
 	    $.ajax({
-	      url: "api/boards/" + boardId + "/lists/" + listId + "/cards/" + id,
+	      url: "api/boards/" + boardId + "/cards/" + id,
 	      type: "PATCH",
 	      dataType: "json",
 	      data: { card: card },
 	      success: function (card) {
-	        ListActions.receiveSingleCard(card);
+	        CardActions.receiveSingleCard(card);
 	      },
 	      error: function () {
 	        console.log('Error in AJAX request to edit card via ApiUtil');
@@ -32107,59 +32112,47 @@
 
 /***/ },
 /* 246 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ListConstants = __webpack_require__(247);
-	var Dispatcher = __webpack_require__(236);
-	
-	var ListActions = {
-	
-	  receiveAllLists: function (lists) {
-	    Dispatcher.dispatch({
-	      actionType: ListConstants.ALL_LISTS_RECEIVED,
-	      lists: lists
-	    });
-	  },
-	
-	  receiveSingleList: function (list) {
-	    Dispatcher.dispatch({
-	      actionType: ListConstants.SINGLE_LIST_RECEIVED,
-	      list: list
-	    });
-	  },
-	
-	  receiveAllCards: function (info) {
-	    Dispatcher.dispatch({
-	      actionType: ListConstants.ALL_CARDS_RECEIVED,
-	      cards: info
-	    });
-	  },
-	
-	  receiveSingleCard: function (card) {
-	    Dispatcher.dispatch({
-	      actionType: ListConstants.SINGLE_CARD_RECEIVED,
-	      card: card
-	    });
-	  }
-	
-	};
-	
-	module.exports = ListActions;
-
-/***/ },
-/* 247 */
 /***/ function(module, exports) {
 
-	var ListConstants = {
-	  ALL_LISTS_RECEIVED: "ALL_LISTS_RECEIVED",
-	  SINGLE_LIST_RECEIVED: "SINGLE_LIST_RECEIVED",
-	  ALL_CARDS_RECEIVED: "ALL_CARDS_RECEIVED",
-	  SINGLE_CARD_RECEIVED: "SINGLE_CARD_RECEIVED"
-	};
-	
-	module.exports = ListConstants;
+	// var ListConstants = require('../constants/list_constants.js');
+	// var Dispatcher = require('../dispatcher/dispatcher.js');
+	//
+	// var ListActions = {
+	//
+	// 	 receiveAllLists: function (lists) {
+	// 		 Dispatcher.dispatch({
+	// 			 actionType: ListConstants.ALL_LISTS_RECEIVED,
+	// 			 lists: lists
+	// 		 });
+	//    },
+	//
+	//    receiveSingleList: function (list) {
+	//       Dispatcher.dispatch({
+	//        actionType: ListConstants.SINGLE_LIST_RECEIVED,
+	//        list: list
+	//      });
+	//    },
+	//
+	//    receiveAllCards: function (cards) {
+	//      Dispatcher.dispatch({
+	//        actionType: ListConstants.ALL_CARDS_RECEIVED,
+	//        cards: cards
+	//      });
+	//    },
+	//
+	//    receiveSingleCard: function (card) {
+	//      Dispatcher.dispatch({
+	//        actionType: ListConstants.SINGLE_CARD_RECEIVED,
+	//        card: card
+	//      });
+	//    }
+	//
+	// };
+	//
+	// module.exports = ListActions;
 
 /***/ },
+/* 247 */,
 /* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -34806,6 +34799,7 @@
 	var React = __webpack_require__(1);
 	var ListIndex = __webpack_require__(281);
 	var BoardStore = __webpack_require__(217);
+	var CardStore = __webpack_require__(286);
 	var Header = __webpack_require__(274);
 	var EditBoardButton = __webpack_require__(292);
 	var BoardDetail = React.createClass({
@@ -34841,6 +34835,8 @@
 	  componentDidMount: function () {
 	    this.listener = BoardStore.addListener(this.setNewState);
 	    ApiUtil.fetchSingleBoard(this.props.params.board_id);
+	    ApiUtil.fetchAllLists(this.props.params.board_id);
+	    ApiUtil.fetchAllCards(this.props.params.board_id);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -34860,11 +34856,7 @@
 	  render: function () {
 	    if (!this.state.board) {
 	
-	      return React.createElement(
-	        'div',
-	        null,
-	        this.props.params.board_id
-	      );
+	      return React.createElement('div', null);
 	    }
 	
 	    return React.createElement(
@@ -34904,8 +34896,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListStore = __webpack_require__(282);
-	var ListActions = __webpack_require__(246);
+	// var ListStore = require('../store/list_store.js');
+	// var ListActions = require('../actions/list_actions.js');
 	var ListIndexItem = __webpack_require__(283);
 	var NewListButton = __webpack_require__(290);
 	var ApiUtil = __webpack_require__(241);
@@ -34918,7 +34910,7 @@
 	  // },
 	  //
 	  // getStateFromStore: function () {
-	  //   return ListStore.all();
+	  //   ApiUtil.fetchAllLists(this.props.boardId);
 	  // },
 	  //
 	  // setNewState: function () {
@@ -34926,14 +34918,14 @@
 	  // },
 	  //
 	  // componentDidMount: function () {
-	  //   this.listener = ListStore.addListener(this.setNewState);
+	  //   this.listener = BoardStore.addListener(this.setNewState);
 	  //   ApiUtil.fetchAllLists(this.props.boardId);
 	  // },
 	  //
 	  // componentWillUnmount: function () {
 	  //   this.listener.remove();
 	  // },
-	
+	  //
 	  render: function () {
 	
 	    if (!this.props.lists) {
@@ -34941,7 +34933,7 @@
 	    }
 	
 	    var listItems = this.props.lists.map(function (list) {
-	      return React.createElement(ListIndexItem, { key: list.id, list: list, boardId: list.board_id, cards: list.cards });
+	      return React.createElement(ListIndexItem, { key: list.id, list: list, boardId: list.board_id });
 	    });
 	
 	    return React.createElement(
@@ -34958,91 +34950,92 @@
 
 /***/ },
 /* 282 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	var Store = __webpack_require__(218).Store;
-	var Dispatcher = __webpack_require__(236);
-	var ListConstants = __webpack_require__(247);
-	
-	var ListStore = new Store(Dispatcher);
-	var _lists = [];
-	
-	ListStore.all = function () {
-	  return _lists.slice();
-	};
-	
-	ListStore.reset = function (lists) {
-	  _lists = lists;
-	};
-	
-	ListStore.resetSingleList = function (list) {
-	
-	  var oldList = ListStore.find(list.id);
-	
-	  if (oldList) {
-	    _lists[_lists.indexOf(oldList)] = list;
-	  } else {
-	    _lists.push(list);
-	  }
-	};
-	
-	ListStore.resetAllCards = function (cards) {
-	  var list = ListStore.find(cards[0].list_id);
-	  list.cards = cards;
-	  ListStore.resetSingleList(list);
-	};
-	
-	ListStore.resetSingleCard = function (card) {
-	  var list = ListStore.find(card.list_id);
-	  var oldCard = ListStore.findCardInList(card, list);
-	  if (oldCard) {
-	    list.cards[list.cards.indexOf(oldCard)] = card;
-	  } else {
-	    list.cards.push(card);
-	  }
-	  ListStore.resetSingleList(list);
-	};
-	
-	ListStore.find = function (id) {
-	  for (var i = 0; i < _lists.length; i++) {
-	    if (_lists[i].id === id) {
-	      return _lists[i];
-	    }
-	  }
-	};
-	
-	ListStore.findCardInList = function (card, list) {
-	  for (var i = 0; i < list.cards.length; i++) {
-	    if (list.cards[i].id === card.id) {
-	      return list.cards[i];
-	    }
-	  }
-	};
-	
-	ListStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case ListConstants.ALL_LISTS_RECEIVED:
-	      ListStore.reset(payload.lists);
-	      ListStore.__emitChange();
-	      break;
-	    case ListConstants.SINGLE_LIST_RECEIVED:
-	
-	      ListStore.resetSingleList(payload.list);
-	      ListStore.__emitChange();
-	      break;
-	    case ListConstants.ALL_CARDS_RECEIVED:
-	      ListStore.resetAllCards(payload.cards);
-	      ListStore.__emitChange();
-	      break;
-	    case ListConstants.SINGLE_CARD_RECEIVED:
-	      ListStore.resetSingleCard(payload.card);
-	      ListStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = ListStore;
+	// var Store = require('flux/utils').Store;
+	// var Dispatcher = require('../dispatcher/dispatcher.js');
+	// var ListConstants = require('../constants/list_constants.js');
+	//
+	// var ListStore = new Store(Dispatcher);
+	// var _lists = [];
+	//
+	// ListStore.all = function () {
+	//   return _lists.slice();
+	// };
+	//
+	// ListStore.reset = function (lists) {
+	//   _lists = lists;
+	// };
+	//
+	// ListStore.resetSingleList = function (list) {
+	//
+	//   var oldList = ListStore.find(list.id);
+	//
+	//   if (oldList) {
+	//     _lists[_lists.indexOf(oldList)] = list;
+	//   }
+	//   else {
+	//     _lists.push(list);
+	//   }
+	// };
+	//
+	// ListStore.resetAllCards = function (cards) {
+	//     var list = ListStore.find(cards[0].list_id);
+	//     list.cards = cards;
+	//     ListStore.resetSingleList(list);
+	// };
+	//
+	// ListStore.resetSingleCard = function (card) {
+	//   var list = ListStore.find(card.list_id);
+	//   var oldCard = ListStore.findCardInList(card, list);
+	//   if (oldCard) {
+	//     list.cards[list.cards.indexOf(oldCard)] = card;
+	//   }
+	//   else {
+	//     list.cards.push(card);
+	//   }
+	//   ListStore.resetSingleList(list);
+	// };
+	//
+	// ListStore.find = function (id) {
+	//
+	//   for (var i = 0; i < _lists.length; i++) {
+	//     if (_lists[i].id == id) { return _lists[i]; }
+	//   }
+	// };
+	//
+	// ListStore.findCardInList = function (card, list) {
+	//   for (var i = 0; i < list.cards.length; i++) {
+	//     if (list.cards[i].id === card.id) { return list.cards[i]; }
+	//   }
+	// };
+	//
+	// ListStore.__onDispatch = function (payload) {
+	//
+	//   switch (payload.actionType) {
+	//     case ListConstants.ALL_LISTS_RECEIVED:
+	//
+	//       ListStore.reset(payload.lists);
+	//       ListStore.__emitChange();
+	//       break;
+	//     case ListConstants.SINGLE_LIST_RECEIVED:
+	//
+	//       ListStore.resetSingleList(payload.list);
+	//       ListStore.__emitChange();
+	//       break;
+	//     case ListConstants.ALL_CARDS_RECEIVED:
+	//       ListStore.resetAllCards(payload.cards);
+	//       ListStore.__emitChange();
+	//       break;
+	//     case ListConstants.SINGLE_CARD_RECEIVED:
+	//       ListStore.resetSingleCard(payload.card);
+	//       ListStore.__emitChange();
+	//       break;
+	//   }
+	//
+	// };
+	//
+	// module.exports = ListStore;
 
 /***/ },
 /* 283 */
@@ -35050,32 +35043,32 @@
 
 	var React = __webpack_require__(1);
 	var ListDetail = __webpack_require__(284);
-	var ListStore = __webpack_require__(282);
+	// var ListStore = require('../store/list_store.js');
 	
 	var ListIndexItem = React.createClass({
 	  displayName: 'ListIndexItem',
 	
-	
-	  getInitialState: function () {
-	    return { list: this.getStateFromStore() };
-	  },
-	
-	  getStateFromStore: function () {
-	    return ListStore.find(this.props.list.id);
-	  },
-	
-	  setNewState: function () {
-	    this.setState({ list: this.getStateFromStore() });
-	  },
-	
-	  componentDidMount: function () {
-	    this.listener = ListStore.addListener(this.setNewState);
-	    ApiUtil.fetchSingleList(this.props.boardId, this.props.list.id);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
+	  // getInitialState: function () {
+	  //   return { list: this.getStateFromStore() };
+	  // },
+	  //
+	  // getStateFromStore: function () {
+	  //   return ListStore.find(this.props.list.id);
+	  // },
+	  //
+	  // setNewState: function () {
+	  //     this.setState( { list: this.getStateFromStore() });
+	  // },
+	  //
+	  // componentDidMount: function () {
+	  //   this.listener = ListStore.addListener(this.setNewState);
+	  //   ApiUtil.fetchSingleList(this.props.boardId, this.props.list.id);
+	  //
+	  // },
+	  //
+	  // componentWillUnmount: function () {
+	  //   this.listener.remove();
+	  // },
 	
 	  render: function () {
 	
@@ -35087,7 +35080,7 @@
 	        null,
 	        this.props.list.title
 	      ),
-	      React.createElement(ListDetail, { boardId: this.props.boardId, listId: this.props.list.id, cards: this.props.cards })
+	      React.createElement(ListDetail, { boardId: this.props.boardId, listId: this.props.list.id })
 	    );
 	  }
 	});
@@ -35101,15 +35094,15 @@
 	var React = __webpack_require__(1);
 	var CardIndex = __webpack_require__(285);
 	var NewCardButton = __webpack_require__(288);
-	var ListStore = __webpack_require__(282);
+	var CardStore = __webpack_require__(286);
 	var EditListButton = __webpack_require__(294);
 	var ListDetail = React.createClass({
 	  displayName: 'ListDetail',
 	
 	
-	  // getInitialState: function () {
-	  //   return { cards: this.getCards() };
-	  // },
+	  getInitialState: function () {
+	    return { cards: this.findCards() };
+	  },
 	
 	  //
 	  // getStateFromStore: function () {
@@ -35127,14 +35120,13 @@
 	  // },
 	  //
 	  componentDidMount: function () {
-	    this.listener = ListStore.addListener(this.getCards);
-	    // ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
+	
+	    this.listener = CardStore.addListener(this.setCards);
+	    ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
 	  },
-	  //
+	  // //
 	  componentWillUnmount: function () {
-	    if (this.listener) {
-	      this.listener.remove();
-	    }
+	    this.listener.remove();
 	    // if (this.listener2) {this.listener2.remove();}
 	  },
 	
@@ -35144,18 +35136,19 @@
 	    ApiUtil.deleteList(board, listId);
 	  },
 	
-	  getCards: function () {
-	    //   var boardId = this.props.boardId;
-	    //   var listId = this.props.listId;
-	    //   ApiUtil.fetchAllCards(boardId, listId);
+	  findCards: function () {
+	    var listId = this.props.listId;
+	    var cards = CardStore.findCardsByListId(listId);
+	    return cards;
+	  },
+	
+	  setCards: function () {
+	    var cards = this.findCards();
+	    this.setState({ cards: cards });
 	  },
 	
 	  render: function () {
-	    // if (!this.state.lists) {
-	    //   return (
-	    //     <div></div>
-	    //   );
-	    // }
+	
 	    // <CardIndex boardId={this.props.boardId} listId={this.props.listId}/>
 	
 	    // var cards = this.props.cards.map(function (card) {
@@ -35165,7 +35158,7 @@
 	    return React.createElement(
 	      'section',
 	      { className: 'list-detail group' },
-	      React.createElement(CardIndex, { cards: this.props.cards, listId: this.props.listId, boardId: this.props.boardId }),
+	      React.createElement(CardIndex, { cards: this.state.cards, listId: this.props.listId, boardId: this.props.boardId }),
 	      React.createElement(NewCardButton, { boardId: this.props.boardId, listId: this.props.listId }),
 	      React.createElement(EditListButton, { listId: this.props.listId, boardId: this.props.boardId }),
 	      React.createElement(
@@ -35195,34 +35188,37 @@
 	  displayName: 'CardIndex',
 	
 	
-	  // getInitialState: function () {
-	  //   return { cards: this.getStateFromStore() };
-	  // },
-	  //
-	  // getStateFromStore: function () {
-	  //   return CardStore.all(this.props.listId);
-	  // },
-	  //
-	  //
-	  // setNewState: function () {
-	  //     this.setState( { cards: this.getStateFromStore() });
-	  // },
-	  //
-	  // componentDidMount: function () {
-	  //   this.listener = ListStore.addListener(this.setNewState);
-	  //   ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
-	  // },
-	  //
-	  // componentWillUnmount: function () {
-	  //   this.listener.remove();
-	  // },
+	  getInitialState: function () {
+	    return { cards: this.getStateFromStore() };
+	  },
+	
+	  getStateFromStore: function () {
+	    return CardStore.all();
+	  },
+	
+	  setNewState: function () {
+	    this.setState({ cards: this.getStateFromStore() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = CardStore.addListener(this.setNewState);
+	
+	    // ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
 	
 	  render: function () {
 	    if (!this.props.cards) {
 	      return React.createElement('div', null);
 	    }
+	
 	    var boardId = this.props.boardId;
+	
 	    var cardIndexItems = this.props.cards.map(function (card) {
+	
 	      return React.createElement(CardIndexItem, { key: card.id, card: card, listId: card.list_id, boardId: boardId });
 	    });
 	
@@ -35250,62 +35246,61 @@
 	var CardStore = new Store(Dispatcher);
 	var _cards = {};
 	
-	CardStore.all = function (listId) {
-	
+	CardStore.all = function () {
 	  var cards = [];
-	  if (_cards[listId]) {
-	    var listCards = _cards[listId];
-	    for (var i = 0; i < listCards.length; i++) {
-	      cards.push(listCards[i]);
-	    }
-	  }
+	  var lists = Object.keys(_cards);
+	  lists.forEach(function (list) {
+	    cards.concat(_cards[list]);
+	  });
 	  return cards;
 	};
 	
 	CardStore.resetCards = function (cards) {
-	  //
-	  // if (cards) {
-	  //   var listId = cards[0].list_id;
-	  //
-	  //   if (_cards[listId]) {
-	  //     for (var i = 0; i < cards.length; i++) {
-	  //       _cards[listId].push(cards[i]);
-	  //     }
-	  //   }
-	  //   else {
-	  //     _cards[listId] = [];
-	  //   }
-	  //   return _cards[listId];
-	  // }
-	  // else {
-	  //
-	  // }
+	  for (var i = 0; i < cards.length; i++) {
+	    var card = cards[i];
+	    var listId = card.list_id;
+	    if (_cards[listId]) {
+	      _cards[listId].push(card);
+	    } else {
+	      _cards[listId] = [];
+	      _cards[listId].push(card);
+	    }
+	  }
+	  return _cards;
+	};
+	
+	CardStore.findCardsByListId = function (list_id) {
+	  return _cards[list_id];
 	};
 	
 	CardStore.resetCard = function (card) {
-	  var listId = card.list_id;
 	
+	  var listId = card.list_id;
 	  if (!_cards[listId]) {
 	    _cards[listId] = [];
 	  }
-	
-	  var cardIds = [];
-	  for (var i = 0; i < _cards[listId].length; i++) {
-	    cardIds.push(_cards[listId][i].id);
-	  }
-	
-	  if (cardIds.includes(card.id)) {
-	    for (var j = 0; i < _cards[listId].length; j++) {
-	      if (_cards[listId][j].id === card.id) {
-	        _cards[listId][j] = card;
-	      }
-	    }
+	  var listCards = _cards[listId];
+	  if (listCards.includes(card)) {
+	    listCards[listCards.indexOf(card)] = card;
 	  } else {
-	    _cards[listId].push(card);
+	    listCards.push(card);
 	  }
-	
-	  return _cards[listId];
 	};
+	
+	// var cardIds = [];
+	// for (var i = 0; i < _cards[listId].length; i++) { cardIds.push(_cards[listId][i].id); }
+	//
+	// if (cardIds.includes(card.id)) {
+	//   for (var j = 0; i < _cards[listId].length; j++) {
+	//     if (_cards[listId][j].id === card.id) {
+	//       _cards[listId][j] = card;
+	//     }
+	//   }
+	// }
+	//
+	// else { _cards[listId].push(card); }
+	//
+	// return _cards[listId];
 	
 	// CardStore.find = function (id) {
 	//
@@ -35349,10 +35344,10 @@
 	
 	  deleteCard: function () {
 	    var boardId = this.props.boardId;
-	    var listId = this.props.listId;
+	    // var listId = this.props.listId;
 	    var id = this.props.card.id;
-	    ApiUtil.deleteCard(boardId, listId, id);
-	    ApiUtil.fetchSingleList(boardId, listId);
+	    ApiUtil.deleteCard(boardId, id);
+	    // ApiUtil.fetchSingleList(boardId, listId);
 	
 	    // ApiUtil.fetchAllCards(boardId, listId);
 	  },
@@ -35442,7 +35437,8 @@
 			e.preventDefault();
 			var card = {};
 			card.title = this.state.title;
-			ApiUtil.createNewCard(card, this.props.boardId, this.props.listId);
+			card.list_id = this.props.listId;
+			ApiUtil.createNewCard(card, this.props.boardId);
 			this.setState({ title: "" });
 			this.props.closeModal();
 		},
@@ -35863,8 +35859,8 @@
 			e.preventDefault();
 			var card = {};
 			card.title = this.state.title;
-	
-			ApiUtil.editCard(card, this.props.boardId, this.props.listId, this.props.cardId);
+			card.listId = this.props.listId;
+			ApiUtil.editCard(card, this.props.boardId, this.props.cardId);
 			this.setState({ title: "" });
 			this.props.closeModal();
 		},

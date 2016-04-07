@@ -7,27 +7,28 @@ var ApiUtil = require('../util/api_util.js');
 
 var CardIndex = React.createClass({
 
-  // getInitialState: function () {
-  //   return { cards: this.getStateFromStore() };
-  // },
-  //
-  // getStateFromStore: function () {
-  //   return CardStore.all(this.props.listId);
-  // },
-  //
-  //
-  // setNewState: function () {
-  //     this.setState( { cards: this.getStateFromStore() });
-  // },
-  //
-  // componentDidMount: function () {
-  //   this.listener = ListStore.addListener(this.setNewState);
-  //   ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
-  // },
-  //
-  // componentWillUnmount: function () {
-  //   this.listener.remove();
-  // },
+  getInitialState: function () {
+    return { cards: this.getStateFromStore() };
+  },
+
+  getStateFromStore: function () {
+    return CardStore.all();
+  },
+
+
+  setNewState: function () {
+      this.setState( { cards: this.getStateFromStore() });
+  },
+
+  componentDidMount: function () {
+    this.listener = CardStore.addListener(this.setNewState);
+
+    // ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
+  },
+
+  componentWillUnmount: function () {
+    this.listener.remove();
+  },
 
   render: function () {
     if (!this.props.cards) {
@@ -35,11 +36,14 @@ var CardIndex = React.createClass({
         <div></div>
       );
     }
+
+
     var boardId = this.props.boardId;
+
     var cardIndexItems = this.props.cards.map(function (card) {
+
       return <CardIndexItem key={card.id} card={card} listId={card.list_id} boardId={boardId}/>;
     });
-
 
     return (
       <ul className="card-index group">

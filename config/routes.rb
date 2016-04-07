@@ -5,9 +5,8 @@ Rails.application.routes.draw do
     resource :session, only: [:create, :destroy, :show]
     resources :users, only: [:index, :new, :create, :show]
     resources :boards, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
-		    resources :lists, only: [:index, :new, :create, :show, :destroy, :update] do
-          resources :cards, only: [:index, :new, :create, :show, :destroy, :update]
-        end
+		    resources :lists, only: [:index, :new, :create, :show, :destroy, :update]
+        resources :cards, only: [:index, :new, :create, :show, :destroy, :update]
     end
 	end
    get "auth/facebook/callback", to: "omniauth#facebook"

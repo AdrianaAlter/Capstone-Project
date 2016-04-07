@@ -1,13 +1,13 @@
 var React = require('react');
 var CardIndex = require('./card_index.jsx');
 var NewCardButton = require('./new_card_button.jsx');
-var ListStore = require('../store/list_store.js');
+var CardStore = require('../store/card_store.js');
 var EditListButton = require('./edit_list_button.jsx');
 var ListDetail = React.createClass({
 
-  // getInitialState: function () {
-  //   return { cards: this.getCards() };
-  // },
+  getInitialState: function () {
+    return { cards: this.findCards() };
+  },
 
 
   //
@@ -26,14 +26,16 @@ var ListDetail = React.createClass({
   // },
   //
   componentDidMount: function () {
-    this.listener = ListStore.addListener(this.getCards);
-    // ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
+
+    this.listener = CardStore.addListener(this.setCards);
+    ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
   },
-  //
+  // //
   componentWillUnmount: function () {
-    if (this.listener) {this.listener.remove();}
+    this.listener.remove();
     // if (this.listener2) {this.listener2.remove();}
   },
+
 
   deleteList: function () {
     var board = this.props.boardId;
@@ -41,18 +43,19 @@ var ListDetail = React.createClass({
     ApiUtil.deleteList(board, listId);
   },
 
-  getCards: function () {
-  //   var boardId = this.props.boardId;
-  //   var listId = this.props.listId;
-  //   ApiUtil.fetchAllCards(boardId, listId);
+  findCards: function () {
+    var listId = this.props.listId;
+    var cards = CardStore.findCardsByListId(listId);
+    return cards;
+  },
+
+  setCards: function () {
+    var cards = this.findCards();
+    this.setState({ cards: cards });
   },
 
   render: function () {
-    // if (!this.state.lists) {
-    //   return (
-    //     <div></div>
-    //   );
-    // }
+
     // <CardIndex boardId={this.props.boardId} listId={this.props.listId}/>
 
     // var cards = this.props.cards.map(function (card) {
@@ -62,7 +65,7 @@ var ListDetail = React.createClass({
     return (
 
       <section className="list-detail group">
-        <CardIndex cards={this.props.cards} listId={this.props.listId} boardId={this.props.boardId}/>
+        <CardIndex cards={this.state.cards} listId={this.props.listId} boardId={this.props.boardId}/>
         <NewCardButton boardId={this.props.boardId} listId={this.props.listId}/>
         <EditListButton listId={this.props.listId} boardId={this.props.boardId}/>
         <button className="delete-list-button" onClick={this.deleteList}>Delete this list...</button>

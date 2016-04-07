@@ -7,7 +7,6 @@ var _boards = [];
 
 BoardStore.all = function () {
   return _boards.slice();
-
 };
 
 BoardStore.resetBoards = function (boards) {
@@ -24,7 +23,6 @@ BoardStore.resetBoard = function (board) {
   else {
     _boards.push(board);
   }
-
 };
 
 BoardStore.resetAllLists = function (lists) {
@@ -46,7 +44,6 @@ BoardStore.resetSingleList = function (list) {
 };
 
 BoardStore.find = function (id) {
-// debugger
   for (var i = 0; i < _boards.length; i++) {
     if (_boards[i].id == id) { return _boards[i]; }
   }
@@ -76,6 +73,7 @@ BoardStore.__onDispatch = function (payload) {
       BoardStore.resetSingleList(payload.list);
       BoardStore.__emitChange();
       break;
+
   }
 };
 

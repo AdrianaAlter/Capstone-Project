@@ -5,10 +5,10 @@ var CardIndexItem = React.createClass({
 
   deleteCard: function () {
     var boardId = this.props.boardId;
-    var listId = this.props.listId;
+    // var listId = this.props.listId;
     var id = this.props.card.id;
-    ApiUtil.deleteCard(boardId, listId, id);
-    ApiUtil.fetchSingleList(boardId, listId);
+    ApiUtil.deleteCard(boardId, id);
+    // ApiUtil.fetchSingleList(boardId, listId);
 
     // ApiUtil.fetchAllCards(boardId, listId);
   },

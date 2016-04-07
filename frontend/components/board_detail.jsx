@@ -1,6 +1,7 @@
 var React = require('react');
 var ListIndex = require('./list_index.jsx');
 var BoardStore = require('../store/board_store.js');
+var CardStore = require('../store/card_store.js');
 var Header = require('./header.jsx');
 var EditBoardButton = require('./edit_board_button.jsx');
 var BoardDetail = React.createClass({
@@ -15,7 +16,6 @@ var BoardDetail = React.createClass({
 
   getStateFromStore: function () {
     return BoardStore.find(this.props.params.board_id);
-
   },
 
   // getLists: function () {
@@ -28,6 +28,8 @@ var BoardDetail = React.createClass({
   //   ApiUtil.fetchSingleBoard(newProps.params.board_id);
   // },
 
+
+
   setNewState: function () {
       this.setState( { board: this.getStateFromStore() });
   },
@@ -35,7 +37,8 @@ var BoardDetail = React.createClass({
   componentDidMount: function () {
     this.listener = BoardStore.addListener(this.setNewState);
     ApiUtil.fetchSingleBoard(this.props.params.board_id);
-
+    ApiUtil.fetchAllLists(this.props.params.board_id);
+    ApiUtil.fetchAllCards(this.props.params.board_id);
   },
 
   componentWillUnmount: function () {
@@ -52,7 +55,7 @@ var BoardDetail = React.createClass({
     if (!this.state.board) {
 
       return (
-        <div>{this.props.params.board_id}</div>
+        <div></div>
       );
     }
 

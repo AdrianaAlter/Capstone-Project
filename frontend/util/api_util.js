@@ -1,7 +1,7 @@
 var BoardActions = require('../actions/board_actions.js');
 var SessionActions = require('../actions/session_actions.js');
 var SearchResultActions = require('../actions/search_result_actions.js');
-var ListActions = require('../actions/list_actions.js');
+// var ListActions = require('../actions/list_actions.js');
 var CardActions = require('../actions/card_actions.js');
 
 ApiUtil = {
@@ -20,7 +20,6 @@ ApiUtil = {
         console.log('Error in AJAX request to fetch all boards via ApiUtil');
       }
     });
-
   },
 
   fetchAllLists: function (board) {
@@ -29,7 +28,8 @@ ApiUtil = {
       type: "GET",
       dataType: "json",
       success: function (lists) {
-        ListActions.receiveAllLists(lists);
+
+        BoardActions.receiveAllLists(lists);
       },
       error: function () {
         console.log('Error in ApiUtil fetch all lists function');
@@ -39,14 +39,14 @@ ApiUtil = {
 
   },
 
-  fetchAllCards: function (boardId, listId) {
+  fetchAllCards: function (boardId) {
 
     $.ajax({
-      url: "api/boards/" + boardId + "/lists/" + listId + "/cards",
+      url: "api/boards/" + boardId + "/cards",
       type: "GET",
       dataType: "json",
       success: function (cards) {
-        ListActions.receiveAllCards(cards);
+        CardActions.receiveAllCards(cards);
       },
       error: function () {
         console.log('Error in ApiUtil fetch all cards function');
@@ -64,7 +64,7 @@ ApiUtil = {
       type: "GET",
       dataType: "json",
       success: function (board) {
-        
+
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
@@ -82,7 +82,8 @@ ApiUtil = {
       type: "GET",
       dataType: "json",
       success: function (list) {
-        ListActions.receiveSingleList(list);
+
+        BoardActions.receiveSingleList(list);
       },
       error: function () {
         console.log('Error in AJAX request to fetch single list via ApiUtil');
@@ -124,13 +125,14 @@ ApiUtil = {
       });
   },
 
-  createNewCard: function (card, boardId, listId, callback) {
+  createNewCard: function (card, boardId, callback) {
+
       $.ajax({
-        url: "api/boards/" + boardId + "/lists/" + listId + "/cards",
+        url: "api/boards/" + boardId + "/cards",
         type: "POST",
         data: { card: card },
         success: function (card) {
-          ListActions.receiveSingleCard(card);
+          CardActions.receiveSingleCard(card);
           callback && callback(card.id);
         },
         error: function () {
@@ -174,17 +176,18 @@ ApiUtil = {
     });
   },
 
-  deleteCard: function (boardId, listId, id) {
+  deleteCard: function (boardId, id) {
     $.ajax({
-      url: "api/boards/" + boardId + "/lists/" + listId + "/cards/" + id,
+      url: "api/boards/" + boardId + "/cards/" + id,
       type: "DELETE",
-      success: function (info) {
-        if (info[0] && info[0].list_id) {
-          ListActions.receiveAllCards(info);
-        }
-        else {
-          ListActions.resetSingleList(info);
-        }
+      success: function (list) {
+        // if (info[0] && info[0].list_id) {
+        //   ListActions.receiveAllCards(info);
+        // }
+        // else {
+
+          BoardActions.receiveSingleList(list);
+      //   }
       },
       error: function () {
         console.log("Error in ApiUtil deleteCard function");
@@ -217,7 +220,7 @@ ApiUtil = {
       dataType: "json",
       data: { list: list },
       success: function (list) {
-        ListActions.receiveSingleList(list);
+        BoardActions.receiveSingleList(list);
       },
       error: function () {
         console.log('Error in AJAX request to edit list via ApiUtil');
@@ -226,15 +229,15 @@ ApiUtil = {
 
   },
 
-  editCard: function (card, boardId, listId, id) {
+  editCard: function (card, boardId, id) {
 
     $.ajax({
-      url: "api/boards/" + boardId + "/lists/" + listId + "/cards/" + id,
+      url: "api/boards/" + boardId + "/cards/" + id,
       type: "PATCH",
       dataType: "json",
       data: { card: card },
       success: function (card) {
-        ListActions.receiveSingleCard(card);
+        CardActions.receiveSingleCard(card);
       },
       error: function () {
         console.log('Error in AJAX request to edit card via ApiUtil');

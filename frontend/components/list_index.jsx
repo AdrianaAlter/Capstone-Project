@@ -1,6 +1,6 @@
 var React = require('react');
-var ListStore = require('../store/list_store.js');
-var ListActions = require('../actions/list_actions.js');
+// var ListStore = require('../store/list_store.js');
+// var ListActions = require('../actions/list_actions.js');
 var ListIndexItem = require('./list_index_item.jsx');
 var NewListButton = require('./new_list_button.jsx');
 var ApiUtil = require('../util/api_util.js');
@@ -11,7 +11,7 @@ var ListIndex = React.createClass({
   // },
   //
   // getStateFromStore: function () {
-  //   return ListStore.all();
+  //   ApiUtil.fetchAllLists(this.props.boardId);
   // },
   //
   // setNewState: function () {
@@ -19,14 +19,14 @@ var ListIndex = React.createClass({
   // },
   //
   // componentDidMount: function () {
-  //   this.listener = ListStore.addListener(this.setNewState);
+  //   this.listener = BoardStore.addListener(this.setNewState);
   //   ApiUtil.fetchAllLists(this.props.boardId);
   // },
   //
   // componentWillUnmount: function () {
   //   this.listener.remove();
   // },
-
+  //
   render: function () {
 
     if (!this.props.lists) {
@@ -35,9 +35,11 @@ var ListIndex = React.createClass({
       );
     }
 
+
     var listItems = this.props.lists.map(function (list) {
-      return <ListIndexItem key={list.id} list={list} boardId={list.board_id} cards={list.cards}/>;
+      return <ListIndexItem key={list.id} list={list} boardId={list.board_id}/>;
     });
+    
 
     return (
         <ul className="list-index">

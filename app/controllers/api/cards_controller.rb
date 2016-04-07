@@ -1,6 +1,7 @@
 class Api::CardsController < ApplicationController
   def index
-    @cards = Card.where(list_id: current_list_id)
+    board = Board.find(current_board_id)
+    @cards = board.cards
     render :index
   end
 
@@ -10,11 +11,9 @@ class Api::CardsController < ApplicationController
 
   def create
     @card = Card.new(card_params)
-    @card.list_id = current_list_id
+
     if @card.save
       render json: @card
-    else
-      render :new
     end
   end
 
@@ -29,26 +28,26 @@ class Api::CardsController < ApplicationController
 
   def destroy
     @card = Card.find(params[:id])
+
     @card.destroy
 
-    if @card.sibling_cards.empty?
-      @list = List.find(current_list_id)
-      render json: @list
-    else
-      @cards = @card.sibling_cards
-      render :index
-    end
+    @list = List.find(@card.list_id)
+    render "api/lists/show"
   end
 
 
   private
 
   def card_params
-    params.require(:card).permit(:title)
+    params.require(:card).permit(:title, :list_id)
   end
 
-  def current_list_id
-    params[:list_id]
+  # def current_list_id
+  #   params[:list_id]
+  # end
+
+  def current_board_id
+    params[:board_id]
   end
 
   # def sibling_cards(id)
