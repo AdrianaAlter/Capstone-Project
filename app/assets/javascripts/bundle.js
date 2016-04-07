@@ -34629,6 +34629,8 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(252);
+	var Footer = __webpack_require__(298);
 	
 	var LogInForm = React.createClass({
 	  displayName: 'LogInForm',
@@ -34660,6 +34662,7 @@
 	  },
 	
 	  render: function () {
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'welcome-page group' },
@@ -35903,6 +35906,91 @@
 	});
 	
 	module.exports = EditCardForm;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Modal = __webpack_require__(252);
+	
+	var Footer = React.createClass({
+	  displayName: 'Footer',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      currentUser: null,
+	      modalOpen: false
+	    };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  render: function () {
+	    var styles = {
+	      content: { backgroundColor: "#e4f0f6" }
+	    };
+	
+	    var tourPic = React.createElement(
+	      'section',
+	      { className: 'tour-content' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        'meow'
+	      ),
+	      React.createElement('div', { className: 'tour-pic' })
+	    );
+	    var tour = React.createElement(
+	      'li',
+	      { className: 'footerlink', onClick: this.openModal },
+	      'Tour',
+	      React.createElement(
+	        Modal,
+	        { className: 'modal', isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: styles },
+	        tourPic
+	      )
+	    );
+	
+	    var pricing = React.createElement(
+	      'li',
+	      { className: 'footerlink', onClick: this.openModal },
+	      'Pricing',
+	      React.createElement(Modal, { className: 'modal', isOpen: this.state.modalOpen,
+	        onRequestClose: this.closeModal,
+	        style: styles })
+	    );
+	
+	    var jobs = React.createElement(
+	      'li',
+	      { className: 'footerlink', onClick: this.openModal },
+	      'Jobs',
+	      React.createElement(Modal, { className: 'modal', isOpen: this.state.modalOpen,
+	        onRequestClose: this.closeModal,
+	        style: styles })
+	    );
+	
+	    return React.createElement(
+	      'ul',
+	      null,
+	      tour,
+	      pricing,
+	      jobs
+	    );
+	  }
+	
+	});
+	
+	module.exports = Footer;
 
 /***/ }
 /******/ ]);

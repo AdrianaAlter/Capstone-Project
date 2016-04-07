@@ -1,5 +1,7 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util.js');
+var Modal = require('react-modal');
+var Footer = require('./footer.jsx');
 
 var LogInForm = React.createClass({
   contextTypes: { router: React.PropTypes.object.isRequired },
@@ -30,6 +32,9 @@ var LogInForm = React.createClass({
 
 
   render: function () {
+
+
+
     return(
       <div className="welcome-page group">
         <section className="log-in-page group">
@@ -59,6 +64,7 @@ var LogInForm = React.createClass({
         </section>
 
         <footer group>
+
           <ul>
             <li>Tour</li>
             <li>Pricing</li>
