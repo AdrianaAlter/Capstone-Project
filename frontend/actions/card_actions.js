@@ -4,10 +4,11 @@ var Dispatcher = require('../dispatcher/dispatcher.js');
 var CardActions = {
 
   receiveAllCards: function (cards) {
-    
+
     Dispatcher.dispatch({
       actionType: CardConstants.ALL_CARDS_RECEIVED,
-      cards: cards
+      cards: cards,
+      
     });
   },
 

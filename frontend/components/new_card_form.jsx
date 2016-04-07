@@ -6,7 +6,6 @@ var NewCardForm = React.createClass({
 		return({ title: "" });
 	},
 
-
   createNewCard: function (e) {
       e.preventDefault();
       var card = {};
@@ -19,10 +18,7 @@ var NewCardForm = React.createClass({
 	updateTitle: function (e) {
 		var newTitle = e.currentTarget.value;
 		this.setState({ title: newTitle });
-
 	},
-
-
 
 	render: function () {
 

@@ -23,6 +23,38 @@ ApiUtil = {
 
   },
 
+  fetchAllLists: function (board) {
+    $.ajax({
+      url: "api/boards/" + board + "/lists",
+      type: "GET",
+      dataType: "json",
+      success: function (lists) {
+        ListActions.receiveAllLists(lists);
+      },
+      error: function () {
+        console.log('Error in ApiUtil fetch all lists function');
+      }
+
+    });
+
+  },
+
+  fetchAllCards: function (boardId, listId) {
+
+    $.ajax({
+      url: "api/boards/" + boardId + "/lists/" + listId + "/cards",
+      type: "GET",
+      dataType: "json",
+      success: function (cards) {
+        ListActions.receiveAllCards(cards);
+      },
+      error: function () {
+        console.log('Error in ApiUtil fetch all cards function');
+      }
+
+    });
+
+  },
 
   fetchSingleBoard: function (id) {
 
@@ -41,29 +73,14 @@ ApiUtil = {
 
   },
 
-	fetchAllLists: function (board) {
-		$.ajax({
-			url: "api/boards/" + board + "/lists",
-			type: "GET",
-			dataType: "json",
-    	success: function (lists) {
-        ListActions.receiveAllLists(lists);
-			},
-			error: function () {
-				console.log('Error in ApiUtil fetch all lists function');
-			}
-
-		});
-
-	},
 
   fetchSingleList: function (board, id) {
+
     $.ajax({
       url: "api/boards/" + board + "/lists/" + id,
       type: "GET",
       dataType: "json",
       success: function (list) {
-
         ListActions.receiveSingleList(list);
       },
       error: function () {
@@ -73,22 +90,6 @@ ApiUtil = {
 
   },
 
-	fetchAllCards: function (boardId, listId) {
-
-		$.ajax({
-			url: "api/boards/" + boardId + "/lists/" + listId + "/cards",
-			type: "GET",
-			dataType: "json",
-    	success: function (cards) {
-        CardActions.receiveAllCards(cards);
-			},
-			error: function () {
-				console.log('Error in ApiUtil fetch all cards function');
-			}
-
-		});
-
-	},
 
   createNewBoard: function (board, callback) {
 
@@ -123,13 +124,13 @@ ApiUtil = {
   },
 
   createNewCard: function (card, boardId, listId, callback) {
-
       $.ajax({
         url: "api/boards/" + boardId + "/lists/" + listId + "/cards",
         type: "POST",
         data: { card: card },
         success: function (card) {
-          CardActions.receiveSingleCard(card);
+
+          ListActions.receiveSingleCard(card);
           callback && callback(card.id);
         },
         error: function () {
@@ -160,10 +161,22 @@ ApiUtil = {
       type: "DELETE",
       success: function (lists) {
         ListActions.receiveAllLists(lists);
-        // window.location.href= "/";
       },
       error: function () {
         console.log("Error in ApiUtil deleteList function");
+      }
+    });
+  },
+
+  deleteCard: function (boardId, listId, id) {
+    $.ajax({
+      url: "api/boards/" + boardId + "/lists/" + listId + "/cards/" + id,
+      type: "DELETE",
+      success: function (cards) {
+        ListActions.receiveAllCards(cards);
+      },
+      error: function () {
+        console.log("Error in ApiUtil deleteCard function");
       }
     });
   },

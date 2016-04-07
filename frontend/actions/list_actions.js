@@ -4,7 +4,6 @@ var Dispatcher = require('../dispatcher/dispatcher.js');
 var ListActions = {
 
 	 receiveAllLists: function (lists) {
-
 		 Dispatcher.dispatch({
 			 actionType: ListConstants.ALL_LISTS_RECEIVED,
 			 lists: lists
@@ -12,9 +11,24 @@ var ListActions = {
    },
 
    receiveSingleList: function (list) {
-     Dispatcher.dispatch({
+      Dispatcher.dispatch({
        actionType: ListConstants.SINGLE_LIST_RECEIVED,
        list: list
+     });
+   },
+
+   receiveAllCards: function (cards) {
+     Dispatcher.dispatch({
+       actionType: ListConstants.ALL_CARDS_RECEIVED,
+       cards: cards
+     });
+
+   },
+
+   receiveSingleCard: function (card) {
+     Dispatcher.dispatch({
+       actionType: ListConstants.SINGLE_CARD_RECEIVED,
+       card: card
      });
    }
 

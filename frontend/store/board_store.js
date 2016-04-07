@@ -8,16 +8,24 @@ var _boards = [];
 BoardStore.all = function () {
   return _boards.slice();
 };
-//
+
 BoardStore.resetBoards = function (boards) {
   _boards = boards;
+  
 };
-//
+
 BoardStore.resetBoard = function (board) {
-  _boards = [];
-  _boards.push(board);
+
+
+  if (_boards.indexOf(board) === -1){
+    _boards.push(board);
+  }
+  else {
+    var i = _boards.indexOf(board);
+    _boards[i] = board;
+  }
 };
-//
+
 BoardStore.find = function (id) {
   for (var i = 0; i < _boards.length; i++) {
     if (_boards[i].id === id) { return _boards[i]; }

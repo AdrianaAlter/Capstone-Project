@@ -6,23 +6,48 @@
   margin: 10px;
   background: transparent;
   width: 252px;
-
 }
-
 
 .card-index-item {
   display: block;
   height: 24px;
   width: 242px;
-  background: white;
   padding: 4px;
   line-height: 20px;
-  border-radius: 3px;
-  cursor: pointer;
-  color: #4d4d4d;
+  background: white;
   font-size: 14px;
-  margin: 6px 0;
   font-weight: normal;
+  cursor: pointer;
+  border-radius: 3px;
+  margin: 6px 0;
+  color: #4d4d4d;
+}
+
+.card-index-item > h1 {
+  width: 200px;
+  margin: 0;
+}
+
+
+.card-delete-button {
+  display: inline;
+  color: #aaa;
+  float: right;
+  height: 20px;
+  width: 23px;
+  // border-left: 1px solid #aaa;
+  padding: 0;
+  line-height: 20px;
+  background: white;
+  font-size: 14px;
+  font-weight: normal;
+  cursor: pointer;
+  box-shadow: none;
+  margin: 0;
+}
+
+.card-delete-button:hover {
+  color: #4d4d4d;
 }
 
 .new-card-form {

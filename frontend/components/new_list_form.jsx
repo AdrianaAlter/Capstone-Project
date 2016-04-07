@@ -12,7 +12,6 @@ var NewListForm = React.createClass({
       e.preventDefault();
       var list = {};
       list.title = this.state.title;
-
       ApiUtil.createNewList(list, this.props.boardId);
       this.setState({ title: "" });
       this.props.closeModal();
@@ -21,7 +20,6 @@ var NewListForm = React.createClass({
 	updateTitle: function (e) {
 		var newTitle = e.currentTarget.value;
 		this.setState({ title: newTitle });
-
 	},
 
 

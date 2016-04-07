@@ -8,7 +8,7 @@ var ApiUtil = require('../util/api_util.js');
 var ListIndex = React.createClass({
   getInitialState: function () {
     return { lists: this.getStateFromStore() };
-},
+  },
 
   getStateFromStore: function () {
     return ListStore.all();
@@ -35,9 +35,8 @@ var ListIndex = React.createClass({
       );
     }
 
-
     var listItems = this.state.lists.map(function (list) {
-      return <ListIndexItem key={list.id} list={list} boardId={list.board_id}/>;
+      return <ListIndexItem key={list.id} list={list} boardId={list.board_id} cards={list.cards}/>;
     });
 
     return (

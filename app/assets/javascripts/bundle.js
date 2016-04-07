@@ -24779,9 +24779,7 @@
 	var BoardStore = __webpack_require__(217);
 	var BoardActions = __webpack_require__(240);
 	var ApiUtil = __webpack_require__(241);
-	// var Modal = require('react-modal');
 	var NewBoardForm = __webpack_require__(248);
-	// var Link = require('react-router').Link;
 	var NewBoardButton = __webpack_require__(249);
 	var BoardIndexItem = __webpack_require__(270);
 	
@@ -24805,10 +24803,6 @@
 	  _onChange: function () {
 	    this.setState({ boards: BoardStore.all() });
 	  },
-	
-	  // getNewBoardForm: function () {
-	  // 	NewBoardForm.toggleDisplayed();
-	  // },
 	
 	  render: function () {
 	
@@ -24851,16 +24845,21 @@
 	BoardStore.all = function () {
 	  return _boards.slice();
 	};
-	//
+	
 	BoardStore.resetBoards = function (boards) {
 	  _boards = boards;
 	};
-	//
+	
 	BoardStore.resetBoard = function (board) {
-	  _boards = [];
-	  _boards.push(board);
+	
+	  if (_boards.indexOf(board) === -1) {
+	    _boards.push(board);
+	  } else {
+	    var i = _boards.indexOf(board);
+	    _boards[i] = board;
+	  }
 	};
-	//
+	
 	BoardStore.find = function (id) {
 	  for (var i = 0; i < _boards.length; i++) {
 	    if (_boards[i].id === id) {
@@ -31711,21 +31710,6 @@
 	    });
 	  },
 	
-	  fetchSingleBoard: function (id) {
-	
-	    $.ajax({
-	      url: "api/boards/" + id,
-	      type: "GET",
-	      dataType: "json",
-	      success: function (board) {
-	        BoardActions.receiveSingleBoard(board);
-	      },
-	      error: function () {
-	        console.log('Error in AJAX request to fetch single board via ApiUtil');
-	      }
-	    });
-	  },
-	
 	  fetchAllLists: function (board) {
 	    $.ajax({
 	      url: "api/boards/" + board + "/lists",
@@ -31741,21 +31725,6 @@
 	    });
 	  },
 	
-	  fetchSingleList: function (board, id) {
-	    $.ajax({
-	      url: "api/boards/" + board + "/lists/" + id,
-	      type: "GET",
-	      dataType: "json",
-	      success: function (list) {
-	
-	        ListActions.receiveSingleList(list);
-	      },
-	      error: function () {
-	        console.log('Error in AJAX request to fetch single list via ApiUtil');
-	      }
-	    });
-	  },
-	
 	  fetchAllCards: function (boardId, listId) {
 	
 	    $.ajax({
@@ -31763,12 +31732,42 @@
 	      type: "GET",
 	      dataType: "json",
 	      success: function (cards) {
-	        CardActions.receiveAllCards(cards);
+	        ListActions.receiveAllCards(cards);
 	      },
 	      error: function () {
 	        console.log('Error in ApiUtil fetch all cards function');
 	      }
 	
+	    });
+	  },
+	
+	  fetchSingleBoard: function (id) {
+	
+	    $.ajax({
+	      url: "api/boards/" + id,
+	      type: "GET",
+	      dataType: "json",
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      error: function () {
+	        console.log('Error in AJAX request to fetch single board via ApiUtil');
+	      }
+	    });
+	  },
+	
+	  fetchSingleList: function (board, id) {
+	
+	    $.ajax({
+	      url: "api/boards/" + board + "/lists/" + id,
+	      type: "GET",
+	      dataType: "json",
+	      success: function (list) {
+	        ListActions.receiveSingleList(list);
+	      },
+	      error: function () {
+	        console.log('Error in AJAX request to fetch single list via ApiUtil');
+	      }
 	    });
 	  },
 	
@@ -31805,13 +31804,13 @@
 	  },
 	
 	  createNewCard: function (card, boardId, listId, callback) {
-	
 	    $.ajax({
 	      url: "api/boards/" + boardId + "/lists/" + listId + "/cards",
 	      type: "POST",
 	      data: { card: card },
 	      success: function (card) {
-	        CardActions.receiveSingleCard(card);
+	
+	        ListActions.receiveSingleCard(card);
 	        callback && callback(card.id);
 	      },
 	      error: function () {
@@ -31842,10 +31841,22 @@
 	      type: "DELETE",
 	      success: function (lists) {
 	        ListActions.receiveAllLists(lists);
-	        // window.location.href= "/";
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil deleteList function");
+	      }
+	    });
+	  },
+	
+	  deleteCard: function (boardId, listId, id) {
+	    $.ajax({
+	      url: "api/boards/" + boardId + "/lists/" + listId + "/cards/" + id,
+	      type: "DELETE",
+	      success: function (cards) {
+	        ListActions.receiveAllCards(cards);
+	      },
+	      error: function () {
+	        console.log("Error in ApiUtil deleteCard function");
 	      }
 	    });
 	  },
@@ -31996,7 +32007,6 @@
 	var ListActions = {
 	
 	  receiveAllLists: function (lists) {
-	
 	    Dispatcher.dispatch({
 	      actionType: ListConstants.ALL_LISTS_RECEIVED,
 	      lists: lists
@@ -32007,6 +32017,20 @@
 	    Dispatcher.dispatch({
 	      actionType: ListConstants.SINGLE_LIST_RECEIVED,
 	      list: list
+	    });
+	  },
+	
+	  receiveAllCards: function (cards) {
+	    Dispatcher.dispatch({
+	      actionType: ListConstants.ALL_CARDS_RECEIVED,
+	      cards: cards
+	    });
+	  },
+	
+	  receiveSingleCard: function (card) {
+	    Dispatcher.dispatch({
+	      actionType: ListConstants.SINGLE_CARD_RECEIVED,
+	      card: card
 	    });
 	  }
 	
@@ -32020,7 +32044,9 @@
 
 	var ListConstants = {
 	  ALL_LISTS_RECEIVED: "ALL_LISTS_RECEIVED",
-	  SINGLE_LIST_RECEIVED: "SINGLE_LIST_RECEIVED"
+	  SINGLE_LIST_RECEIVED: "SINGLE_LIST_RECEIVED",
+	  ALL_CARDS_RECEIVED: "ALL_CARDS_RECEIVED",
+	  SINGLE_CARD_RECEIVED: "SINGLE_CARD_RECEIVED"
 	};
 	
 	module.exports = ListConstants;
@@ -34766,7 +34792,7 @@
 	    }
 	
 	    var listItems = this.state.lists.map(function (list) {
-	      return React.createElement(ListIndexItem, { key: list.id, list: list, boardId: list.board_id });
+	      return React.createElement(ListIndexItem, { key: list.id, list: list, boardId: list.board_id, cards: list.cards });
 	    });
 	
 	    return React.createElement(
@@ -34801,8 +34827,48 @@
 	};
 	
 	ListStore.resetSingleList = function (list) {
-	  _lists = [];
-	  _lists.push(list);
+	  // debugger
+	  var oldList = ListStore.find(list.id);
+	
+	  if (oldList) {
+	    _lists[_lists.indexOf(oldList)] = list;
+	  } else {
+	    _lists.push(list);
+	  }
+	
+	  // var ids = [];
+	  // for (var i = 0; i < _lists.length; i++) {
+	  //   ids.push(_lists[i].id);
+	  // }
+	  //
+	  //
+	  // if (!ids.includes(list.id)){
+	  //   _lists.push(list);
+	  // }
+	  //
+	  // else {
+	  //   for (var j = 0; j < _lists.length; j++) {
+	  //     if (_lists[j].id === list.id)
+	  //       _lists[j] = list;
+	  //     }
+	  //   }
+	};
+	
+	// ListStore.resetAllCards = function (cards) {
+	//   if (!cards) {
+	//
+	//   }
+	// };
+	
+	ListStore.resetSingleCard = function (card) {
+	  var list = ListStore.find(card.list_id);
+	  if (!list.cards.includes(card)) {
+	    list.cards.push(card);
+	  } else {
+	    var i = list.cards.indexOf(card);
+	    list.cards[i] = card;
+	  }
+	  ListStore.resetSingleList(list);
 	};
 	
 	ListStore.find = function (id) {
@@ -34824,6 +34890,14 @@
 	      ListStore.resetSingleList(payload.list);
 	      ListStore.__emitChange();
 	      break;
+	    case ListConstants.ALL_CARDS_RECEIVED:
+	      // ListStore.resetAllCards(payload.cards);
+	      ListStore.__emitChange();
+	      break;
+	    case ListConstants.SINGLE_CARD_RECEIVED:
+	      ListStore.resetSingleCard(payload.card);
+	      ListStore.__emitChange();
+	      break;
 	  }
 	};
 	
@@ -34835,10 +34909,32 @@
 
 	var React = __webpack_require__(1);
 	var ListDetail = __webpack_require__(289);
+	var ListStore = __webpack_require__(280);
 	
 	var ListIndexItem = React.createClass({
 	  displayName: 'ListIndexItem',
 	
+	
+	  getInitialState: function () {
+	    return { list: this.getStateFromStore() };
+	  },
+	
+	  getStateFromStore: function () {
+	    return ListStore.find(this.props.list.id);
+	  },
+	
+	  setNewState: function () {
+	    this.setState({ list: this.getStateFromStore() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = ListStore.addListener(this.setNewState);
+	    ApiUtil.fetchSingleList(this.props.boardId, this.props.list.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
 	
 	  render: function () {
 	
@@ -34850,7 +34946,7 @@
 	        null,
 	        this.props.list.title
 	      ),
-	      React.createElement(ListDetail, { boardId: this.props.boardId, listId: this.props.list.id })
+	      React.createElement(ListDetail, { boardId: this.props.boardId, listId: this.props.list.id, cards: this.props.cards })
 	    );
 	  }
 	});
@@ -34923,7 +35019,6 @@
 			e.preventDefault();
 			var list = {};
 			list.title = this.state.title;
-	
 			ApiUtil.createNewList(list, this.props.boardId);
 			this.setState({ title: "" });
 			this.props.closeModal();
@@ -34968,6 +35063,7 @@
 
 	var React = __webpack_require__(1);
 	var CardStore = __webpack_require__(285);
+	var ListStore = __webpack_require__(280);
 	var CardActions = __webpack_require__(287);
 	var CardIndexItem = __webpack_require__(288);
 	var ApiUtil = __webpack_require__(241);
@@ -34976,40 +35072,41 @@
 	  displayName: 'CardIndex',
 	
 	
-	  getInitialState: function () {
-	    return { cards: this.getStateFromStore() };
-	  },
-	
-	  getStateFromStore: function () {
-	    return CardStore.all();
-	  },
-	
-	  setNewState: function () {
-	    this.setState({ cards: this.getStateFromStore() });
-	  },
-	
-	  componentDidMount: function () {
-	    this.listener = CardStore.addListener(this.setNewState);
-	    ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
+	  // getInitialState: function () {
+	  //   return { cards: this.getStateFromStore() };
+	  // },
+	  //
+	  // getStateFromStore: function () {
+	  //   return CardStore.all(this.props.listId);
+	  // },
+	  //
+	  //
+	  // setNewState: function () {
+	  //     this.setState( { cards: this.getStateFromStore() });
+	  // },
+	  //
+	  // componentDidMount: function () {
+	  //   this.listener = ListStore.addListener(this.setNewState);
+	  //   ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
+	  // },
+	  //
+	  // componentWillUnmount: function () {
+	  //   this.listener.remove();
+	  // },
 	
 	  render: function () {
-	    if (!this.state.cards) {
+	    if (!this.props.cards) {
 	      return React.createElement('div', null);
 	    }
-	
-	    var cardItems = this.state.cards.map(function (card) {
-	      return React.createElement(CardIndexItem, { key: card.id, card: card });
+	    var boardId = this.props.boardId;
+	    var cardIndexItems = this.props.cards.map(function (card) {
+	      return React.createElement(CardIndexItem, { key: card.id, card: card, listId: card.list_id, boardId: boardId });
 	    });
 	
 	    return React.createElement(
 	      'ul',
 	      { className: 'card-index group' },
-	      cardItems
+	      cardIndexItems
 	    );
 	  }
 	
@@ -35028,28 +35125,77 @@
 	var CardConstants = __webpack_require__(286);
 	
 	var CardStore = new Store(Dispatcher);
-	var _cards = [];
+	var _cards = {};
 	
-	CardStore.all = function () {
-	  return _cards.slice();
+	CardStore.all = function (listId) {
+	
+	  var cards = [];
+	  if (_cards[listId]) {
+	    var listCards = _cards[listId];
+	    for (var i = 0; i < listCards.length; i++) {
+	      cards.push(listCards[i]);
+	    }
+	  }
+	  return cards;
 	};
 	
 	CardStore.resetCards = function (cards) {
-	  _cards = cards;
+	  //
+	  // if (cards) {
+	  //   var listId = cards[0].list_id;
+	  //
+	  //   if (_cards[listId]) {
+	  //     for (var i = 0; i < cards.length; i++) {
+	  //       _cards[listId].push(cards[i]);
+	  //     }
+	  //   }
+	  //   else {
+	  //     _cards[listId] = [];
+	  //   }
+	  //   return _cards[listId];
+	  // }
+	  // else {
+	  //
+	  // }
 	};
 	
 	CardStore.resetCard = function (card) {
-	  _cards = [];
-	  _cards.push(card);
+	  var listId = card.list_id;
+	
+	  if (!_cards[listId]) {
+	    _cards[listId] = [];
+	  }
+	
+	  var cardIds = [];
+	  for (var i = 0; i < _cards[listId].length; i++) {
+	    cardIds.push(_cards[listId][i].id);
+	  }
+	
+	  if (cardIds.includes(card.id)) {
+	    for (var j = 0; i < _cards[listId].length; j++) {
+	      if (_cards[listId][j].id === card.id) {
+	        _cards[listId][j] = card;
+	      }
+	    }
+	  } else {
+	    _cards[listId].push(card);
+	  }
+	
+	  return _cards[listId];
 	};
 	
-	CardStore.find = function (id) {
-	  for (var i = 0; i < _cards.length; i++) {
-	    if (_cards[i].id === id) {
-	      return _cards[i];
-	    }
-	  }
-	};
+	// CardStore.find = function (id) {
+	//
+	//
+	//   if (_cards[listId] && _cards[listId].include(card)) {
+	//     for (var i = 0; i < _cards[listId].length; i++) {
+	//       if (_cards[listId][i].id === card.id) {
+	//         _cards[listId][i] = card;
+	//       }
+	//     }
+	//   }
+	//   return _cards[listId];
+	// };
 	
 	CardStore.__onDispatch = function (payload) {
 	
@@ -35092,6 +35238,7 @@
 	    Dispatcher.dispatch({
 	      actionType: CardConstants.ALL_CARDS_RECEIVED,
 	      cards: cards
+	
 	    });
 	  },
 	
@@ -35115,11 +35262,27 @@
 	  displayName: "CardIndexItem",
 	
 	
+	  deleteCard: function () {
+	    var boardId = this.props.boardId;
+	    var listId = this.props.listId;
+	    var id = this.props.card.id;
+	    ApiUtil.deleteCard(boardId, listId, id);
+	    ApiUtil.fetchSingleList(boardId, listId);
+	
+	    // ApiUtil.fetchAllCards(boardId, listId);
+	  },
+	
 	  render: function () {
+	
 	    return React.createElement(
 	      "li",
 	      { className: "card-index-item" },
-	      this.props.card.title
+	      this.props.card.title,
+	      React.createElement(
+	        "h2",
+	        { className: "card-delete-button", onClick: this.deleteCard },
+	        "x"
+	      )
 	    );
 	  }
 	});
@@ -35139,53 +35302,65 @@
 	  displayName: 'ListDetail',
 	
 	
-	  getInitialState: function () {
-	    return { list: this.getStateFromStore(), deleted: false };
-	  },
+	  // getInitialState: function () {
+	  //   return { cards: this.getCards() };
+	  // },
 	
-	  getStateFromStore: function () {
-	    var listId = parseInt(this.props.listId);
-	    return ListStore.find(listId);
-	  },
-	
+	  //
+	  // getStateFromStore: function () {
+	  //   var listId = parseInt(this.props.listId);
+	  //   return ListStore.find(listId);
+	  // },
+	  //
 	  // componentWillReceiveProps: function (newProps) {
 	  //   this.listener2 = ListStore.addListener(this.setNewState);
 	  //   ApiUtil.fetchSingleList(this.props.boardId, newProps.listId);
 	  // },
 	
-	  setNewState: function () {
-	    this.setState({ list: this.getStateFromStore() });
-	  },
-	
+	  // setNewState: function () {
+	  //     this.setState( { list: this.getStateFromStore() });
+	  // },
+	  //
 	  componentDidMount: function () {
-	    this.listener = ListStore.addListener(this.setNewState);
-	    ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
+	    this.listener = ListStore.addListener(this.getCards);
+	    // ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
 	  },
-	
+	  //
 	  componentWillUnmount: function () {
 	    if (this.listener) {
 	      this.listener.remove();
 	    }
-	    if (this.listener2) {
-	      this.listener2.remove();
-	    }
+	    // if (this.listener2) {this.listener2.remove();}
 	  },
 	
 	  deleteList: function () {
 	    var board = this.props.boardId;
-	    var listId = parseInt(this.props.listId);
+	    var listId = this.props.listId;
 	    ApiUtil.deleteList(board, listId);
 	  },
 	
+	  // getCards: function () {
+	  //   var boardId = this.props.boardId;
+	  //   var listId = this.props.listId;
+	  //   ApiUtil.fetchAllCards(boardId, listId);
+	  // },
+	
 	  render: function () {
-	    if (!this.state.list) {
-	      return React.createElement('div', null);
-	    }
+	    // if (!this.state.lists) {
+	    //   return (
+	    //     <div></div>
+	    //   );
+	    // }
+	    // <CardIndex boardId={this.props.boardId} listId={this.props.listId}/>
+	
+	    // var cards = this.props.cards.map(function (card) {
+	    //   return <li key={card.id}>{card.title}</li>;
+	    // });
 	
 	    return React.createElement(
 	      'section',
 	      { className: 'list-detail group' },
-	      React.createElement(CardIndex, { boardId: this.props.boardId, listId: this.props.listId }),
+	      React.createElement(CardIndex, { cards: this.props.cards, listId: this.props.listId, boardId: this.props.boardId }),
 	      React.createElement(NewCardButton, { boardId: this.props.boardId, listId: this.props.listId }),
 	      React.createElement(
 	        'button',
