@@ -14,7 +14,7 @@ ListStore.reset = function (lists) {
 };
 
 ListStore.resetSingleList = function (list) {
-// debugger
+
   var oldList = ListStore.find(list.id);
 
   if (oldList) {
@@ -51,13 +51,28 @@ ListStore.resetSingleList = function (list) {
 
 ListStore.resetSingleCard = function (card) {
   var list = ListStore.find(card.list_id);
-  if (!list.cards.includes(card)) {
-    list.cards.push(card);
+
+  var oldCard = ListStore.findCardInList(card, list);
+
+  if (oldCard) {
+    list.cards[list.cards.indexOf(oldCard)] = card;
   }
   else {
-    var i = list.cards.indexOf(card);
-    list.cards[i] = card;
+    list.push(card);
   }
+  // var cardIds = [];
+  // for (var i = 0; i < list.cards.length; i++) {
+  //   cardIds.push(list.cards[i].id);
+  // }
+  //
+  // if (!cardIds.includes(card.id)) {
+  //   list.cards.push(card);
+  // }
+  // else {
+  //   var j = list.cards.indexOf(card);
+  //   list.cards[j] = card;
+  // }
+  //
   ListStore.resetSingleList(list);
 };
 
@@ -65,6 +80,12 @@ ListStore.resetSingleCard = function (card) {
 ListStore.find = function (id) {
   for (var i = 0; i < _lists.length; i++) {
     if (_lists[i].id === id) { return _lists[i]; }
+  }
+};
+
+ListStore.findCardInList = function (card, list) {
+  for (var i = 0; i < list.cards.length; i++) {
+    if (list.cards[i].id === card.id) { return list.cards[i]; }
   }
 };
 

@@ -1,4 +1,5 @@
 var React = require('react');
+var EditCardButton = require('./edit_card_button.jsx');
 
 var CardIndexItem = React.createClass({
 
@@ -17,7 +18,8 @@ var CardIndexItem = React.createClass({
     return(
       <li className="card-index-item">
         {this.props.card.title}
-        <h2 className="card-delete-button" onClick={this.deleteCard}>x</h2>
+        <button className="card-delete-button" onClick={this.deleteCard}>x</button>
+        <EditCardButton boardId={this.props.boardId} listId={this.props.listId} cardId={this.props.card.id} />
       </li>
     );
   }

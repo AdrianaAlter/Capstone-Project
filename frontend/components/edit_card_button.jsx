@@ -1,9 +1,9 @@
 var React = require('react');
-var BoardStore = require('../store/board_store.js');
 var ApiUtil = require('../util/api_util.js');
 var Modal = require('react-modal');
-var EditBoardForm = require('./edit_board_form.jsx');
-var EditBoardButton = React.createClass({
+var EditCardForm = require('./edit_card_form.jsx');
+
+var EditCardButton = React.createClass({
 
   getInitialState: function () {
     return({ modalOpen: false });
@@ -18,18 +18,19 @@ var EditBoardButton = React.createClass({
   },
 
   render: function () {
+
     var styles = {
       content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
       overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
     };
 
     return (
-      <button className="edit-board-button" onClick={this.openModal}>
-        Update this board...
+      <button className="edit-card-button" onClick={this.openModal}>
+        +
         <Modal className="modal" isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}
           style={styles}>
-          <EditBoardForm boardId={this.props.boardId} listId={this.props.listId} closeModal={this.closeModal}/>
+          <EditCardForm cardId={this.props.cardId} listId={this.props.listId} boardId={this.props.boardId} closeModal={this.closeModal}/>
         </Modal>
     </button>
     );
@@ -37,4 +38,4 @@ var EditBoardButton = React.createClass({
 });
 
 
-module.exports = EditBoardButton;
+module.exports = EditCardButton;

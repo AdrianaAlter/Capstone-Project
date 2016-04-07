@@ -2,7 +2,7 @@ var React = require('react');
 var CardIndex = require('./card_index.jsx');
 var NewCardButton = require('./new_card_button.jsx');
 var ListStore = require('../store/list_store.js');
-
+var EditListButton = require('./edit_list_button.jsx');
 var ListDetail = React.createClass({
 
   // getInitialState: function () {
@@ -64,6 +64,7 @@ var ListDetail = React.createClass({
       <section className="list-detail group">
         <CardIndex cards={this.props.cards} listId={this.props.listId} boardId={this.props.boardId}/>
         <NewCardButton boardId={this.props.boardId} listId={this.props.listId}/>
+        <EditListButton listId={this.props.listId} boardId={this.props.boardId}/>
         <button className="delete-list-button" onClick={this.deleteList}>Delete this list...</button>
       </section>
     );

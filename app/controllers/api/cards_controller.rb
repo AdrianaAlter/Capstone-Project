@@ -9,13 +9,21 @@ class Api::CardsController < ApplicationController
   end
 
   def create
-
     @card = Card.new(card_params)
     @card.list_id = current_list_id
     if @card.save
       render json: @card
     else
       render :new
+    end
+  end
+
+  def update
+    @card = Card.find(params[:id])
+    if @card.update(card_params)
+      render json: @card
+    else
+      render :edit
     end
   end
 

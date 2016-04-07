@@ -60,7 +60,6 @@
 }
 
 
-
 // .delete-list-button {
 //   float: left;
 //   background: #e2e4e6;
@@ -172,4 +171,75 @@
   font-weight: normal;
   position: relative;
   cursor: pointer;
+}
+.list-index .list-index-item .list-detail .edit-list-button {
+  float: left;
+  background: #e2e4e6;
+  box-shadow: none;
+  display: block;
+  width: 245px;
+  padding: 8px 10px;
+  color: #8c8c8c;
+  border-radius: 3px;
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  font-weight: normal;
+  position: relative;
+  cursor: pointer;
+}
+.edit-list-form {
+  display: block;
+  border: 1px solid #8c8c8c;
+  padding: 10px;
+  border-radius: 3px;
+  width: 280px;
+  height: 227px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+.edit-list-form h1 {
+	display: block;
+	padding: 0 32px;
+	box-sizing: border-box;
+	color: #8c8c8c;
+	font-size: 14px;
+	position: relative;
+	border-bottom: 1px solid #8c8c8c;
+	text-align: center;
+	margin: 0 10px;
+}
+
+.edit-list-form h2 {
+	display: block;
+	color: #4d4d4d;
+	font-size: 14px;
+	position: relative;
+	margin-bottom: 4px;
+}
+
+.edit-list-form input {
+	width: 266px;
+	margin: 0;
+  padding: 7px;
+	background: #e2e4e6;
+}
+
+.edit-list-form > button {
+	display: block;
+	color: white;
+  font-size: 14px;
+	text-align: center;
+	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
+	box-shadow: 0 1px 0 #3f6f21;
+	border-radius: 4px;
+	font-weight: bold;
+	padding: 7px 30px;
+	width: 45px;
+  height: 22px;
+	margin: 8px 4px 0 0;
+	cursor: pointer;
+	position: absolute;
 }

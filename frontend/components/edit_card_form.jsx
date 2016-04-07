@@ -1,19 +1,19 @@
 var React = require('react');
-var BoardActions = require('../actions/board_actions.js');
+var CardActions = require('../actions/card_actions.js');
 
-var EditBoardForm = React.createClass({
+var EditCardForm = React.createClass({
 
 	getInitialState: function () {
 		return({ title: "" });
 	},
 
 
-  editBoard: function (e) {
+  editCard: function (e) {
       e.preventDefault();
-      var board = {};
-      board.title = this.state.title;
-      
-      ApiUtil.editBoard(board, this.props.boardId, this.props.listId);
+      var card = {};
+      card.title = this.state.title;
+
+      ApiUtil.editCard(card, this.props.boardId, this.props.listId, this.props.cardId);
       this.setState({ title: "" });
       this.props.closeModal();
   },
@@ -26,11 +26,11 @@ var EditBoardForm = React.createClass({
 
 	render: function () {
 	   return(
-				<form className="edit-board-form">
-          <h1>Update Board</h1>
+				<form className="edit-card-form">
+          <h1>Update Card</h1>
 					<h2>Title</h2>
 					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
-					<button onClick={this.editBoard}>Update</button>
+					<button onClick={this.editCard}>Update</button>
 				</form>
 		);
 	}
@@ -38,4 +38,4 @@ var EditBoardForm = React.createClass({
 });
 
 
-module.exports = EditBoardForm;
+module.exports = EditCardForm;

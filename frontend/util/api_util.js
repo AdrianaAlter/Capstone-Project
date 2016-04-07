@@ -129,7 +129,6 @@ ApiUtil = {
         type: "POST",
         data: { card: card },
         success: function (card) {
-
           ListActions.receiveSingleCard(card);
           callback && callback(card.id);
         },
@@ -192,6 +191,40 @@ ApiUtil = {
       },
       error: function () {
         console.log('Error in AJAX request to edit board via ApiUtil');
+      }
+    });
+
+  },
+
+  editList: function (list, boardId, id) {
+
+    $.ajax({
+      url: "api/boards/" + boardId + "/lists/" + id,
+      type: "PATCH",
+      dataType: "json",
+      data: { list: list },
+      success: function (list) {
+        ListActions.receiveSingleList(list);
+      },
+      error: function () {
+        console.log('Error in AJAX request to edit list via ApiUtil');
+      }
+    });
+
+  },
+
+  editCard: function (card, boardId, listId, id) {
+
+    $.ajax({
+      url: "api/boards/" + boardId + "/lists/" + listId + "/cards/" + id,
+      type: "PATCH",
+      dataType: "json",
+      data: { card: card },
+      success: function (card) {
+        ListActions.receiveSingleCard(card);
+      },
+      error: function () {
+        console.log('Error in AJAX request to edit card via ApiUtil');
       }
     });
 

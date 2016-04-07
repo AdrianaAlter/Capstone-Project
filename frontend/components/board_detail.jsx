@@ -49,7 +49,6 @@ var BoardDetail = React.createClass({
   deleteBoard: function () {
     var boardId = parseInt(this.props.params.board_id);
     ApiUtil.deleteBoard(boardId);
-
   },
   //
   render: function () {
@@ -70,7 +69,6 @@ var BoardDetail = React.createClass({
               </ul>
               <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button>
               <EditBoardButton boardId={this.props.params.board_id}/>
-
             </section>
           );
     }
