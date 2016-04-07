@@ -11,18 +11,19 @@ BoardStore.all = function () {
 
 BoardStore.resetBoards = function (boards) {
   _boards = boards;
-  
+
 };
 
 BoardStore.resetBoard = function (board) {
 
+  var oldBoard = BoardStore.find(board.id);
 
-  if (_boards.indexOf(board) === -1){
-    _boards.push(board);
+  if (oldBoard) {
+    _boards[_boards.indexOf(oldBoard)] = board;
   }
+
   else {
-    var i = _boards.indexOf(board);
-    _boards[i] = board;
+    _boards.push(board);
   }
 };
 

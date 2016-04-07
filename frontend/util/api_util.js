@@ -180,6 +180,22 @@ ApiUtil = {
     });
   },
 
+  editBoard: function (board, id) {
+
+    $.ajax({
+      url: "api/boards/" + id,
+      type: "PATCH",
+      dataType: "json",
+      data: { board: board },
+      success: function (board) {
+        BoardActions.receiveSingleBoard(board);
+      },
+      error: function () {
+        console.log('Error in AJAX request to edit board via ApiUtil');
+      }
+    });
+
+  },
 
   logIn: function (userInfo, callback) {
 

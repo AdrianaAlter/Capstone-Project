@@ -2,7 +2,7 @@ var React = require('react');
 var ListIndex = require('./list_index.jsx');
 var BoardStore = require('../store/board_store.js');
 var Header = require('./header.jsx');
-
+var EditBoardButton = require('./edit_board_button.jsx');
 var BoardDetail = React.createClass({
 
   contextTypes: {
@@ -69,6 +69,7 @@ var BoardDetail = React.createClass({
                 <ListIndex boardId={this.props.params.board_id} />
               </ul>
               <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button>
+              <EditBoardButton boardId={this.props.params.board_id}/>
 
             </section>
           );

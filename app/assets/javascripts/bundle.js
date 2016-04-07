@@ -24852,11 +24852,12 @@
 	
 	BoardStore.resetBoard = function (board) {
 	
-	  if (_boards.indexOf(board) === -1) {
-	    _boards.push(board);
+	  var oldBoard = BoardStore.find(board.id);
+	
+	  if (oldBoard) {
+	    _boards[_boards.indexOf(oldBoard)] = board;
 	  } else {
-	    var i = _boards.indexOf(board);
-	    _boards[i] = board;
+	    _boards.push(board);
 	  }
 	};
 	
@@ -31860,6 +31861,22 @@
 	    });
 	  },
 	
+	  editBoard: function (board, id) {
+	
+	    $.ajax({
+	      url: "api/boards/" + id,
+	      type: "PATCH",
+	      dataType: "json",
+	      data: { board: board },
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      error: function () {
+	        console.log('Error in AJAX request to edit board via ApiUtil');
+	      }
+	    });
+	  },
+	
 	  logIn: function (userInfo, callback) {
 	
 	    $.ajax({
@@ -34658,7 +34675,7 @@
 	var ListIndex = __webpack_require__(279);
 	var BoardStore = __webpack_require__(217);
 	var Header = __webpack_require__(272);
-	
+	var EditBoardButton = __webpack_require__(292);
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
 	
@@ -34736,7 +34753,8 @@
 	        'button',
 	        { className: 'delete-board-button', onClick: this.deleteBoard },
 	        'Delete this board...'
-	      )
+	      ),
+	      React.createElement(EditBoardButton, { boardId: this.props.params.board_id })
 	    );
 	  }
 	
@@ -35477,6 +35495,111 @@
 	});
 	
 	module.exports = NewCardForm;
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var BoardStore = __webpack_require__(217);
+	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(250);
+	var EditBoardForm = __webpack_require__(293);
+	
+	var EditBoardButton = React.createClass({
+	  displayName: 'EditBoardButton',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  render: function () {
+	    var styles = {
+	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
+	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
+	    };
+	
+	    return React.createElement(
+	      'button',
+	      { className: 'edit-board-button', onClick: this.openModal },
+	      'Update this board...',
+	      React.createElement(
+	        Modal,
+	        { className: 'modal', isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: styles },
+	        React.createElement(EditBoardForm, { boardId: this.props.boardId, closeModal: this.closeModal })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = EditBoardButton;
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var BoardActions = __webpack_require__(240);
+	
+	var EditBoardForm = React.createClass({
+		displayName: 'EditBoardForm',
+	
+	
+		getInitialState: function () {
+			return { title: "" };
+		},
+	
+		editBoard: function (e) {
+			e.preventDefault();
+			var board = {};
+			board.title = this.state.title;
+			ApiUtil.editBoard(board, this.props.boardId);
+			this.setState({ title: "" });
+			this.props.closeModal();
+		},
+	
+		updateTitle: function (e) {
+			var newTitle = e.currentTarget.value;
+			this.setState({ title: newTitle });
+		},
+	
+		render: function () {
+			return React.createElement(
+				'form',
+				{ className: 'edit-board-form' },
+				React.createElement(
+					'h1',
+					null,
+					'Update Board'
+				),
+				React.createElement(
+					'h2',
+					null,
+					'Title'
+				),
+				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
+				React.createElement(
+					'button',
+					{ onClick: this.editBoard },
+					'Update'
+				)
+			);
+		}
+	
+	});
+	
+	module.exports = EditBoardForm;
 
 /***/ }
 /******/ ]);

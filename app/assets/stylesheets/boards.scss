@@ -57,7 +57,6 @@
   transform: translateY(-50%);
   left: 50%;
   transform: translateX(-50%);
-
 }
 
 .board-items .new-board-button:hover {
@@ -91,7 +90,7 @@
 
 
 
-.board-detail .delete-board-button {
+.delete-board-button {
 
   box-shadow: none;
   font-size: 14px;
@@ -106,7 +105,27 @@
   margin: 24px 12px;
 }
 
-.board-detail .delete-board-button:hover {
+.delete-board-button:hover {
+  background: #943;
+}
+
+.board-detail button {
+
+  box-shadow: none;
+  width: 120px;
+  font-size: 14px;
+  font-weight: normal;
+  color: #e2e4e6;
+  background: #a43;
+  display: block;
+  border-radius: 3px;
+  height: 32px;
+  width: auto;
+  padding: 5px 20px;
+  margin: 24px 12px;
+}
+
+.edit-board-button:hover {
   background: #943;
 }
 // //
@@ -212,6 +231,118 @@
 }
 
 .new-board-form > button {
+	display: block;
+	color: white;
+  font-size: 14px;
+	text-align: center;
+	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
+	box-shadow: 0 1px 0 #3f6f21;
+	border-radius: 4px;
+	font-weight: bold;
+	padding: 7px 30px;
+	width: 45px;
+  height: 22px;
+	margin: 8px 4px 0 0;
+	cursor: pointer;
+	position: absolute;
+}
+.new-board-form {
+  display: block;
+  border: 1px solid #8c8c8c;
+  padding: 10px;
+  border-radius: 3px;
+  width: 280px;
+  height: 227px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+.new-board-form h1 {
+	display: block;
+	padding: 0 32px;
+	box-sizing: border-box;
+	color: #8c8c8c;
+	font-size: 14px;
+	position: relative;
+	border-bottom: 1px solid #8c8c8c;
+	text-align: center;
+	margin: 0 10px;
+}
+
+.new-board-form h2 {
+	display: block;
+	color: #4d4d4d;
+	font-size: 14px;
+	position: relative;
+	margin-bottom: 4px;
+}
+
+.new-board-form input {
+	width: 266px;
+	margin: 0;
+  padding: 7px;
+	background: #e2e4e6;
+}
+
+.new-board-form > button {
+	display: block;
+	color: white;
+  font-size: 14px;
+	text-align: center;
+	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
+	box-shadow: 0 1px 0 #3f6f21;
+	border-radius: 4px;
+	font-weight: bold;
+	padding: 7px 30px;
+	width: 45px;
+  height: 22px;
+	margin: 8px 4px 0 0;
+	cursor: pointer;
+	position: absolute;
+}
+.edit-board-form {
+  display: block;
+  border: 1px solid #8c8c8c;
+  padding: 10px;
+  border-radius: 3px;
+  width: 280px;
+  height: 227px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+.edit-board-form h1 {
+	display: block;
+	padding: 0 32px;
+	box-sizing: border-box;
+	color: #8c8c8c;
+	font-size: 14px;
+	position: relative;
+	border-bottom: 1px solid #8c8c8c;
+	text-align: center;
+	margin: 0 10px;
+}
+
+.edit-board-form h2 {
+	display: block;
+	color: #4d4d4d;
+	font-size: 14px;
+	position: relative;
+	margin-bottom: 4px;
+}
+
+.edit-board-form input {
+	width: 266px;
+	margin: 0;
+  padding: 7px;
+	background: #e2e4e6;
+}
+
+.edit-board-form > button {
 	display: block;
 	color: white;
   font-size: 14px;
