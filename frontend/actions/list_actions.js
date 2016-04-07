@@ -17,12 +17,11 @@ var ListActions = {
      });
    },
 
-   receiveAllCards: function (cards) {
+   receiveAllCards: function (info) {
      Dispatcher.dispatch({
        actionType: ListConstants.ALL_CARDS_RECEIVED,
-       cards: cards
+       cards: info
      });
-
    },
 
    receiveSingleCard: function (card) {

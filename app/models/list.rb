@@ -15,4 +15,10 @@ class List < ActiveRecord::Base
     foreign_key: :list_id
   )
 
+  def sibling_lists
+    lists = List.all
+    from_board = lists.select { |list| list.board_id == self.board_id }
+    result = from_board.reject { |list| list.id == self.id }
+  end
+
 end

@@ -41,11 +41,11 @@ var ListDetail = React.createClass({
     ApiUtil.deleteList(board, listId);
   },
 
-  // getCards: function () {
+  getCards: function () {
   //   var boardId = this.props.boardId;
   //   var listId = this.props.listId;
   //   ApiUtil.fetchAllCards(boardId, listId);
-  // },
+  },
 
   render: function () {
     // if (!this.state.lists) {

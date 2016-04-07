@@ -24807,7 +24807,7 @@
 	  render: function () {
 	
 	    var boardItems = this.state.boards.map(function (board) {
-	      return React.createElement(BoardIndexItem, { key: board.id, className: 'board-title', board: board });
+	      return React.createElement(BoardIndexItem, { key: board.id, lists: board.lists, className: 'board-title', board: board });
 	    });
 	
 	    return React.createElement(
@@ -24851,7 +24851,6 @@
 	};
 	
 	BoardStore.resetBoard = function (board) {
-	
 	  var oldBoard = BoardStore.find(board.id);
 	
 	  if (oldBoard) {
@@ -24861,16 +24860,41 @@
 	  }
 	};
 	
+	BoardStore.resetAllLists = function (lists) {
+	  var board = BoardStore.find(lists[0].board_id);
+	  board.lists = lists;
+	  BoardStore.resetBoard(board);
+	};
+	
+	BoardStore.resetSingleList = function (list) {
+	  var board = BoardStore.find(list.board_id);
+	  var oldList = BoardStore.findListInBoard(list, board);
+	  if (oldList) {
+	    board.lists[board.lists.indexOf(oldList)] = list;
+	  } else {
+	    board.lists.push(list);
+	  }
+	  BoardStore.resetBoard(board);
+	};
+	
 	BoardStore.find = function (id) {
+	  // debugger
 	  for (var i = 0; i < _boards.length; i++) {
-	    if (_boards[i].id === id) {
+	    if (_boards[i].id == id) {
 	      return _boards[i];
 	    }
 	  }
 	};
 	
-	BoardStore.__onDispatch = function (payload) {
+	BoardStore.findListInBoard = function (list, board) {
+	  for (var i = 0; i < board.lists.length; i++) {
+	    if (board.lists[i].id === list.id) {
+	      return board.lists[i];
+	    }
+	  }
+	};
 	
+	BoardStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case BoardConstants.ALL_BOARDS_RECEIVED:
 	      BoardStore.resetBoards(payload.boards);
@@ -24878,6 +24902,14 @@
 	      break;
 	    case BoardConstants.SINGLE_BOARD_RECEIVED:
 	      BoardStore.resetBoard(payload.board);
+	      BoardStore.__emitChange();
+	      break;
+	    case BoardConstants.ALL_LISTS_RECEIVED:
+	      BoardStore.resetAllLists(payload.lists);
+	      BoardStore.__emitChange();
+	      break;
+	    case BoardConstants.SINGLE_LIST_RECEIVED:
+	      BoardStore.resetSingleList(payload.list);
 	      BoardStore.__emitChange();
 	      break;
 	  }
@@ -31652,7 +31684,9 @@
 
 	var BoardConstants = {
 	  ALL_BOARDS_RECEIVED: "ALL_BOARDS_RECEIVED",
-	  SINGLE_BOARD_RECEIVED: "SINGLE_BOARD_RECEIVED"
+	  SINGLE_BOARD_RECEIVED: "SINGLE_BOARD_RECEIVED",
+	  ALL_LISTS_RECEIVED: "LISTS_FOR_BOARD_RECEIVED",
+	  SINGLE_LIST_RECEIVED: "SINGLE_LIST_FOR_BOARD_RECEIVED"
 	};
 	
 	module.exports = BoardConstants;
@@ -31674,12 +31708,27 @@
 	  },
 	
 	  receiveSingleBoard: function (board) {
-	
 	    Dispatcher.dispatch({
 	      actionType: BoardConstants.SINGLE_BOARD_RECEIVED,
 	      board: board
 	    });
+	  },
+	
+	  receiveAllLists: function (info) {
+	
+	    Dispatcher.dispatch({
+	      actionType: BoardConstants.ALL_LISTS_RECEIVED,
+	      lists: info
+	    });
+	  },
+	
+	  receiveSingleList: function (list) {
+	    Dispatcher.dispatch({
+	      actionType: BoardConstants.SINGLE_LIST_RECEIVED,
+	      list: list
+	    });
 	  }
+	
 	};
 	
 	module.exports = BoardActions;
@@ -31749,6 +31798,7 @@
 	      type: "GET",
 	      dataType: "json",
 	      success: function (board) {
+	
 	        BoardActions.receiveSingleBoard(board);
 	      },
 	      error: function () {
@@ -31795,7 +31845,7 @@
 	      type: "POST",
 	      data: { list: list },
 	      success: function (list) {
-	        ListActions.receiveSingleList(list);
+	        BoardActions.receiveSingleList(list);
 	        callback && callback(list.id);
 	      },
 	      error: function () {
@@ -31834,12 +31884,19 @@
 	    });
 	  },
 	
-	  deleteList: function (board, id) {
+	  deleteList: function (boardId, id) {
+	
 	    $.ajax({
-	      url: "api/boards/" + board + "/lists/" + id,
+	      url: "api/boards/" + boardId + "/lists/" + id,
 	      type: "DELETE",
-	      success: function (lists) {
-	        ListActions.receiveAllLists(lists);
+	      success: function (info) {
+	        // if (info.author_id) {
+	        // debugger
+	        BoardActions.receiveSingleBoard(info);
+	        //  }
+	        // else {
+	        //   BoardActions.receiveAllLists(info);
+	        // }
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil deleteList function");
@@ -31851,8 +31908,12 @@
 	    $.ajax({
 	      url: "api/boards/" + boardId + "/lists/" + listId + "/cards/" + id,
 	      type: "DELETE",
-	      success: function (cards) {
-	        ListActions.receiveAllCards(cards);
+	      success: function (info) {
+	        if (info[0] && info[0].list_id) {
+	          ListActions.receiveAllCards(info);
+	        } else {
+	          ListActions.resetSingleList(info);
+	        }
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil deleteCard function");
@@ -32067,10 +32128,10 @@
 	    });
 	  },
 	
-	  receiveAllCards: function (cards) {
+	  receiveAllCards: function (info) {
 	    Dispatcher.dispatch({
 	      actionType: ListConstants.ALL_CARDS_RECEIVED,
-	      cards: cards
+	      cards: info
 	    });
 	  },
 	
@@ -32153,6 +32214,7 @@
 		},
 	
 		createNewBoard: function (e) {
+	
 			e.preventDefault();
 			var board = {};
 			board.title = this.state.title;
@@ -34755,37 +34817,32 @@
 	  },
 	
 	  getInitialState: function () {
-	    return { board: this.getStateFromStore(), deleted: false };
+	    return { board: this.getStateFromStore() };
 	  },
 	
 	  getStateFromStore: function () {
-	    var boardId = parseInt(this.props.params.board_id);
-	    return BoardStore.find(boardId);
+	    return BoardStore.find(this.props.params.board_id);
 	  },
 	
 	  // getLists: function () {
 	  //   var boardId = parseInt(this.props.params.board_id);
 	  //   return ApiUtil.fetchAllLists(boardId);
-	  //
 	  // },
 	
-	  componentWillReceiveProps: function (newProps) {
-	    this.listener2 = BoardStore.addListener(this.setNewState);
-	    ApiUtil.fetchSingleBoard(newProps.params.board_id);
-	  },
-	  //
+	  // componentWillReceiveProps: function (newProps) {
+	  //   this.listener2 = BoardStore.addListener(this.setNewState);
+	  //   ApiUtil.fetchSingleBoard(newProps.params.board_id);
+	  // },
+	
 	  setNewState: function () {
-	    // if (this.state.mounted === true) {
 	    this.setState({ board: this.getStateFromStore() });
-	    // }
 	  },
-	  //
+	
 	  componentDidMount: function () {
 	    this.listener = BoardStore.addListener(this.setNewState);
 	    ApiUtil.fetchSingleBoard(this.props.params.board_id);
-	    // this.setState({ mounted: true });
 	  },
-	  //
+	
 	  componentWillUnmount: function () {
 	    if (this.listener) {
 	      this.listener.remove();
@@ -34799,10 +34856,15 @@
 	    var boardId = parseInt(this.props.params.board_id);
 	    ApiUtil.deleteBoard(boardId);
 	  },
-	  //
+	
 	  render: function () {
 	    if (!this.state.board) {
-	      return React.createElement('div', null);
+	
+	      return React.createElement(
+	        'div',
+	        null,
+	        this.props.params.board_id
+	      );
 	    }
 	
 	    return React.createElement(
@@ -34817,7 +34879,7 @@
 	      React.createElement(
 	        'ul',
 	        { className: 'list-index group' },
-	        React.createElement(ListIndex, { boardId: this.props.params.board_id })
+	        React.createElement(ListIndex, { boardId: this.props.params.board_id, lists: this.state.board.lists })
 	      ),
 	      React.createElement(
 	        'button',
@@ -34851,34 +34913,34 @@
 	var ListIndex = React.createClass({
 	  displayName: 'ListIndex',
 	
-	  getInitialState: function () {
-	    return { lists: this.getStateFromStore() };
-	  },
-	
-	  getStateFromStore: function () {
-	    return ListStore.all();
-	  },
-	
-	  setNewState: function () {
-	    this.setState({ lists: this.getStateFromStore() });
-	  },
-	
-	  componentDidMount: function () {
-	    this.listener = ListStore.addListener(this.setNewState);
-	    ApiUtil.fetchAllLists(this.props.boardId);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
+	  // getInitialState: function () {
+	  //   return { lists: this.getStateFromStore() };
+	  // },
+	  //
+	  // getStateFromStore: function () {
+	  //   return ListStore.all();
+	  // },
+	  //
+	  // setNewState: function () {
+	  //     this.setState( { lists: this.getStateFromStore() });
+	  // },
+	  //
+	  // componentDidMount: function () {
+	  //   this.listener = ListStore.addListener(this.setNewState);
+	  //   ApiUtil.fetchAllLists(this.props.boardId);
+	  // },
+	  //
+	  // componentWillUnmount: function () {
+	  //   this.listener.remove();
+	  // },
 	
 	  render: function () {
 	
-	    if (!this.state.lists) {
+	    if (!this.props.lists) {
 	      return React.createElement('div', null);
 	    }
 	
-	    var listItems = this.state.lists.map(function (list) {
+	    var listItems = this.props.lists.map(function (list) {
 	      return React.createElement(ListIndexItem, { key: list.id, list: list, boardId: list.board_id, cards: list.cards });
 	    });
 	
@@ -34922,54 +34984,22 @@
 	  } else {
 	    _lists.push(list);
 	  }
-	
-	  // var ids = [];
-	  // for (var i = 0; i < _lists.length; i++) {
-	  //   ids.push(_lists[i].id);
-	  // }
-	  //
-	  //
-	  // if (!ids.includes(list.id)){
-	  //   _lists.push(list);
-	  // }
-	  //
-	  // else {
-	  //   for (var j = 0; j < _lists.length; j++) {
-	  //     if (_lists[j].id === list.id)
-	  //       _lists[j] = list;
-	  //     }
-	  //   }
 	};
 	
-	// ListStore.resetAllCards = function (cards) {
-	//   if (!cards) {
-	//
-	//   }
-	// };
+	ListStore.resetAllCards = function (cards) {
+	  var list = ListStore.find(cards[0].list_id);
+	  list.cards = cards;
+	  ListStore.resetSingleList(list);
+	};
 	
 	ListStore.resetSingleCard = function (card) {
 	  var list = ListStore.find(card.list_id);
-	
 	  var oldCard = ListStore.findCardInList(card, list);
-	
 	  if (oldCard) {
 	    list.cards[list.cards.indexOf(oldCard)] = card;
 	  } else {
-	    list.push(card);
+	    list.cards.push(card);
 	  }
-	  // var cardIds = [];
-	  // for (var i = 0; i < list.cards.length; i++) {
-	  //   cardIds.push(list.cards[i].id);
-	  // }
-	  //
-	  // if (!cardIds.includes(card.id)) {
-	  //   list.cards.push(card);
-	  // }
-	  // else {
-	  //   var j = list.cards.indexOf(card);
-	  //   list.cards[j] = card;
-	  // }
-	  //
 	  ListStore.resetSingleList(list);
 	};
 	
@@ -34997,13 +35027,14 @@
 	      ListStore.__emitChange();
 	      break;
 	    case ListConstants.SINGLE_LIST_RECEIVED:
+	
 	      ListStore.resetSingleList(payload.list);
 	      ListStore.__emitChange();
 	      break;
-	    // case ListConstants.ALL_CARDS_RECEIVED:
-	    //   // ListStore.resetAllCards(payload.cards);
-	    //   ListStore.__emitChange();
-	    //   break;
+	    case ListConstants.ALL_CARDS_RECEIVED:
+	      ListStore.resetAllCards(payload.cards);
+	      ListStore.__emitChange();
+	      break;
 	    case ListConstants.SINGLE_CARD_RECEIVED:
 	      ListStore.resetSingleCard(payload.card);
 	      ListStore.__emitChange();
@@ -35113,11 +35144,11 @@
 	    ApiUtil.deleteList(board, listId);
 	  },
 	
-	  // getCards: function () {
-	  //   var boardId = this.props.boardId;
-	  //   var listId = this.props.listId;
-	  //   ApiUtil.fetchAllCards(boardId, listId);
-	  // },
+	  getCards: function () {
+	    //   var boardId = this.props.boardId;
+	    //   var listId = this.props.listId;
+	    //   ApiUtil.fetchAllCards(boardId, listId);
+	  },
 	
 	  render: function () {
 	    // if (!this.state.lists) {

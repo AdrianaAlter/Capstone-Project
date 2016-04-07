@@ -9,6 +9,7 @@ var NewBoardForm = React.createClass({
 
 
   createNewBoard: function (e) {
+    
       e.preventDefault();
       var board = {};
       board.title = this.state.title;

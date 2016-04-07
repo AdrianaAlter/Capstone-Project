@@ -6,36 +6,36 @@ var NewListButton = require('./new_list_button.jsx');
 var ApiUtil = require('../util/api_util.js');
 
 var ListIndex = React.createClass({
-  getInitialState: function () {
-    return { lists: this.getStateFromStore() };
-  },
-
-  getStateFromStore: function () {
-    return ListStore.all();
-  },
-
-  setNewState: function () {
-      this.setState( { lists: this.getStateFromStore() });
-  },
-
-  componentDidMount: function () {
-    this.listener = ListStore.addListener(this.setNewState);
-    ApiUtil.fetchAllLists(this.props.boardId);
-  },
-
-  componentWillUnmount: function () {
-    this.listener.remove();
-  },
+  // getInitialState: function () {
+  //   return { lists: this.getStateFromStore() };
+  // },
+  //
+  // getStateFromStore: function () {
+  //   return ListStore.all();
+  // },
+  //
+  // setNewState: function () {
+  //     this.setState( { lists: this.getStateFromStore() });
+  // },
+  //
+  // componentDidMount: function () {
+  //   this.listener = ListStore.addListener(this.setNewState);
+  //   ApiUtil.fetchAllLists(this.props.boardId);
+  // },
+  //
+  // componentWillUnmount: function () {
+  //   this.listener.remove();
+  // },
 
   render: function () {
 
-    if (!this.state.lists) {
+    if (!this.props.lists) {
       return (
         <div></div>
       );
     }
 
-    var listItems = this.state.lists.map(function (list) {
+    var listItems = this.props.lists.map(function (list) {
       return <ListIndexItem key={list.id} list={list} boardId={list.board_id} cards={list.cards}/>;
     });
 

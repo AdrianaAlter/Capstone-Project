@@ -30,8 +30,14 @@ class Api::CardsController < ApplicationController
   def destroy
     @card = Card.find(params[:id])
     @card.destroy
-    @cards = @card.sibling_cards
-    render :index
+
+    if @card.sibling_cards.empty?
+      @list = List.find(current_list_id)
+      render json: @list
+    else
+      @cards = @card.sibling_cards
+      render :index
+    end
   end
 
 

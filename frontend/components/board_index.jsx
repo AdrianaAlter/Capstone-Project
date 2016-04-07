@@ -29,7 +29,7 @@ var BoardIndex = React.createClass({
   render: function () {
 
     var boardItems = this.state.boards.map(function (board) {
-      return <BoardIndexItem key={board.id}	className="board-title" board={board}/>;
+      return <BoardIndexItem key={board.id}	lists={board.lists} className="board-title" board={board}/>;
     });
 
 

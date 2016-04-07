@@ -64,6 +64,7 @@ ApiUtil = {
       type: "GET",
       dataType: "json",
       success: function (board) {
+        
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
@@ -114,7 +115,7 @@ ApiUtil = {
         type: "POST",
         data: { list: list },
         success: function (list) {
-          ListActions.receiveSingleList(list);
+          BoardActions.receiveSingleList(list);
           callback && callback(list.id);
         },
         error: function () {
@@ -153,12 +154,19 @@ ApiUtil = {
     });
   },
 
-  deleteList: function (board, id) {
+  deleteList: function (boardId, id) {
+
     $.ajax({
-      url: "api/boards/" + board + "/lists/" + id,
+      url: "api/boards/" + boardId + "/lists/" + id,
       type: "DELETE",
-      success: function (lists) {
-        ListActions.receiveAllLists(lists);
+      success: function (info) {
+        // if (info.author_id) {
+          // debugger
+          BoardActions.receiveSingleBoard(info);
+        //  }
+        // else {
+        //   BoardActions.receiveAllLists(info);
+        // }
       },
       error: function () {
         console.log("Error in ApiUtil deleteList function");
@@ -170,8 +178,13 @@ ApiUtil = {
     $.ajax({
       url: "api/boards/" + boardId + "/lists/" + listId + "/cards/" + id,
       type: "DELETE",
-      success: function (cards) {
-        ListActions.receiveAllCards(cards);
+      success: function (info) {
+        if (info[0] && info[0].list_id) {
+          ListActions.receiveAllCards(info);
+        }
+        else {
+          ListActions.resetSingleList(info);
+        }
       },
       error: function () {
         console.log("Error in ApiUtil deleteCard function");

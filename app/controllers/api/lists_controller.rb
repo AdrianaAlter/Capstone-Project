@@ -36,8 +36,14 @@ class Api::ListsController < ApplicationController
   def destroy
     @list = List.find(params[:id])
     @list.destroy
-    @lists = List.where(board_id: current_board_id)
-    render :index
+
+    # if @list.sibling_lists.empty?
+      @board = Board.find(current_board_id)
+      render "api/boards/show"
+    # else
+    #   @lists = @list.sibling_lists
+    #   render :index
+    # end
   end
 
 	private

@@ -11,12 +11,27 @@ var BoardActions = {
   },
 
   receiveSingleBoard: function (board) {
-
     Dispatcher.dispatch({
       actionType: BoardConstants.SINGLE_BOARD_RECEIVED,
       board: board
     });
+  },
+
+  receiveAllLists: function (info) {
+
+    Dispatcher.dispatch({
+      actionType: BoardConstants.ALL_LISTS_RECEIVED,
+      lists: info
+    });
+  },
+
+  receiveSingleList: function (list) {
+     Dispatcher.dispatch({
+      actionType: BoardConstants.SINGLE_LIST_RECEIVED,
+      list: list
+    });
   }
+
 };
 
 module.exports = BoardActions;

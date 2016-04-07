@@ -10,37 +10,34 @@ var BoardDetail = React.createClass({
 	},
 
   getInitialState: function () {
-    return { board: this.getStateFromStore(), deleted: false };
+    return { board: this.getStateFromStore() };
   },
 
   getStateFromStore: function () {
-    var boardId = parseInt(this.props.params.board_id);
-    return BoardStore.find(boardId);
+    return BoardStore.find(this.props.params.board_id);
+
   },
 
   // getLists: function () {
   //   var boardId = parseInt(this.props.params.board_id);
   //   return ApiUtil.fetchAllLists(boardId);
-  //
   // },
 
-  componentWillReceiveProps: function (newProps) {
-    this.listener2 = BoardStore.addListener(this.setNewState);
-    ApiUtil.fetchSingleBoard(newProps.params.board_id);
-  },
-  //
+  // componentWillReceiveProps: function (newProps) {
+  //   this.listener2 = BoardStore.addListener(this.setNewState);
+  //   ApiUtil.fetchSingleBoard(newProps.params.board_id);
+  // },
+
   setNewState: function () {
-    // if (this.state.mounted === true) {
       this.setState( { board: this.getStateFromStore() });
-    // }
   },
-  //
+
   componentDidMount: function () {
     this.listener = BoardStore.addListener(this.setNewState);
     ApiUtil.fetchSingleBoard(this.props.params.board_id);
-    // this.setState({ mounted: true });
+
   },
-  //
+
   componentWillUnmount: function () {
     if (this.listener) {this.listener.remove();}
     if (this.listener2) {this.listener2.remove();}
@@ -50,14 +47,14 @@ var BoardDetail = React.createClass({
     var boardId = parseInt(this.props.params.board_id);
     ApiUtil.deleteBoard(boardId);
   },
-  //
+
   render: function () {
     if (!this.state.board) {
+
       return (
-        <div></div>
+        <div>{this.props.params.board_id}</div>
       );
     }
-
 
 
       return (
@@ -65,7 +62,7 @@ var BoardDetail = React.createClass({
               <header className="detail-header"></header>
               <h1>{this.state.board.title}</h1>
               <ul className="list-index group">
-                <ListIndex boardId={this.props.params.board_id} />
+                <ListIndex boardId={this.props.params.board_id} lists={this.state.board.lists} />
               </ul>
               <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button>
               <EditBoardButton boardId={this.props.params.board_id}/>
