@@ -55,10 +55,17 @@
   cursor: pointer;
 }
 
+.list-index .list-index-item .list-detail > button:hover {
+  color: #666;
+}
+
 .list-detail {
 
 }
 
+.list-index .list-index-item .list-detail .li:hover {
+  color: #666;
+}
 
 // .delete-list-button {
 //   float: left;
