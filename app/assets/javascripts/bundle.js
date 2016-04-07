@@ -34834,8 +34834,9 @@
 	
 	  componentDidMount: function () {
 	    this.listener = BoardStore.addListener(this.setNewState);
+	    // debugger
 	    ApiUtil.fetchSingleBoard(this.props.params.board_id);
-	    ApiUtil.fetchAllLists(this.props.params.board_id);
+	    // ApiUtil.fetchAllLists(this.props.params.board_id);
 	    ApiUtil.fetchAllCards(this.props.params.board_id);
 	  },
 	
@@ -34933,7 +34934,7 @@
 	    }
 	
 	    var listItems = this.props.lists.map(function (list) {
-	      return React.createElement(ListIndexItem, { key: list.id, list: list, boardId: list.board_id });
+	      return React.createElement(ListIndexItem, { key: list.id, list: list });
 	    });
 	
 	    return React.createElement(
@@ -35044,6 +35045,7 @@
 	var React = __webpack_require__(1);
 	var ListDetail = __webpack_require__(284);
 	// var ListStore = require('../store/list_store.js');
+	var BoardStore = __webpack_require__(217);
 	
 	var ListIndexItem = React.createClass({
 	  displayName: 'ListIndexItem',
@@ -35051,24 +35053,24 @@
 	  // getInitialState: function () {
 	  //   return { list: this.getStateFromStore() };
 	  // },
-	  //
+	  // //
 	  // getStateFromStore: function () {
-	  //   return ListStore.find(this.props.list.id);
+	  //   return BoardStore.findListInBoard(this.props.list.id, this.props.boardId);
 	  // },
-	  //
-	  // setNewState: function () {
-	  //     this.setState( { list: this.getStateFromStore() });
-	  // },
-	  //
-	  // componentDidMount: function () {
-	  //   this.listener = ListStore.addListener(this.setNewState);
-	  //   ApiUtil.fetchSingleList(this.props.boardId, this.props.list.id);
-	  //
-	  // },
-	  //
-	  // componentWillUnmount: function () {
-	  //   this.listener.remove();
-	  // },
+	  // //
+	  // // setNewState: function () {
+	  // //     this.setState( { list: this.getStateFromStore() });
+	  // // },
+	  // //
+	  // // componentDidMount: function () {
+	  // //   this.listener = ListStore.addListener(this.setNewState);
+	  // //   ApiUtil.fetchSingleList(this.props.boardId, this.props.list.id);
+	  // //
+	  // // },
+	  // //
+	  // // componentWillUnmount: function () {
+	  // //   this.listener.remove();
+	  // // },
 	
 	  render: function () {
 	
@@ -35080,7 +35082,7 @@
 	        null,
 	        this.props.list.title
 	      ),
-	      React.createElement(ListDetail, { boardId: this.props.boardId, listId: this.props.list.id })
+	      React.createElement(ListDetail, { boardId: this.props.list.board_id, listId: this.props.list.id })
 	    );
 	  }
 	});
@@ -35095,6 +35097,7 @@
 	var CardIndex = __webpack_require__(285);
 	var NewCardButton = __webpack_require__(288);
 	var CardStore = __webpack_require__(286);
+	var BoardStore = __webpack_require__(217);
 	var EditListButton = __webpack_require__(294);
 	var ListDetail = React.createClass({
 	  displayName: 'ListDetail',
@@ -35122,6 +35125,7 @@
 	  componentDidMount: function () {
 	
 	    this.listener = CardStore.addListener(this.setCards);
+	    // BoardStore.findListInBoard(this.props.listId, this.props.boardId);
 	    ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
 	  },
 	  // //
@@ -35139,6 +35143,7 @@
 	  findCards: function () {
 	    var listId = this.props.listId;
 	    var cards = CardStore.findCardsByListId(listId);
+	
 	    return cards;
 	  },
 	
@@ -35252,6 +35257,7 @@
 	  lists.forEach(function (list) {
 	    cards.concat(_cards[list]);
 	  });
+	
 	  return cards;
 	};
 	
@@ -35270,6 +35276,7 @@
 	};
 	
 	CardStore.findCardsByListId = function (list_id) {
+	
 	  return _cards[list_id];
 	};
 	

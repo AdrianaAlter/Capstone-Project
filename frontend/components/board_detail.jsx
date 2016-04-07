@@ -36,8 +36,9 @@ var BoardDetail = React.createClass({
 
   componentDidMount: function () {
     this.listener = BoardStore.addListener(this.setNewState);
+    // debugger
     ApiUtil.fetchSingleBoard(this.props.params.board_id);
-    ApiUtil.fetchAllLists(this.props.params.board_id);
+    // ApiUtil.fetchAllLists(this.props.params.board_id);
     ApiUtil.fetchAllCards(this.props.params.board_id);
   },
 
@@ -59,8 +60,7 @@ var BoardDetail = React.createClass({
       );
     }
 
-
-      return (
+    return (
             <section className="board-detail group">
               <header className="detail-header"></header>
               <h1>{this.state.board.title}</h1>

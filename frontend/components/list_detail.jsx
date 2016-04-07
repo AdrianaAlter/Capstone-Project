@@ -2,6 +2,7 @@ var React = require('react');
 var CardIndex = require('./card_index.jsx');
 var NewCardButton = require('./new_card_button.jsx');
 var CardStore = require('../store/card_store.js');
+var BoardStore = require('../store/board_store.js');
 var EditListButton = require('./edit_list_button.jsx');
 var ListDetail = React.createClass({
 
@@ -28,6 +29,7 @@ var ListDetail = React.createClass({
   componentDidMount: function () {
 
     this.listener = CardStore.addListener(this.setCards);
+    // BoardStore.findListInBoard(this.props.listId, this.props.boardId);
     ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
   },
   // //
@@ -46,6 +48,7 @@ var ListDetail = React.createClass({
   findCards: function () {
     var listId = this.props.listId;
     var cards = CardStore.findCardsByListId(listId);
+
     return cards;
   },
 

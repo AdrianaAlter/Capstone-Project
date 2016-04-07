@@ -37,9 +37,9 @@ var ListIndex = React.createClass({
 
 
     var listItems = this.props.lists.map(function (list) {
-      return <ListIndexItem key={list.id} list={list} boardId={list.board_id}/>;
+      return <ListIndexItem key={list.id} list={list} />;
     });
-    
+
 
     return (
         <ul className="list-index">

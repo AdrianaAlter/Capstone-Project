@@ -11,6 +11,7 @@ CardStore.all = function () {
   lists.forEach(function (list) {
     cards.concat(_cards[list]);
   });
+  
   return cards;
 };
 
@@ -28,11 +29,12 @@ CardStore.resetCards = function (cards) {
 };
 
 CardStore.findCardsByListId = function (list_id) {
+
   return _cards[list_id];
 };
 
 CardStore.resetCard = function (card) {
-  
+
   var listId = card.list_id;
   if (!_cards[listId]) { _cards[listId] = []; }
   var listCards = _cards[listId];
