@@ -155,7 +155,6 @@ ApiUtil = {
   },
 
   deleteList: function (board, id) {
-
     $.ajax({
       url: "api/boards/" + board + "/lists/" + id,
       type: "DELETE",

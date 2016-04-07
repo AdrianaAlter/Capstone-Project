@@ -31835,7 +31835,6 @@
 	  },
 	
 	  deleteList: function (board, id) {
-	
 	    $.ajax({
 	      url: "api/boards/" + board + "/lists/" + id,
 	      type: "DELETE",
@@ -34890,10 +34889,10 @@
 	      ListStore.resetSingleList(payload.list);
 	      ListStore.__emitChange();
 	      break;
-	    case ListConstants.ALL_CARDS_RECEIVED:
-	      // ListStore.resetAllCards(payload.cards);
-	      ListStore.__emitChange();
-	      break;
+	    // case ListConstants.ALL_CARDS_RECEIVED:
+	    //   // ListStore.resetAllCards(payload.cards);
+	    //   ListStore.__emitChange();
+	    //   break;
 	    case ListConstants.SINGLE_CARD_RECEIVED:
 	      ListStore.resetSingleCard(payload.card);
 	      ListStore.__emitChange();
