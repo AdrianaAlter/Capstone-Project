@@ -1,10 +1,13 @@
 var React = require('react');
 var ListActions = require('../actions/list_actions.js');
+var BoardStore = require('../store/board_store.js');
 
 var EditListForm = React.createClass({
 
 	getInitialState: function () {
-		return({ title: "" });
+
+    var startingList = BoardStore.findListById(this.props.listId, this.props.boardId);
+		return({ title: startingList.title });
 	},
 
 
@@ -25,6 +28,7 @@ var EditListForm = React.createClass({
 
 
 	render: function () {
+
 	   return(
 				<form className="edit-list-form">
           <h1>Update List</h1>

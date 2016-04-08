@@ -23,7 +23,7 @@ BoardStore.resetBoard = function (board) {
   else {
     _boards.push(board);
   }
-  
+
 };
 
 BoardStore.resetAllLists = function (lists) {
@@ -47,6 +47,13 @@ BoardStore.resetSingleList = function (list) {
 BoardStore.find = function (id) {
   for (var i = 0; i < _boards.length; i++) {
     if (_boards[i].id == id) { return _boards[i]; }
+  }
+};
+
+BoardStore.findListById = function (listId, boardId) {
+  var board = BoardStore.find(boardId);
+  for (var i = 0; i < board.lists.length; i++) {
+    if (board.lists[i].id == listId) { return board.lists[i]; }
   }
 };
 

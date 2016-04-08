@@ -1,10 +1,12 @@
 var React = require('react');
 var CardActions = require('../actions/card_actions.js');
+var CardStore = require('../store/card_store.js');
 
 var EditCardForm = React.createClass({
 
 	getInitialState: function () {
-		return({ title: "" });
+    var startingCard = CardStore.findCardById(this.props.cardId, this.props.listId);
+		return({ title: startingCard.title });
 	},
 
 

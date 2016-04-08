@@ -33,9 +33,15 @@ CardStore.resetList = function (list) {
   CardStore.resetCards(list.cards);
 };
 
-
 CardStore.findCardsByListId = function (list_id) {
   return _cards[list_id];
+};
+
+CardStore.findCardById = function (cardId, listId) {
+  var list = _cards[listId];
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].id == cardId) { return list[i]; }
+  }
 };
 
 CardStore.resetCard = function (card) {

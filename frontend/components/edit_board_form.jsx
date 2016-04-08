@@ -1,10 +1,15 @@
 var React = require('react');
 var BoardActions = require('../actions/board_actions.js');
+var BoardStore = require('../store/board_store.js');
 
 var EditBoardForm = React.createClass({
 
 	getInitialState: function () {
-		return({ title: "" });
+    var boardId = this.props.boardId;
+
+    var startingBoard = BoardStore.find(boardId);
+    
+		return({ title: startingBoard.title });
 	},
 
 

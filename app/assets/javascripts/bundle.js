@@ -24885,6 +24885,15 @@
 	  }
 	};
 	
+	BoardStore.findListById = function (listId, boardId) {
+	  var board = BoardStore.find(boardId);
+	  for (var i = 0; i < board.lists.length; i++) {
+	    if (board.lists[i].id == listId) {
+	      return board.lists[i];
+	    }
+	  }
+	};
+	
 	BoardStore.findListInBoard = function (list, board) {
 	  for (var i = 0; i < board.lists.length; i++) {
 	    if (board.lists[i].id === list.id) {
@@ -35252,6 +35261,15 @@
 	  return _cards[list_id];
 	};
 	
+	CardStore.findCardById = function (cardId, listId) {
+	  var list = _cards[listId];
+	  for (var i = 0; i < list.length; i++) {
+	    if (list[i].id == cardId) {
+	      return list[i];
+	    }
+	  }
+	};
+	
 	CardStore.resetCard = function (card) {
 	
 	  var listId = card.list_id;
@@ -35506,13 +35524,15 @@
 
 	var React = __webpack_require__(1);
 	var CardActions = __webpack_require__(246);
+	var CardStore = __webpack_require__(284);
 	
 	var EditCardForm = React.createClass({
 		displayName: 'EditCardForm',
 	
 	
 		getInitialState: function () {
-			return { title: "" };
+			var startingCard = CardStore.findCardById(this.props.cardId, this.props.listId);
+			return { title: startingCard.title };
 		},
 	
 		editCard: function (e) {
@@ -35720,13 +35740,16 @@
 
 	var React = __webpack_require__(1);
 	var ListActions = __webpack_require__(293);
+	var BoardStore = __webpack_require__(217);
 	
 	var EditListForm = React.createClass({
 		displayName: 'EditListForm',
 	
 	
 		getInitialState: function () {
-			return { title: "" };
+	
+			var startingList = BoardStore.findListById(this.props.listId, this.props.boardId);
+			return { title: startingList.title };
 		},
 	
 		editList: function (e) {
@@ -35745,6 +35768,7 @@
 		},
 	
 		render: function () {
+	
 			return React.createElement(
 				'form',
 				{ className: 'edit-list-form' },
@@ -35970,13 +35994,18 @@
 
 	var React = __webpack_require__(1);
 	var BoardActions = __webpack_require__(240);
+	var BoardStore = __webpack_require__(217);
 	
 	var EditBoardForm = React.createClass({
 		displayName: 'EditBoardForm',
 	
 	
 		getInitialState: function () {
-			return { title: "" };
+			var boardId = this.props.boardId;
+	
+			var startingBoard = BoardStore.find(boardId);
+	
+			return { title: startingBoard.title };
 		},
 	
 		editBoard: function (e) {
