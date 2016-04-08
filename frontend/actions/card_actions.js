@@ -8,7 +8,7 @@ var CardActions = {
     Dispatcher.dispatch({
       actionType: CardConstants.ALL_CARDS_RECEIVED,
       cards: cards,
-      
+
     });
   },
 
@@ -16,6 +16,13 @@ var CardActions = {
     Dispatcher.dispatch({
       actionType: CardConstants.SINGLE_CARD_RECEIVED,
       card: card
+    });
+  },
+
+  receiveList: function (list) {
+    Dispatcher.dispatch({
+      actionType: CardConstants.LIST_RECEIVED,
+      list: list
     });
   }
 };

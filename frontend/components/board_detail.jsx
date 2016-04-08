@@ -32,6 +32,7 @@ var BoardDetail = React.createClass({
 
   setNewState: function () {
       this.setState( { board: this.getStateFromStore() });
+
   },
 
   componentDidMount: function () {
@@ -44,7 +45,7 @@ var BoardDetail = React.createClass({
 
   componentWillUnmount: function () {
     if (this.listener) {this.listener.remove();}
-    if (this.listener2) {this.listener2.remove();}
+    // if (this.listener2) {this.listener2.remove();}
   },
 
   deleteBoard: function () {
@@ -60,6 +61,7 @@ var BoardDetail = React.createClass({
       );
     }
 
+
     return (
             <section className="board-detail group">
               <header className="detail-header"></header>
@@ -68,7 +70,7 @@ var BoardDetail = React.createClass({
                 <ListIndex boardId={this.props.params.board_id} lists={this.state.board.lists} />
               </ul>
               <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button>
-              <EditBoardButton boardId={this.props.params.board_id}/>
+              <EditBoardButton boardId={this.props.params.board_id} />
             </section>
           );
     }

@@ -23,6 +23,7 @@ BoardStore.resetBoard = function (board) {
   else {
     _boards.push(board);
   }
+  
 };
 
 BoardStore.resetAllLists = function (lists) {
@@ -70,6 +71,7 @@ BoardStore.__onDispatch = function (payload) {
       BoardStore.__emitChange();
       break;
     case BoardConstants.SINGLE_LIST_RECEIVED:
+
       BoardStore.resetSingleList(payload.list);
       BoardStore.__emitChange();
       break;

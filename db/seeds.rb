@@ -16,18 +16,21 @@ board3 = Board.create!(author_id: user1.id, title: "#{Faker::Hacker.noun}", desc
 board13 = Board.create!(author_id: user5.id, title: "Meow")
 board14 = Board.create!(author_id: user5.id, title: "Still meowing")
 board15 = Board.create!(author_id: user5.id, title: "Continuing to meow")
+board16 = Board.create!(author_id: user5.id, title: "Woof?")
 
 List.destroy_all
 
 list1 = List.create!(title: "Chase mice", board_id: board13.id)
-list2 = List.create!(title: "Hide under the furniture", board_id: board14.id)
+list2 = List.create!(title: "Shred the upholstery", board_id: board14.id)
 list3 = List.create!(title: "Purrrrrrr", board_id: board15.id)
+list4 = List.create!(title: "Learn a foreign language (e.g. Dog)", board_id: board16.id)
 
 Card.destroy_all
 
 card1 = Card.create(title: "Stalk...", list_id: list1.id)
 card2 = Card.create(title: "...ambush...", list_id: list1.id)
 card3 = Card.create(title: "...POUNCE!", list_id: list1.id)
+card4 = Card.create(title: "Hone claws on scratching post (e.g. nearest human's leg)", list_id: list2.id)
 
 
 # board4 = Board.create(author_id: user2.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")

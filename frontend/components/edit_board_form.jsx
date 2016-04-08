@@ -12,7 +12,7 @@ var EditBoardForm = React.createClass({
       e.preventDefault();
       var board = {};
       board.title = this.state.title;
-      
+
       ApiUtil.editBoard(board, this.props.boardId, this.props.listId);
       this.setState({ title: "" });
       this.props.closeModal();
@@ -25,6 +25,7 @@ var EditBoardForm = React.createClass({
 
 
 	render: function () {
+
 	   return(
 				<form className="edit-board-form">
           <h1>Update Board</h1>

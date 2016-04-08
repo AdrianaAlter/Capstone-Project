@@ -284,6 +284,12 @@
 	margin: 0;
   padding: 7px;
 	background: #e2e4e6;
+  border-radius: 4px;
+  border: 1px solid #cdd2d4;
+}
+
+.new-board-form input:hover {
+  border: 1px solid #A4A8AA;
 }
 
 .new-board-form > button {
@@ -312,7 +318,6 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-
 }
 
 .edit-board-form h1 {
@@ -340,6 +345,11 @@
 	margin: 0;
   padding: 7px;
 	background: #e2e4e6;
+  border-radius: 4px;
+  border: 1px solid #cdd2d4;
+}
+.edit-board-form input:hover {
+  border: 1px solid #A4A8AA;
 }
 
 .edit-board-form > button {

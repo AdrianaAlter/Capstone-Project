@@ -177,16 +177,19 @@ ApiUtil = {
   },
 
   deleteCard: function (boardId, id) {
+
     $.ajax({
       url: "api/boards/" + boardId + "/cards/" + id,
       type: "DELETE",
       success: function (list) {
+        
         // if (info[0] && info[0].list_id) {
         //   ListActions.receiveAllCards(info);
         // }
         // else {
 
           BoardActions.receiveSingleList(list);
+          CardActions.receiveList(list);
       //   }
       },
       error: function () {
@@ -231,7 +234,6 @@ ApiUtil = {
 
   editCard: function (card, boardId, id) {
 
-    
     $.ajax({
       url: "api/boards/" + boardId + "/cards/" + id,
       type: "PATCH",

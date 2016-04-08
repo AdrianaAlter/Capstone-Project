@@ -28,8 +28,13 @@ CardStore.resetCards = function (cards) {
   return _cards;
 };
 
-CardStore.findCardsByListId = function (list_id) {
+CardStore.resetList = function (list) {
+  _cards[list.id] = list.cards;
+  CardStore.resetCards(list.cards);
+};
 
+
+CardStore.findCardsByListId = function (list_id) {
   return _cards[list_id];
 };
 
@@ -94,6 +99,10 @@ CardStore.__onDispatch = function (payload) {
     case CardConstants.SINGLE_CARD_RECEIVED:
 
       CardStore.resetCard(payload.card);
+      CardStore.__emitChange();
+      break;
+    case CardConstants.LIST_RECEIVED:
+      CardStore.resetList(payload.list);
       CardStore.__emitChange();
       break;
   }

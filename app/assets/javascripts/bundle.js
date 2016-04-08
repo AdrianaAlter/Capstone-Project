@@ -24908,6 +24908,7 @@
 	      BoardStore.__emitChange();
 	      break;
 	    case BoardConstants.SINGLE_LIST_RECEIVED:
+	
 	      BoardStore.resetSingleList(payload.list);
 	      BoardStore.__emitChange();
 	      break;
@@ -31908,16 +31909,19 @@
 	  },
 	
 	  deleteCard: function (boardId, id) {
+	
 	    $.ajax({
 	      url: "api/boards/" + boardId + "/cards/" + id,
 	      type: "DELETE",
 	      success: function (list) {
+	
 	        // if (info[0] && info[0].list_id) {
 	        //   ListActions.receiveAllCards(info);
 	        // }
 	        // else {
 	
 	        BoardActions.receiveSingleList(list);
+	        CardActions.receiveList(list);
 	        //   }
 	      },
 	      error: function () {
@@ -32134,6 +32138,13 @@
 	      actionType: CardConstants.SINGLE_CARD_RECEIVED,
 	      card: card
 	    });
+	  },
+	
+	  receiveList: function (list) {
+	    Dispatcher.dispatch({
+	      actionType: CardConstants.LIST_RECEIVED,
+	      list: list
+	    });
 	  }
 	};
 	
@@ -32145,7 +32156,8 @@
 
 	var CardConstants = {
 	  ALL_CARDS_RECEIVED: "ALL_CARDS_RECEIVED",
-	  SINGLE_CARD_RECEIVED: "SINGLE_CARD_RECEIVED"
+	  SINGLE_CARD_RECEIVED: "SINGLE_CARD_RECEIVED",
+	  LIST_RECEIVED: "LIST_RECEIVED"
 	};
 	
 	module.exports = CardConstants;
@@ -34891,9 +34903,7 @@
 	    if (this.listener) {
 	      this.listener.remove();
 	    }
-	    if (this.listener2) {
-	      this.listener2.remove();
-	    }
+	    // if (this.listener2) {this.listener2.remove();}
 	  },
 	
 	  deleteBoard: function () {
@@ -35233,8 +35243,12 @@
 	  return _cards;
 	};
 	
-	CardStore.findCardsByListId = function (list_id) {
+	CardStore.resetList = function (list) {
+	  _cards[list.id] = list.cards;
+	  CardStore.resetCards(list.cards);
+	};
 	
+	CardStore.findCardsByListId = function (list_id) {
 	  return _cards[list_id];
 	};
 	
@@ -35297,6 +35311,10 @@
 	    case CardConstants.SINGLE_CARD_RECEIVED:
 	
 	      CardStore.resetCard(payload.card);
+	      CardStore.__emitChange();
+	      break;
+	    case CardConstants.LIST_RECEIVED:
+	      CardStore.resetList(payload.list);
 	      CardStore.__emitChange();
 	      break;
 	  }
@@ -35408,6 +35426,7 @@
 	    var boardId = this.props.boardId;
 	    // var listId = this.props.listId;
 	    var id = this.props.card.id;
+	
 	    ApiUtil.deleteCard(boardId, id);
 	    // ApiUtil.fetchSingleList(boardId, listId);
 	
@@ -35976,6 +35995,7 @@
 		},
 	
 		render: function () {
+	
 			return React.createElement(
 				'form',
 				{ className: 'edit-board-form' },

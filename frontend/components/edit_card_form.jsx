@@ -13,7 +13,7 @@ var EditCardForm = React.createClass({
       var card = {};
       card.title = this.state.title;
       card.listId = this.props.listId;
-      
+
       ApiUtil.editCard(card, this.props.boardId, this.props.cardId);
       this.setState({ title: "" });
       this.props.closeModal();
