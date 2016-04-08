@@ -53,6 +53,90 @@ footer {
   margin: auto;
   padding-bottom: 20px;
 }
+
+.about {
+  color: #026AA7;
+  display: block;
+  height: 370px;
+  width: 950px;
+  position: relative;
+  font-family: cursive;
+  margin: auto;
+  font-weight: bold;
+  text-align: center;
+  background: #e4f0f6;
+}
+
+.about .about-pic {
+
+  height: 250px;
+  width: 250px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  margin: 20px 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px double rgb(0, 121, 191);
+}
+
+.about > h1 {
+  font-size: 30px;
+  color: #026AA7;
+}
+
+.about > h2 {
+  display: block;
+  font-size: 20px;
+  color: #026AA7;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  line-height: 80px;
+  transform: translateX(-50%);
+}
+.legal {
+  color: #026AA7;
+  display: block;
+  height: 370px;
+  width: 950px;
+  position: relative;
+  font-family: cursive;
+  margin: auto;
+  font-weight: bold;
+  text-align: center;
+  background: #e4f0f6;
+}
+
+/*.legal .legal-pic {
+
+  height: 250px;
+  width: 250px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  margin: 20px 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px double rgb(0, 121, 191);
+}*/
+
+.legal {
+  font-size: 30px;
+  color: #026AA7;
+  line-height: 50px;
+}
+
+.tour {
+  color: #026AA7;
+
+  font-family: cursive;
+
+}
+
+
+
+
 /*.logout-button {
 	display: block;
 	color: white;

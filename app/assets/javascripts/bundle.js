@@ -34788,62 +34788,113 @@
 	  displayName: 'Footer',
 	
 	
-	  // getInitialState: function () {
-	  //   return {
-	  //     currentUser: null,
-	  //     modalOpen: false
-	  //   };
-	  // },
-	  //
-	  // openModal: function () {
-	  //   this.setState({ modalOpen: true });
-	  // },
-	  //
-	  // closeModal: function () {
-	  //   this.setState({ modalOpen: false });
-	  // },
-	  //
-	  // render: function () {
-	  //   var styles = {
-	  //     content: {backgroundColor: "#e4f0f6"}
-	  //   };
-	  //
-	  //   var tourPic = <section className="tour-content">
-	  //     <h1>meow</h1>
-	  //     <div className="tour-pic"></div>
-	  //   </section>;
-	  //   var tour = <li className="footerlink" onClick={this.openModal}>Tour
-	  //     <Modal className="modal" isOpen={this.state.modalOpen}
-	  //       onRequestClose={this.closeModal}
-	  //       style={styles}>{tourPic}
-	  //     </Modal>
-	  //   </li>;
-	  //
-	  //
-	  //   var pricing = <li className="footerlink" onClick={this.openModal}>Pricing
-	  //     <Modal className="modal" isOpen={this.state.modalOpen}
-	  //       onRequestClose={this.closeModal}
-	  //       style={styles}>
-	  //     </Modal>
-	  //   </li>;
-	  //
-	  //   var jobs = <li className="footerlink" onClick={this.openModal}>Jobs
-	  //     <Modal className="modal" isOpen={this.state.modalOpen}
-	  //       onRequestClose={this.closeModal}
-	  //       style={styles}>
-	  //     </Modal>
-	  //   </li>;
-	  //
-	  //   return(
-	  //     <ul>
-	  //       {tour}
-	  //       {pricing}
-	  //       {jobs}
-	  //     </ul>
-	  //   );
-	  // }
+	  getInitialState: function () {
+	    return {
+	      currentUser: null,
+	      modalOpen: false
+	    };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
 	
 	  render: function () {
+	    var styles = {
+	      content: { backgroundColor: "#e4f0f6" }
+	    };
+	    //
+	    //   var tourPic = <section className="tour-content">
+	    //     <h1>meow</h1>
+	    //     <div className="tour-pic"></div>
+	    //   </section>;
+	    //   var tour = <li className="footerlink" onClick={this.openModal}>Tour
+	    //     <Modal className="modal" isOpen={this.state.modalOpen}
+	    //       onRequestClose={this.closeModal}
+	    //       style={styles}>{tourPic}
+	    //     </Modal>
+	    //   </li>;
+	    //
+	
+	    //
+	    //   var pricing = <li className="footerlink" onClick={this.openModal}>Pricing
+	    //     <Modal className="modal" isOpen={this.state.modalOpen}
+	    //       onRequestClose={this.closeModal}
+	    //       style={styles}>
+	    //     </Modal>
+	    //   </li>;
+	    //
+	
+	    var tourContent = React.createElement(
+	      'h1',
+	      { className: 'tour' },
+	      'Because cats are also known for their navigational skills.'
+	    );
+	
+	    var jobs = React.createElement(
+	      'li',
+	      { onClick: this.openModal },
+	      'Jobs',
+	      React.createElement(Modal, { className: 'modal', isOpen: this.state.modalOpen,
+	        onRequestClose: this.closeModal,
+	        style: styles })
+	    );
+	
+	    var about = React.createElement(
+	      'li',
+	      { onClick: this.openModal },
+	      'About',
+	      React.createElement(
+	        Modal,
+	        { className: 'about', isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: styles },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'It\'s about cats.'
+	        ),
+	        React.createElement(
+	          'h2',
+	          null,
+	          '(You seriously couldn\'t figure that out on your own??)'
+	        )
+	      )
+	    );
+	
+	    var legal = React.createElement(
+	      'li',
+	      { onClick: this.openModal },
+	      'Legal',
+	      React.createElement(
+	        Modal,
+	        { isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: styles },
+	        React.createElement(
+	          'h1',
+	          { className: 'legal' },
+	          'If you\'re looking for legitimate legal information, a good first step is probably to go to a website that isn\'t cat-themed.'
+	        )
+	      )
+	    );
+	
+	    var tour = React.createElement(
+	      'li',
+	      { onClick: this.openModal },
+	      'Tour',
+	      React.createElement(
+	        Modal,
+	        { isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: styles },
+	        tourContent
+	      )
+	    );
 	
 	    return React.createElement(
 	      'footer',
@@ -34860,11 +34911,6 @@
 	          'li',
 	          null,
 	          'Pricing'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          'Jobs'
 	        ),
 	        React.createElement(
 	          'li',
@@ -34886,11 +34932,7 @@
 	          null,
 	          'Help'
 	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          'Legal'
-	        ),
+	        legal,
 	        React.createElement(
 	          'li',
 	          null,
