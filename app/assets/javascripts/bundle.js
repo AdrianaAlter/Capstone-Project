@@ -74,7 +74,7 @@
 	
 	// </Route>
 	
-	// document.addEventListener("DOMContentLoaded", function () {
+	// document.addEventListener("DOMConten tLoaded", function () {
 	//   ReactDOM.render(
 	//     routes,
 	//     document.getElementById('content')
@@ -24851,10 +24851,16 @@
 	};
 	
 	BoardStore.resetBoard = function (board) {
-	  var oldBoard = BoardStore.find(board.id);
+	  // var oldBoard = BoardStore.find(board.id);
+	  //
+	  // if (oldBoard) {
+	  //   _boards[_boards.indexOf(oldBoard)] = board;
+	  // }
 	
-	  if (oldBoard) {
-	    _boards[_boards.indexOf(oldBoard)] = board;
+	  var i = BoardStore.findOutIndex(board);
+	
+	  if (i) {
+	    _boards[i] = board;
 	  } else {
 	    _boards.push(board);
 	  }
@@ -24894,6 +24900,14 @@
 	  }
 	};
 	
+	BoardStore.findOutIndex = function (board) {
+	  for (var i = 0; i < _boards.length; i++) {
+	    if (_boards[i].id == board.id) {
+	      return i;
+	    }
+	  }
+	};
+	
 	BoardStore.findListInBoard = function (list, board) {
 	  for (var i = 0; i < board.lists.length; i++) {
 	    if (board.lists[i].id === list.id) {
@@ -24909,6 +24923,7 @@
 	      BoardStore.__emitChange();
 	      break;
 	    case BoardConstants.SINGLE_BOARD_RECEIVED:
+	
 	      BoardStore.resetBoard(payload.board);
 	      BoardStore.__emitChange();
 	      break;
@@ -34304,6 +34319,14 @@
 	var Header = React.createClass({
 	  displayName: 'Header',
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  boards: function () {
+	    this.context.router.push("/");
+	  },
+	
 	  render: function () {
 	
 	    return React.createElement(
@@ -34317,12 +34340,8 @@
 	          null,
 	          React.createElement(
 	            'li',
-	            null,
-	            React.createElement(
-	              Link,
-	              { to: "/" },
-	              'Boards'
-	            )
+	            { onClick: this.boards },
+	            'Boards'
 	          ),
 	          React.createElement(
 	            'li',
@@ -35317,8 +35336,9 @@
 	CardStore.all = function () {
 	  var cards = [];
 	  var lists = Object.keys(_cards);
+	
 	  lists.forEach(function (list) {
-	    cards.concat(_cards[list]);
+	    cards.push(_cards[list]);
 	  });
 	
 	  return cards;

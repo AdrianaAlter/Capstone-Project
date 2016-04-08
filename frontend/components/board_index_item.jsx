@@ -4,6 +4,8 @@ var Link = require('react-router').Link;
 
 var BoardIndexItem = React.createClass({
 
+
+
   render: function () {
 
     return(

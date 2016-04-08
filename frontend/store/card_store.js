@@ -8,8 +8,9 @@ var _cards = {};
 CardStore.all = function () {
   var cards = [];
   var lists = Object.keys(_cards);
+
   lists.forEach(function (list) {
-    cards.concat(_cards[list]);
+    cards.push((_cards[list]));
   });
 
   return cards;
@@ -26,7 +27,7 @@ CardStore.resetCards = function (cards) {
       _cards[listId].push(card);
     }
   }
-
+  
   return _cards;
 };
 

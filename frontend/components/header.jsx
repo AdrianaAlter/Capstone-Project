@@ -4,14 +4,23 @@ var SessionButtons = require('./session.jsx');
 var Search = require('./search.jsx');
 var Link = require('react-router').Link;
 
+
 var Header = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
+  boards: function () {
+    this.context.router.push("/");
+  },
+
   render: function () {
 
   return(
       <header className="header">
         <nav className="header-nav group">
           <ul>
-            <li><Link to={"/"}>Boards</Link></li>
+            <li onClick={this.boards}>Boards</li>
             <li className="search"><Search /></li>
             <li className="header-logo">CatTrello</li>
           </ul>
