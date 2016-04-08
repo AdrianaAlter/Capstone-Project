@@ -50,15 +50,15 @@
 	var Route = __webpack_require__(159).Route;
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var BoardIndex = __webpack_require__(216);
-	var App = __webpack_require__(273);
-	var LogInForm = __webpack_require__(279);
+	var App = __webpack_require__(271);
+	var LogInForm = __webpack_require__(277);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ApiUtil = __webpack_require__(241);
-	var SessionStore = __webpack_require__(276);
-	var NewBoardButton = __webpack_require__(251);
-	var BoardDetail = __webpack_require__(280);
+	var SessionStore = __webpack_require__(274);
+	var NewBoardButton = __webpack_require__(249);
+	var BoardDetail = __webpack_require__(279);
 	// var Search = require('./components/search.jsx');
-	var Modal = __webpack_require__(252);
+	var Modal = __webpack_require__(250);
 	
 	var routes = React.createElement(
 	  Router,
@@ -24779,9 +24779,9 @@
 	var BoardStore = __webpack_require__(217);
 	var BoardActions = __webpack_require__(240);
 	var ApiUtil = __webpack_require__(241);
-	var NewBoardForm = __webpack_require__(250);
-	var NewBoardButton = __webpack_require__(251);
-	var BoardIndexItem = __webpack_require__(272);
+	var NewBoardForm = __webpack_require__(248);
+	var NewBoardButton = __webpack_require__(249);
+	var BoardIndexItem = __webpack_require__(270);
 	
 	var BoardIndex = React.createClass({
 	  displayName: 'BoardIndex',
@@ -31741,7 +31741,7 @@
 	var SessionActions = __webpack_require__(242);
 	var SearchResultActions = __webpack_require__(244);
 	// var ListActions = require('../actions/list_actions.js');
-	var CardActions = __webpack_require__(248);
+	var CardActions = __webpack_require__(246);
 	
 	ApiUtil = {
 	
@@ -31966,6 +31966,7 @@
 	      dataType: "json",
 	      data: { card: card },
 	      success: function (card) {
+	
 	        CardActions.receiveSingleCard(card);
 	      },
 	      error: function () {
@@ -32112,51 +32113,9 @@
 
 /***/ },
 /* 246 */
-/***/ function(module, exports) {
-
-	// var ListConstants = require('../constants/list_constants.js');
-	// var Dispatcher = require('../dispatcher/dispatcher.js');
-	//
-	// var ListActions = {
-	//
-	// 	 receiveAllLists: function (lists) {
-	// 		 Dispatcher.dispatch({
-	// 			 actionType: ListConstants.ALL_LISTS_RECEIVED,
-	// 			 lists: lists
-	// 		 });
-	//    },
-	//
-	//    receiveSingleList: function (list) {
-	//       Dispatcher.dispatch({
-	//        actionType: ListConstants.SINGLE_LIST_RECEIVED,
-	//        list: list
-	//      });
-	//    },
-	//
-	//    receiveAllCards: function (cards) {
-	//      Dispatcher.dispatch({
-	//        actionType: ListConstants.ALL_CARDS_RECEIVED,
-	//        cards: cards
-	//      });
-	//    },
-	//
-	//    receiveSingleCard: function (card) {
-	//      Dispatcher.dispatch({
-	//        actionType: ListConstants.SINGLE_CARD_RECEIVED,
-	//        card: card
-	//      });
-	//    }
-	//
-	// };
-	//
-	// module.exports = ListActions;
-
-/***/ },
-/* 247 */,
-/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var CardConstants = __webpack_require__(249);
+	var CardConstants = __webpack_require__(247);
 	var Dispatcher = __webpack_require__(236);
 	
 	var CardActions = {
@@ -32181,7 +32140,7 @@
 	module.exports = CardActions;
 
 /***/ },
-/* 249 */
+/* 247 */
 /***/ function(module, exports) {
 
 	var CardConstants = {
@@ -32192,7 +32151,7 @@
 	module.exports = CardConstants;
 
 /***/ },
-/* 250 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32257,14 +32216,14 @@
 	module.exports = NewBoardForm;
 
 /***/ },
-/* 251 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var NewBoardForm = __webpack_require__(250);
+	var Modal = __webpack_require__(250);
+	var NewBoardForm = __webpack_require__(248);
 	
 	var NewBoardButton = React.createClass({
 	  displayName: 'NewBoardButton',
@@ -32331,23 +32290,23 @@
 	module.exports = NewBoardButton;
 
 /***/ },
-/* 252 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(253);
+	module.exports = __webpack_require__(251);
 	
 
 
 /***/ },
-/* 253 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(254);
-	var ModalPortal = React.createFactory(__webpack_require__(255));
-	var ariaAppHider = __webpack_require__(270);
-	var elementClass = __webpack_require__(271);
+	var ExecutionEnvironment = __webpack_require__(252);
+	var ModalPortal = React.createFactory(__webpack_require__(253));
+	var ariaAppHider = __webpack_require__(268);
+	var elementClass = __webpack_require__(269);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32426,7 +32385,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 254 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32471,14 +32430,14 @@
 
 
 /***/ },
-/* 255 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(256);
-	var scopeTab = __webpack_require__(258);
-	var Assign = __webpack_require__(259);
+	var focusManager = __webpack_require__(254);
+	var scopeTab = __webpack_require__(256);
+	var Assign = __webpack_require__(257);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32675,10 +32634,10 @@
 
 
 /***/ },
-/* 256 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(257);
+	var findTabbable = __webpack_require__(255);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -32749,7 +32708,7 @@
 
 
 /***/ },
-/* 257 */
+/* 255 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32805,10 +32764,10 @@
 
 
 /***/ },
-/* 258 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(257);
+	var findTabbable = __webpack_require__(255);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -32826,7 +32785,7 @@
 
 
 /***/ },
-/* 259 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32837,9 +32796,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(260),
-	    createAssigner = __webpack_require__(266),
-	    keys = __webpack_require__(262);
+	var baseAssign = __webpack_require__(258),
+	    createAssigner = __webpack_require__(264),
+	    keys = __webpack_require__(260);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -32912,7 +32871,7 @@
 
 
 /***/ },
-/* 260 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32923,8 +32882,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(261),
-	    keys = __webpack_require__(262);
+	var baseCopy = __webpack_require__(259),
+	    keys = __webpack_require__(260);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -32945,7 +32904,7 @@
 
 
 /***/ },
-/* 261 */
+/* 259 */
 /***/ function(module, exports) {
 
 	/**
@@ -32983,7 +32942,7 @@
 
 
 /***/ },
-/* 262 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32994,9 +32953,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(263),
-	    isArguments = __webpack_require__(264),
-	    isArray = __webpack_require__(265);
+	var getNative = __webpack_require__(261),
+	    isArguments = __webpack_require__(262),
+	    isArray = __webpack_require__(263);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33225,7 +33184,7 @@
 
 
 /***/ },
-/* 263 */
+/* 261 */
 /***/ function(module, exports) {
 
 	/**
@@ -33368,7 +33327,7 @@
 
 
 /***/ },
-/* 264 */
+/* 262 */
 /***/ function(module, exports) {
 
 	/**
@@ -33617,7 +33576,7 @@
 
 
 /***/ },
-/* 265 */
+/* 263 */
 /***/ function(module, exports) {
 
 	/**
@@ -33803,7 +33762,7 @@
 
 
 /***/ },
-/* 266 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33814,9 +33773,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(267),
-	    isIterateeCall = __webpack_require__(268),
-	    restParam = __webpack_require__(269);
+	var bindCallback = __webpack_require__(265),
+	    isIterateeCall = __webpack_require__(266),
+	    restParam = __webpack_require__(267);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -33861,7 +33820,7 @@
 
 
 /***/ },
-/* 267 */
+/* 265 */
 /***/ function(module, exports) {
 
 	/**
@@ -33932,7 +33891,7 @@
 
 
 /***/ },
-/* 268 */
+/* 266 */
 /***/ function(module, exports) {
 
 	/**
@@ -34070,7 +34029,7 @@
 
 
 /***/ },
-/* 269 */
+/* 267 */
 /***/ function(module, exports) {
 
 	/**
@@ -34143,7 +34102,7 @@
 
 
 /***/ },
-/* 270 */
+/* 268 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -34190,7 +34149,7 @@
 
 
 /***/ },
-/* 271 */
+/* 269 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -34255,7 +34214,7 @@
 
 
 /***/ },
-/* 272 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34283,13 +34242,13 @@
 	module.exports = BoardIndexItem;
 
 /***/ },
-/* 273 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Header = __webpack_require__(274);
+	var Header = __webpack_require__(272);
 	var BoardIndex = __webpack_require__(216);
-	var SessionStore = __webpack_require__(276);
+	var SessionStore = __webpack_require__(274);
 	var ApiUtil = __webpack_require__(241);
 	
 	var App = React.createClass({
@@ -34310,13 +34269,13 @@
 	module.exports = App;
 
 /***/ },
-/* 274 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var SessionButtons = __webpack_require__(275);
-	var Search = __webpack_require__(277);
+	var SessionButtons = __webpack_require__(273);
+	var Search = __webpack_require__(275);
 	var Link = __webpack_require__(159).Link;
 	
 	var Header = React.createClass({
@@ -34363,13 +34322,13 @@
 	module.exports = Header;
 
 /***/ },
-/* 275 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(276);
+	var SessionStore = __webpack_require__(274);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
+	var Modal = __webpack_require__(250);
 	
 	var SessionButtons = React.createClass({
 	  displayName: 'SessionButtons',
@@ -34475,7 +34434,7 @@
 	module.exports = SessionButtons;
 
 /***/ },
-/* 276 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -34516,11 +34475,11 @@
 	module.exports = SessionStore;
 
 /***/ },
-/* 277 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SearchResultsStore = __webpack_require__(278);
+	var SearchResultsStore = __webpack_require__(276);
 	var ApiUtil = __webpack_require__(241);
 	
 	var Search = React.createClass({
@@ -34591,7 +34550,7 @@
 	// </nav>
 
 /***/ },
-/* 278 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -34624,13 +34583,13 @@
 	module.exports = SearchResultsStore;
 
 /***/ },
-/* 279 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var Footer = __webpack_require__(298);
+	var Modal = __webpack_require__(250);
+	var Footer = __webpack_require__(278);
 	
 	var LogInForm = React.createClass({
 	  displayName: 'LogInForm',
@@ -34796,15 +34755,100 @@
 	module.exports = LogInForm;
 
 /***/ },
-/* 280 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListIndex = __webpack_require__(281);
+	var Modal = __webpack_require__(250);
+	
+	var Footer = React.createClass({
+	  displayName: 'Footer',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      currentUser: null,
+	      modalOpen: false
+	    };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  render: function () {
+	    var styles = {
+	      content: { backgroundColor: "#e4f0f6" }
+	    };
+	
+	    var tourPic = React.createElement(
+	      'section',
+	      { className: 'tour-content' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        'meow'
+	      ),
+	      React.createElement('div', { className: 'tour-pic' })
+	    );
+	    var tour = React.createElement(
+	      'li',
+	      { className: 'footerlink', onClick: this.openModal },
+	      'Tour',
+	      React.createElement(
+	        Modal,
+	        { className: 'modal', isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: styles },
+	        tourPic
+	      )
+	    );
+	
+	    var pricing = React.createElement(
+	      'li',
+	      { className: 'footerlink', onClick: this.openModal },
+	      'Pricing',
+	      React.createElement(Modal, { className: 'modal', isOpen: this.state.modalOpen,
+	        onRequestClose: this.closeModal,
+	        style: styles })
+	    );
+	
+	    var jobs = React.createElement(
+	      'li',
+	      { className: 'footerlink', onClick: this.openModal },
+	      'Jobs',
+	      React.createElement(Modal, { className: 'modal', isOpen: this.state.modalOpen,
+	        onRequestClose: this.closeModal,
+	        style: styles })
+	    );
+	
+	    return React.createElement(
+	      'ul',
+	      null,
+	      tour,
+	      pricing,
+	      jobs
+	    );
+	  }
+	
+	});
+	
+	module.exports = Footer;
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ListIndex = __webpack_require__(280);
 	var BoardStore = __webpack_require__(217);
-	var CardStore = __webpack_require__(286);
-	var Header = __webpack_require__(274);
-	var EditBoardButton = __webpack_require__(292);
+	var CardStore = __webpack_require__(284);
+	var Header = __webpack_require__(272);
+	var EditBoardButton = __webpack_require__(296);
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
 	
@@ -34896,14 +34940,14 @@
 	// <ListIndex board={this.props.params.board_id} />
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	// var ListStore = require('../store/list_store.js');
 	// var ListActions = require('../actions/list_actions.js');
-	var ListIndexItem = __webpack_require__(283);
-	var NewListButton = __webpack_require__(290);
+	var ListIndexItem = __webpack_require__(281);
+	var NewListButton = __webpack_require__(294);
 	var ApiUtil = __webpack_require__(241);
 	
 	var ListIndex = React.createClass({
@@ -34953,7 +34997,315 @@
 	module.exports = ListIndex;
 
 /***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ListDetail = __webpack_require__(282);
+	// var ListStore = require('../store/list_store.js');
+	var BoardStore = __webpack_require__(217);
+	
+	var ListIndexItem = React.createClass({
+	  displayName: 'ListIndexItem',
+	
+	  // getInitialState: function () {
+	  //   return { list: this.getStateFromStore() };
+	  // },
+	  // //
+	  // getStateFromStore: function () {
+	  //   return BoardStore.findListInBoard(this.props.list.id, this.props.boardId);
+	  // },
+	  // //
+	  // // setNewState: function () {
+	  // //     this.setState( { list: this.getStateFromStore() });
+	  // // },
+	  // //
+	  // // componentDidMount: function () {
+	  // //   this.listener = ListStore.addListener(this.setNewState);
+	  // //   ApiUtil.fetchSingleList(this.props.boardId, this.props.list.id);
+	  // //
+	  // // },
+	  // //
+	  // // componentWillUnmount: function () {
+	  // //   this.listener.remove();
+	  // // },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'section',
+	      { className: 'list-index-item' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        this.props.list.title
+	      ),
+	      React.createElement(ListDetail, { boardId: this.props.list.board_id, listId: this.props.list.id })
+	    );
+	  }
+	});
+	
+	module.exports = ListIndexItem;
+
+/***/ },
 /* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var CardIndex = __webpack_require__(283);
+	var NewCardButton = __webpack_require__(289);
+	var CardStore = __webpack_require__(284);
+	var BoardStore = __webpack_require__(217);
+	var EditListButton = __webpack_require__(291);
+	var ListDetail = React.createClass({
+	  displayName: 'ListDetail',
+	
+	
+	  getInitialState: function () {
+	    return { cards: this.findCards() };
+	  },
+	
+	  //
+	  // getStateFromStore: function () {
+	  //   var listId = parseInt(this.props.listId);
+	  //   return ListStore.find(listId);
+	  // },
+	  //
+	  // componentWillReceiveProps: function (newProps) {
+	  //   this.listener2 = ListStore.addListener(this.setNewState);
+	  //   ApiUtil.fetchSingleList(this.props.boardId, newProps.listId);
+	  // },
+	
+	  // setNewState: function () {
+	  //     this.setState( { list: this.getStateFromStore() });
+	  // },
+	  //
+	  componentDidMount: function () {
+	
+	    this.listener = CardStore.addListener(this.setCards);
+	    // BoardStore.findListInBoard(this.props.listId, this.props.boardId);
+	    ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
+	  },
+	  // //
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	    // if (this.listener2) {this.listener2.remove();}
+	  },
+	
+	  deleteList: function () {
+	    var board = this.props.boardId;
+	    var listId = this.props.listId;
+	    ApiUtil.deleteList(board, listId);
+	  },
+	
+	  findCards: function () {
+	    var listId = this.props.listId;
+	    var cards = CardStore.findCardsByListId(listId);
+	
+	    return cards;
+	  },
+	
+	  setCards: function () {
+	    var cards = this.findCards();
+	    this.setState({ cards: cards });
+	  },
+	
+	  render: function () {
+	
+	    // <CardIndex boardId={this.props.boardId} listId={this.props.listId}/>
+	
+	    // var cards = this.props.cards.map(function (card) {
+	    //   return <li key={card.id}>{card.title}</li>;
+	    // });
+	
+	    return React.createElement(
+	      'section',
+	      { className: 'list-detail group' },
+	      React.createElement(CardIndex, { cards: this.state.cards, listId: this.props.listId, boardId: this.props.boardId }),
+	      React.createElement(NewCardButton, { boardId: this.props.boardId, listId: this.props.listId }),
+	      React.createElement(EditListButton, { listId: this.props.listId, boardId: this.props.boardId }),
+	      React.createElement(
+	        'button',
+	        { className: 'delete-list-button', onClick: this.deleteList },
+	        'Delete this list...'
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = ListDetail;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var CardStore = __webpack_require__(284);
+	var ListStore = __webpack_require__(285);
+	var CardActions = __webpack_require__(246);
+	var CardIndexItem = __webpack_require__(286);
+	var ApiUtil = __webpack_require__(241);
+	
+	var CardIndex = React.createClass({
+	  displayName: 'CardIndex',
+	
+	
+	  getInitialState: function () {
+	    return { cards: this.getStateFromStore() };
+	  },
+	
+	  getStateFromStore: function () {
+	    return CardStore.all();
+	  },
+	
+	  setNewState: function () {
+	    this.setState({ cards: this.getStateFromStore() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = CardStore.addListener(this.setNewState);
+	
+	    // ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  render: function () {
+	    if (!this.props.cards) {
+	      return React.createElement('div', null);
+	    }
+	
+	    var boardId = this.props.boardId;
+	
+	    var cardIndexItems = this.props.cards.map(function (card) {
+	
+	      return React.createElement(CardIndexItem, { key: card.id, card: card, listId: card.list_id, boardId: boardId });
+	    });
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'card-index group' },
+	      cardIndexItems
+	    );
+	  }
+	
+	});
+	
+	module.exports = CardIndex;
+	
+	// <NewCardButton listId={this.props.listId}/>
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var Dispatcher = __webpack_require__(236);
+	var CardConstants = __webpack_require__(247);
+	
+	var CardStore = new Store(Dispatcher);
+	var _cards = {};
+	
+	CardStore.all = function () {
+	  var cards = [];
+	  var lists = Object.keys(_cards);
+	  lists.forEach(function (list) {
+	    cards.concat(_cards[list]);
+	  });
+	
+	  return cards;
+	};
+	
+	CardStore.resetCards = function (cards) {
+	  for (var i = 0; i < cards.length; i++) {
+	    var card = cards[i];
+	    var listId = card.list_id;
+	    if (_cards[listId]) {
+	      _cards[listId].push(card);
+	    } else {
+	      _cards[listId] = [];
+	      _cards[listId].push(card);
+	    }
+	  }
+	  return _cards;
+	};
+	
+	CardStore.findCardsByListId = function (list_id) {
+	
+	  return _cards[list_id];
+	};
+	
+	CardStore.resetCard = function (card) {
+	
+	  var listId = card.list_id;
+	  if (!_cards[listId]) {
+	    _cards[listId] = [];
+	  }
+	
+	  var listCards = _cards[listId];
+	  var cardIds = [];
+	  for (var i = 0; i < listCards.length; i++) {
+	    cardIds.push(listCards[i].id);
+	  }
+	
+	  if (cardIds.includes(card.id)) {
+	    var index = cardIds.indexOf(card.id);
+	    listCards[index] = card;
+	  } else {
+	    listCards.push(card);
+	  }
+	};
+	
+	// var cardIds = [];
+	// for (var i = 0; i < _cards[listId].length; i++) { cardIds.push(_cards[listId][i].id); }
+	//
+	// if (cardIds.includes(card.id)) {
+	//   for (var j = 0; i < _cards[listId].length; j++) {
+	//     if (_cards[listId][j].id === card.id) {
+	//       _cards[listId][j] = card;
+	//     }
+	//   }
+	// }
+	//
+	// else { _cards[listId].push(card); }
+	//
+	// return _cards[listId];
+	
+	// CardStore.find = function (id) {
+	//
+	//
+	//   if (_cards[listId] && _cards[listId].include(card)) {
+	//     for (var i = 0; i < _cards[listId].length; i++) {
+	//       if (_cards[listId][i].id === card.id) {
+	//         _cards[listId][i] = card;
+	//       }
+	//     }
+	//   }
+	//   return _cards[listId];
+	// };
+	
+	CardStore.__onDispatch = function (payload) {
+	
+	  switch (payload.actionType) {
+	    case CardConstants.ALL_CARDS_RECEIVED:
+	      CardStore.resetCards(payload.cards);
+	      CardStore.__emitChange();
+	      break;
+	    case CardConstants.SINGLE_CARD_RECEIVED:
+	
+	      CardStore.resetCard(payload.card);
+	      CardStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = CardStore;
+
+/***/ },
+/* 285 */
 /***/ function(module, exports) {
 
 	// var Store = require('flux/utils').Store;
@@ -35042,311 +35394,11 @@
 	// module.exports = ListStore;
 
 /***/ },
-/* 283 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ListDetail = __webpack_require__(284);
-	// var ListStore = require('../store/list_store.js');
-	var BoardStore = __webpack_require__(217);
-	
-	var ListIndexItem = React.createClass({
-	  displayName: 'ListIndexItem',
-	
-	  // getInitialState: function () {
-	  //   return { list: this.getStateFromStore() };
-	  // },
-	  // //
-	  // getStateFromStore: function () {
-	  //   return BoardStore.findListInBoard(this.props.list.id, this.props.boardId);
-	  // },
-	  // //
-	  // // setNewState: function () {
-	  // //     this.setState( { list: this.getStateFromStore() });
-	  // // },
-	  // //
-	  // // componentDidMount: function () {
-	  // //   this.listener = ListStore.addListener(this.setNewState);
-	  // //   ApiUtil.fetchSingleList(this.props.boardId, this.props.list.id);
-	  // //
-	  // // },
-	  // //
-	  // // componentWillUnmount: function () {
-	  // //   this.listener.remove();
-	  // // },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'section',
-	      { className: 'list-index-item' },
-	      React.createElement(
-	        'h1',
-	        null,
-	        this.props.list.title
-	      ),
-	      React.createElement(ListDetail, { boardId: this.props.list.board_id, listId: this.props.list.id })
-	    );
-	  }
-	});
-	
-	module.exports = ListIndexItem;
-
-/***/ },
-/* 284 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var CardIndex = __webpack_require__(285);
-	var NewCardButton = __webpack_require__(288);
-	var CardStore = __webpack_require__(286);
-	var BoardStore = __webpack_require__(217);
-	var EditListButton = __webpack_require__(294);
-	var ListDetail = React.createClass({
-	  displayName: 'ListDetail',
-	
-	
-	  getInitialState: function () {
-	    return { cards: this.findCards() };
-	  },
-	
-	  //
-	  // getStateFromStore: function () {
-	  //   var listId = parseInt(this.props.listId);
-	  //   return ListStore.find(listId);
-	  // },
-	  //
-	  // componentWillReceiveProps: function (newProps) {
-	  //   this.listener2 = ListStore.addListener(this.setNewState);
-	  //   ApiUtil.fetchSingleList(this.props.boardId, newProps.listId);
-	  // },
-	
-	  // setNewState: function () {
-	  //     this.setState( { list: this.getStateFromStore() });
-	  // },
-	  //
-	  componentDidMount: function () {
-	
-	    this.listener = CardStore.addListener(this.setCards);
-	    // BoardStore.findListInBoard(this.props.listId, this.props.boardId);
-	    ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
-	  },
-	  // //
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	    // if (this.listener2) {this.listener2.remove();}
-	  },
-	
-	  deleteList: function () {
-	    var board = this.props.boardId;
-	    var listId = this.props.listId;
-	    ApiUtil.deleteList(board, listId);
-	  },
-	
-	  findCards: function () {
-	    var listId = this.props.listId;
-	    var cards = CardStore.findCardsByListId(listId);
-	
-	    return cards;
-	  },
-	
-	  setCards: function () {
-	    var cards = this.findCards();
-	    this.setState({ cards: cards });
-	  },
-	
-	  render: function () {
-	
-	    // <CardIndex boardId={this.props.boardId} listId={this.props.listId}/>
-	
-	    // var cards = this.props.cards.map(function (card) {
-	    //   return <li key={card.id}>{card.title}</li>;
-	    // });
-	
-	    return React.createElement(
-	      'section',
-	      { className: 'list-detail group' },
-	      React.createElement(CardIndex, { cards: this.state.cards, listId: this.props.listId, boardId: this.props.boardId }),
-	      React.createElement(NewCardButton, { boardId: this.props.boardId, listId: this.props.listId }),
-	      React.createElement(EditListButton, { listId: this.props.listId, boardId: this.props.boardId }),
-	      React.createElement(
-	        'button',
-	        { className: 'delete-list-button', onClick: this.deleteList },
-	        'Delete this list...'
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = ListDetail;
-
-/***/ },
-/* 285 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var CardStore = __webpack_require__(286);
-	var ListStore = __webpack_require__(282);
-	var CardActions = __webpack_require__(248);
-	var CardIndexItem = __webpack_require__(287);
-	var ApiUtil = __webpack_require__(241);
-	
-	var CardIndex = React.createClass({
-	  displayName: 'CardIndex',
-	
-	
-	  getInitialState: function () {
-	    return { cards: this.getStateFromStore() };
-	  },
-	
-	  getStateFromStore: function () {
-	    return CardStore.all();
-	  },
-	
-	  setNewState: function () {
-	    this.setState({ cards: this.getStateFromStore() });
-	  },
-	
-	  componentDidMount: function () {
-	    this.listener = CardStore.addListener(this.setNewState);
-	
-	    // ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
-	
-	  render: function () {
-	    if (!this.props.cards) {
-	      return React.createElement('div', null);
-	    }
-	
-	    var boardId = this.props.boardId;
-	
-	    var cardIndexItems = this.props.cards.map(function (card) {
-	
-	      return React.createElement(CardIndexItem, { key: card.id, card: card, listId: card.list_id, boardId: boardId });
-	    });
-	
-	    return React.createElement(
-	      'ul',
-	      { className: 'card-index group' },
-	      cardIndexItems
-	    );
-	  }
-	
-	});
-	
-	module.exports = CardIndex;
-	
-	// <NewCardButton listId={this.props.listId}/>
-
-/***/ },
 /* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(218).Store;
-	var Dispatcher = __webpack_require__(236);
-	var CardConstants = __webpack_require__(249);
-	
-	var CardStore = new Store(Dispatcher);
-	var _cards = {};
-	
-	CardStore.all = function () {
-	  var cards = [];
-	  var lists = Object.keys(_cards);
-	  lists.forEach(function (list) {
-	    cards.concat(_cards[list]);
-	  });
-	
-	  return cards;
-	};
-	
-	CardStore.resetCards = function (cards) {
-	  for (var i = 0; i < cards.length; i++) {
-	    var card = cards[i];
-	    var listId = card.list_id;
-	    if (_cards[listId]) {
-	      _cards[listId].push(card);
-	    } else {
-	      _cards[listId] = [];
-	      _cards[listId].push(card);
-	    }
-	  }
-	  return _cards;
-	};
-	
-	CardStore.findCardsByListId = function (list_id) {
-	
-	  return _cards[list_id];
-	};
-	
-	CardStore.resetCard = function (card) {
-	
-	  var listId = card.list_id;
-	  if (!_cards[listId]) {
-	    _cards[listId] = [];
-	  }
-	  var listCards = _cards[listId];
-	  if (listCards.includes(card)) {
-	    listCards[listCards.indexOf(card)] = card;
-	  } else {
-	    listCards.push(card);
-	  }
-	};
-	
-	// var cardIds = [];
-	// for (var i = 0; i < _cards[listId].length; i++) { cardIds.push(_cards[listId][i].id); }
-	//
-	// if (cardIds.includes(card.id)) {
-	//   for (var j = 0; i < _cards[listId].length; j++) {
-	//     if (_cards[listId][j].id === card.id) {
-	//       _cards[listId][j] = card;
-	//     }
-	//   }
-	// }
-	//
-	// else { _cards[listId].push(card); }
-	//
-	// return _cards[listId];
-	
-	// CardStore.find = function (id) {
-	//
-	//
-	//   if (_cards[listId] && _cards[listId].include(card)) {
-	//     for (var i = 0; i < _cards[listId].length; i++) {
-	//       if (_cards[listId][i].id === card.id) {
-	//         _cards[listId][i] = card;
-	//       }
-	//     }
-	//   }
-	//   return _cards[listId];
-	// };
-	
-	CardStore.__onDispatch = function (payload) {
-	
-	  switch (payload.actionType) {
-	    case CardConstants.ALL_CARDS_RECEIVED:
-	      CardStore.resetCards(payload.cards);
-	      CardStore.__emitChange();
-	      break;
-	    case CardConstants.SINGLE_CARD_RECEIVED:
-	      CardStore.resetCard(payload.card);
-	      CardStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = CardStore;
-
-/***/ },
-/* 287 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var React = __webpack_require__(1);
-	var EditCardButton = __webpack_require__(296);
+	var EditCardButton = __webpack_require__(287);
 	
 	var CardIndexItem = React.createClass({
 	  displayName: 'CardIndexItem',
@@ -35381,14 +35433,122 @@
 	module.exports = CardIndexItem;
 
 /***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(250);
+	var EditCardForm = __webpack_require__(288);
+	
+	var EditCardButton = React.createClass({
+	  displayName: 'EditCardButton',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  render: function () {
+	
+	    var styles = {
+	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
+	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
+	    };
+	
+	    return React.createElement(
+	      'button',
+	      { className: 'edit-card-button', onClick: this.openModal },
+	      '+',
+	      React.createElement(
+	        Modal,
+	        { className: 'modal', isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: styles },
+	        React.createElement(EditCardForm, { cardId: this.props.cardId, listId: this.props.listId, boardId: this.props.boardId, closeModal: this.closeModal })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = EditCardButton;
+
+/***/ },
 /* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardStore = __webpack_require__(286);
+	var CardActions = __webpack_require__(246);
+	
+	var EditCardForm = React.createClass({
+		displayName: 'EditCardForm',
+	
+	
+		getInitialState: function () {
+			return { title: "" };
+		},
+	
+		editCard: function (e) {
+			e.preventDefault();
+			var card = {};
+			card.title = this.state.title;
+			card.listId = this.props.listId;
+	
+			ApiUtil.editCard(card, this.props.boardId, this.props.cardId);
+			this.setState({ title: "" });
+			this.props.closeModal();
+		},
+	
+		updateTitle: function (e) {
+			var newTitle = e.currentTarget.value;
+			this.setState({ title: newTitle });
+		},
+	
+		render: function () {
+	
+			return React.createElement(
+				'form',
+				{ className: 'edit-card-form' },
+				React.createElement(
+					'h1',
+					null,
+					'Update Card'
+				),
+				React.createElement(
+					'h2',
+					null,
+					'Title'
+				),
+				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
+				React.createElement(
+					'button',
+					{ onClick: this.editCard },
+					'Update'
+				)
+			);
+		}
+	
+	});
+	
+	module.exports = EditCardForm;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var CardStore = __webpack_require__(284);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var NewCardForm = __webpack_require__(289);
+	var Modal = __webpack_require__(250);
+	var NewCardForm = __webpack_require__(290);
 	
 	var NewCardButton = React.createClass({
 	  displayName: 'NewCardButton',
@@ -35430,11 +35590,11 @@
 	module.exports = NewCardButton;
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardActions = __webpack_require__(248);
+	var CardActions = __webpack_require__(246);
 	var NewCardForm = React.createClass({
 		displayName: 'NewCardForm',
 	
@@ -35487,14 +35647,161 @@
 	module.exports = NewCardForm;
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListStore = __webpack_require__(282);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var NewListForm = __webpack_require__(291);
+	var Modal = __webpack_require__(250);
+	var EditListForm = __webpack_require__(292);
+	
+	var EditListButton = React.createClass({
+	  displayName: 'EditListButton',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  render: function () {
+	
+	    var styles = {
+	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
+	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
+	    };
+	
+	    return React.createElement(
+	      'button',
+	      { className: 'edit-list-button', onClick: this.openModal },
+	      'Update this list...',
+	      React.createElement(
+	        Modal,
+	        { className: 'modal', isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: styles },
+	        React.createElement(EditListForm, { listId: this.props.listId, boardId: this.props.boardId, closeModal: this.closeModal })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = EditListButton;
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ListActions = __webpack_require__(293);
+	
+	var EditListForm = React.createClass({
+		displayName: 'EditListForm',
+	
+	
+		getInitialState: function () {
+			return { title: "" };
+		},
+	
+		editList: function (e) {
+			e.preventDefault();
+			var list = {};
+			list.title = this.state.title;
+	
+			ApiUtil.editList(list, this.props.boardId, this.props.listId);
+			this.setState({ title: "" });
+			this.props.closeModal();
+		},
+	
+		updateTitle: function (e) {
+			var newTitle = e.currentTarget.value;
+			this.setState({ title: newTitle });
+		},
+	
+		render: function () {
+			return React.createElement(
+				'form',
+				{ className: 'edit-list-form' },
+				React.createElement(
+					'h1',
+					null,
+					'Update List'
+				),
+				React.createElement(
+					'h2',
+					null,
+					'Title'
+				),
+				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
+				React.createElement(
+					'button',
+					{ onClick: this.editList },
+					'Update'
+				)
+			);
+		}
+	
+	});
+	
+	module.exports = EditListForm;
+
+/***/ },
+/* 293 */
+/***/ function(module, exports) {
+
+	// var ListConstants = require('../constants/list_constants.js');
+	// var Dispatcher = require('../dispatcher/dispatcher.js');
+	//
+	// var ListActions = {
+	//
+	// 	 receiveAllLists: function (lists) {
+	// 		 Dispatcher.dispatch({
+	// 			 actionType: ListConstants.ALL_LISTS_RECEIVED,
+	// 			 lists: lists
+	// 		 });
+	//    },
+	//
+	//    receiveSingleList: function (list) {
+	//       Dispatcher.dispatch({
+	//        actionType: ListConstants.SINGLE_LIST_RECEIVED,
+	//        list: list
+	//      });
+	//    },
+	//
+	//    receiveAllCards: function (cards) {
+	//      Dispatcher.dispatch({
+	//        actionType: ListConstants.ALL_CARDS_RECEIVED,
+	//        cards: cards
+	//      });
+	//    },
+	//
+	//    receiveSingleCard: function (card) {
+	//      Dispatcher.dispatch({
+	//        actionType: ListConstants.SINGLE_CARD_RECEIVED,
+	//        card: card
+	//      });
+	//    }
+	//
+	// };
+	//
+	// module.exports = ListActions;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ListStore = __webpack_require__(285);
+	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(250);
+	var NewListForm = __webpack_require__(295);
 	
 	var NewListButton = React.createClass({
 	  displayName: 'NewListButton',
@@ -35534,11 +35841,11 @@
 	module.exports = NewListButton;
 
 /***/ },
-/* 291 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListActions = __webpack_require__(246);
+	var ListActions = __webpack_require__(293);
 	
 	var NewListForm = React.createClass({
 		displayName: 'NewListForm',
@@ -35591,14 +35898,14 @@
 	module.exports = NewListForm;
 
 /***/ },
-/* 292 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var EditBoardForm = __webpack_require__(293);
+	var Modal = __webpack_require__(250);
+	var EditBoardForm = __webpack_require__(297);
 	var EditBoardButton = React.createClass({
 	  displayName: 'EditBoardButton',
 	
@@ -35639,7 +35946,7 @@
 	module.exports = EditBoardButton;
 
 /***/ },
-/* 293 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35694,303 +36001,6 @@
 	});
 	
 	module.exports = EditBoardForm;
-
-/***/ },
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var EditListForm = __webpack_require__(295);
-	
-	var EditListButton = React.createClass({
-	  displayName: 'EditListButton',
-	
-	
-	  getInitialState: function () {
-	    return { modalOpen: false };
-	  },
-	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
-	
-	  render: function () {
-	
-	    var styles = {
-	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
-	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
-	    };
-	
-	    return React.createElement(
-	      'button',
-	      { className: 'edit-list-button', onClick: this.openModal },
-	      'Update this list...',
-	      React.createElement(
-	        Modal,
-	        { className: 'modal', isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: styles },
-	        React.createElement(EditListForm, { listId: this.props.listId, boardId: this.props.boardId, closeModal: this.closeModal })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = EditListButton;
-
-/***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ListActions = __webpack_require__(246);
-	
-	var EditListForm = React.createClass({
-		displayName: 'EditListForm',
-	
-	
-		getInitialState: function () {
-			return { title: "" };
-		},
-	
-		editList: function (e) {
-			e.preventDefault();
-			var list = {};
-			list.title = this.state.title;
-	
-			ApiUtil.editList(list, this.props.boardId, this.props.listId);
-			this.setState({ title: "" });
-			this.props.closeModal();
-		},
-	
-		updateTitle: function (e) {
-			var newTitle = e.currentTarget.value;
-			this.setState({ title: newTitle });
-		},
-	
-		render: function () {
-			return React.createElement(
-				'form',
-				{ className: 'edit-list-form' },
-				React.createElement(
-					'h1',
-					null,
-					'Update List'
-				),
-				React.createElement(
-					'h2',
-					null,
-					'Title'
-				),
-				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
-				React.createElement(
-					'button',
-					{ onClick: this.editList },
-					'Update'
-				)
-			);
-		}
-	
-	});
-	
-	module.exports = EditListForm;
-
-/***/ },
-/* 296 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var EditCardForm = __webpack_require__(297);
-	
-	var EditCardButton = React.createClass({
-	  displayName: 'EditCardButton',
-	
-	
-	  getInitialState: function () {
-	    return { modalOpen: false };
-	  },
-	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
-	
-	  render: function () {
-	
-	    var styles = {
-	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
-	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
-	    };
-	
-	    return React.createElement(
-	      'button',
-	      { className: 'edit-card-button', onClick: this.openModal },
-	      '+',
-	      React.createElement(
-	        Modal,
-	        { className: 'modal', isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: styles },
-	        React.createElement(EditCardForm, { cardId: this.props.cardId, listId: this.props.listId, boardId: this.props.boardId, closeModal: this.closeModal })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = EditCardButton;
-
-/***/ },
-/* 297 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var CardActions = __webpack_require__(248);
-	
-	var EditCardForm = React.createClass({
-		displayName: 'EditCardForm',
-	
-	
-		getInitialState: function () {
-			return { title: "" };
-		},
-	
-		editCard: function (e) {
-			e.preventDefault();
-			var card = {};
-			card.title = this.state.title;
-			card.listId = this.props.listId;
-			ApiUtil.editCard(card, this.props.boardId, this.props.cardId);
-			this.setState({ title: "" });
-			this.props.closeModal();
-		},
-	
-		updateTitle: function (e) {
-			var newTitle = e.currentTarget.value;
-			this.setState({ title: newTitle });
-		},
-	
-		render: function () {
-			return React.createElement(
-				'form',
-				{ className: 'edit-card-form' },
-				React.createElement(
-					'h1',
-					null,
-					'Update Card'
-				),
-				React.createElement(
-					'h2',
-					null,
-					'Title'
-				),
-				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
-				React.createElement(
-					'button',
-					{ onClick: this.editCard },
-					'Update'
-				)
-			);
-		}
-	
-	});
-	
-	module.exports = EditCardForm;
-
-/***/ },
-/* 298 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Modal = __webpack_require__(252);
-	
-	var Footer = React.createClass({
-	  displayName: 'Footer',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      currentUser: null,
-	      modalOpen: false
-	    };
-	  },
-	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
-	
-	  render: function () {
-	    var styles = {
-	      content: { backgroundColor: "#e4f0f6" }
-	    };
-	
-	    var tourPic = React.createElement(
-	      'section',
-	      { className: 'tour-content' },
-	      React.createElement(
-	        'h1',
-	        null,
-	        'meow'
-	      ),
-	      React.createElement('div', { className: 'tour-pic' })
-	    );
-	    var tour = React.createElement(
-	      'li',
-	      { className: 'footerlink', onClick: this.openModal },
-	      'Tour',
-	      React.createElement(
-	        Modal,
-	        { className: 'modal', isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: styles },
-	        tourPic
-	      )
-	    );
-	
-	    var pricing = React.createElement(
-	      'li',
-	      { className: 'footerlink', onClick: this.openModal },
-	      'Pricing',
-	      React.createElement(Modal, { className: 'modal', isOpen: this.state.modalOpen,
-	        onRequestClose: this.closeModal,
-	        style: styles })
-	    );
-	
-	    var jobs = React.createElement(
-	      'li',
-	      { className: 'footerlink', onClick: this.openModal },
-	      'Jobs',
-	      React.createElement(Modal, { className: 'modal', isOpen: this.state.modalOpen,
-	        onRequestClose: this.closeModal,
-	        style: styles })
-	    );
-	
-	    return React.createElement(
-	      'ul',
-	      null,
-	      tour,
-	      pricing,
-	      jobs
-	    );
-	  }
-	
-	});
-	
-	module.exports = Footer;
 
 /***/ }
 /******/ ]);

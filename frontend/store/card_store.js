@@ -11,7 +11,7 @@ CardStore.all = function () {
   lists.forEach(function (list) {
     cards.concat(_cards[list]);
   });
-  
+
   return cards;
 };
 
@@ -36,12 +36,23 @@ CardStore.findCardsByListId = function (list_id) {
 CardStore.resetCard = function (card) {
 
   var listId = card.list_id;
-  if (!_cards[listId]) { _cards[listId] = []; }
-  var listCards = _cards[listId];
-  if (listCards.includes(card)) {
-    listCards[listCards.indexOf(card)] = card;
+  if (!_cards[listId]) {
+    _cards[listId] = [];
   }
-  else { listCards.push(card); }
+
+  var listCards = _cards[listId];
+  var cardIds = [];
+  for (var i = 0; i < listCards.length; i++) {
+    cardIds.push(listCards[i].id);
+  }
+
+  if (cardIds.includes(card.id)) {
+    var index = cardIds.indexOf(card.id);
+    listCards[index] = card;
+  }
+  else {
+    listCards.push(card);
+  }
 };
 
   // var cardIds = [];
@@ -81,6 +92,7 @@ CardStore.__onDispatch = function (payload) {
       CardStore.__emitChange();
       break;
     case CardConstants.SINGLE_CARD_RECEIVED:
+
       CardStore.resetCard(payload.card);
       CardStore.__emitChange();
       break;

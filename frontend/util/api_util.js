@@ -231,12 +231,14 @@ ApiUtil = {
 
   editCard: function (card, boardId, id) {
 
+    
     $.ajax({
       url: "api/boards/" + boardId + "/cards/" + id,
       type: "PATCH",
       dataType: "json",
       data: { card: card },
       success: function (card) {
+
         CardActions.receiveSingleCard(card);
       },
       error: function () {
