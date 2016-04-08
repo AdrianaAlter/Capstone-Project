@@ -19,18 +19,19 @@ CardStore.resetCards = function (cards) {
   for (var i = 0; i < cards.length; i++) {
     var card = cards[i];
     var listId = card.list_id;
-    if (_cards[listId]) { _cards[listId].push(card); }
-    else {
+    if (_cards[listId]) {
+      _cards[listId].push(card);
+    } else {
       _cards[listId] = [];
       _cards[listId].push(card);
     }
   }
+
   return _cards;
 };
 
 CardStore.resetList = function (list) {
   _cards[list.id] = list.cards;
-  CardStore.resetCards(list.cards);
 };
 
 CardStore.findCardsByListId = function (list_id) {

@@ -35249,12 +35249,12 @@
 	      _cards[listId].push(card);
 	    }
 	  }
+	
 	  return _cards;
 	};
 	
 	CardStore.resetList = function (list) {
 	  _cards[list.id] = list.cards;
-	  CardStore.resetCards(list.cards);
 	};
 	
 	CardStore.findCardsByListId = function (list_id) {

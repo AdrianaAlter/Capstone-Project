@@ -8,7 +8,7 @@ var EditBoardForm = React.createClass({
     var boardId = this.props.boardId;
 
     var startingBoard = BoardStore.find(boardId);
-    
+
 		return({ title: startingBoard.title });
 	},
 

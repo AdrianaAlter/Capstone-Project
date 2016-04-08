@@ -9,7 +9,6 @@ var EditCardForm = React.createClass({
 		return({ title: startingCard.title });
 	},
 
-
   editCard: function (e) {
       e.preventDefault();
       var card = {};
