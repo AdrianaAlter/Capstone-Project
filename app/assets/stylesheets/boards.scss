@@ -3,6 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .board-index {
   margin-top: 40px;
+  min-height: 1000px;
 }
 
 .board-index h1 {
@@ -67,6 +68,7 @@
 .board-detail {
   display: block;
   min-height: 1000px;
+  margin-bottom: 0;
   width: 100%;
   background-color: #b43;
   color: white;

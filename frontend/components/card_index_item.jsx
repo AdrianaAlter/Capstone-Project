@@ -7,7 +7,7 @@ var CardIndexItem = React.createClass({
     var boardId = this.props.boardId;
     // var listId = this.props.listId;
     var id = this.props.card.id;
-    
+
     ApiUtil.deleteCard(boardId, id);
     // ApiUtil.fetchSingleList(boardId, listId);
 

@@ -45,6 +45,14 @@ body {
   height: 100%;
 }
 
+footer {
+  height: 100px;
+  display: block;
+  margin: auto;
+  width: 540px;
+  margin: auto;
+  padding-bottom: 20px;
+}
 /*.logout-button {
 	display: block;
 	color: white;

@@ -34268,6 +34268,7 @@
 
 	var React = __webpack_require__(1);
 	var Header = __webpack_require__(272);
+	var Footer = __webpack_require__(278);
 	var BoardIndex = __webpack_require__(216);
 	var SessionStore = __webpack_require__(274);
 	var ApiUtil = __webpack_require__(241);
@@ -34282,7 +34283,8 @@
 	      'div',
 	      { id: 'app' },
 	      React.createElement(Header, null),
-	      this.props.children
+	      this.props.children,
+	      React.createElement(Footer, null)
 	    );
 	  }
 	});
@@ -34786,73 +34788,115 @@
 	  displayName: 'Footer',
 	
 	
-	  getInitialState: function () {
-	    return {
-	      currentUser: null,
-	      modalOpen: false
-	    };
-	  },
-	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
+	  // getInitialState: function () {
+	  //   return {
+	  //     currentUser: null,
+	  //     modalOpen: false
+	  //   };
+	  // },
+	  //
+	  // openModal: function () {
+	  //   this.setState({ modalOpen: true });
+	  // },
+	  //
+	  // closeModal: function () {
+	  //   this.setState({ modalOpen: false });
+	  // },
+	  //
+	  // render: function () {
+	  //   var styles = {
+	  //     content: {backgroundColor: "#e4f0f6"}
+	  //   };
+	  //
+	  //   var tourPic = <section className="tour-content">
+	  //     <h1>meow</h1>
+	  //     <div className="tour-pic"></div>
+	  //   </section>;
+	  //   var tour = <li className="footerlink" onClick={this.openModal}>Tour
+	  //     <Modal className="modal" isOpen={this.state.modalOpen}
+	  //       onRequestClose={this.closeModal}
+	  //       style={styles}>{tourPic}
+	  //     </Modal>
+	  //   </li>;
+	  //
+	  //
+	  //   var pricing = <li className="footerlink" onClick={this.openModal}>Pricing
+	  //     <Modal className="modal" isOpen={this.state.modalOpen}
+	  //       onRequestClose={this.closeModal}
+	  //       style={styles}>
+	  //     </Modal>
+	  //   </li>;
+	  //
+	  //   var jobs = <li className="footerlink" onClick={this.openModal}>Jobs
+	  //     <Modal className="modal" isOpen={this.state.modalOpen}
+	  //       onRequestClose={this.closeModal}
+	  //       style={styles}>
+	  //     </Modal>
+	  //   </li>;
+	  //
+	  //   return(
+	  //     <ul>
+	  //       {tour}
+	  //       {pricing}
+	  //       {jobs}
+	  //     </ul>
+	  //   );
+	  // }
 	
 	  render: function () {
-	    var styles = {
-	      content: { backgroundColor: "#e4f0f6" }
-	    };
-	
-	    var tourPic = React.createElement(
-	      'section',
-	      { className: 'tour-content' },
-	      React.createElement(
-	        'h1',
-	        null,
-	        'meow'
-	      ),
-	      React.createElement('div', { className: 'tour-pic' })
-	    );
-	    var tour = React.createElement(
-	      'li',
-	      { className: 'footerlink', onClick: this.openModal },
-	      'Tour',
-	      React.createElement(
-	        Modal,
-	        { className: 'modal', isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: styles },
-	        tourPic
-	      )
-	    );
-	
-	    var pricing = React.createElement(
-	      'li',
-	      { className: 'footerlink', onClick: this.openModal },
-	      'Pricing',
-	      React.createElement(Modal, { className: 'modal', isOpen: this.state.modalOpen,
-	        onRequestClose: this.closeModal,
-	        style: styles })
-	    );
-	
-	    var jobs = React.createElement(
-	      'li',
-	      { className: 'footerlink', onClick: this.openModal },
-	      'Jobs',
-	      React.createElement(Modal, { className: 'modal', isOpen: this.state.modalOpen,
-	        onRequestClose: this.closeModal,
-	        style: styles })
-	    );
 	
 	    return React.createElement(
-	      'ul',
-	      null,
-	      tour,
-	      pricing,
-	      jobs
+	      'footer',
+	      { group: true },
+	      React.createElement(
+	        'ul',
+	        null,
+	        React.createElement(
+	          'li',
+	          null,
+	          'Tour'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Pricing'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Jobs'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Blog'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Developers'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'About'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Help'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Legal'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          '© Copyright 2016 Gratuitously Cat-Themed Web Apps, Inc.'
+	        )
+	      )
 	    );
 	  }
 	
