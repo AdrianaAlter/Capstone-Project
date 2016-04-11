@@ -26,14 +26,7 @@ var routes = (
     </Router>
 );
 
-// </Route>
 
-// document.addEventListener("DOMConten tLoaded", function () {
-//   ReactDOM.render(
-//     routes,
-//     document.getElementById('content')
-//   );
-// });
 Modal.setAppElement(NewBoardButton);
 
 document.addEventListener("DOMContentLoaded", function() {
