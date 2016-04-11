@@ -10,32 +10,16 @@ var ListDetail = React.createClass({
     return { cards: this.findCards() };
   },
 
-
-  //
-  // getStateFromStore: function () {
-  //   var listId = parseInt(this.props.listId);
-  //   return ListStore.find(listId);
-  // },
-  //
-  // componentWillReceiveProps: function (newProps) {
-  //   this.listener2 = ListStore.addListener(this.setNewState);
-  //   ApiUtil.fetchSingleList(this.props.boardId, newProps.listId);
-  // },
-
-  // setNewState: function () {
-  //     this.setState( { list: this.getStateFromStore() });
-  // },
-  //
   componentDidMount: function () {
 
     this.listener = CardStore.addListener(this.setCards);
-    // BoardStore.findListInBoard(this.props.listId, this.props.boardId);
+  
     ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
   },
-  // //
+
   componentWillUnmount: function () {
     this.listener.remove();
-    // if (this.listener2) {this.listener2.remove();}
+   
   },
 
 
@@ -59,11 +43,7 @@ var ListDetail = React.createClass({
 
   render: function () {
 
-    // <CardIndex boardId={this.props.boardId} listId={this.props.listId}/>
-
-    // var cards = this.props.cards.map(function (card) {
-    //   return <li key={card.id}>{card.title}</li>;
-    // });
+    
 
     return (
 
