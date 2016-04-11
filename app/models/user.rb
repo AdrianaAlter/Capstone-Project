@@ -35,10 +35,6 @@ class User < ActiveRecord::Base
     (user && user.is_password?(password)) ? user : nil
 	end
 
-  # def self.find_by_email(email, password)
-  #   user = User.find_by(email: email)
-  #   (user && user.is_password?(password)) ? user : nil
-  # end
   def self.find_or_create_by_auth_hash(auth_hash)
     provider = auth_hash[:provider]
     uid = auth_hash[:uid]
