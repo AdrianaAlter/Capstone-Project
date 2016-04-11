@@ -2,19 +2,22 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .board-index {
-  margin-top: 40px;
+  display: block;
+  margin-top: 0;
+  width: 100%;
   min-height: 1000px;
 }
 
 .board-index h1 {
+  margin-top: 40px;
   margin-left: 16px;
   font-size: 16px;
   color: #4d4d4d;
+
 }
 
 .board-items {
   display: block;
-  // min-width: 300px;
   max-width: 1400px;
   min-height: 200px;
   position: relative;
