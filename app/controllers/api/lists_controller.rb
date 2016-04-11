@@ -37,13 +37,8 @@ class Api::ListsController < ApplicationController
     @list = List.find(params[:id])
     @list.destroy
 
-    # if @list.sibling_lists.empty?
-      @board = Board.find(current_board_id)
-      render "api/boards/show"
-    # else
-    #   @lists = @list.sibling_lists
-    #   render :index
-    # end
+    @board = Board.find(current_board_id)
+    render "api/boards/show"
   end
 
 	private
