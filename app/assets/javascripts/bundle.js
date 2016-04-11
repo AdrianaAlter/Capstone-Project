@@ -51,7 +51,7 @@
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var BoardIndex = __webpack_require__(216);
 	var App = __webpack_require__(271);
-	var LogInForm = __webpack_require__(277);
+	var LogInForm = __webpack_require__(278);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ApiUtil = __webpack_require__(241);
 	var SessionStore = __webpack_require__(274);
@@ -72,14 +72,6 @@
 	  React.createElement(Route, { path: '/login', component: LogInForm })
 	);
 	
-	// </Route>
-	
-	// document.addEventListener("DOMConten tLoaded", function () {
-	//   ReactDOM.render(
-	//     routes,
-	//     document.getElementById('content')
-	//   );
-	// });
 	Modal.setAppElement(NewBoardButton);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -32210,20 +32202,13 @@
 			this.setState({ title: "" });
 			this.props.closeModal();
 		},
-		// toggleDisplayed: function () {
-		// 	this.setState({ displayed: true });
-		// },
 	
 		updateTitle: function (e) {
 			var newTitle = e.currentTarget.value;
 			this.setState({ title: newTitle });
 		},
 	
-		// this.toggleDisplayed();
-	
 		render: function () {
-	
-			// var className = this.state.displayed === false ? "new-board-form hidden" : "new-board-form";
 	
 			return React.createElement(
 				'form',
@@ -32296,31 +32281,6 @@
 	    );
 	  }
 	
-	  // styles: {
-	  //   overlay : {
-	  //     position          : 'fixed',
-	  //     top               : 0,
-	  //     left              : 0,
-	  //     right             : 0,
-	  //     bottom            : 0,
-	  //     backgroundColor   : transparent
-	  //   },
-	  //   content : {
-	  //     position                   : 'absolute',
-	  //     top                        : '40px',
-	  //     left                       : '40px',
-	  //     right                      : '40px',
-	  //     bottom                     : '40px',
-	  //     border                     : '1px solid #ccc',
-	  //     background                 : '#fff',
-	  //     overflow                   : 'auto',
-	  //     WebkitOverflowScrolling    : 'touch',
-	  //     borderRadius               : '4px',
-	  //     outline                    : 'none',
-	  //     padding                    : '20px'
-	  //
-	  //   }
-	  // }
 	});
 	
 	module.exports = NewBoardButton;
@@ -34283,7 +34243,7 @@
 
 	var React = __webpack_require__(1);
 	var Header = __webpack_require__(272);
-	var Footer = __webpack_require__(278);
+	var Footer = __webpack_require__(277);
 	var BoardIndex = __webpack_require__(216);
 	var SessionStore = __webpack_require__(274);
 	var ApiUtil = __webpack_require__(241);
@@ -34578,18 +34538,6 @@
 	});
 	
 	module.exports = Search;
-	
-	// <article className="search group">
-	//   <ul>
-	//     {this.resultLis()}
-	//   </ul>
-	// </article>
-
-	//
-	// <nav>
-	// 	Page {meta.page} of {meta.total_pages}
-	// 	<button onClick={this.nextPage}>Next</button>
-	// </nav>
 
 /***/ },
 /* 276 */
@@ -34626,178 +34574,6 @@
 
 /***/ },
 /* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(250);
-	var Footer = __webpack_require__(278);
-	
-	var LogInForm = React.createClass({
-	  displayName: 'LogInForm',
-	
-	  contextTypes: { router: React.PropTypes.object.isRequired },
-	
-	  getInitialState: function () {
-	    return {
-	      name: "",
-	      password: ""
-	    };
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	
-	    var router = this.context.router;
-	    ApiUtil.logIn(this.state, function () {
-	      router.push("/");
-	    });
-	  },
-	
-	  updateName: function (e) {
-	    this.setState({ name: e.currentTarget.value });
-	  },
-	
-	  updatePassword: function (e) {
-	    this.setState({ password: e.currentTarget.value });
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'welcome-page group' },
-	      React.createElement(
-	        'section',
-	        { className: 'log-in-page group' },
-	        React.createElement(
-	          'form',
-	          { className: 'log-in-form group', onSubmit: this.handleSubmit },
-	          React.createElement(
-	            'h1',
-	            null,
-	            'Welcome to CatTrello!'
-	          ),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'name' },
-	            'Name'
-	          ),
-	          React.createElement('input', { onChange: this.updateName, type: 'text', value: this.state.name }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'password' },
-	            'Password'
-	          ),
-	          React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
-	          React.createElement(
-	            'button',
-	            null,
-	            'Log In'
-	          )
-	        ),
-	        React.createElement(
-	          'a',
-	          { className: 'fb', href: '/auth/facebook' },
-	          'Log in with Facebook'
-	        )
-	      ),
-	      React.createElement(
-	        'section',
-	        { className: 'info-page group' },
-	        React.createElement(
-	          'h1',
-	          null,
-	          'CatTrello'
-	        ),
-	        React.createElement(
-	          'h2',
-	          null,
-	          'CatTrello is a gratuitously cat-themed web app for organizing projects and tasks!'
-	        ),
-	        React.createElement(
-	          'p',
-	          null,
-	          'Because cats are widely known for their organizational skills.  Obviously.'
-	        ),
-	        React.createElement(
-	          'button',
-	          null,
-	          'Sign up! (Meow.)'
-	        )
-	      ),
-	      React.createElement(
-	        'section',
-	        { className: 'cat-logo group' },
-	        React.createElement('div', { className: 'cat-pic' }),
-	        React.createElement(
-	          'p',
-	          null,
-	          'Here, have a random picture of a cat.'
-	        )
-	      ),
-	      React.createElement(
-	        'footer',
-	        { group: true },
-	        React.createElement(
-	          'ul',
-	          null,
-	          React.createElement(
-	            'li',
-	            null,
-	            'Tour'
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            'Pricing'
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            'Jobs'
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            'Blog'
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            'Developers'
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            'About'
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            'Help'
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            'Legal'
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            '© Copyright 2016 Gratuitously Cat-Themed Web Apps, Inc.'
-	          )
-	        )
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = LogInForm;
-
-/***/ },
-/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34966,6 +34742,178 @@
 	module.exports = Footer;
 
 /***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(250);
+	var Footer = __webpack_require__(277);
+	
+	var LogInForm = React.createClass({
+	  displayName: 'LogInForm',
+	
+	  contextTypes: { router: React.PropTypes.object.isRequired },
+	
+	  getInitialState: function () {
+	    return {
+	      name: "",
+	      password: ""
+	    };
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	
+	    var router = this.context.router;
+	    ApiUtil.logIn(this.state, function () {
+	      router.push("/");
+	    });
+	  },
+	
+	  updateName: function (e) {
+	    this.setState({ name: e.currentTarget.value });
+	  },
+	
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'welcome-page group' },
+	      React.createElement(
+	        'section',
+	        { className: 'log-in-page group' },
+	        React.createElement(
+	          'form',
+	          { className: 'log-in-form group', onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'h1',
+	            null,
+	            'Welcome to CatTrello!'
+	          ),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'name' },
+	            'Name'
+	          ),
+	          React.createElement('input', { onChange: this.updateName, type: 'text', value: this.state.name }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'password' },
+	            'Password'
+	          ),
+	          React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	          React.createElement(
+	            'button',
+	            null,
+	            'Log In'
+	          )
+	        ),
+	        React.createElement(
+	          'a',
+	          { className: 'fb', href: '/auth/facebook' },
+	          'Log in with Facebook'
+	        )
+	      ),
+	      React.createElement(
+	        'section',
+	        { className: 'info-page group' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'CatTrello'
+	        ),
+	        React.createElement(
+	          'h2',
+	          null,
+	          'CatTrello is a gratuitously cat-themed web app for organizing projects and tasks!'
+	        ),
+	        React.createElement(
+	          'p',
+	          null,
+	          'Because cats are widely known for their organizational skills.  Obviously.'
+	        ),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Sign up! (Meow.)'
+	        )
+	      ),
+	      React.createElement(
+	        'section',
+	        { className: 'cat-logo group' },
+	        React.createElement('div', { className: 'cat-pic' }),
+	        React.createElement(
+	          'p',
+	          null,
+	          'Here, have a random picture of a cat.'
+	        )
+	      ),
+	      React.createElement(
+	        'footer',
+	        { group: true },
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            null,
+	            'Tour'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Pricing'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Jobs'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Blog'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Developers'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'About'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Help'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Legal'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            '© Copyright 2016 Gratuitously Cat-Themed Web Apps, Inc.'
+	          )
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = LogInForm;
+
+/***/ },
 /* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -34974,7 +34922,7 @@
 	var BoardStore = __webpack_require__(217);
 	var CardStore = __webpack_require__(284);
 	var Header = __webpack_require__(272);
-	var EditBoardButton = __webpack_require__(296);
+	var EditBoardButton = __webpack_require__(294);
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
 	
@@ -34991,25 +34939,15 @@
 	    return BoardStore.find(this.props.params.board_id);
 	  },
 	
-	  // getLists: function () {
-	  //   var boardId = parseInt(this.props.params.board_id);
-	  //   return ApiUtil.fetchAllLists(boardId);
-	  // },
-	
-	  // componentWillReceiveProps: function (newProps) {
-	  //   this.listener2 = BoardStore.addListener(this.setNewState);
-	  //   ApiUtil.fetchSingleBoard(newProps.params.board_id);
-	  // },
-	
 	  setNewState: function () {
 	    this.setState({ board: this.getStateFromStore() });
 	  },
 	
 	  componentDidMount: function () {
 	    this.listener = BoardStore.addListener(this.setNewState);
-	    // debugger
+	
 	    ApiUtil.fetchSingleBoard(this.props.params.board_id);
-	    // ApiUtil.fetchAllLists(this.props.params.board_id);
+	
 	    ApiUtil.fetchAllCards(this.props.params.board_id);
 	  },
 	
@@ -35017,7 +34955,6 @@
 	    if (this.listener) {
 	      this.listener.remove();
 	    }
-	    // if (this.listener2) {this.listener2.remove();}
 	  },
 	
 	  deleteBoard: function () {
@@ -35056,48 +34993,21 @@
 	
 	});
 	
-	// listItems = this.state.board.lists.map(function (list) {
-	//   return (<li className="list-item" key={list.id} list={list}>{list.title}</li>);
-	// });
-	
 	module.exports = BoardDetail;
-	// <ListIndex board={this.props.params.board_id} />
 
 /***/ },
 /* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	// var ListStore = require('../store/list_store.js');
-	// var ListActions = require('../actions/list_actions.js');
 	var ListIndexItem = __webpack_require__(281);
-	var NewListButton = __webpack_require__(294);
+	var NewListButton = __webpack_require__(292);
 	var ApiUtil = __webpack_require__(241);
 	
 	var ListIndex = React.createClass({
 	  displayName: 'ListIndex',
 	
-	  // getInitialState: function () {
-	  //   return { lists: this.getStateFromStore() };
-	  // },
-	  //
-	  // getStateFromStore: function () {
-	  //   ApiUtil.fetchAllLists(this.props.boardId);
-	  // },
-	  //
-	  // setNewState: function () {
-	  //     this.setState( { lists: this.getStateFromStore() });
-	  // },
-	  //
-	  // componentDidMount: function () {
-	  //   this.listener = BoardStore.addListener(this.setNewState);
-	  //   ApiUtil.fetchAllLists(this.props.boardId);
-	  // },
-	  //
-	  // componentWillUnmount: function () {
-	  //   this.listener.remove();
-	  // },
-	  //
+	
 	  render: function () {
 	
 	    if (!this.props.lists) {
@@ -35126,33 +35036,12 @@
 
 	var React = __webpack_require__(1);
 	var ListDetail = __webpack_require__(282);
-	// var ListStore = require('../store/list_store.js');
+	
 	var BoardStore = __webpack_require__(217);
 	
 	var ListIndexItem = React.createClass({
 	  displayName: 'ListIndexItem',
 	
-	  // getInitialState: function () {
-	  //   return { list: this.getStateFromStore() };
-	  // },
-	  // //
-	  // getStateFromStore: function () {
-	  //   return BoardStore.findListInBoard(this.props.list.id, this.props.boardId);
-	  // },
-	  // //
-	  // // setNewState: function () {
-	  // //     this.setState( { list: this.getStateFromStore() });
-	  // // },
-	  // //
-	  // // componentDidMount: function () {
-	  // //   this.listener = ListStore.addListener(this.setNewState);
-	  // //   ApiUtil.fetchSingleList(this.props.boardId, this.props.list.id);
-	  // //
-	  // // },
-	  // //
-	  // // componentWillUnmount: function () {
-	  // //   this.listener.remove();
-	  // // },
 	
 	  render: function () {
 	
@@ -35177,10 +35066,10 @@
 
 	var React = __webpack_require__(1);
 	var CardIndex = __webpack_require__(283);
-	var NewCardButton = __webpack_require__(289);
+	var NewCardButton = __webpack_require__(288);
 	var CardStore = __webpack_require__(284);
 	var BoardStore = __webpack_require__(217);
-	var EditListButton = __webpack_require__(291);
+	var EditListButton = __webpack_require__(290);
 	var ListDetail = React.createClass({
 	  displayName: 'ListDetail',
 	
@@ -35189,31 +35078,15 @@
 	    return { cards: this.findCards() };
 	  },
 	
-	  //
-	  // getStateFromStore: function () {
-	  //   var listId = parseInt(this.props.listId);
-	  //   return ListStore.find(listId);
-	  // },
-	  //
-	  // componentWillReceiveProps: function (newProps) {
-	  //   this.listener2 = ListStore.addListener(this.setNewState);
-	  //   ApiUtil.fetchSingleList(this.props.boardId, newProps.listId);
-	  // },
-	
-	  // setNewState: function () {
-	  //     this.setState( { list: this.getStateFromStore() });
-	  // },
-	  //
 	  componentDidMount: function () {
 	
 	    this.listener = CardStore.addListener(this.setCards);
-	    // BoardStore.findListInBoard(this.props.listId, this.props.boardId);
+	
 	    ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
 	  },
-	  // //
+	
 	  componentWillUnmount: function () {
 	    this.listener.remove();
-	    // if (this.listener2) {this.listener2.remove();}
 	  },
 	
 	  deleteList: function () {
@@ -35235,12 +35108,6 @@
 	  },
 	
 	  render: function () {
-	
-	    // <CardIndex boardId={this.props.boardId} listId={this.props.listId}/>
-	
-	    // var cards = this.props.cards.map(function (card) {
-	    //   return <li key={card.id}>{card.title}</li>;
-	    // });
 	
 	    return React.createElement(
 	      'section',
@@ -35266,9 +35133,9 @@
 
 	var React = __webpack_require__(1);
 	var CardStore = __webpack_require__(284);
-	var ListStore = __webpack_require__(285);
+	
 	var CardActions = __webpack_require__(246);
-	var CardIndexItem = __webpack_require__(286);
+	var CardIndexItem = __webpack_require__(285);
 	var ApiUtil = __webpack_require__(241);
 	
 	var CardIndex = React.createClass({
@@ -35289,8 +35156,6 @@
 	
 	  componentDidMount: function () {
 	    this.listener = CardStore.addListener(this.setNewState);
-	
-	    // ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -35319,8 +35184,6 @@
 	});
 	
 	module.exports = CardIndex;
-	
-	// <NewCardButton listId={this.props.listId}/>
 
 /***/ },
 /* 284 */
@@ -35448,99 +35311,10 @@
 
 /***/ },
 /* 285 */
-/***/ function(module, exports) {
-
-	// var Store = require('flux/utils').Store;
-	// var Dispatcher = require('../dispatcher/dispatcher.js');
-	// var ListConstants = require('../constants/list_constants.js');
-	//
-	// var ListStore = new Store(Dispatcher);
-	// var _lists = [];
-	//
-	// ListStore.all = function () {
-	//   return _lists.slice();
-	// };
-	//
-	// ListStore.reset = function (lists) {
-	//   _lists = lists;
-	// };
-	//
-	// ListStore.resetSingleList = function (list) {
-	//
-	//   var oldList = ListStore.find(list.id);
-	//
-	//   if (oldList) {
-	//     _lists[_lists.indexOf(oldList)] = list;
-	//   }
-	//   else {
-	//     _lists.push(list);
-	//   }
-	// };
-	//
-	// ListStore.resetAllCards = function (cards) {
-	//     var list = ListStore.find(cards[0].list_id);
-	//     list.cards = cards;
-	//     ListStore.resetSingleList(list);
-	// };
-	//
-	// ListStore.resetSingleCard = function (card) {
-	//   var list = ListStore.find(card.list_id);
-	//   var oldCard = ListStore.findCardInList(card, list);
-	//   if (oldCard) {
-	//     list.cards[list.cards.indexOf(oldCard)] = card;
-	//   }
-	//   else {
-	//     list.cards.push(card);
-	//   }
-	//   ListStore.resetSingleList(list);
-	// };
-	//
-	// ListStore.find = function (id) {
-	//
-	//   for (var i = 0; i < _lists.length; i++) {
-	//     if (_lists[i].id == id) { return _lists[i]; }
-	//   }
-	// };
-	//
-	// ListStore.findCardInList = function (card, list) {
-	//   for (var i = 0; i < list.cards.length; i++) {
-	//     if (list.cards[i].id === card.id) { return list.cards[i]; }
-	//   }
-	// };
-	//
-	// ListStore.__onDispatch = function (payload) {
-	//
-	//   switch (payload.actionType) {
-	//     case ListConstants.ALL_LISTS_RECEIVED:
-	//
-	//       ListStore.reset(payload.lists);
-	//       ListStore.__emitChange();
-	//       break;
-	//     case ListConstants.SINGLE_LIST_RECEIVED:
-	//
-	//       ListStore.resetSingleList(payload.list);
-	//       ListStore.__emitChange();
-	//       break;
-	//     case ListConstants.ALL_CARDS_RECEIVED:
-	//       ListStore.resetAllCards(payload.cards);
-	//       ListStore.__emitChange();
-	//       break;
-	//     case ListConstants.SINGLE_CARD_RECEIVED:
-	//       ListStore.resetSingleCard(payload.card);
-	//       ListStore.__emitChange();
-	//       break;
-	//   }
-	//
-	// };
-	//
-	// module.exports = ListStore;
-
-/***/ },
-/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var EditCardButton = __webpack_require__(287);
+	var EditCardButton = __webpack_require__(286);
 	
 	var CardIndexItem = React.createClass({
 	  displayName: 'CardIndexItem',
@@ -35548,13 +35322,10 @@
 	
 	  deleteCard: function () {
 	    var boardId = this.props.boardId;
-	    // var listId = this.props.listId;
+	
 	    var id = this.props.card.id;
 	
 	    ApiUtil.deleteCard(boardId, id);
-	    // ApiUtil.fetchSingleList(boardId, listId);
-	
-	    // ApiUtil.fetchAllCards(boardId, listId);
 	  },
 	
 	  render: function () {
@@ -35576,13 +35347,13 @@
 	module.exports = CardIndexItem;
 
 /***/ },
-/* 287 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(250);
-	var EditCardForm = __webpack_require__(288);
+	var EditCardForm = __webpack_require__(287);
 	
 	var EditCardButton = React.createClass({
 	  displayName: 'EditCardButton',
@@ -35625,7 +35396,7 @@
 	module.exports = EditCardButton;
 
 /***/ },
-/* 288 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35686,14 +35457,14 @@
 	module.exports = EditCardForm;
 
 /***/ },
-/* 289 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var CardStore = __webpack_require__(284);
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(250);
-	var NewCardForm = __webpack_require__(290);
+	var NewCardForm = __webpack_require__(289);
 	
 	var NewCardButton = React.createClass({
 	  displayName: 'NewCardButton',
@@ -35735,7 +35506,7 @@
 	module.exports = NewCardButton;
 
 /***/ },
-/* 290 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35792,13 +35563,13 @@
 	module.exports = NewCardForm;
 
 /***/ },
-/* 291 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(250);
-	var EditListForm = __webpack_require__(292);
+	var EditListForm = __webpack_require__(291);
 	
 	var EditListButton = React.createClass({
 	  displayName: 'EditListButton',
@@ -35841,11 +35612,11 @@
 	module.exports = EditListButton;
 
 /***/ },
-/* 292 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListActions = __webpack_require__(293);
+	
 	var BoardStore = __webpack_require__(217);
 	
 	var EditListForm = React.createClass({
@@ -35902,55 +35673,14 @@
 	module.exports = EditListForm;
 
 /***/ },
-/* 293 */
-/***/ function(module, exports) {
-
-	// var ListConstants = require('../constants/list_constants.js');
-	// var Dispatcher = require('../dispatcher/dispatcher.js');
-	//
-	// var ListActions = {
-	//
-	// 	 receiveAllLists: function (lists) {
-	// 		 Dispatcher.dispatch({
-	// 			 actionType: ListConstants.ALL_LISTS_RECEIVED,
-	// 			 lists: lists
-	// 		 });
-	//    },
-	//
-	//    receiveSingleList: function (list) {
-	//       Dispatcher.dispatch({
-	//        actionType: ListConstants.SINGLE_LIST_RECEIVED,
-	//        list: list
-	//      });
-	//    },
-	//
-	//    receiveAllCards: function (cards) {
-	//      Dispatcher.dispatch({
-	//        actionType: ListConstants.ALL_CARDS_RECEIVED,
-	//        cards: cards
-	//      });
-	//    },
-	//
-	//    receiveSingleCard: function (card) {
-	//      Dispatcher.dispatch({
-	//        actionType: ListConstants.SINGLE_CARD_RECEIVED,
-	//        card: card
-	//      });
-	//    }
-	//
-	// };
-	//
-	// module.exports = ListActions;
-
-/***/ },
-/* 294 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListStore = __webpack_require__(285);
+	
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(250);
-	var NewListForm = __webpack_require__(295);
+	var NewListForm = __webpack_require__(293);
 	
 	var NewListButton = React.createClass({
 	  displayName: 'NewListButton',
@@ -35990,14 +35720,13 @@
 	module.exports = NewListButton;
 
 /***/ },
-/* 295 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListActions = __webpack_require__(293);
 	
 	var NewListForm = React.createClass({
-		displayName: 'NewListForm',
+		displayName: "NewListForm",
 	
 	
 		getInitialState: function () {
@@ -36021,23 +35750,23 @@
 		render: function () {
 	
 			return React.createElement(
-				'form',
-				{ className: 'new-list-form' },
+				"form",
+				{ className: "new-list-form" },
 				React.createElement(
-					'h1',
+					"h1",
 					null,
-					'Create List'
+					"Create List"
 				),
 				React.createElement(
-					'h2',
+					"h2",
 					null,
-					'Title'
+					"Title"
 				),
-				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
+				React.createElement("input", { className: "title-field", type: "text", value: this.state.title, onChange: this.updateTitle }),
 				React.createElement(
-					'button',
+					"button",
 					{ onClick: this.createNewList },
-					'Create'
+					"Create"
 				)
 			);
 		}
@@ -36047,14 +35776,14 @@
 	module.exports = NewListForm;
 
 /***/ },
-/* 296 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(250);
-	var EditBoardForm = __webpack_require__(297);
+	var EditBoardForm = __webpack_require__(295);
 	var EditBoardButton = React.createClass({
 	  displayName: 'EditBoardButton',
 	
@@ -36095,7 +35824,7 @@
 	module.exports = EditBoardButton;
 
 /***/ },
-/* 297 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);

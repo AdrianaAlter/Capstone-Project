@@ -1,5 +1,5 @@
 var React = require('react');
-var ListStore = require('../store/list_store.js');
+
 var ApiUtil = require('../util/api_util.js');
 var Modal = require('react-modal');
 var NewListForm = require('./new_list_form.jsx');

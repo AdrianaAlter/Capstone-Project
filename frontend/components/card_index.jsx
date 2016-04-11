@@ -1,6 +1,6 @@
 var React = require('react');
 var CardStore = require('../store/card_store.js');
-var ListStore = require('../store/list_store.js');
+
 var CardActions = require('../actions/card_actions.js');
 var CardIndexItem = require('./card_index_item.jsx');
 var ApiUtil = require('../util/api_util.js');
@@ -55,5 +55,3 @@ var CardIndex = React.createClass({
 });
 
 module.exports = CardIndex;
-
-

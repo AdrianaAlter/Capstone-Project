@@ -1,5 +1,5 @@
 var React = require('react');
-var ListActions = require('../actions/list_actions.js');
+
 var BoardStore = require('../store/board_store.js');
 
 var EditListForm = React.createClass({
