@@ -24,11 +24,5 @@ class Board < ActiveRecord::Base
     source: :cards
   )
 
-  # def self.find_by_author(author_id)
-  #   board = Board.where("author_id = author_id")
-  #   board ? board : nil
-  # end
-
-
 
 end
