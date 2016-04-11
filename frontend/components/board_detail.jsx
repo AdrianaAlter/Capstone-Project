@@ -18,34 +18,20 @@ var BoardDetail = React.createClass({
     return BoardStore.find(this.props.params.board_id);
   },
 
-  // getLists: function () {
-  //   var boardId = parseInt(this.props.params.board_id);
-  //   return ApiUtil.fetchAllLists(boardId);
-  // },
-
-  // componentWillReceiveProps: function (newProps) {
-  //   this.listener2 = BoardStore.addListener(this.setNewState);
-  //   ApiUtil.fetchSingleBoard(newProps.params.board_id);
-  // },
-
-
-
   setNewState: function () {
       this.setState( { board: this.getStateFromStore() });
-
   },
 
   componentDidMount: function () {
     this.listener = BoardStore.addListener(this.setNewState);
-    // debugger
+
     ApiUtil.fetchSingleBoard(this.props.params.board_id);
-    // ApiUtil.fetchAllLists(this.props.params.board_id);
+    
     ApiUtil.fetchAllCards(this.props.params.board_id);
   },
 
   componentWillUnmount: function () {
     if (this.listener) {this.listener.remove();}
-    // if (this.listener2) {this.listener2.remove();}
   },
 
   deleteBoard: function () {
@@ -78,11 +64,8 @@ var BoardDetail = React.createClass({
 });
 
 
-// listItems = this.state.board.lists.map(function (list) {
-//   return (<li className="list-item" key={list.id} list={list}>{list.title}</li>);
-// });
 
 
 
 module.exports = BoardDetail;
-// <ListIndex board={this.props.params.board_id} />
+
