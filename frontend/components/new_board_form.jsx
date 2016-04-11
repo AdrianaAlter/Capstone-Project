@@ -17,9 +17,7 @@ var NewBoardForm = React.createClass({
       this.setState({ title: "" });
       this.props.closeModal();
   },
-	// toggleDisplayed: function () {
-	// 	this.setState({ displayed: true });
-	// },
+
 
 	updateTitle: function (e) {
 		var newTitle = e.currentTarget.value;
@@ -27,14 +25,7 @@ var NewBoardForm = React.createClass({
 
 	},
 
-		// this.toggleDisplayed();
-
-
-
 	render: function () {
-
-		// var className = this.state.displayed === false ? "new-board-form hidden" : "new-board-form";
-
 
 		return(
 				<form className="new-board-form">
