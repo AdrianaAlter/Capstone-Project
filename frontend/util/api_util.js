@@ -28,7 +28,6 @@ ApiUtil = {
       type: "GET",
       dataType: "json",
       success: function (lists) {
-
         BoardActions.receiveAllLists(lists);
       },
       error: function () {
@@ -64,7 +63,6 @@ ApiUtil = {
       type: "GET",
       dataType: "json",
       success: function (board) {
-
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
@@ -162,13 +160,9 @@ ApiUtil = {
       url: "api/boards/" + boardId + "/lists/" + id,
       type: "DELETE",
       success: function (info) {
-        // if (info.author_id) {
-          // debugger
+
           BoardActions.receiveSingleBoard(info);
-        //  }
-        // else {
-        //   BoardActions.receiveAllLists(info);
-        // }
+
       },
       error: function () {
         console.log("Error in ApiUtil deleteList function");
@@ -183,15 +177,8 @@ ApiUtil = {
       type: "DELETE",
       success: function (list) {
 
-        // if (info[0] && info[0].list_id) {
-        //   ListActions.receiveAllCards(info);
-        // }
-        // else {
-
-
           BoardActions.receiveSingleList(list);
           CardActions.receiveList(list);
-      //   }
       },
       error: function () {
         console.log("Error in ApiUtil deleteCard function");

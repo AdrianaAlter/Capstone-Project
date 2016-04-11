@@ -68,4 +68,3 @@ var BoardDetail = React.createClass({
 
 
 module.exports = BoardDetail;
-

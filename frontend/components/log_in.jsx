@@ -7,7 +7,7 @@ var LogInForm = React.createClass({
   contextTypes: { router: React.PropTypes.object.isRequired },
 
   getInitialState: function () {
-    return{
+    return {
       name: "",
       password: ""
     };
@@ -18,6 +18,14 @@ var LogInForm = React.createClass({
 
     var router = this.context.router;
     ApiUtil.logIn(this.state, function () {
+      router.push("/");
+    });
+  },
+
+  guestLogIn: function () {
+    var guestInfo = {name: "Guest Cat", password: "guestcat"};
+    var router = this.context.router;
+    ApiUtil.logIn (guestInfo, function () {
       router.push("/");
     });
   },
@@ -50,6 +58,7 @@ var LogInForm = React.createClass({
 
               <button>Log In</button>
             </form>
+            <h2 className="guest-log-in" onClick={this.guestLogIn}>Log in as a guest</h2>
              <a className="fb" href="/auth/facebook">Log in with Facebook</a>
         </section>
         <section className="info-page group">

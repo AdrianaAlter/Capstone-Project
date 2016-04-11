@@ -5,7 +5,7 @@ user1 = User.create!(user_name: "#{Faker::Name.name}", password: "#{Faker::Inter
 # user3 = User.create(user_name: "#{Faker::Name.name}", password: "#{Faker::Internet.password(6)}", email:"#{Faker::Internet.email}")
 # user4 = User.create(user_name: "#{Faker::Name.name}", password: "#{Faker::Internet.password(6)}", email:"#{Faker::Internet.email}")
 user5 = User.create!(user_name: "Sennacy the Great", password: "sennacy", email: "sennacy@cat.com")
-
+user6 = User.create!(user_name: "Guest Cat", password: "guestcat")
 
 Board.destroy_all
 

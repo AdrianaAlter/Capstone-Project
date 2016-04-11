@@ -78,6 +78,16 @@ button {
   color: black;
 }
 
+.guest-log-in {
+  color: #aaa;
+  text-decoration: underline;
+  cursor: pointer
+}
+
+.guest-log-in:hover {
+  color: black;
+}
+
 .info-page {
   width: 100%;
   background: white;

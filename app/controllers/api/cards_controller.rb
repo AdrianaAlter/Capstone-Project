@@ -2,6 +2,7 @@ class Api::CardsController < ApplicationController
   def index
     board = Board.find(current_board_id)
     @cards = board.cards
+    
     render :index
   end
 

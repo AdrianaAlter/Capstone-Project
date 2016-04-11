@@ -11,6 +11,7 @@ CardStore.all = function () {
 
   lists.forEach(function (list) {
     cards.push((_cards[list]));
+
   });
 
   return cards;
@@ -27,7 +28,7 @@ CardStore.resetCards = function (cards) {
       _cards[listId].push(card);
     }
   }
-  
+
   return _cards;
 };
 

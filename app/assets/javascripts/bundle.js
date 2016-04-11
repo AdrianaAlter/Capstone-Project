@@ -31783,7 +31783,6 @@
 	      type: "GET",
 	      dataType: "json",
 	      success: function (lists) {
-	
 	        BoardActions.receiveAllLists(lists);
 	      },
 	      error: function () {
@@ -31816,7 +31815,6 @@
 	      type: "GET",
 	      dataType: "json",
 	      success: function (board) {
-	
 	        BoardActions.receiveSingleBoard(board);
 	      },
 	      error: function () {
@@ -31910,13 +31908,8 @@
 	      url: "api/boards/" + boardId + "/lists/" + id,
 	      type: "DELETE",
 	      success: function (info) {
-	        // if (info.author_id) {
-	        // debugger
+	
 	        BoardActions.receiveSingleBoard(info);
-	        //  }
-	        // else {
-	        //   BoardActions.receiveAllLists(info);
-	        // }
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil deleteList function");
@@ -31931,14 +31924,8 @@
 	      type: "DELETE",
 	      success: function (list) {
 	
-	        // if (info[0] && info[0].list_id) {
-	        //   ListActions.receiveAllCards(info);
-	        // }
-	        // else {
-	
 	        BoardActions.receiveSingleList(list);
 	        CardActions.receiveList(list);
-	        //   }
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil deleteCard function");
@@ -34771,6 +34758,14 @@
 	    });
 	  },
 	
+	  guestLogIn: function () {
+	    var guestInfo = { name: "Guest Cat", password: "guestcat" };
+	    var router = this.context.router;
+	    ApiUtil.logIn(guestInfo, function () {
+	      router.push("/");
+	    });
+	  },
+	
 	  updateName: function (e) {
 	    this.setState({ name: e.currentTarget.value });
 	  },
@@ -34812,6 +34807,11 @@
 	            null,
 	            'Log In'
 	          )
+	        ),
+	        React.createElement(
+	          'h2',
+	          { className: 'guest-log-in', onClick: this.guestLogIn },
+	          'Log in as a guest'
 	        ),
 	        React.createElement(
 	          'a',
@@ -35170,7 +35170,6 @@
 	    var boardId = this.props.boardId;
 	
 	    var cardIndexItems = this.props.cards.map(function (card) {
-	
 	      return React.createElement(CardIndexItem, { key: card.id, card: card, listId: card.list_id, boardId: boardId });
 	    });
 	
