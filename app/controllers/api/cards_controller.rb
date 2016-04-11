@@ -42,17 +42,8 @@ class Api::CardsController < ApplicationController
     params.require(:card).permit(:title, :list_id)
   end
 
-  # def current_list_id
-  #   params[:list_id]
-  # end
-
   def current_board_id
     params[:board_id]
   end
-
-  # def sibling_cards(id)
-  #   Card.where(list_id == current_list_id && id != id)
-  #   debugger
-  # end
 
 end
