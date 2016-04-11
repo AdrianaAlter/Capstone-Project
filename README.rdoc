@@ -1,28 +1,26 @@
 == README
+CatTrello is a web application inspired by Trello, and built using Ruby on Rails and React.js.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+cattrello.herokuapp.com
 
-Things you may want to cover:
+To sample CatTrello's functionality, please sign in with the demo account: user name "Sennacy the Great"; password "sennacy".
 
-* Ruby version
+Features:
 
-* System dependencies
+--Log in/out.
+--Sign up with Facebook.
 
-* Configuration
+--View all existing boards (board index).
+--View all lists and cards for any given board (board detail page).
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+--Create, update, and delete boards.
+--Create, update, and delete lists.
+--Create, update, and delete cards.
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+In future, CatTrello users will also be able to:
+
+--Create an account.
+--Create teams.
+--Receive notifications.
+--Search for boards and users.
