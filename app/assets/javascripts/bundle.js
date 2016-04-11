@@ -31893,10 +31893,11 @@
 	      type: "DELETE",
 	      success: function (boards) {
 	        BoardActions.receiveAllBoards(boards);
+	        alert("Success; the cat has shredded this board!");
 	        window.location.href = "/";
 	      },
 	      error: function () {
-	        console.log("Error in ApiUtil deleteBoard function");
+	        console.log("Error in ApiUtil delete board");
 	      }
 	    });
 	  },
