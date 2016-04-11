@@ -23,7 +23,6 @@ var CardIndex = React.createClass({
   componentDidMount: function () {
     this.listener = CardStore.addListener(this.setNewState);
 
-    // ApiUtil.fetchAllCards(this.props.boardId, this.props.listId);
   },
 
   componentWillUnmount: function () {
@@ -57,4 +56,4 @@ var CardIndex = React.createClass({
 
 module.exports = CardIndex;
 
-// <NewCardButton listId={this.props.listId}/>
+
