@@ -55,14 +55,5 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-// <article className="search group">
-//   <ul>
-//     {this.resultLis()}
-//   </ul>
-// </article>
 
-//
-// <nav>
-// 	Page {meta.page} of {meta.total_pages}
-// 	<button onClick={this.nextPage}>Next</button>
-// </nav>
+
