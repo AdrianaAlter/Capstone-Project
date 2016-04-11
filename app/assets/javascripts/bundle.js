@@ -31757,7 +31757,6 @@
 	var BoardActions = __webpack_require__(240);
 	var SessionActions = __webpack_require__(242);
 	var SearchResultActions = __webpack_require__(244);
-	// var ListActions = require('../actions/list_actions.js');
 	var CardActions = __webpack_require__(246);
 	
 	ApiUtil = {
@@ -31994,7 +31993,7 @@
 	        callback && callback();
 	      },
 	      error: function () {
-	        console.log('Error in ApiUtil log in');
+	        alert("You are obviously a dangerous (albeit fairly inept) impostor.  Or maybe you typed your credentials wrong, but that seems less plausible.  Either way, the cat does not approve.");
 	      }
 	    });
 	  },

@@ -1,7 +1,6 @@
 var BoardActions = require('../actions/board_actions.js');
 var SessionActions = require('../actions/session_actions.js');
 var SearchResultActions = require('../actions/search_result_actions.js');
-// var ListActions = require('../actions/list_actions.js');
 var CardActions = require('../actions/card_actions.js');
 
 ApiUtil = {
@@ -250,7 +249,7 @@ ApiUtil = {
         callback && callback();
       },
       error: function () {
-        console.log('Error in ApiUtil log in');
+        alert("You are obviously a dangerous (albeit fairly inept) impostor.  Or maybe you typed your credentials wrong, but that seems less plausible.  Either way, the cat does not approve.");
       }
     });
 
