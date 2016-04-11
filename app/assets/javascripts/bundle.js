@@ -32015,6 +32015,22 @@
 	    });
 	  },
 	
+	  signUp: function (userInfo, callback) {
+	    $.ajax({
+	      type: "POST",
+	      url: "/api/users",
+	      dataType: "json",
+	      data: userInfo,
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	        callback && callback();
+	      },
+	      error: function () {
+	        console.log('Error in ApiUtil sign up');
+	      }
+	    });
+	  },
+	
 	  fetchCurrentUser: function (completion) {
 	    $.ajax({
 	      type: "GET",
@@ -34736,6 +34752,7 @@
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(250);
 	var Footer = __webpack_require__(277);
+	var SignUpButton = __webpack_require__(296);
 	
 	var LogInForm = React.createClass({
 	  displayName: 'LogInForm',
@@ -34837,11 +34854,7 @@
 	          null,
 	          'Because cats are widely known for their organizational skills.  Obviously.'
 	        ),
-	        React.createElement(
-	          'button',
-	          null,
-	          'Sign up! (Meow.)'
-	        )
+	        React.createElement(SignUpButton, null)
 	      ),
 	      React.createElement(
 	        'section',
@@ -35884,6 +35897,121 @@
 	});
 	
 	module.exports = EditBoardForm;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(250);
+	var SignUpForm = __webpack_require__(297);
+	
+	var SignUpButton = React.createClass({
+	  displayName: 'SignUpButton',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  render: function () {
+	    var styles = {
+	      content: { backgroundColor: "#e4f0f6" }
+	    };
+	    return React.createElement(
+	      'button',
+	      { onClick: this.openModal },
+	      'Sign up!  (Meow.)',
+	      React.createElement(
+	        Modal,
+	        { isOpen: this.state.modalOpen, onRequestClose: this.closeModal, style: styles },
+	        React.createElement(SignUpForm, { closeModal: this.closeModal })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SignUpButton;
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(241);
+	
+	var SignUpForm = React.createClass({
+	  displayName: 'SignUpForm',
+	
+	
+	  contextTypes: { router: React.PropTypes.object.isRequired },
+	
+	  getInitialState: function () {
+	    return {
+	      name: "",
+	      password: ""
+	    };
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	
+	    var router = this.context.router;
+	    ApiUtil.signUp(this.state, function () {
+	      router.push("/");
+	    });
+	  },
+	
+	  updateName: function (e) {
+	    this.setState({ name: e.currentTarget.value });
+	  },
+	
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'form',
+	      { className: 'sign-up-form group', onSubmit: this.handleSubmit },
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Are you ready to let a cat organize your life?'
+	      ),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'name' },
+	        'Name'
+	      ),
+	      React.createElement('input', { onChange: this.updateName, type: 'text', value: this.state.name }),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'password' },
+	        'Password'
+	      ),
+	      React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	      React.createElement(
+	        'button',
+	        null,
+	        'Sign Up'
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = SignUpForm;
 
 /***/ }
 /******/ ]);

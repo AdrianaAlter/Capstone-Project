@@ -69,6 +69,42 @@ button {
   border: 1px solid #A4A8AA;
 }
 
+.sign-up-form {
+  width: 400px;
+  height: 400px;
+  display: block;
+  margin: auto;
+  padding: 0;
+  text-align: left;
+}
+
+.sign-up-form > h1 {
+  font-size: 35.54px;
+  line-height: 35px;
+  margin-bottom: 23.812px;
+  display: block;
+  font-weight: bold;
+}
+.sign-up-form label {
+    display: block;
+    margin-bottom: 8px;
+    margin-left: 8px;
+}
+
+.sign-up-form input {
+  padding: 10px;
+  width: 333px;
+  margin-bottom: 24px;
+  margin-left: 8px;
+  background: #edeff0;
+  border-radius: 4px;
+  border: 1px solid #cdd2d4;
+}
+
+.sign-up-form input:hover {
+  border: 1px solid #A4A8AA;
+}
+
 .fb {
   color: #aaa;
   text-decoration: underline;

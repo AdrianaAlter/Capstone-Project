@@ -2,6 +2,7 @@ var React = require('react');
 var ApiUtil = require('../util/api_util.js');
 var Modal = require('react-modal');
 var Footer = require('./footer.jsx');
+var SignUpButton = require('./sign_up_button.jsx');
 
 var LogInForm = React.createClass({
   contextTypes: { router: React.PropTypes.object.isRequired },
@@ -65,7 +66,7 @@ var LogInForm = React.createClass({
           <h1>CatTrello</h1>
           <h2>CatTrello is a gratuitously cat-themed web app for organizing projects and tasks!</h2>
           <p>Because cats are widely known for their organizational skills.  Obviously.</p>
-          <button>Sign up! (Meow.)</button>
+          <SignUpButton />
         </section>
         <section className="cat-logo group">
           <div className="cat-pic"></div>

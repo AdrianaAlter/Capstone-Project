@@ -270,7 +270,22 @@ ApiUtil = {
       }
 
     });
+  },
 
+  signUp: function (userInfo, callback) {
+    $.ajax({
+      type: "POST",
+      url: "/api/users",
+      dataType: "json",
+      data: userInfo,
+      success: function (currentUser) {
+        SessionActions.currentUserReceived(currentUser);
+        callback && callback();
+      },
+      error: function () {
+        console.log('Error in ApiUtil sign up');
+      }
+    });
   },
 
   fetchCurrentUser: function (completion) {
