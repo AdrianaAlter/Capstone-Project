@@ -159,9 +159,9 @@ ApiUtil = {
     $.ajax({
       url: "api/boards/" + boardId + "/lists/" + id,
       type: "DELETE",
-      success: function (info) {
+      success: function (board) {
 
-          BoardActions.receiveSingleBoard(info);
+          BoardActions.receiveSingleBoard(board);
 
       },
       error: function () {

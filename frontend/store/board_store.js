@@ -14,15 +14,12 @@ BoardStore.resetBoards = function (boards) {
 };
 
 BoardStore.resetBoard = function (board) {
-  // var oldBoard = BoardStore.find(board.id);
-  //
-  // if (oldBoard) {
-  //   _boards[_boards.indexOf(oldBoard)] = board;
-  // }
 
   var i = BoardStore.findOutIndex(board);
 
-  if (i) { _boards[i] = board; }
+  if (_boards[i]) {
+    _boards[i] = board;
+  }
   else {
     _boards.push(board);
   }
@@ -79,7 +76,6 @@ BoardStore.__onDispatch = function (payload) {
       BoardStore.__emitChange();
       break;
     case BoardConstants.SINGLE_BOARD_RECEIVED:
-
       BoardStore.resetBoard(payload.board);
       BoardStore.__emitChange();
       break;
