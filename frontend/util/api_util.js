@@ -65,6 +65,7 @@ ApiUtil = {
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
+        alert("We can't find that board!  The cat must have eaten it.");
         console.log('Error in AJAX request to fetch single board via ApiUtil');
       }
     });
@@ -101,6 +102,7 @@ ApiUtil = {
         callback && callback(board.id);
 			},
 			error: function () {
+        alert("Did you try to create a board with no title?  The cat is not amused.");
         console.log("Error in ApiUtil createNewBoard function");
 			}
 		});
@@ -117,6 +119,7 @@ ApiUtil = {
           callback && callback(list.id);
         },
         error: function () {
+          alert("Did you try to create a list with no title?  The cat is not amused.")
           console.log("Error in ApiUtil createNewList function");
         }
       });
@@ -133,6 +136,7 @@ ApiUtil = {
           callback && callback(card.id);
         },
         error: function () {
+          alert("Did you try to create a card with no title?  The cat is not amused.")
           console.log("Error in ApiUtil createNewCard function");
         }
       });
@@ -160,9 +164,7 @@ ApiUtil = {
       url: "api/boards/" + boardId + "/lists/" + id,
       type: "DELETE",
       success: function (board) {
-
           BoardActions.receiveSingleBoard(board);
-
       },
       error: function () {
         console.log("Error in ApiUtil deleteList function");
@@ -197,6 +199,7 @@ ApiUtil = {
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
+        alert("Did you try to get rid of this board's title?  The cat is not amused.");
         console.log('Error in AJAX request to edit board via ApiUtil');
       }
     });
@@ -214,6 +217,7 @@ ApiUtil = {
         BoardActions.receiveSingleList(list);
       },
       error: function () {
+        alert("Did you try to get rid of this list's title?  The cat is not amused.");
         console.log('Error in AJAX request to edit list via ApiUtil');
       }
     });
@@ -232,6 +236,7 @@ ApiUtil = {
         CardActions.receiveSingleCard(card);
       },
       error: function () {
+        alert("Did you try to get rid of this card's title?  The cat is not amused.");
         console.log('Error in AJAX request to edit card via ApiUtil');
       }
     });
@@ -264,6 +269,7 @@ ApiUtil = {
       dataType: "json",
       success: function () {
           SessionActions.logOut();
+          alert("The cat misses you already; don't forget to come back soon!");
       },
       error: function () {
         console.log('Error in ApiUtil logout');

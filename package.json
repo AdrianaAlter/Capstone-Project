@@ -31,6 +31,7 @@
     "flux": "^2.1.1",
     "history": "~1.13.0",
     "jquery": "^2.1.4",
+    "pui-react-alerts": "^4.0.9",
     "react": "^0.14.2",
     "react-addons-linked-state-mixin": "^0.14.2",
     "react-dom": "^0.14.2",
@@ -38,6 +39,7 @@
     "react-popup": "^0.3.0",
     "react-popups": "^1.2.2",
     "react-router": "2.0.1",
+    "react-s-alert": "^1.1.1",
     "webpack": "^1.12.14"
   },
   "engines": {

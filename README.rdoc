@@ -3,11 +3,12 @@ CatTrello is a web application inspired by Trello, and built using Ruby on Rails
 
 cattrello.herokuapp.com
 
-To sample CatTrello's functionality, please sign in with the demo account: user name "Sennacy the Great"; password "sennacy".
+To sample CatTrello's functionality, just sign in as a guest!
 
 Features:
 
 --Log in/out.
+--Create account.
 --Sign up with Facebook.
 
 --View all existing boards (board index).
@@ -17,10 +18,11 @@ Features:
 --Create, update, and delete lists.
 --Create, update, and delete cards.
 
+--Search for boards.
+
 
 In future, CatTrello users will also be able to:
 
---Create an account.
 --Create teams.
 --Receive notifications.
---Search for boards and users.
+--Search for users.

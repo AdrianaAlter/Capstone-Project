@@ -1,6 +1,5 @@
 var React = require('react');
 var Modal = require('react-modal');
-
 var Footer = React.createClass({
 
 getInitialState: function () {
@@ -75,7 +74,7 @@ render: function () {
     <Modal isOpen={this.state.modalOpen}
       onRequestClose={this.closeModal}
       style={styles}>
-      {tourContent}
+      <h1>Meow</h1>
     </Modal>
   </li>;
 
@@ -99,5 +98,6 @@ render: function () {
   );}
 
 });
+
 
 module.exports = Footer;

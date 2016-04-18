@@ -1,6 +1,6 @@
 class ErrorsController < ApplicationController
   def not_found
-    debugger
+    
     respond_to do |format|
       format.html { render status: 404 }
     end
