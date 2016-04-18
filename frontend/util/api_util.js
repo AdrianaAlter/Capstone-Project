@@ -308,6 +308,7 @@ ApiUtil = {
   },
 
 	search: function (query, page) {
+
 		$.ajax({
 			type: "GET",
 			url: "/api/searches",

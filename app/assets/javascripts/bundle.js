@@ -26335,7 +26335,7 @@
 	(function (global, factory) {
 	   true ? module.exports = factory() :
 	  typeof define === 'function' && define.amd ? define(factory) :
-	  global.Immutable = factory();
+	  (global.Immutable = factory());
 	}(this, function () { 'use strict';var SLICE$0 = Array.prototype.slice;
 	
 	  function createClass(ctor, superClass) {
@@ -27230,7 +27230,7 @@
 	      }
 	      return 'Range [ ' +
 	        this._start + '...' + this._end +
-	        (this._step > 1 ? ' by ' + this._step : '') +
+	        (this._step !== 1 ? ' by ' + this._step : '') +
 	      ' ]';
 	    };
 	
@@ -27546,6 +27546,17 @@
 	          iter.forEach(function(v, k)  {return map.set(k, v)});
 	        });
 	    }
+	
+	    Map.of = function() {var keyValues = SLICE$0.call(arguments, 0);
+	      return emptyMap().withMutations(function(map ) {
+	        for (var i = 0; i < keyValues.length; i += 2) {
+	          if (i + 1 >= keyValues.length) {
+	            throw new Error('Missing value for key: ' + keyValues[i]);
+	          }
+	          map.set(keyValues[i], keyValues[i + 1]);
+	        }
+	      });
+	    };
 	
 	    Map.prototype.toString = function() {
 	      return this.__toString('Map {', '}');
@@ -29459,7 +29470,11 @@
 	      begin = begin | 0;
 	    }
 	    if (end !== undefined) {
-	      end = end | 0;
+	      if (end === Infinity) {
+	        end = originalSize;
+	      } else {
+	        end = end | 0;
+	      }
 	    }
 	
 	    if (wholeSlice(begin, end, originalSize)) {
@@ -29995,6 +30010,12 @@
 	    Record.prototype.set = function(k, v) {
 	      if (!this.has(k)) {
 	        throw new Error('Cannot set unknown key "' + k + '" on ' + recordName(this));
+	      }
+	      if (this._map && !this._map.has(k)) {
+	        var defaultVal = this._defaultValues[k];
+	        if (v === defaultVal) {
+	          return this;
+	        }
 	      }
 	      var newMap = this._map && this._map.set(k, v);
 	      if (this.__ownerID || newMap === this._map) {
@@ -30679,8 +30700,8 @@
 	      return entry ? entry[1] : notSetValue;
 	    },
 	
-	    findEntry: function(predicate, context) {
-	      var found;
+	    findEntry: function(predicate, context, notSetValue) {
+	      var found = notSetValue;
 	      this.__iterate(function(v, k, c)  {
 	        if (predicate.call(context, v, k, c)) {
 	          found = [k, v];
@@ -30690,8 +30711,8 @@
 	      return found;
 	    },
 	
-	    findLastEntry: function(predicate, context) {
-	      return this.toSeq().reverse().findEntry(predicate, context);
+	    findLastEntry: function(predicate, context, notSetValue) {
+	      return this.toSeq().reverse().findEntry(predicate, context, notSetValue);
 	    },
 	
 	    forEach: function(sideEffect, context) {
@@ -30964,35 +30985,6 @@
 	  IterablePrototype.chain = IterablePrototype.flatMap;
 	  IterablePrototype.contains = IterablePrototype.includes;
 	
-	  // Temporary warning about using length
-	  (function () {
-	    try {
-	      Object.defineProperty(IterablePrototype, 'length', {
-	        get: function () {
-	          if (!Iterable.noLengthWarning) {
-	            var stack;
-	            try {
-	              throw new Error();
-	            } catch (error) {
-	              stack = error.stack;
-	            }
-	            if (stack.indexOf('_wrapObject') === -1) {
-	              console && console.warn && console.warn(
-	                'iterable.length has been deprecated, '+
-	                'use iterable.size or iterable.count(). '+
-	                'This warning will become a silent error in a future version. ' +
-	                stack
-	              );
-	              return this.size;
-	            }
-	          }
-	        }
-	      });
-	    } catch (e) {}
-	  })();
-	
-	
-	
 	  mixin(KeyedIterable, {
 	
 	    // ### More sequential methods
@@ -31073,9 +31065,6 @@
 	    lastIndexOf: function(searchValue) {
 	      var key = this.toKeyedSeq().reverse().keyOf(searchValue);
 	      return key === undefined ? -1 : key;
-	
-	      // var index =
-	      // return this.toSeq().reverse().indexOf(searchValue);
 	    },
 	
 	    reverse: function() {
@@ -31199,6 +31188,7 @@
 	  });
 	
 	  SetIterable.prototype.has = IterablePrototype.includes;
+	  SetIterable.prototype.contains = SetIterable.prototype.includes;
 	
 	
 	  // Mixin subclasses
@@ -32044,6 +32034,7 @@
 	  },
 	
 	  search: function (query, page) {
+	
 	    $.ajax({
 	      type: "GET",
 	      url: "/api/searches",
@@ -32107,6 +32098,7 @@
 	
 	var SearchResultActions = {
 		receiveResults: function (response) {
+	
 			var action = {
 				actionType: SearchResultConstants.SEARCH_RESULTS_RECEIVED,
 				searchResults: response.search_results,
@@ -34234,7 +34226,7 @@
 	  }
 	
 	});
-	// <Link to={"boards/" + this.props.board.id}>
+	
 	module.exports = BoardIndexItem;
 
 /***/ },
@@ -34483,13 +34475,17 @@
 	var React = __webpack_require__(1);
 	var SearchResultsStore = __webpack_require__(276);
 	var ApiUtil = __webpack_require__(241);
+	var Link = __webpack_require__(159).Link;
 	
 	var Search = React.createClass({
 		displayName: 'Search',
 	
+		contextTypes: {
+			router: React.PropTypes.object.isRequired
+		},
 	
 		getInitialState: function () {
-			return { query: "" };
+			return { query: "", display: "" };
 		},
 	
 		componentDidMount: function () {
@@ -34520,19 +34516,48 @@
 			ApiUtil.search(meta.query, meta.page + 1);
 		},
 	
+		goTo: function (id) {
+			this.context.router.push("/boards/" + id);
+		},
+	
+		hideResults: function () {
+			this.setState({ display: "hidden" });
+		},
+	
 		resultLis: function () {
-			return SearchResultsStore.all().map(function (result) {
+	
+			if (!this.state.results) {
+				return React.createElement('li', { className: 'placeholder' });
+			}
+			var resultItems = this.state.results.map(function (result) {
 				return React.createElement(
 					'li',
 					{ key: result.id },
-					result.title
+					React.createElement(
+						Link,
+						{ to: "boards/" + result.id, onClick: this.hideResults },
+						result.title
+					)
 				);
 			});
+	
+			return resultItems;
 		},
 	
 		render: function () {
 			var meta = SearchResultsStore.meta();
-			return React.createElement('input', { type: 'text', tabIndex: '0', onChange: this.handleInputChange, onSubmit: this.search });
+			var resultItems = this.resultLis();
+	
+			return React.createElement(
+				'div',
+				null,
+				React.createElement('input', { type: 'text', tabIndex: '0', onChange: this.handleInputChange, onSubmit: this.search }),
+				React.createElement(
+					'ul',
+					{ className: this.state.display },
+					resultItems
+				)
+			);
 		}
 	
 	});
@@ -34773,7 +34798,7 @@
 	  },
 	
 	  guestLogIn: function () {
-	    var guestInfo = { name: "Guest Cat", password: "guestcat" };
+	    var guestInfo = { name: "Sennacy the Great", password: "sennacy" };
 	    var router = this.context.router;
 	    ApiUtil.logIn(guestInfo, function () {
 	      router.push("/");

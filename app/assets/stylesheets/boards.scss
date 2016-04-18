@@ -80,20 +80,10 @@
   line-height: 30px;
 }
 
-// .board-detail > .detail-header {
-//   position: absolute;
-//   top: 0;
-//   width: 100%;
-//   height: 30px;
-//   padding: 5px;
-//   background: rgba(176, 70, 50, 0.6);
-// }
 .board-detail > h1 {
   display: block;
   padding: 12px;
 }
-
-
 
 .delete-board-button {
 
@@ -133,67 +123,10 @@
 .edit-board-button:hover {
   background: #943;
 }
-// //
-// .board-detail .list-index {
-//   list-style: none;
-//   display: block;
-//   width: auto;
-//   max-width: 1600px;
-//   // min-height: 200px;
-//   margin-left: 8px;
-// }
-//
-// .board-detail .list-index .list-item {
-//   float: left;
-//   background-color: #e2e4e6;
-//   display: block;
-//   height: 64px;
-//   width: 190px;
-//   padding: 5px;
-//   color: #666;
-//   border-radius: 3px;
-//   margin: 0 4px;
-//   font-size: 15px;
-//   font-weight: bold;
-// }
-//
-// .board-detail .list-index .list-item:hover {
-//   background: #666;
-//   color: black;
-// }
-
-// .board-detail .list-index .new-list-button {
-//   float: left;
-//   box-shadow: none;
-//   font-size: 14px;
-//   font-weight: normal;
-//   color: #e2e4e6;
-//   background: #a43;
-//   display: block;
-//   border-radius: 3px;
-//   height: 32px;
-//   width: 190px;
-//   padding: 5px 20px;
-//   // margin-left: 12px;
-//   margin: 0 4px;
-// }
 
 .board-detail .new-list-button:hover {
   background: #943;
 }
-// .board-detail > .detail-header {
-//   display: block;
-//   background: #b04632;
-//   width: 100%;
-//   height: 30px;
-//   padding: 5px;
-//   z-index: 1;
-//   margin: auto;
-// }
-
-
-//
-//
 
 .new-board-form {
   display: block;
@@ -205,7 +138,6 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-
 }
 
 .new-board-form h1 {

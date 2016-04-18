@@ -38,7 +38,6 @@
   float: right;
   height: 20px;
   width: 23px;
-  // border-left: 1px solid #aaa;
   padding: 0;
   line-height: 20px;
   background: white;
@@ -52,25 +51,6 @@
 .card-index-item > button:hover {
   color: #4d4d4d;
 }
-// .card-index-item .card-edit-button {
-//   display: inline;
-//   color: #aaa;
-//   float: right;
-//   height: 20px;
-//   width: 23px;
-//   padding: 0;
-//   line-height: 20px;
-//   background: white;
-//   font-size: 14px;
-//   font-weight: normal;
-//   cursor: pointer;
-//   box-shadow: none;
-//   margin: 0;
-// }
-//
-// .card-edit-button:hover {
-//   color: #4d4d4d;
-// }
 
 .new-card-form {
   display: block;
@@ -82,7 +62,6 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-
 }
 
 .new-card-form h1 {
@@ -145,7 +124,6 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-
 }
 
 .edit-card-form h1 {

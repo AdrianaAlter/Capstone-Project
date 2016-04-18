@@ -24,7 +24,7 @@ var LogInForm = React.createClass({
   },
 
   guestLogIn: function () {
-    var guestInfo = {name: "Guest Cat", password: "guestcat"};
+    var guestInfo = {name: "Sennacy the Great", password: "sennacy"};
     var router = this.context.router;
     ApiUtil.logIn (guestInfo, function () {
       router.push("/");

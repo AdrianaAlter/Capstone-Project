@@ -19,5 +19,5 @@ var BoardIndexItem = React.createClass({
   }
 
 });
-// <Link to={"boards/" + this.props.board.id}>
+
 module.exports = BoardIndexItem;

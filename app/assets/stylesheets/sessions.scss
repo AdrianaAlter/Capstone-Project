@@ -22,6 +22,11 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background: linear-gradient(to bottom, #4b9e3b 0, #478736 100%);
+  box-shadow: inset 0 0 0 2px  #3f6f21;
+}
+
 .log-in-page {
   background: #e4f0f6;
   width: 100%;
@@ -108,6 +113,8 @@ button {
 .fb {
   color: #aaa;
   text-decoration: underline;
+  padding: 10px;
+  cursor: pointer;
 }
 
 .fb:hover {
@@ -117,7 +124,8 @@ button {
 .guest-log-in {
   color: #aaa;
   text-decoration: underline;
-  cursor: pointer
+  cursor: pointer;
+  padding: 10px;
 }
 
 .guest-log-in:hover {
@@ -223,32 +231,7 @@ footer ul li:hover {
 
 footer ul li:last-child {
   text-decoration: none;
-  // display: block;
   left: 50%;
   transform: translateX(10%);
   margin: 8px auto;
 }
-
-// .tour-content {
-//   color: #026AA7;
-//   display: block;
-//   height: 370px;
-//   width: 950px;
-//   position: relative;
-//   font-family: cursive;
-//
-//   font-weight: bold;
-//   text-align: center;
-// }
-// .tour-content .tour-pic {
-//   background-image: asset-url("surprise.jpg");
-//   height: 250px;
-//   width: 250px;
-//   background-repeat: no-repeat;
-//   background-size: cover;
-//   position: absolute;
-//   margin: 20px 0;
-//   left: 50%;
-//   transform: translateX(-50%);
-//   border: 5px double rgb(0, 121, 191);
-// }

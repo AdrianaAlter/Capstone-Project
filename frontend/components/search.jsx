@@ -1,16 +1,21 @@
 var React = require('react');
 var SearchResultsStore = require('../store/search_results_store.js');
 var ApiUtil = require('../util/api_util');
+var Link = require('react-router').Link;
+
 
 var Search = React.createClass({
+	contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
 
 	getInitialState: function () {
-		return { query: "" };
+		return { query: "", display: "" };
 	},
 
 	componentDidMount: function () {
 		this.storeListener = SearchResultsStore.addListener(
-			this._onChange
+		this._onChange
 		);
 	},
 
@@ -38,22 +43,37 @@ var Search = React.createClass({
 		ApiUtil.search(meta.query, meta.page + 1);
 	},
 
+	goTo: function (id) {
+		this.context.router.push("/boards/" + id);
+	},
+
+	hideResults: function () {
+		this.setState({ display: "hidden" });
+	},
+
 	resultLis: function () {
-		return SearchResultsStore.all().map(function (result) {
-			return (<li key={result.id}>{result.title}</li>);
+
+		if (!this.state.results) { return (<li className="placeholder"></li>);}
+		var resultItems = this.state.results.map(function (result) {
+			return (<li key={result.id}><Link to={"boards/" + result.id} onClick={this.hideResults}>{result.title}</Link></li>);
 		});
+
+		return resultItems;
 	},
 
 	render: function () {
 		var meta = SearchResultsStore.meta();
+		var resultItems = this.resultLis();
+
 		return (
+			<div>
 				<input type="text" tabIndex="0" onChange={this.handleInputChange} onSubmit={this.search}></input>
+					<ul className={this.state.display}>{resultItems}</ul>
+			</div>
+
 		);
 	}
 
 });
 
 module.exports = Search;
-
-
-

@@ -10,13 +10,6 @@ class User < ActiveRecord::Base
 
   attr_reader :password
 
-  # belongs_to(
-  #   :team,
-  #   class_name: "Team",
-  #   primary_key: :id,
-  #   foreign_key: :team_id
-  # )
-  #
   has_many(
     :boards,
     class_name: "Board",

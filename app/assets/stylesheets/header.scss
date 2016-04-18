@@ -44,6 +44,10 @@
   background-color: rgba(255,255,255,.3);
 }
 
+.hidden {
+  display: none;
+}
+
 .header-nav .search input {
   border-radius: 3px;
 	width: 142px;
@@ -61,6 +65,23 @@
 	width: 280px;
 }
 
+.header-nav .search ul .placeholder {
+  display: none;
+}
+
+.header-nav .search li {
+  color: white;
+  background: #4d97c1;
+  display: block;
+  width: 142px;
+	font-size: 13px;
+	padding-right: 30px;
+	padding-left: 8px;
+}
+
+.header-nav .search li:hover {
+  background: lightblue;
+}
 .header-nav .header-logo {
   position: absolute;
   background-color: transparent;
