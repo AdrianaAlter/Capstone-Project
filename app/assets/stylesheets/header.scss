@@ -39,7 +39,7 @@
   margin: 0 auto;
   width: 180px;
   font-size: 13px;
-  color: black;
+  color: #4d4d4d;
   height: 29.5px;
   background-color: rgba(255,255,255,.3);
 }
@@ -70,7 +70,7 @@
 }
 
 .header-nav .search li {
-  color: white;
+  color: #f3f3f3;
   background: #4d97c1;
   display: block;
   width: 142px;
@@ -85,7 +85,7 @@
 .header-nav .header-logo {
   position: absolute;
   background-color: transparent;
-  color: white;
+  color: #f3f3f3;
 	font-family: cursive;
   left: 50%;
   transform: translateX(-50%);
