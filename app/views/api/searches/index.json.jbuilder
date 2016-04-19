@@ -6,9 +6,9 @@ end
 
 json.search_results do
 	json.array! @search_results.map(&:searchable) do |result|
-		if json.title
+		if result.class == Board
 			json.extract! result, :id, :title
-		else
+		elsif result.class == User
 			json.extract! result, :id, :user_name
 		end
 	end

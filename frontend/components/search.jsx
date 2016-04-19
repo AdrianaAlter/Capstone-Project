@@ -54,13 +54,13 @@ var Search = React.createClass({
 	resultLis: function () {
 
 		if (!this.state.results) { return (<li className="placeholder"></li>);}
-		
+		var toggle = this.hideResults;
 		var resultItems = this.state.results.map(function (result) {
 			if (result.title) {
-				return (<li key={result.id}><Link to={"boards/" + result.id} onClick={this.hideResults}>{result.title}</Link></li>);
+				return (<li key={result.id}><Link to={"boards/" + result.id} onClick={toggle}>{result.title}</Link></li>);
 			}
-			else {
-				return (<li key={result.id}>{result.user_name}</li>);
+			else if (result.user_name) {
+				return (<li key={result.id} onClick={toggle}>{result.user_name}</li>);
 			}
 		});
 

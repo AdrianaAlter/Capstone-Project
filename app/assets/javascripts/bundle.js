@@ -34543,7 +34543,7 @@
 			if (!this.state.results) {
 				return React.createElement('li', { className: 'placeholder' });
 			}
-	
+			var toggle = this.hideResults;
 			var resultItems = this.state.results.map(function (result) {
 				if (result.title) {
 					return React.createElement(
@@ -34551,14 +34551,14 @@
 						{ key: result.id },
 						React.createElement(
 							Link,
-							{ to: "boards/" + result.id, onClick: this.hideResults },
+							{ to: "boards/" + result.id, onClick: toggle },
 							result.title
 						)
 					);
-				} else {
+				} else if (result.user_name) {
 					return React.createElement(
 						'li',
-						{ key: result.id },
+						{ key: result.id, onClick: toggle },
 						result.user_name
 					);
 				}
