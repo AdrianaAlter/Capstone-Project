@@ -34625,90 +34625,141 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Modal = __webpack_require__(250);
+	
 	var Footer = React.createClass({
-	  displayName: 'Footer',
+	  displayName: "Footer",
 	
 	
 	  getInitialState: function () {
 	    return {
-	      currentUser: null,
-	      modalOpen: false
+	      display: ""
 	    };
 	  },
 	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
+	  aboutToggle: function () {
+	    if (this.state.display === "") {
+	      this.setState({ display: "aboutMessage" });
+	    } else {
+	      this.setState({ display: "" });
+	    }
+	  },
+	  tourToggle: function () {
+	    if (this.state.display === "") {
+	      this.setState({ display: "tourMessage" });
+	    } else {
+	      this.setState({ display: "" });
+	    }
 	  },
 	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
+	  legalToggle: function () {
+	    if (this.state.display === "") {
+	      this.setState({ display: "legalMessage" });
+	    } else {
+	      this.setState({ display: "" });
+	    }
+	  },
+	
+	  pricingToggle: function () {
+	    if (this.state.display === "") {
+	      this.setState({ display: "pricingMessage" });
+	    } else {
+	      this.setState({ display: "" });
+	    }
+	  },
+	
+	  helpToggle: function () {
+	    if (this.state.display === "") {
+	      this.setState({ display: "helpMessage" });
+	    } else {
+	      this.setState({ display: "" });
+	    }
+	  },
+	
+	  copyrightToggle: function () {
+	    if (this.state.display === "") {
+	      this.setState({ display: "copyrightMessage" });
+	    } else {
+	      this.setState({ display: "" });
+	    }
 	  },
 	
 	  render: function () {
-	    var styles = {
-	      content: { backgroundColor: "#e4f0f6" }
-	    };
 	
+	    var aboutText = this.state.display === "aboutMessage" ? "It's about cats.  (You seriously didn't figure that out on your own?)" : "About";
+	    var about = React.createElement(
+	      "li",
+	      { onClick: this.aboutToggle },
+	      aboutText
+	    );
+	
+	    var legalText = this.state.display === "legalMessage" ? "If you're looking for legitimate legal information, a good first step is probably to go to a website that isn't cat-themed." : "Legal";
 	    var legal = React.createElement(
-	      'li',
-	      { onClick: this.openModal },
-	      'Legal',
+	      "li",
+	      { onClick: this.legalToggle },
+	      legalText
+	    );
+	
+	    var pricingText = this.state.display === "pricingMessage" ? "We accept personal checks, catnip, and wind-up mice." : "Pricing";
+	    var pricing = React.createElement(
+	      "li",
+	      { onClick: this.pricingToggle },
+	      pricingText
+	    );
+	
+	    var tourText = this.state.display === "tourMessage" ? "Because cats are also known for their navigational skills." : "Tour";
+	    var tour = React.createElement(
+	      "li",
+	      { onClick: this.tourToggle },
+	      tourText
+	    );
+	
+	    var helpText = this.state.display === "helpMessage" ? "Unfortunately, cats do not have a reputation for altruism." : "Help";
+	    var help = React.createElement(
+	      "li",
+	      { onClick: this.helpToggle },
+	      helpText
+	    );
+	
+	    var developers = React.createElement(
+	      "li",
+	      null,
 	      React.createElement(
-	        Modal,
-	        { isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: styles },
-	        React.createElement(
-	          'h1',
-	          { className: 'legal' },
-	          'If you\'re looking for legitimate legal information, a good first step is probably to go to a website that isn\'t cat-themed.'
-	        )
+	        "a",
+	        { href: "https://forums.unrealengine.com/attachment.php?attachmentid=84780&d=1458610974" },
+	        "Developers"
+	      )
+	    );
+	    var blog = React.createElement(
+	      "li",
+	      null,
+	      React.createElement(
+	        "a",
+	        { href: "http://boringem.org/wp-content/uploads/2013/09/funny-pictures-cat-has-writers-bloc.jpg" },
+	        "Blog"
 	      )
 	    );
 	
+	    var copyrightText = this.state.display === "copyrightMessage" ? "(Spoiler: not a real company.)" : "© Copyright 2016 Gratuitously Cat-Themed Web Apps, Inc.";
+	    var copyright = React.createElement(
+	      "li",
+	      { onClick: this.copyrightToggle },
+	      copyrightText
+	    );
+	
 	    return React.createElement(
-	      'footer',
+	      "footer",
 	      { group: true },
 	      React.createElement(
-	        'ul',
+	        "ul",
 	        null,
-	        React.createElement(
-	          'li',
-	          null,
-	          'Tour'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          'Pricing'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          'Blog'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          'Developers'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          'About'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          'Help'
-	        ),
+	        tour,
+	        pricing,
+	        blog,
+	        developers,
+	        about,
+	        help,
 	        legal,
-	        React.createElement(
-	          'li',
-	          null,
-	          '© Copyright 2016 Gratuitously Cat-Themed Web Apps, Inc.'
-	        )
+	        copyright
 	      )
 	    );
 	  }
