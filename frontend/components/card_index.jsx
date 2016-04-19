@@ -7,27 +7,27 @@ var ApiUtil = require('../util/api_util.js');
 
 var CardIndex = React.createClass({
 
-  getInitialState: function () {
-    return { cards: this.getStateFromStore() };
-  },
-
-  getStateFromStore: function () {
-    return CardStore.all();
-  },
-
-
-  setNewState: function () {
-      this.setState( { cards: this.getStateFromStore() });
-  },
-
-  componentDidMount: function () {
-    this.listener = CardStore.addListener(this.setNewState);
-
-  },
-
-  componentWillUnmount: function () {
-    this.listener.remove();
-  },
+  // getInitialState: function () {
+  //   return { cards: this.getStateFromStore() };
+  // },
+  //
+  // getStateFromStore: function () {
+  //   return CardStore.all();
+  // },
+  //
+  //
+  // setNewState: function () {
+  //     this.setState( { cards: this.getStateFromStore() });
+  // },
+  //
+  // componentDidMount: function () {
+  //   this.listener = CardStore.addListener(this.setNewState);
+  //
+  // },
+  //
+  // componentWillUnmount: function () {
+  //   this.listener.remove();
+  // },
 
   render: function () {
     if (!this.props.cards) {

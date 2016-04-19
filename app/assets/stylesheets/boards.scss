@@ -101,6 +101,7 @@
 }
 
 .delete-board-button:hover {
+  box-shadow: none;
   background: #943;
 }
 
@@ -122,10 +123,12 @@
 
 .edit-board-button:hover {
   background: #943;
+  box-shadow: none;
 }
 
 .board-detail .new-list-button:hover {
   background: #943;
+  box-shadow: none;
 }
 
 .new-board-form {

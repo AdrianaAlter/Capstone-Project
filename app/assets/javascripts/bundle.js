@@ -35100,7 +35100,7 @@
 	
 	    ApiUtil.fetchSingleBoard(this.props.params.board_id);
 	
-	    ApiUtil.fetchAllCards(this.props.params.board_id);
+	    // ApiUtil.fetchAllCards(this.props.params.board_id);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -35235,10 +35235,12 @@
 	    this.listener = CardStore.addListener(this.setCards);
 	
 	    ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
+	    ApiUtil.fetchAllCards(this.props.boardId);
 	  },
 	
 	  componentWillUnmount: function () {
 	    this.listener.remove();
+	    CardStore.resetListById(this.props.listId);
 	  },
 	
 	  deleteList: function () {
@@ -35249,8 +35251,7 @@
 	
 	  findCards: function () {
 	    var listId = this.props.listId;
-	    var cards = CardStore.findCardsByListId(listId);
-	
+	    var cards = CardStore.resetListById(listId);
 	    return cards;
 	  },
 	
@@ -35294,25 +35295,27 @@
 	  displayName: 'CardIndex',
 	
 	
-	  getInitialState: function () {
-	    return { cards: this.getStateFromStore() };
-	  },
-	
-	  getStateFromStore: function () {
-	    return CardStore.all();
-	  },
-	
-	  setNewState: function () {
-	    this.setState({ cards: this.getStateFromStore() });
-	  },
-	
-	  componentDidMount: function () {
-	    this.listener = CardStore.addListener(this.setNewState);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
+	  // getInitialState: function () {
+	  //   return { cards: this.getStateFromStore() };
+	  // },
+	  //
+	  // getStateFromStore: function () {
+	  //   return CardStore.all();
+	  // },
+	  //
+	  //
+	  // setNewState: function () {
+	  //     this.setState( { cards: this.getStateFromStore() });
+	  // },
+	  //
+	  // componentDidMount: function () {
+	  //   this.listener = CardStore.addListener(this.setNewState);
+	  //
+	  // },
+	  //
+	  // componentWillUnmount: function () {
+	  //   this.listener.remove();
+	  // },
 	
 	  render: function () {
 	    if (!this.props.cards) {
@@ -35363,18 +35366,33 @@
 	    var card = cards[i];
 	    var listId = card.list_id;
 	    if (_cards[listId]) {
-	      _cards[listId].push(card);
+	      var listCards = _cards[listId];
+	      var cardIds = [];
+	      for (var i = 0; i < listCards.length; i++) {
+	        cardIds.push(listCards[i].id);
+	      }
+	      if (cardIds.includes(card.id)) {
+	        var index = cardIds.indexOf(card.id);
+	        listCards[index] = card;
+	      } else {
+	        listCards.push(card);
+	      }
 	    } else {
 	      _cards[listId] = [];
 	      _cards[listId].push(card);
 	    }
 	  }
-	
 	  return _cards;
 	};
 	
 	CardStore.resetList = function (list) {
 	  _cards[list.id] = list.cards;
+	};
+	
+	CardStore.resetListById = function (listId) {
+	  var cards = CardStore.findCardsByListId(listId);
+	  _cards[listId] = cards;
+	  return _cards[listId];
 	};
 	
 	CardStore.findCardsByListId = function (list_id) {

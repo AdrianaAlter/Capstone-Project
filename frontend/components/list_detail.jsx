@@ -13,13 +13,14 @@ var ListDetail = React.createClass({
   componentDidMount: function () {
 
     this.listener = CardStore.addListener(this.setCards);
-  
+
     ApiUtil.fetchSingleList(this.props.boardId, this.props.listId);
+    ApiUtil.fetchAllCards(this.props.boardId);
   },
 
   componentWillUnmount: function () {
     this.listener.remove();
-   
+    CardStore.resetListById(this.props.listId);
   },
 
 
@@ -31,8 +32,7 @@ var ListDetail = React.createClass({
 
   findCards: function () {
     var listId = this.props.listId;
-    var cards = CardStore.findCardsByListId(listId);
-
+    var cards = CardStore.resetListById(listId);
     return cards;
   },
 
@@ -43,9 +43,8 @@ var ListDetail = React.createClass({
 
   render: function () {
 
-    
 
-    return (
+  return (
 
       <section className="list-detail group">
         <CardIndex cards={this.state.cards} listId={this.props.listId} boardId={this.props.boardId}/>

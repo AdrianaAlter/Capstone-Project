@@ -11,7 +11,7 @@
 .card-index-item {
   display: block;
   min-height: 24px;
-  width: 230px;
+  width: 232px;
   padding: 5px;
   line-height: 20px;
   background: white;
@@ -24,7 +24,7 @@
 }
 
 .card-index-item > h1 {
-  width: 200px;
+  width: 198px;
   margin: 0;
 }
 
@@ -34,10 +34,11 @@
 
 .card-index-item > button {
   display: inline;
+  text-align: center;
   color: #aaa;
   float: right;
   height: 20px;
-  width: 23px;
+  width: 22px;
   padding: 0;
   line-height: 20px;
   background: white;
@@ -45,11 +46,15 @@
   font-weight: normal;
   cursor: pointer;
   box-shadow: none;
-  margin: 0;
+  margin: 0 2px 0 0;
+  border: 1px solid transparent;
 }
 
 .card-index-item > button:hover {
   color: #4d4d4d;
+  box-shadow: none;
+  background: #f3f3f3;
+  border: 1px solid #4d4d4d;
 }
 
 .new-card-form {

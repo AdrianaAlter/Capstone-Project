@@ -22,18 +22,35 @@ CardStore.resetCards = function (cards) {
     var card = cards[i];
     var listId = card.list_id;
     if (_cards[listId]) {
-      _cards[listId].push(card);
-    } else {
+      var listCards = _cards[listId];
+      var cardIds = [];
+      for (var i = 0; i < listCards.length; i++) {
+        cardIds.push(listCards[i].id);
+      }
+      if (cardIds.includes(card.id)) {
+        var index = cardIds.indexOf(card.id);
+        listCards[index] = card;
+      }
+      else {
+        listCards.push(card);
+      }
+    }
+    else {
       _cards[listId] = [];
       _cards[listId].push(card);
     }
   }
-
   return _cards;
 };
 
 CardStore.resetList = function (list) {
   _cards[list.id] = list.cards;
+};
+
+CardStore.resetListById = function (listId) {
+  var cards = CardStore.findCardsByListId(listId);
+  _cards[listId] = cards;
+  return _cards[listId];
 };
 
 CardStore.findCardsByListId = function (list_id) {

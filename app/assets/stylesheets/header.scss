@@ -31,7 +31,7 @@
 }
 
 .header-nav li:hover {
-  background: lightblue;
+  background: #add8e6;
 }
 
 .header-nav .search {
@@ -41,7 +41,7 @@
   font-size: 13px;
   color: #4d4d4d;
   height: 29.5px;
-  background-color: rgba(255,255,255,.3);
+  background: white;
 }
 
 .hidden {
@@ -61,7 +61,7 @@
 }
 
 .header-nav .search input:focus {
-	background-color: white;
+	background: white;
 	width: 280px;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .header-nav .search li:hover {
-  background: lightblue;
+  background: #add8e6;
 }
 .header-nav .header-logo {
   position: absolute;
@@ -110,9 +110,7 @@
 	display: block;
 	font-weight: bold;
 	margin-right: 8px;
-
 	font-size: 14px;
-
 	border-radius: 4px;
 }
 
@@ -139,7 +137,7 @@
   margin: 20px 0;
   left: 50%;
   transform: translateX(-50%);
-  border: 5px double rgb(0, 121, 191);
+  border: 5px double #0079bf;
 }
 
 .surprise > h1 {

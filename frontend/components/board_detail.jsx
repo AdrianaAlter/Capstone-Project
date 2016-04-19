@@ -26,8 +26,8 @@ var BoardDetail = React.createClass({
     this.listener = BoardStore.addListener(this.setNewState);
 
     ApiUtil.fetchSingleBoard(this.props.params.board_id);
-    
-    ApiUtil.fetchAllCards(this.props.params.board_id);
+
+    // ApiUtil.fetchAllCards(this.props.params.board_id);
   },
 
   componentWillUnmount: function () {
