@@ -5,7 +5,11 @@ json.meta do
 end
 
 json.search_results do
-	json.array! @search_results.map(&:searchable) do |board|
-			json.extract! board, :id, :title
+	json.array! @search_results.map(&:searchable) do |result|
+		if json.title
+			json.extract! result, :id, :title
+		else
+			json.extract! result, :id, :user_name
+		end
 	end
 end

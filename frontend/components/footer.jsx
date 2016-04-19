@@ -21,46 +21,6 @@ render: function () {
   var styles = {
     content: {backgroundColor: "#e4f0f6"}
   };
-//
-//   var tourPic = <section className="tour-content">
-//     <h1>meow</h1>
-//     <div className="tour-pic"></div>
-//   </section>;
-//   var tour = <li className="footerlink" onClick={this.openModal}>Tour
-//     <Modal className="modal" isOpen={this.state.modalOpen}
-//       onRequestClose={this.closeModal}
-//       style={styles}>{tourPic}
-//     </Modal>
-//   </li>;
-//
-
-//
-//   var pricing = <li className="footerlink" onClick={this.openModal}>Pricing
-//     <Modal className="modal" isOpen={this.state.modalOpen}
-//       onRequestClose={this.closeModal}
-//       style={styles}>
-//     </Modal>
-//   </li>;
-//
-
-  var tourContent =<h1 className="tour">Because cats are also known for their navigational skills.</h1>;
-
-  var jobs = <li onClick={this.openModal}>Jobs
-    <Modal className="modal" isOpen={this.state.modalOpen}
-      onRequestClose={this.closeModal}
-      style={styles}>
-
-    </Modal>
-  </li>;
-
-  var about = <li onClick={this.openModal}>About
-    <Modal className="about" isOpen={this.state.modalOpen}
-      onRequestClose={this.closeModal}
-      style={styles}>
-      <h1>It's about cats.</h1>
-      <h2>(You seriously couldn't figure that out on your own??)</h2>
-    </Modal>
-  </li>;
 
   var legal = <li onClick={this.openModal}>Legal
     <Modal isOpen={this.state.modalOpen}
@@ -70,13 +30,6 @@ render: function () {
     </Modal>
   </li>;
 
-  var tour = <li onClick={this.openModal}>Tour
-    <Modal isOpen={this.state.modalOpen}
-      onRequestClose={this.closeModal}
-      style={styles}>
-      <h1>Meow</h1>
-    </Modal>
-  </li>;
 
     return (
 

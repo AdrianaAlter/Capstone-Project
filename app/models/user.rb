@@ -1,6 +1,7 @@
-#
-
 class User < ActiveRecord::Base
+
+  include PgSearch
+  multisearchable :against => [:user_name]
 
   validates :user_name, presence: true, uniqueness: true
   validates :session_token, presence: true, uniqueness: true

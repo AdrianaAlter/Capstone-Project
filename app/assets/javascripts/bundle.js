@@ -27362,6 +27362,9 @@
 	    }
 	    var type = typeof o;
 	    if (type === 'number') {
+	      if (o !== o || o === Infinity) {
+	        return 0;
+	      }
 	      var h = o | 0;
 	      if (h !== o) {
 	        h ^= o * 0xFFFFFFFF;
@@ -30700,21 +30703,6 @@
 	      return entry ? entry[1] : notSetValue;
 	    },
 	
-	    findEntry: function(predicate, context, notSetValue) {
-	      var found = notSetValue;
-	      this.__iterate(function(v, k, c)  {
-	        if (predicate.call(context, v, k, c)) {
-	          found = [k, v];
-	          return false;
-	        }
-	      });
-	      return found;
-	    },
-	
-	    findLastEntry: function(predicate, context, notSetValue) {
-	      return this.toSeq().reverse().findEntry(predicate, context, notSetValue);
-	    },
-	
 	    forEach: function(sideEffect, context) {
 	      assertNotInfinite(this.size);
 	      return this.__iterate(context ? sideEffect.bind(context) : sideEffect);
@@ -30825,8 +30813,32 @@
 	      return this.filter(not(predicate), context);
 	    },
 	
+	    findEntry: function(predicate, context, notSetValue) {
+	      var found = notSetValue;
+	      this.__iterate(function(v, k, c)  {
+	        if (predicate.call(context, v, k, c)) {
+	          found = [k, v];
+	          return false;
+	        }
+	      });
+	      return found;
+	    },
+	
+	    findKey: function(predicate, context) {
+	      var entry = this.findEntry(predicate, context);
+	      return entry && entry[0];
+	    },
+	
 	    findLast: function(predicate, context, notSetValue) {
 	      return this.toKeyedSeq().reverse().find(predicate, context, notSetValue);
+	    },
+	
+	    findLastEntry: function(predicate, context, notSetValue) {
+	      return this.toKeyedSeq().reverse().findEntry(predicate, context, notSetValue);
+	    },
+	
+	    findLastKey: function(predicate, context) {
+	      return this.toKeyedSeq().reverse().findKey(predicate, context);
 	    },
 	
 	    first: function() {
@@ -30887,12 +30899,20 @@
 	      return iter.isSubset(this);
 	    },
 	
+	    keyOf: function(searchValue) {
+	      return this.findKey(function(value ) {return is(value, searchValue)});
+	    },
+	
 	    keySeq: function() {
 	      return this.toSeq().map(keyMapper).toIndexedSeq();
 	    },
 	
 	    last: function() {
 	      return this.toSeq().reverse().first();
+	    },
+	
+	    lastKeyOf: function(searchValue) {
+	      return this.toKeyedSeq().reverse().keyOf(searchValue);
 	    },
 	
 	    max: function(comparator) {
@@ -30993,23 +31013,6 @@
 	      return reify(this, flipFactory(this));
 	    },
 	
-	    findKey: function(predicate, context) {
-	      var entry = this.findEntry(predicate, context);
-	      return entry && entry[0];
-	    },
-	
-	    findLastKey: function(predicate, context) {
-	      return this.toSeq().reverse().findKey(predicate, context);
-	    },
-	
-	    keyOf: function(searchValue) {
-	      return this.findKey(function(value ) {return is(value, searchValue)});
-	    },
-	
-	    lastKeyOf: function(searchValue) {
-	      return this.findLastKey(function(value ) {return is(value, searchValue)});
-	    },
-	
 	    mapEntries: function(mapper, context) {var this$0 = this;
 	      var iterations = 0;
 	      return reify(this,
@@ -31058,12 +31061,12 @@
 	    },
 	
 	    indexOf: function(searchValue) {
-	      var key = this.toKeyedSeq().keyOf(searchValue);
+	      var key = this.keyOf(searchValue);
 	      return key === undefined ? -1 : key;
 	    },
 	
 	    lastIndexOf: function(searchValue) {
-	      var key = this.toKeyedSeq().reverse().keyOf(searchValue);
+	      var key = this.lastKeyOf(searchValue);
 	      return key === undefined ? -1 : key;
 	    },
 	
@@ -31098,8 +31101,8 @@
 	    // ### More collection methods
 	
 	    findLastIndex: function(predicate, context) {
-	      var key = this.toKeyedSeq().findLastKey(predicate, context);
-	      return key === undefined ? -1 : key;
+	      var entry = this.findLastEntry(predicate, context);
+	      return entry ? entry[0] : -1;
 	    },
 	
 	    first: function() {
@@ -31138,6 +31141,10 @@
 	        interleaved.size = zipped.size * iterables.length;
 	      }
 	      return reify(this, interleaved);
+	    },
+	
+	    keySeq: function() {
+	      return Range(0, this.size);
 	    },
 	
 	    last: function() {
@@ -31225,7 +31232,7 @@
 	  }
 	
 	  function quoteString(value) {
-	    return typeof value === 'string' ? JSON.stringify(value) : value;
+	    return typeof value === 'string' ? JSON.stringify(value) : String(value);
 	  }
 	
 	  function defaultZipper() {
@@ -34536,16 +34543,25 @@
 			if (!this.state.results) {
 				return React.createElement('li', { className: 'placeholder' });
 			}
+	
 			var resultItems = this.state.results.map(function (result) {
-				return React.createElement(
-					'li',
-					{ key: result.id },
-					React.createElement(
-						Link,
-						{ to: "boards/" + result.id, onClick: this.hideResults },
-						result.title
-					)
-				);
+				if (result.title) {
+					return React.createElement(
+						'li',
+						{ key: result.id },
+						React.createElement(
+							Link,
+							{ to: "boards/" + result.id, onClick: this.hideResults },
+							result.title
+						)
+					);
+				} else {
+					return React.createElement(
+						'li',
+						{ key: result.id },
+						result.user_name
+					);
+				}
 			});
 	
 			return resultItems;
@@ -34633,64 +34649,6 @@
 	    var styles = {
 	      content: { backgroundColor: "#e4f0f6" }
 	    };
-	    //
-	    //   var tourPic = <section className="tour-content">
-	    //     <h1>meow</h1>
-	    //     <div className="tour-pic"></div>
-	    //   </section>;
-	    //   var tour = <li className="footerlink" onClick={this.openModal}>Tour
-	    //     <Modal className="modal" isOpen={this.state.modalOpen}
-	    //       onRequestClose={this.closeModal}
-	    //       style={styles}>{tourPic}
-	    //     </Modal>
-	    //   </li>;
-	    //
-	
-	    //
-	    //   var pricing = <li className="footerlink" onClick={this.openModal}>Pricing
-	    //     <Modal className="modal" isOpen={this.state.modalOpen}
-	    //       onRequestClose={this.closeModal}
-	    //       style={styles}>
-	    //     </Modal>
-	    //   </li>;
-	    //
-	
-	    var tourContent = React.createElement(
-	      'h1',
-	      { className: 'tour' },
-	      'Because cats are also known for their navigational skills.'
-	    );
-	
-	    var jobs = React.createElement(
-	      'li',
-	      { onClick: this.openModal },
-	      'Jobs',
-	      React.createElement(Modal, { className: 'modal', isOpen: this.state.modalOpen,
-	        onRequestClose: this.closeModal,
-	        style: styles })
-	    );
-	
-	    var about = React.createElement(
-	      'li',
-	      { onClick: this.openModal },
-	      'About',
-	      React.createElement(
-	        Modal,
-	        { className: 'about', isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: styles },
-	        React.createElement(
-	          'h1',
-	          null,
-	          'It\'s about cats.'
-	        ),
-	        React.createElement(
-	          'h2',
-	          null,
-	          '(You seriously couldn\'t figure that out on your own??)'
-	        )
-	      )
-	    );
 	
 	    var legal = React.createElement(
 	      'li',
@@ -34705,23 +34663,6 @@
 	          'h1',
 	          { className: 'legal' },
 	          'If you\'re looking for legitimate legal information, a good first step is probably to go to a website that isn\'t cat-themed.'
-	        )
-	      )
-	    );
-	
-	    var tour = React.createElement(
-	      'li',
-	      { onClick: this.openModal },
-	      'Tour',
-	      React.createElement(
-	        Modal,
-	        { isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: styles },
-	        React.createElement(
-	          'h1',
-	          null,
-	          'Meow'
 	        )
 	      )
 	    );

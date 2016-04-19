@@ -19,10 +19,9 @@ Features:
 --Create, update, and delete cards.
 
 --Search for boards.
-
+--Search for users.
 
 In future, CatTrello users will also be able to:
 
 --Create teams.
 --Receive notifications.
---Search for users.
