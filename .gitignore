@@ -14,3 +14,4 @@
 
 node_modules
 bundle.js
+.byebug_history
