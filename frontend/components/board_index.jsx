@@ -32,7 +32,6 @@ var BoardIndex = React.createClass({
       return <BoardIndexItem key={board.id}	lists={board.lists} className="board-title" board={board}/>;
     });
 
-
     return (
       <div className="board-index">
         <h1>My Boards</h1>

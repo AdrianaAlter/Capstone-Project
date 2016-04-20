@@ -34239,6 +34239,7 @@
 	  goTo: function () {
 	    this.context.router.push("/boards/" + this.props.board.id);
 	  },
+	
 	  render: function () {
 	
 	    return React.createElement(
