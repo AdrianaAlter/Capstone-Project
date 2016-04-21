@@ -57,7 +57,7 @@
 	var SessionStore = __webpack_require__(274);
 	var NewBoardButton = __webpack_require__(249);
 	var BoardDetail = __webpack_require__(281);
-	// var Search = require('./components/search.jsx');
+	var BrowserHistory = __webpack_require__(159).browserHistory;
 	var Modal = __webpack_require__(250);
 	
 	var routes = React.createElement(

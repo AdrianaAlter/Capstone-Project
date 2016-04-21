@@ -50,7 +50,6 @@ var LogInForm = React.createClass({
             <form className="log-in-form group" onSubmit={this.handleSubmit}>
                 <h1>Welcome to CatTrello!</h1>
 
-
                 <label htmlFor="name">Name</label>
                 <input onChange={this.updateName} type="text" value={this.state.name}/>
 

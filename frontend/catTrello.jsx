@@ -11,7 +11,7 @@ var ApiUtil = require('./util/api_util.js');
 var SessionStore = require('./store/session_store.js');
 var NewBoardButton = require('./components/new_board_button.jsx');
 var BoardDetail = require('./components/board_detail.jsx');
-// var Search = require('./components/search.jsx');
+var BrowserHistory = require('react-router').browserHistory;
 var Modal = require('react-modal');
 
 
