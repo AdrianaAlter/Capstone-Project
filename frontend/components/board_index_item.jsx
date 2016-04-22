@@ -15,7 +15,7 @@ var BoardIndexItem = React.createClass({
   render: function () {
 
     return(
-      <li onClick={this.goTo}>{this.props.board.title}</li>
+      <Link to={"/boards/" + this.props.board.id}><li>{this.props.board.title}</li></Link>
     );
   }
 

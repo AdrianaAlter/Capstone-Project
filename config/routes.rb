@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # get '*unmatched_route', to: 'static_pages#root'
   root to: "static_pages#root"
   namespace :api, defaults: {format: :json} do
 		resources :searches, only: [:index]
@@ -10,5 +11,5 @@ Rails.application.routes.draw do
     end
 	end
    get "auth/facebook/callback", to: "omniauth#facebook"
-   get "*any", via: :all, to: "errors#not_found"
+  #  get "*any", via: :all, to: "errors#not_found"
 end

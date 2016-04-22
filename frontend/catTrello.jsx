@@ -11,7 +11,7 @@ var ApiUtil = require('./util/api_util.js');
 var SessionStore = require('./store/session_store.js');
 var NewBoardButton = require('./components/new_board_button.jsx');
 var BoardDetail = require('./components/board_detail.jsx');
-var BrowserHistory = require('react-router').browserHistory;
+var browserHistory = require('react-router').browserHistory;
 var Modal = require('react-modal');
 
 
@@ -27,8 +27,13 @@ var routes = (
 );
 
 
-Modal.setAppElement(NewBoardButton);
-
+// Modal.setAppElement(NewBoardButton);
+// document.addEventListener("DOMContentLoaded", function () {
+//   ReactDOM.render(
+//     <Router history={browserHistory}>{ routes }</Router>,
+//     document.getElementById('root')
+//   );
+// });
 document.addEventListener("DOMContentLoaded", function() {
   var container = document.getElementById("content");
   Modal.setAppElement(container);

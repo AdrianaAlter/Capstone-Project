@@ -57,7 +57,7 @@
 	var SessionStore = __webpack_require__(274);
 	var NewBoardButton = __webpack_require__(249);
 	var BoardDetail = __webpack_require__(281);
-	var BrowserHistory = __webpack_require__(159).browserHistory;
+	var browserHistory = __webpack_require__(159).browserHistory;
 	var Modal = __webpack_require__(250);
 	
 	var routes = React.createElement(
@@ -72,8 +72,13 @@
 	  React.createElement(Route, { path: '/login', component: LogInForm })
 	);
 	
-	Modal.setAppElement(NewBoardButton);
-	
+	// Modal.setAppElement(NewBoardButton);
+	// document.addEventListener("DOMContentLoaded", function () {
+	//   ReactDOM.render(
+	//     <Router history={browserHistory}>{ routes }</Router>,
+	//     document.getElementById('root')
+	//   );
+	// });
 	document.addEventListener("DOMContentLoaded", function () {
 	  var container = document.getElementById("content");
 	  Modal.setAppElement(container);
@@ -34243,9 +34248,13 @@
 	  render: function () {
 	
 	    return React.createElement(
-	      'li',
-	      { onClick: this.goTo },
-	      this.props.board.title
+	      Link,
+	      { to: "/boards/" + this.props.board.id },
+	      React.createElement(
+	        'li',
+	        null,
+	        this.props.board.title
+	      )
 	    );
 	  }
 	
