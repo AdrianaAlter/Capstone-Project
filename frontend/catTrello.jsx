@@ -13,6 +13,7 @@ var NewBoardButton = require('./components/new_board_button.jsx');
 var BoardDetail = require('./components/board_detail.jsx');
 var browserHistory = require('react-router').browserHistory;
 var Modal = require('react-modal');
+var UserProfile = require('./components/user_profile.jsx');
 
 
 
@@ -21,6 +22,7 @@ var routes = (
       <Route path="/" component={App} onEnter={_mustLogIn}>
         <IndexRoute component={BoardIndex}/>
         <Route path="boards/:board_id" component={BoardDetail} />
+        <Route path="users/:user_id" component={UserProfile} />
       </Route>
       <Route path="/login" component={LogInForm}/>
     </Router>

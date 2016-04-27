@@ -2,6 +2,7 @@ var React = require('react');
 var SessionStore = require('../store/session_store.js');
 var ApiUtil = require('../util/api_util');
 var Modal = require('react-modal');
+var Link = require('react-router').Link;
 
 var SessionButtons = React.createClass ({
 
@@ -64,7 +65,7 @@ var SessionButtons = React.createClass ({
 					onClick={this.logOut}>
 					Logout
 				</li>;
-      loggedInAs = <li className="user-name" onClick={this.openModal}>{this.state.currentUser.user_name}
+      loggedInAs = <li className="user-name" onDoubleClick={this.openModal}><Link to={"users/" + this.state.currentUser.id}>{this.state.currentUser.user_name}</Link>
         <Modal className="modal" isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}
           style={styles}>

@@ -9,7 +9,7 @@ json.search_results do
 		if result.class == Board
 			json.extract! result, :id, :title
 		elsif result.class == User
-			json.extract! result, :id, :user_name
+			json.extract! result, :id, :user_name, :created_at, :boards
 		end
 	end
 end

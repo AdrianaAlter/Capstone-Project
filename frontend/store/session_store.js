@@ -9,7 +9,6 @@ var _currentUserFetched = false;
 
 SessionStore.currentUser = function () {
   return _currentUser;
-
 };
 
 SessionStore.currentUserFetched = function () {

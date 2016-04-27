@@ -60,7 +60,7 @@ var Search = React.createClass({
 				return (<li key={result.id}><Link to={"boards/" + result.id} onClick={toggle}>{result.title}</Link></li>);
 			}
 			else if (result.user_name) {
-				return (<li key={result.id} onClick={toggle}>{result.user_name}</li>);
+				return (<li key={result.id}><Link to={"users/" + result.id} onClick={toggle}>{result.user_name}</Link></li>);
 			}
 		});
 

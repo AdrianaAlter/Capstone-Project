@@ -1,3 +1,47 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.user-profile {
+  display: block;
+  min-height: 1000px;
+  height: 100%;
+  margin-bottom: 0;
+  width: 100%;
+  background-color: #4d97c1;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.user-pic {
+  // position: absolute;
+
+  margin: auto;
+  top: 50%;
+  transform: translateY(50%);
+  width: 200px;
+  height: 150px;
+  background-image: asset-url("default_profile_pic.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+
+}
+
+.user-profile ul {
+  width: 500px;
+  height: 500px;
+  padding: 30px;
+  margin: 50px auto;
+  list-style: none;
+  text-align: center;
+}
+
+.user-profile h1 {
+  font-family: 'Parisienne', cursive;
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}

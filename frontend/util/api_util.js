@@ -2,6 +2,7 @@ var BoardActions = require('../actions/board_actions.js');
 var SessionActions = require('../actions/session_actions.js');
 var SearchResultActions = require('../actions/search_result_actions.js');
 var CardActions = require('../actions/card_actions.js');
+var UserActions = require('../actions/user_actions.js');
 
 ApiUtil = {
 
@@ -67,6 +68,23 @@ ApiUtil = {
       error: function () {
         alert("We can't find that board!  The cat must have eaten it.");
         console.log('Error in AJAX request to fetch single board via ApiUtil');
+      }
+    });
+
+  },
+
+  fetchSingleUser: function (id) {
+
+
+    $.ajax({
+      url: "api/users/" + id,
+      type: "GET",
+      dataType: "json",
+      success: function (user) {
+        UserActions.receiveSingleUser(user);
+      },
+      error: function () {
+        console.log('Error in AJAX request to fetch single user via ApiUtil');
       }
     });
 
@@ -321,7 +339,7 @@ ApiUtil = {
 			dataType: "json",
 			data: {query: query, page: page},
 			success: function (response) {
-				SearchResultActions.receiveResults(response);
+      	SearchResultActions.receiveResults(response);
 			},
 			error: function () {
 				console.log('Error in ApiUtil search function');

@@ -59,6 +59,7 @@
 	var BoardDetail = __webpack_require__(281);
 	var browserHistory = __webpack_require__(159).browserHistory;
 	var Modal = __webpack_require__(250);
+	var UserProfile = __webpack_require__(298);
 	
 	var routes = React.createElement(
 	  Router,
@@ -67,7 +68,8 @@
 	    Route,
 	    { path: '/', component: App, onEnter: _mustLogIn },
 	    React.createElement(IndexRoute, { component: BoardIndex }),
-	    React.createElement(Route, { path: 'boards/:board_id', component: BoardDetail })
+	    React.createElement(Route, { path: 'boards/:board_id', component: BoardDetail }),
+	    React.createElement(Route, { path: 'users/:user_id', component: UserProfile })
 	  ),
 	  React.createElement(Route, { path: '/login', component: LogInForm })
 	);
@@ -31763,6 +31765,7 @@
 	var SessionActions = __webpack_require__(242);
 	var SearchResultActions = __webpack_require__(244);
 	var CardActions = __webpack_require__(246);
+	var UserActions = __webpack_require__(301);
 	
 	ApiUtil = {
 	
@@ -31824,6 +31827,21 @@
 	      error: function () {
 	        alert("We can't find that board!  The cat must have eaten it.");
 	        console.log('Error in AJAX request to fetch single board via ApiUtil');
+	      }
+	    });
+	  },
+	
+	  fetchSingleUser: function (id) {
+	
+	    $.ajax({
+	      url: "api/users/" + id,
+	      type: "GET",
+	      dataType: "json",
+	      success: function (user) {
+	        UserActions.receiveSingleUser(user);
+	      },
+	      error: function () {
+	        console.log('Error in AJAX request to fetch single user via ApiUtil');
 	      }
 	    });
 	  },
@@ -34356,6 +34374,7 @@
 	var SessionStore = __webpack_require__(274);
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(250);
+	var Link = __webpack_require__(159).Link;
 	
 	var SessionButtons = React.createClass({
 	  displayName: 'SessionButtons',
@@ -34437,8 +34456,12 @@
 	      );
 	      loggedInAs = React.createElement(
 	        'li',
-	        { className: 'user-name', onClick: this.openModal },
-	        this.state.currentUser.user_name,
+	        { className: 'user-name', onDoubleClick: this.openModal },
+	        React.createElement(
+	          Link,
+	          { to: "users/" + this.state.currentUser.id },
+	          this.state.currentUser.user_name
+	        ),
 	        React.createElement(
 	          Modal,
 	          { className: 'modal', isOpen: this.state.modalOpen,
@@ -34577,8 +34600,12 @@
 				} else if (result.user_name) {
 					return React.createElement(
 						'li',
-						{ key: result.id, onClick: toggle },
-						result.user_name
+						{ key: result.id },
+						React.createElement(
+							Link,
+							{ to: "users/" + result.id, onClick: toggle },
+							result.user_name
+						)
 					);
 				}
 			});
@@ -36073,6 +36100,159 @@
 	});
 	
 	module.exports = EditBoardForm;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(299);
+	var ApiUtil = __webpack_require__(241);
+	
+	var UserProfile = React.createClass({
+	  displayName: 'UserProfile',
+	
+	
+	  getInitialState: function () {
+	    return { user: UserStore.all() };
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = UserStore.addListener(this._onChange);
+	    ApiUtil.fetchSingleUser(this.props.params.user_id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ user: UserStore.all() });
+	  },
+	
+	  render: function () {
+	
+	    var boards = this.state.user.boards ? this.state.user.boards.length : "";
+	
+	    var dateEls = this.state.user.created_at ? this.state.user.created_at.slice(0, this.state.user.created_at.indexOf("T")).split("-") : "";
+	    var month = function (dateEls) {
+	      if (dateEls) {
+	        if (dateEls[1][0] == "0") {
+	          return dateEls[1].slice(1);
+	        } else {
+	          return dateEls[1];
+	        };
+	      } else {
+	        return "";
+	      };
+	    };
+	
+	    var date = month(dateEls) + "/" + dateEls[2] + "/" + dateEls[0];
+	
+	    // else {
+	    return React.createElement(
+	      'section',
+	      { className: 'user-profile group' },
+	      React.createElement('section', { className: 'user-pic' }),
+	      React.createElement(
+	        'ul',
+	        null,
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'h1',
+	            null,
+	            this.state.user.user_name
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'h2',
+	            null,
+	            'CatTrello User since ',
+	            date
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'h2',
+	            null,
+	            'Boards: ',
+	            boards
+	          )
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = UserProfile;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var Dispatcher = __webpack_require__(236);
+	var UserConstants = __webpack_require__(300);
+	
+	var UserStore = new Store(Dispatcher);
+	var _users = [];
+	
+	UserStore.all = function () {
+	  return _users;
+	};
+	
+	UserStore.resetUsers = function (user) {
+	  _users = user;
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case UserConstants.SINGLE_USER_RECEIVED:
+	      UserStore.resetUsers(payload.user);
+	      UserStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 300 */
+/***/ function(module, exports) {
+
+	var UserConstants = {
+	  SINGLE_BOARD_RECEIVED: "SINGLE_BOARD_RECEIVED"
+	};
+	
+	module.exports = UserConstants;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var UserConstants = __webpack_require__(300);
+	var Dispatcher = __webpack_require__(236);
+	
+	var UserActions = {
+	
+	  receiveSingleUser: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: UserConstants.SINGLE_USER_RECEIVED,
+	      user: user
+	    });
+	  }
+	
+	};
+	
+	module.exports = UserActions;
 
 /***/ }
 /******/ ]);
