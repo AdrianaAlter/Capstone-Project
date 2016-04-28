@@ -2,7 +2,6 @@ var React = require('react');
 var ListIndex = require('./list_index.jsx');
 var BoardStore = require('../store/board_store.js');
 var CardStore = require('../store/card_store.js');
-var Header = require('./header.jsx');
 var EditBoardButton = require('./edit_board_button.jsx');
 var BoardDetail = React.createClass({
 
@@ -16,6 +15,10 @@ var BoardDetail = React.createClass({
 
   getStateFromStore: function () {
     return BoardStore.find(this.props.params.board_id);
+  },
+
+  componentWillReceiveProps: function (nextProps) {
+    this.setState( { board: BoardStore.find(nextProps.params.board_id) });
   },
 
   setNewState: function () {
@@ -50,7 +53,6 @@ var BoardDetail = React.createClass({
 
     return (
             <section className="board-detail group">
-              <header className="detail-header"></header>
               <h1>{this.state.board.title}</h1>
               <ul className="list-index group">
                 <ListIndex boardId={this.props.params.board_id} lists={this.state.board.lists} />

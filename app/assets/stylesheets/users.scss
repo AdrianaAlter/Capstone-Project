@@ -36,11 +36,34 @@
   transform: translateY(50%);
   width: 200px;
   height: 150px;
-
   background-size: contain;
   background-repeat: no-repeat;
   display: block;
   background-image: asset-url("default_two.jpg");
+}
+
+.mouser {
+  margin: auto;
+  top: 50%;
+  transform: translateY(50%);
+  width: 200px;
+  height: 150px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+  background-image: asset-url("mouser.jpg");
+}
+
+.dog {
+  margin: auto;
+  top: 50%;
+  transform: translateY(50%);
+  width: 200px;
+  height: 150px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+  background-image: asset-url("dog.jpg");
 }
 
 .user-profile ul {

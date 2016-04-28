@@ -20,6 +20,7 @@ Features:
 
 --Search for boards.
 --Search for users.
+--View users' profile pages.
 
 In future, CatTrello users will also be able to:
 

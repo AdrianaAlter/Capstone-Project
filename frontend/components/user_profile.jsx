@@ -18,12 +18,18 @@ var UserProfile = React.createClass({
     this.listener.remove();
   },
 
+  componentWillReceiveProps: function (nextProps) {
+    ApiUtil.fetchSingleUser(nextProps.params.user_id);
+    
+  },
+
   _onChange: function () {
     this.setState({ user: UserStore.all() });
   },
 
   render: function () {
-
+    console.log(this.state);
+    if (!this.state.user) { return(<div></div>);};
     var boards = this.state.user.boards ? this.state.user.boards.length : "";
 
     var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().split(" ").join(".") + "@catmail.com" : "";
@@ -41,8 +47,15 @@ var UserProfile = React.createClass({
 
     var date = month(dateEls) + "/" + dateEls[2] + "/" + dateEls[0];
 
-    var pic = (this.state.user && this.state.user.user_name == this.state.current.user_name) ? "user-pic" : "user-pic-two";
-    
+    // var pic = (this.state.user && this.state.user.user_name == this.state.current.user_name) ? "user-pic" : "user-pic-two";
+
+    var pics = {
+      "Mr. Cat": "user-pic-two",
+      "Ineffective Mouser": "mouser",
+      "Unsubtle Impostor": "dog"
+    };
+
+    var pic = (this.state.user.user_name && pics[this.state.user.user_name]) ? pics[this.state.user.user_name] : "user-pic";
 
     // else {
       return (

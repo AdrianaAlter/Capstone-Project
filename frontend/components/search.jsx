@@ -10,7 +10,7 @@ var Search = React.createClass({
   },
 
 	getInitialState: function () {
-		return { query: "", display: "" };
+		return { query: "", display: "hidden" };
 	},
 
 	componentDidMount: function () {
@@ -21,6 +21,7 @@ var Search = React.createClass({
 
 	componentWillUnmount: function () {
 		this.storeListener.remove();
+
 	},
 
 	_onChange: function () {
@@ -29,7 +30,7 @@ var Search = React.createClass({
 
 	handleInputChange: function (e) {
 		var query = e.currentTarget.value;
-		this.setState({ query: query }, function () {
+		this.setState({ query: query, display: "displayed group" }, function () {
 			this.search();
 		}.bind(this));
 	},
@@ -43,41 +44,58 @@ var Search = React.createClass({
 		ApiUtil.search(meta.query, meta.page + 1);
 	},
 
-	goTo: function (id) {
+	goToBoard: function (id) {
+		this.hideResults();
 		this.context.router.push("/boards/" + id);
 	},
 
+	goToUser: function (id) {
+		this.hideResults();
+		this.context.router.push("/users/" + id);
+	},
+
+	toggleResults: function () {
+		this.state.display == "displayed group" ? this.setState({ display: "hidden" }) : this.setState({display: "displayed group" });
+	},
 	hideResults: function () {
-		this.setState({ display: "hidden" });
+		if (this.state.display == "displayed group") { this.setState({ display: "hidden" }); }
 	},
 
 	resultLis: function () {
 
 		if (!this.state.results) { return (<li className="placeholder"></li>);}
-		var toggle = this.hideResults;
+		var toggle = this.toggleResults;
+
 		var resultItems = this.state.results.map(function (result) {
 			if (result.title) {
-				return (<li key={result.id}><Link to={"boards/" + result.id} onClick={toggle}>{result.title}</Link></li>);
+				return (<li key={result.id} className={"board-result"} onClick={this.goToBoard.bind(this, result.id)}>{result.title}</li>);
 			}
 			else if (result.user_name) {
-				return (<li key={result.id}><Link to={"users/" + result.id} onClick={toggle}>{result.user_name}</Link></li>);
+				return (<li key={result.id} className={"user-result"} onClick={this.goToUser.bind(this, result.id)}>{result.user_name}</li>);
 			}
-		});
+		}.bind(this));
 
 		return resultItems;
 	},
 
 	render: function () {
-		var meta = SearchResultsStore.meta();
-		var resultItems = this.resultLis();
 
-		return (
-			<div>
-				<input type="text" tabIndex="0" onChange={this.handleInputChange} onSubmit={this.search}></input>
-					<ul className={this.state.display}>{resultItems}</ul>
-			</div>
 
-		);
+			var meta = SearchResultsStore.meta();
+			var resultItems = this.resultLis();
+
+			// if (resultItems[0]) {
+			// 	var first = resultItems[0].title ? "boards/" + resultItems[0].id : "users/" + resultItems[0].id;
+			// }
+
+			return (
+				<div>
+					<input type="text" tabIndex="0" onClick={this.toggleResults} onChange={this.handleInputChange} onSubmit={this.search}></input>
+						<ul className={this.state.display}>{resultItems}</ul>
+				</div>
+
+			);
+
 	}
 
 });

@@ -32087,6 +32087,7 @@
 	      dataType: "json",
 	      data: { query: query, page: page },
 	      success: function (response) {
+	
 	        SearchResultActions.receiveResults(response);
 	      },
 	      error: function () {
@@ -34571,7 +34572,7 @@
 		},
 	
 		getInitialState: function () {
-			return { query: "", display: "" };
+			return { query: "", display: "hidden" };
 		},
 	
 		componentDidMount: function () {
@@ -34588,7 +34589,7 @@
 	
 		handleInputChange: function (e) {
 			var query = e.currentTarget.value;
-			this.setState({ query: query }, function () {
+			this.setState({ query: query, display: "displayed group" }, function () {
 				this.search();
 			}.bind(this));
 		},
@@ -34602,12 +34603,23 @@
 			ApiUtil.search(meta.query, meta.page + 1);
 		},
 	
-		goTo: function (id) {
+		goToBoard: function (id) {
+			this.hideResults();
 			this.context.router.push("/boards/" + id);
 		},
 	
+		goToUser: function (id) {
+			this.hideResults();
+			this.context.router.push("/users/" + id);
+		},
+	
+		toggleResults: function () {
+			this.state.display == "displayed group" ? this.setState({ display: "hidden" }) : this.setState({ display: "displayed group" });
+		},
 		hideResults: function () {
-			this.setState({ display: "hidden" });
+			if (this.state.display == "displayed group") {
+				this.setState({ display: "hidden" });
+			}
 		},
 	
 		resultLis: function () {
@@ -34615,42 +34627,40 @@
 			if (!this.state.results) {
 				return React.createElement('li', { className: 'placeholder' });
 			}
-			var toggle = this.hideResults;
+			var toggle = this.toggleResults;
+	
 			var resultItems = this.state.results.map(function (result) {
 				if (result.title) {
 					return React.createElement(
 						'li',
-						{ key: result.id },
-						React.createElement(
-							Link,
-							{ to: "boards/" + result.id, onClick: toggle },
-							result.title
-						)
+						{ key: result.id, className: "board-result", onClick: this.goToBoard.bind(this, result.id) },
+						result.title
 					);
 				} else if (result.user_name) {
 					return React.createElement(
 						'li',
-						{ key: result.id },
-						React.createElement(
-							Link,
-							{ to: "users/" + result.id, onClick: toggle },
-							result.user_name
-						)
+						{ key: result.id, className: "user-result", onClick: this.goToUser.bind(this, result.id) },
+						result.user_name
 					);
 				}
-			});
+			}.bind(this));
 	
 			return resultItems;
 		},
 	
 		render: function () {
+	
 			var meta = SearchResultsStore.meta();
 			var resultItems = this.resultLis();
+	
+			// if (resultItems[0]) {
+			// 	var first = resultItems[0].title ? "boards/" + resultItems[0].id : "users/" + resultItems[0].id;
+			// }
 	
 			return React.createElement(
 				'div',
 				null,
-				React.createElement('input', { type: 'text', tabIndex: '0', onChange: this.handleInputChange, onSubmit: this.search }),
+				React.createElement('input', { type: 'text', tabIndex: '0', onClick: this.toggleResults, onChange: this.handleInputChange, onSubmit: this.search }),
 				React.createElement(
 					'ul',
 					{ className: this.state.display },
@@ -35149,7 +35159,6 @@
 	var ListIndex = __webpack_require__(284);
 	var BoardStore = __webpack_require__(217);
 	var CardStore = __webpack_require__(288);
-	var Header = __webpack_require__(274);
 	var EditBoardButton = __webpack_require__(298);
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
@@ -35165,6 +35174,10 @@
 	
 	  getStateFromStore: function () {
 	    return BoardStore.find(this.props.params.board_id);
+	  },
+	
+	  componentWillReceiveProps: function (nextProps) {
+	    this.setState({ board: BoardStore.find(nextProps.params.board_id) });
 	  },
 	
 	  setNewState: function () {
@@ -35199,7 +35212,6 @@
 	    return React.createElement(
 	      'section',
 	      { className: 'board-detail group' },
-	      React.createElement('header', { className: 'detail-header' }),
 	      React.createElement(
 	        'h1',
 	        null,
@@ -36157,12 +36169,19 @@
 	    this.listener.remove();
 	  },
 	
+	  componentWillReceiveProps: function (nextProps) {
+	    ApiUtil.fetchSingleUser(nextProps.params.user_id);
+	  },
+	
 	  _onChange: function () {
 	    this.setState({ user: UserStore.all() });
 	  },
 	
 	  render: function () {
-	
+	    console.log(this.state);
+	    if (!this.state.user) {
+	      return React.createElement('div', null);
+	    };
 	    var boards = this.state.user.boards ? this.state.user.boards.length : "";
 	
 	    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().split(" ").join(".") + "@catmail.com" : "";
@@ -36182,7 +36201,15 @@
 	
 	    var date = month(dateEls) + "/" + dateEls[2] + "/" + dateEls[0];
 	
-	    var pic = this.state.user && this.state.user.user_name == this.state.current.user_name ? "user-pic" : "user-pic-two";
+	    // var pic = (this.state.user && this.state.user.user_name == this.state.current.user_name) ? "user-pic" : "user-pic-two";
+	
+	    var pics = {
+	      "Mr. Cat": "user-pic-two",
+	      "Ineffective Mouser": "mouser",
+	      "Unsubtle Impostor": "dog"
+	    };
+	
+	    var pic = this.state.user.user_name && pics[this.state.user.user_name] ? pics[this.state.user.user_name] : "user-pic";
 	
 	    // else {
 	    return React.createElement(
@@ -36252,6 +36279,14 @@
 	
 	UserStore.all = function () {
 	  return _users;
+	};
+	
+	UserStore.find = function (id) {
+	  for (var i = 0; i < _users.length; i++) {
+	    if (_users[i].id == id) {
+	      return _users[i];
+	    }
+	  }
 	};
 	
 	UserStore.resetUsers = function (user) {

@@ -1,17 +1,19 @@
 User.destroy_all
 
-user1 = User.create!(user_name: "#{Faker::Name.name}", password: "#{Faker::Internet.password(6)}", email:"#{Faker::Internet.email}")
+# user1 = User.create!(user_name: "#{Faker::Name.name}", password: "#{Faker::Internet.password(6)}", email:"#{Faker::Internet.email}")
 # user2 = User.create(user_name: "#{Faker::Name.name}", password: "#{Faker::Internet.password(6)}", email:"#{Faker::Internet.email}")
 # user3 = User.create(user_name: "#{Faker::Name.name}", password: "#{Faker::Internet.password(6)}", email:"#{Faker::Internet.email}")
 # user4 = User.create(user_name: "#{Faker::Name.name}", password: "#{Faker::Internet.password(6)}", email:"#{Faker::Internet.email}")
 user5 = User.create!(user_name: "Sennacy the Great", password: "sennacy", email: "sennacy@cat.com")
-user6 = User.create!(user_name: "Guest Cat", password: "guestcat")
+user6 = User.create!(user_name: "Mr. Cat", password: "mrcat!")
+user7 = User.create!(user_name: "Ineffective Mouser", password: "mouser")
+user8 = User.create!(user_name: "Unsubtle Impostor", password: "impostor")
 
 Board.destroy_all
 
-board1 = Board.create!(author_id: user1.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
-board2 = Board.create!(author_id: user1.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
-board3 = Board.create!(author_id: user1.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
+# board1 = Board.create!(author_id: user1.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
+# board2 = Board.create!(author_id: user1.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
+# board3 = Board.create!(author_id: user1.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
 
 board13 = Board.create!(author_id: user5.id, title: "Meow")
 board14 = Board.create!(author_id: user5.id, title: "Still meowing")
