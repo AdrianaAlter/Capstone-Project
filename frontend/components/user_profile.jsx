@@ -1,11 +1,12 @@
 var React = require('react');
 var UserStore = require('../store/user_store.js');
+var SessionStore = require('../store/session_store.js');
 var ApiUtil = require('../util/api_util.js');
 
 var UserProfile = React.createClass({
 
   getInitialState: function () {
-    return { user: UserStore.all() };
+    return { user: UserStore.all(), current: SessionStore.currentUser() };
   },
 
   componentDidMount: function () {
@@ -25,6 +26,8 @@ var UserProfile = React.createClass({
 
     var boards = this.state.user.boards ? this.state.user.boards.length : "";
 
+    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().split(" ").join(".") + "@catmail.com" : "";
+
     var dateEls = this.state.user.created_at ? this.state.user.created_at.slice(0, this.state.user.created_at.indexOf("T")).split("-") : "";
     var month = function(dateEls) {
       if(dateEls) {
@@ -38,12 +41,16 @@ var UserProfile = React.createClass({
 
     var date = month(dateEls) + "/" + dateEls[2] + "/" + dateEls[0];
 
+    var pic = (this.state.user && this.state.user.user_name == this.state.current.user_name) ? "user-pic" : "user-pic-two";
+    
+
     // else {
       return (
             <section className="user-profile group">
-              <section className="user-pic"></section>
+              <section className={pic}></section>
               <ul>
                 <li><h1>{this.state.user.user_name}</h1></li>
+                <li><h2>Email: {emailString}</h2></li>
                 <li><h2>CatTrello User since {date}</h2></li>
                 <li><h2>Boards: {boards}</h2></li>
               </ul>

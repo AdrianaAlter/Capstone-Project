@@ -30,6 +30,19 @@
 
 }
 
+.user-pic-two {
+  margin: auto;
+  top: 50%;
+  transform: translateY(50%);
+  width: 200px;
+  height: 150px;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+  background-image: asset-url("default_two.jpg");
+}
+
 .user-profile ul {
   width: 500px;
   height: 500px;
@@ -37,6 +50,11 @@
   margin: 50px auto;
   list-style: none;
   text-align: center;
+  color: #d9d9d9;
+}
+
+.user-profile li {
+  padding-top: 10px;
 }
 
 .user-profile h1 {
@@ -44,4 +62,10 @@
   font-size: 26px;
   font-weight: bold;
   margin-bottom: 25px;
+}
+
+.user-profile h2 {
+  // font-family: 'Horta';
+  // font-weight: lighter;
+  font-size: 16px;
 }

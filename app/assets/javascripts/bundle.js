@@ -50,16 +50,16 @@
 	var Route = __webpack_require__(159).Route;
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var BoardIndex = __webpack_require__(216);
-	var App = __webpack_require__(271);
-	var LogInForm = __webpack_require__(278);
+	var App = __webpack_require__(273);
+	var LogInForm = __webpack_require__(280);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ApiUtil = __webpack_require__(241);
-	var SessionStore = __webpack_require__(274);
-	var NewBoardButton = __webpack_require__(249);
-	var BoardDetail = __webpack_require__(281);
+	var SessionStore = __webpack_require__(276);
+	var NewBoardButton = __webpack_require__(251);
+	var BoardDetail = __webpack_require__(283);
 	var browserHistory = __webpack_require__(159).browserHistory;
-	var Modal = __webpack_require__(250);
-	var UserProfile = __webpack_require__(298);
+	var Modal = __webpack_require__(252);
+	var UserProfile = __webpack_require__(300);
 	
 	var routes = React.createElement(
 	  Router,
@@ -24787,9 +24787,9 @@
 	var BoardStore = __webpack_require__(217);
 	var BoardActions = __webpack_require__(240);
 	var ApiUtil = __webpack_require__(241);
-	var NewBoardForm = __webpack_require__(248);
-	var NewBoardButton = __webpack_require__(249);
-	var BoardIndexItem = __webpack_require__(270);
+	var NewBoardForm = __webpack_require__(250);
+	var NewBoardButton = __webpack_require__(251);
+	var BoardIndexItem = __webpack_require__(272);
 	
 	var BoardIndex = React.createClass({
 	  displayName: 'BoardIndex',
@@ -31765,7 +31765,7 @@
 	var SessionActions = __webpack_require__(242);
 	var SearchResultActions = __webpack_require__(244);
 	var CardActions = __webpack_require__(246);
-	var UserActions = __webpack_require__(301);
+	var UserActions = __webpack_require__(248);
 	
 	ApiUtil = {
 	
@@ -32217,6 +32217,36 @@
 /* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var UserConstants = __webpack_require__(249);
+	var Dispatcher = __webpack_require__(236);
+	
+	var UserActions = {
+	
+	  receiveSingleUser: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: UserConstants.SINGLE_USER_RECEIVED,
+	      user: user
+	    });
+	  }
+	
+	};
+	
+	module.exports = UserActions;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports) {
+
+	var UserConstants = {
+	  SINGLE_BOARD_RECEIVED: "SINGLE_BOARD_RECEIVED"
+	};
+	
+	module.exports = UserConstants;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	var BoardActions = __webpack_require__(240);
 	
@@ -32272,14 +32302,14 @@
 	module.exports = NewBoardForm;
 
 /***/ },
-/* 249 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(250);
-	var NewBoardForm = __webpack_require__(248);
+	var Modal = __webpack_require__(252);
+	var NewBoardForm = __webpack_require__(250);
 	
 	var NewBoardButton = React.createClass({
 	  displayName: 'NewBoardButton',
@@ -32321,23 +32351,23 @@
 	module.exports = NewBoardButton;
 
 /***/ },
-/* 250 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(251);
+	module.exports = __webpack_require__(253);
 	
 
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(252);
-	var ModalPortal = React.createFactory(__webpack_require__(253));
-	var ariaAppHider = __webpack_require__(268);
-	var elementClass = __webpack_require__(269);
+	var ExecutionEnvironment = __webpack_require__(254);
+	var ModalPortal = React.createFactory(__webpack_require__(255));
+	var ariaAppHider = __webpack_require__(270);
+	var elementClass = __webpack_require__(271);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32416,7 +32446,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32461,14 +32491,14 @@
 
 
 /***/ },
-/* 253 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(254);
-	var scopeTab = __webpack_require__(256);
-	var Assign = __webpack_require__(257);
+	var focusManager = __webpack_require__(256);
+	var scopeTab = __webpack_require__(258);
+	var Assign = __webpack_require__(259);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32665,10 +32695,10 @@
 
 
 /***/ },
-/* 254 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(255);
+	var findTabbable = __webpack_require__(257);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -32739,7 +32769,7 @@
 
 
 /***/ },
-/* 255 */
+/* 257 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32795,10 +32825,10 @@
 
 
 /***/ },
-/* 256 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(255);
+	var findTabbable = __webpack_require__(257);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -32816,7 +32846,7 @@
 
 
 /***/ },
-/* 257 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32827,9 +32857,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(258),
-	    createAssigner = __webpack_require__(264),
-	    keys = __webpack_require__(260);
+	var baseAssign = __webpack_require__(260),
+	    createAssigner = __webpack_require__(266),
+	    keys = __webpack_require__(262);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -32902,7 +32932,7 @@
 
 
 /***/ },
-/* 258 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32913,8 +32943,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(259),
-	    keys = __webpack_require__(260);
+	var baseCopy = __webpack_require__(261),
+	    keys = __webpack_require__(262);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -32935,7 +32965,7 @@
 
 
 /***/ },
-/* 259 */
+/* 261 */
 /***/ function(module, exports) {
 
 	/**
@@ -32973,7 +33003,7 @@
 
 
 /***/ },
-/* 260 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32984,9 +33014,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(261),
-	    isArguments = __webpack_require__(262),
-	    isArray = __webpack_require__(263);
+	var getNative = __webpack_require__(263),
+	    isArguments = __webpack_require__(264),
+	    isArray = __webpack_require__(265);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33215,7 +33245,7 @@
 
 
 /***/ },
-/* 261 */
+/* 263 */
 /***/ function(module, exports) {
 
 	/**
@@ -33358,7 +33388,7 @@
 
 
 /***/ },
-/* 262 */
+/* 264 */
 /***/ function(module, exports) {
 
 	/**
@@ -33607,7 +33637,7 @@
 
 
 /***/ },
-/* 263 */
+/* 265 */
 /***/ function(module, exports) {
 
 	/**
@@ -33793,7 +33823,7 @@
 
 
 /***/ },
-/* 264 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33804,9 +33834,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(265),
-	    isIterateeCall = __webpack_require__(266),
-	    restParam = __webpack_require__(267);
+	var bindCallback = __webpack_require__(267),
+	    isIterateeCall = __webpack_require__(268),
+	    restParam = __webpack_require__(269);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -33851,7 +33881,7 @@
 
 
 /***/ },
-/* 265 */
+/* 267 */
 /***/ function(module, exports) {
 
 	/**
@@ -33922,7 +33952,7 @@
 
 
 /***/ },
-/* 266 */
+/* 268 */
 /***/ function(module, exports) {
 
 	/**
@@ -34060,7 +34090,7 @@
 
 
 /***/ },
-/* 267 */
+/* 269 */
 /***/ function(module, exports) {
 
 	/**
@@ -34133,7 +34163,7 @@
 
 
 /***/ },
-/* 268 */
+/* 270 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -34180,7 +34210,7 @@
 
 
 /***/ },
-/* 269 */
+/* 271 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -34245,7 +34275,7 @@
 
 
 /***/ },
-/* 270 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34281,14 +34311,14 @@
 	module.exports = BoardIndexItem;
 
 /***/ },
-/* 271 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Header = __webpack_require__(272);
-	var Footer = __webpack_require__(277);
+	var Header = __webpack_require__(274);
+	var Footer = __webpack_require__(279);
 	var BoardIndex = __webpack_require__(216);
-	var SessionStore = __webpack_require__(274);
+	var SessionStore = __webpack_require__(276);
 	var ApiUtil = __webpack_require__(241);
 	
 	var App = React.createClass({
@@ -34310,13 +34340,13 @@
 	module.exports = App;
 
 /***/ },
-/* 272 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var SessionButtons = __webpack_require__(273);
-	var Search = __webpack_require__(275);
+	var SessionButtons = __webpack_require__(275);
+	var Search = __webpack_require__(277);
 	var Link = __webpack_require__(159).Link;
 	
 	var Header = React.createClass({
@@ -34367,13 +34397,13 @@
 	module.exports = Header;
 
 /***/ },
-/* 273 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(274);
+	var SessionStore = __webpack_require__(276);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(250);
+	var Modal = __webpack_require__(252);
 	var Link = __webpack_require__(159).Link;
 	
 	var SessionButtons = React.createClass({
@@ -34484,7 +34514,7 @@
 	module.exports = SessionButtons;
 
 /***/ },
-/* 274 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -34525,11 +34555,11 @@
 	module.exports = SessionStore;
 
 /***/ },
-/* 275 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SearchResultsStore = __webpack_require__(276);
+	var SearchResultsStore = __webpack_require__(278);
 	var ApiUtil = __webpack_require__(241);
 	var Link = __webpack_require__(159).Link;
 	
@@ -34634,7 +34664,7 @@
 	module.exports = Search;
 
 /***/ },
-/* 276 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -34667,7 +34697,7 @@
 	module.exports = SearchResultsStore;
 
 /***/ },
-/* 277 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34815,14 +34845,14 @@
 	module.exports = Footer;
 
 /***/ },
-/* 278 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(250);
-	var Footer = __webpack_require__(277);
-	var SignUpButton = __webpack_require__(279);
+	var Modal = __webpack_require__(252);
+	var Footer = __webpack_require__(279);
+	var SignUpButton = __webpack_require__(281);
 	
 	var LogInForm = React.createClass({
 	  displayName: 'LogInForm',
@@ -34997,13 +35027,13 @@
 	module.exports = LogInForm;
 
 /***/ },
-/* 279 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(250);
-	var SignUpForm = __webpack_require__(280);
+	var Modal = __webpack_require__(252);
+	var SignUpForm = __webpack_require__(282);
 	
 	var SignUpButton = React.createClass({
 	  displayName: 'SignUpButton',
@@ -35041,7 +35071,7 @@
 	module.exports = SignUpButton;
 
 /***/ },
-/* 280 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35112,15 +35142,15 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 281 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListIndex = __webpack_require__(282);
+	var ListIndex = __webpack_require__(284);
 	var BoardStore = __webpack_require__(217);
-	var CardStore = __webpack_require__(286);
-	var Header = __webpack_require__(272);
-	var EditBoardButton = __webpack_require__(296);
+	var CardStore = __webpack_require__(288);
+	var Header = __webpack_require__(274);
+	var EditBoardButton = __webpack_require__(298);
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
 	
@@ -35194,12 +35224,12 @@
 	module.exports = BoardDetail;
 
 /***/ },
-/* 282 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListIndexItem = __webpack_require__(283);
-	var NewListButton = __webpack_require__(294);
+	var ListIndexItem = __webpack_require__(285);
+	var NewListButton = __webpack_require__(296);
 	var ApiUtil = __webpack_require__(241);
 	
 	var ListIndex = React.createClass({
@@ -35229,11 +35259,11 @@
 	module.exports = ListIndex;
 
 /***/ },
-/* 283 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListDetail = __webpack_require__(284);
+	var ListDetail = __webpack_require__(286);
 	
 	var BoardStore = __webpack_require__(217);
 	
@@ -35259,15 +35289,15 @@
 	module.exports = ListIndexItem;
 
 /***/ },
-/* 284 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardIndex = __webpack_require__(285);
-	var NewCardButton = __webpack_require__(290);
-	var CardStore = __webpack_require__(286);
+	var CardIndex = __webpack_require__(287);
+	var NewCardButton = __webpack_require__(292);
+	var CardStore = __webpack_require__(288);
 	var BoardStore = __webpack_require__(217);
-	var EditListButton = __webpack_require__(292);
+	var EditListButton = __webpack_require__(294);
 	var ListDetail = React.createClass({
 	  displayName: 'ListDetail',
 	
@@ -35327,14 +35357,14 @@
 	module.exports = ListDetail;
 
 /***/ },
-/* 285 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardStore = __webpack_require__(286);
+	var CardStore = __webpack_require__(288);
 	
 	var CardActions = __webpack_require__(246);
-	var CardIndexItem = __webpack_require__(287);
+	var CardIndexItem = __webpack_require__(289);
 	var ApiUtil = __webpack_require__(241);
 	
 	var CardIndex = React.createClass({
@@ -35386,7 +35416,7 @@
 	module.exports = CardIndex;
 
 /***/ },
-/* 286 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -35525,11 +35555,11 @@
 	module.exports = CardStore;
 
 /***/ },
-/* 287 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var EditCardButton = __webpack_require__(288);
+	var EditCardButton = __webpack_require__(290);
 	
 	var CardIndexItem = React.createClass({
 	  displayName: 'CardIndexItem',
@@ -35562,13 +35592,13 @@
 	module.exports = CardIndexItem;
 
 /***/ },
-/* 288 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(250);
-	var EditCardForm = __webpack_require__(289);
+	var Modal = __webpack_require__(252);
+	var EditCardForm = __webpack_require__(291);
 	
 	var EditCardButton = React.createClass({
 	  displayName: 'EditCardButton',
@@ -35611,12 +35641,12 @@
 	module.exports = EditCardButton;
 
 /***/ },
-/* 289 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var CardActions = __webpack_require__(246);
-	var CardStore = __webpack_require__(286);
+	var CardStore = __webpack_require__(288);
 	
 	var EditCardForm = React.createClass({
 		displayName: 'EditCardForm',
@@ -35672,14 +35702,14 @@
 	module.exports = EditCardForm;
 
 /***/ },
-/* 290 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardStore = __webpack_require__(286);
+	var CardStore = __webpack_require__(288);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(250);
-	var NewCardForm = __webpack_require__(291);
+	var Modal = __webpack_require__(252);
+	var NewCardForm = __webpack_require__(293);
 	
 	var NewCardButton = React.createClass({
 	  displayName: 'NewCardButton',
@@ -35721,7 +35751,7 @@
 	module.exports = NewCardButton;
 
 /***/ },
-/* 291 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35778,13 +35808,13 @@
 	module.exports = NewCardForm;
 
 /***/ },
-/* 292 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(250);
-	var EditListForm = __webpack_require__(293);
+	var Modal = __webpack_require__(252);
+	var EditListForm = __webpack_require__(295);
 	
 	var EditListButton = React.createClass({
 	  displayName: 'EditListButton',
@@ -35827,7 +35857,7 @@
 	module.exports = EditListButton;
 
 /***/ },
-/* 293 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35888,14 +35918,14 @@
 	module.exports = EditListForm;
 
 /***/ },
-/* 294 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(250);
-	var NewListForm = __webpack_require__(295);
+	var Modal = __webpack_require__(252);
+	var NewListForm = __webpack_require__(297);
 	
 	var NewListButton = React.createClass({
 	  displayName: 'NewListButton',
@@ -35935,7 +35965,7 @@
 	module.exports = NewListButton;
 
 /***/ },
-/* 295 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35991,14 +36021,14 @@
 	module.exports = NewListForm;
 
 /***/ },
-/* 296 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(250);
-	var EditBoardForm = __webpack_require__(297);
+	var Modal = __webpack_require__(252);
+	var EditBoardForm = __webpack_require__(299);
 	var EditBoardButton = React.createClass({
 	  displayName: 'EditBoardButton',
 	
@@ -36039,7 +36069,7 @@
 	module.exports = EditBoardButton;
 
 /***/ },
-/* 297 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36102,11 +36132,12 @@
 	module.exports = EditBoardForm;
 
 /***/ },
-/* 298 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(299);
+	var UserStore = __webpack_require__(301);
+	var SessionStore = __webpack_require__(276);
 	var ApiUtil = __webpack_require__(241);
 	
 	var UserProfile = React.createClass({
@@ -36114,7 +36145,7 @@
 	
 	
 	  getInitialState: function () {
-	    return { user: UserStore.all() };
+	    return { user: UserStore.all(), current: SessionStore.currentUser() };
 	  },
 	
 	  componentDidMount: function () {
@@ -36134,6 +36165,8 @@
 	
 	    var boards = this.state.user.boards ? this.state.user.boards.length : "";
 	
+	    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().split(" ").join(".") + "@catmail.com" : "";
+	
 	    var dateEls = this.state.user.created_at ? this.state.user.created_at.slice(0, this.state.user.created_at.indexOf("T")).split("-") : "";
 	    var month = function (dateEls) {
 	      if (dateEls) {
@@ -36149,11 +36182,13 @@
 	
 	    var date = month(dateEls) + "/" + dateEls[2] + "/" + dateEls[0];
 	
+	    var pic = this.state.user && this.state.user.user_name == this.state.current.user_name ? "user-pic" : "user-pic-two";
+	
 	    // else {
 	    return React.createElement(
 	      'section',
 	      { className: 'user-profile group' },
-	      React.createElement('section', { className: 'user-pic' }),
+	      React.createElement('section', { className: pic }),
 	      React.createElement(
 	        'ul',
 	        null,
@@ -36164,6 +36199,16 @@
 	            'h1',
 	            null,
 	            this.state.user.user_name
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'h2',
+	            null,
+	            'Email: ',
+	            emailString
 	          )
 	        ),
 	        React.createElement(
@@ -36195,12 +36240,12 @@
 	module.exports = UserProfile;
 
 /***/ },
-/* 299 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
 	var Dispatcher = __webpack_require__(236);
-	var UserConstants = __webpack_require__(300);
+	var UserConstants = __webpack_require__(249);
 	
 	var UserStore = new Store(Dispatcher);
 	var _users = [];
@@ -36223,36 +36268,6 @@
 	};
 	
 	module.exports = UserStore;
-
-/***/ },
-/* 300 */
-/***/ function(module, exports) {
-
-	var UserConstants = {
-	  SINGLE_BOARD_RECEIVED: "SINGLE_BOARD_RECEIVED"
-	};
-	
-	module.exports = UserConstants;
-
-/***/ },
-/* 301 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var UserConstants = __webpack_require__(300);
-	var Dispatcher = __webpack_require__(236);
-	
-	var UserActions = {
-	
-	  receiveSingleUser: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: UserConstants.SINGLE_USER_RECEIVED,
-	      user: user
-	    });
-	  }
-	
-	};
-	
-	module.exports = UserActions;
 
 /***/ }
 /******/ ]);
