@@ -55,12 +55,14 @@
 }
 
 .dog {
-  margin: auto;
+  margin: 0 auto 50px auto;
+  // left: 50%;
+  // transform: translateX(50%);
   top: 50%;
   transform: translateY(50%);
-  width: 200px;
-  height: 150px;
-  background-size: contain;
+  width: 175px;
+  height: 175px;
+  background-size: cover;
   background-repeat: no-repeat;
   display: block;
   background-image: asset-url("dog.jpg");
@@ -70,7 +72,7 @@
   width: 500px;
   height: 500px;
   padding: 30px;
-  margin: 50px auto;
+  margin: 90px auto;
   list-style: none;
   text-align: center;
   color: #d9d9d9;
