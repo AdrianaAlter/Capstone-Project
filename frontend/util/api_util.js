@@ -339,7 +339,7 @@ ApiUtil = {
 			dataType: "json",
 			data: {query: query, page: page},
 			success: function (response) {
-        
+
         SearchResultActions.receiveResults(response);
 			},
 			error: function () {

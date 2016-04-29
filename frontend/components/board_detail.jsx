@@ -44,17 +44,26 @@ var BoardDetail = React.createClass({
     ApiUtil.deleteBoard(boardId);
   },
 
+  updatePrivacy: function (e) {
+      e.preventDefault();
+      var board = {};
+      board.private = this.state.board.private ? false : true;
+      ApiUtil.editBoard(board, this.state.board.id);
+  },
+
   render: function () {
 
     if (!this.state.board) {
 
       return (
-        <div><i className="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i></div>
+        <div></div>
       );
     }
 
-    var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
+
     var current = SessionStore.currentUser();
+    var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
+    var statusClick = this.state.board.author_id == current.id ? this.updatePrivacy : null;
     var edit = this.state.board.author_id == current.id ? <EditBoardButton boardId={this.props.params.board_id} /> : <div></div>;
     var del = this.state.board.author_id == current.id ? <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button> : <div></div>;
     var isCurrent = this.state.board.author_id == current.id ? true : false;
@@ -62,7 +71,7 @@ var BoardDetail = React.createClass({
     return (
             <section className="board-detail group">
               <section>
-                <h1>{this.state.board.title}<i className={status} aria-hidden="true"></i></h1>
+                <h1>{this.state.board.title}<i className={status} aria-hidden="true" onClick={statusClick}></i></h1>
 
               </section>
               <ul className="list-index group">

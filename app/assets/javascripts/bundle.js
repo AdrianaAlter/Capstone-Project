@@ -35222,19 +35222,23 @@
 	    ApiUtil.deleteBoard(boardId);
 	  },
 	
+	  updatePrivacy: function (e) {
+	    e.preventDefault();
+	    var board = {};
+	    board.private = this.state.board.private ? false : true;
+	    ApiUtil.editBoard(board, this.state.board.id);
+	  },
+	
 	  render: function () {
 	
 	    if (!this.state.board) {
 	
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement('i', { className: 'fa fa-spinner fa-spin fa-3x fa-fw margin-bottom' })
-	      );
+	      return React.createElement('div', null);
 	    }
 	
-	    var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
 	    var current = SessionStore.currentUser();
+	    var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
+	    var statusClick = this.state.board.author_id == current.id ? this.updatePrivacy : null;
 	    var edit = this.state.board.author_id == current.id ? React.createElement(EditBoardButton, { boardId: this.props.params.board_id }) : React.createElement('div', null);
 	    var del = this.state.board.author_id == current.id ? React.createElement(
 	      'button',
@@ -35253,7 +35257,7 @@
 	          'h1',
 	          null,
 	          this.state.board.title,
-	          React.createElement('i', { className: status, 'aria-hidden': 'true' })
+	          React.createElement('i', { className: status, 'aria-hidden': 'true', onClick: statusClick })
 	        )
 	      ),
 	      React.createElement(
@@ -36261,9 +36265,14 @@
 	      var boardLis = this.state.user.boards.map(function (board) {
 	        if (!board.private) {
 	          return React.createElement(
-	            Link,
-	            { key: board.id, to: "/boards/" + board.id },
-	            board.title
+	            'li',
+	            { key: board.id, className: 'board-link' },
+	            React.createElement('i', { className: 'fa-li fa fa-paw', 'aria-hidden': 'true' }),
+	            React.createElement(
+	              Link,
+	              { to: "/boards/" + board.id },
+	              board.title
+	            )
 	          );
 	        }
 	      });
@@ -36342,9 +36351,13 @@
 	            null,
 	            'Boards: ',
 	            boards.length
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'fa-ul' },
+	            boardLis
 	          )
-	        ),
-	        boardLis
+	        )
 	      )
 	    );
 	  }

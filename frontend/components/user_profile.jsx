@@ -46,7 +46,7 @@ var UserProfile = React.createClass({
 
     if (boards.length >= 1) {
     var boardLis = this.state.user.boards.map(function (board) {
-      if (!board.private) { return <Link key={board.id} to={"/boards/" + board.id}>{board.title}</Link>; }
+      if (!board.private) { return <li key={board.id} className="board-link"><i className="fa-li fa fa-paw" aria-hidden="true"></i><Link to={"/boards/" + board.id}>{board.title}</Link></li>; }
     });
   };
 
@@ -85,9 +85,11 @@ var UserProfile = React.createClass({
               <li><h1>{this.state.user.user_name}</h1></li>
               <li><h2>Email: {emailString}</h2></li>
               <li><h2>CatTrello User since {date}</h2></li>
-              <li><h2>Boards: {boards.length}</h2></li>
-              {boardLis}
+              <li><h2>Boards: {boards.length}</h2><ul className="fa-ul">
+                {boardLis}
+              </ul></li>
             </ul>
+
           </section>
         );
     }
