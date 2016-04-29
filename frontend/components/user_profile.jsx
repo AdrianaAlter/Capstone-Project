@@ -32,7 +32,7 @@ var UserProfile = React.createClass({
     if (!this.state.user) { return(<div></div>);};
     var boards = this.state.user.boards ? this.state.user.boards.length : "";
 
-    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().split(" ").join(".") + "@catmail.com" : "";
+    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().replace(".", "").split(" ").join(".") + "@catmail.com" : "";
 
     var dateEls = this.state.user.created_at ? this.state.user.created_at.slice(0, this.state.user.created_at.indexOf("T")).split("-") : "";
     var month = function(dateEls) {
