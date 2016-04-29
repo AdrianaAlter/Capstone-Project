@@ -36228,7 +36228,7 @@
 	    router: React.PropTypes.object.isRequired
 	  },
 	  getInitialState: function () {
-	    return { user: UserStore.all(), current: SessionStore.currentUser() };
+	    return { user: UserStore.all(), current: SessionStore.currentUser(), boardsDisplayed: false };
 	  },
 	
 	  componentDidMount: function () {
@@ -36253,6 +36253,10 @@
 	    this.context.router.push("/boards/" + id);
 	  },
 	
+	  toggleDisplay: function () {
+	    this.state.boardsDisplayed ? this.setState({ boardsDisplayed: false }) : this.setState({ boardsDisplayed: true });
+	  },
+	
 	  render: function () {
 	
 	    if (!this.state.user) {
@@ -36260,10 +36264,10 @@
 	    };
 	
 	    var boards = this.state.user.boards ? this.state.user.boards : [];
-	
+	    var isAuthor = this.state.user.user_name == this.state.current.user_name;
 	    if (boards.length >= 1) {
 	      var boardLis = this.state.user.boards.map(function (board) {
-	        if (!board.private) {
+	        if (!board.private || isAuthor) {
 	          return React.createElement(
 	            'li',
 	            { key: board.id, className: 'board-link' },
@@ -36277,6 +36281,14 @@
 	        }
 	      });
 	    };
+	
+	    var none = !boardLis ? React.createElement(
+	      'p',
+	      null,
+	      this.state.user.user_name,
+	      ' doesn\'t have any public boards yet!'
+	    ) : null;
+	    var boardCount = boardLis ? boardLis.length : 0;
 	
 	    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().replace(".", "").split(" ").join(".") + "@catmail.com" : "";
 	
@@ -36306,9 +36318,10 @@
 	    };
 	
 	    var pic = this.state.user.user_name && pics[this.state.user.user_name] ? pics[this.state.user.user_name] : "user-pic";
+	    var boardsDisplayed = this.state.boardsDisplayed ? "fa-ul" : "hidden";
 	
 	    return React.createElement(
-	      'section',
+	      'div',
 	      { className: 'user-profile group' },
 	      React.createElement('section', { className: pic }),
 	      React.createElement(
@@ -36342,21 +36355,19 @@
 	            'CatTrello User since ',
 	            date
 	          )
-	        ),
+	        )
+	      ),
+	      React.createElement(
+	        'h2',
+	        { className: 'user-board-list' },
+	        React.createElement('i', { className: 'fa fa-caret-square-o-down', 'aria-hidden': 'true', onClick: this.toggleDisplay }),
+	        'Boards: ',
+	        boardCount,
 	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'h2',
-	            null,
-	            'Boards: ',
-	            boards.length
-	          ),
-	          React.createElement(
-	            'ul',
-	            { className: 'fa-ul' },
-	            boardLis
-	          )
+	          'ul',
+	          { className: boardsDisplayed },
+	          none,
+	          boardLis
 	        )
 	      )
 	    );

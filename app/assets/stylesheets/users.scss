@@ -95,8 +95,29 @@
   font-size: 16px;
 }
 
+.user-board-list {
+  margin: auto !important;
+  text-align: center;
+  padding: 20px;
+  color: #D9D4D0 !important;
+}
+
+.user-profile h2 .fa:hover {
+  cursor: pointer;
+  color: #014a75;
+}
+
+.user-profile ul {
+  height: 100px;
+  margin-bottom: 0;
+}
+
 .user-profile .fa-ul {
-  margin: 0;
+  margin: 0 auto;
+  // height: 200px;
+  width: 300px;
+  border: 5px dotted #026AA7;
+  border-radius: 3%;
 }
 
 .board-link:hover {

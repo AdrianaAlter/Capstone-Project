@@ -10,7 +10,7 @@ var UserProfile = React.createClass({
     router: React.PropTypes.object.isRequired
   },
   getInitialState: function () {
-    return { user: UserStore.all(), current: SessionStore.currentUser() };
+    return { user: UserStore.all(), current: SessionStore.currentUser(), boardsDisplayed: false };
   },
 
   componentDidMount: function () {
@@ -36,6 +36,10 @@ var UserProfile = React.createClass({
     this.context.router.push("/boards/" + id);
   },
 
+  toggleDisplay: function () {
+    this.state.boardsDisplayed ? this.setState({ boardsDisplayed: false }) : this.setState({ boardsDisplayed: true });
+  },
+
   render: function () {
 
     if (!this.state.user) { return(<div></div>);};
@@ -43,13 +47,15 @@ var UserProfile = React.createClass({
 
 
     var boards = this.state.user.boards ? this.state.user.boards : [];
-
+    var isAuthor = (this.state.user.user_name == this.state.current.user_name)
     if (boards.length >= 1) {
     var boardLis = this.state.user.boards.map(function (board) {
-      if (!board.private) { return <li key={board.id} className="board-link"><i className="fa-li fa fa-paw" aria-hidden="true"></i><Link to={"/boards/" + board.id}>{board.title}</Link></li>; }
+      if (!board.private || isAuthor) { return <li key={board.id} className="board-link"><i className="fa-li fa fa-paw" aria-hidden="true"></i><Link to={"/boards/" + board.id}>{board.title}</Link></li>; }
     });
-  };
+   };
 
+   var none = !boardLis ? <p>{this.state.user.user_name} doesn't have any public boards yet!</p> : null;
+   var boardCount = boardLis ? boardLis.length : 0;
 
     var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().replace(".", "").split(" ").join(".") + "@catmail.com" : "";
 
@@ -77,20 +83,25 @@ var UserProfile = React.createClass({
     };
 
     var pic = (this.state.user.user_name && pics[this.state.user.user_name]) ? pics[this.state.user.user_name] : "user-pic";
+    var boardsDisplayed = this.state.boardsDisplayed ? "fa-ul" : "hidden";
 
     return (
-          <section className="user-profile group">
+          <div className="user-profile group">
             <section className={pic}></section>
             <ul>
               <li><h1>{this.state.user.user_name}</h1></li>
               <li><h2>Email: {emailString}</h2></li>
               <li><h2>CatTrello User since {date}</h2></li>
-              <li><h2>Boards: {boards.length}</h2><ul className="fa-ul">
-                {boardLis}
-              </ul></li>
             </ul>
 
-          </section>
+            <h2 className="user-board-list"><i className="fa fa-caret-square-o-down" aria-hidden="true" onClick={this.toggleDisplay}></i>Boards: {boardCount}
+            <ul className={boardsDisplayed}>
+              {none}
+              {boardLis}
+            </ul>
+            </h2>
+
+          </div>
         );
     }
 
