@@ -22,7 +22,7 @@ var Header = React.createClass({
           <ul>
             <li onClick={this.boards}>Boards</li>
             <li className="search"><Search /></li>
-            <li className="header-logo">CatTrello</li>
+            <li className="header-logo"><i className="fa fa-paw" aria-hidden="true"></i>CatTrello<i className="fa fa-paw" aria-hidden="true"></i></li>
           </ul>
           <SessionButtons />
         </nav>

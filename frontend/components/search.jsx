@@ -1,7 +1,7 @@
 var React = require('react');
 var SearchResultsStore = require('../store/search_results_store.js');
 var ApiUtil = require('../util/api_util');
-var Link = require('react-router').Link;
+
 
 
 var Search = React.createClass({

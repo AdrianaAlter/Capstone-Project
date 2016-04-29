@@ -31,6 +31,10 @@
 .card-index-item:hover {
   background: #aaa;
 }
+.card-index-item:hover > button {
+  background: #aaa;
+  color: #BB4433;
+}
 
 .card-index-item > button {
   display: inline;
@@ -51,10 +55,10 @@
 }
 
 .card-index-item > button:hover {
-  color: #4d4d4d;
+  color: #994433;
   box-shadow: none;
-  background: #f3f3f3;
-  border: 1px solid #4d4d4d;
+  background: transparent;
+//   border: 1px solid #4d4d4d;
 }
 
 .new-card-form {

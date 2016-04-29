@@ -32280,6 +32280,7 @@
 		},
 	
 		render: function () {
+			var checkBox = this.state.private == true ? "fa fa-square-o" : "fa fa-check-square-o";
 	
 			return React.createElement(
 				'form',
@@ -32287,7 +32288,8 @@
 				React.createElement(
 					'h1',
 					null,
-					'Create Board'
+					'Create Board',
+					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true', onClick: this.props.closeModal })
 				),
 				React.createElement(
 					'h2',
@@ -32295,7 +32297,12 @@
 					'Title'
 				),
 				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
-				React.createElement('input', { className: 'checkbox', type: 'checkbox', onClick: this.updatePrivacy }),
+				React.createElement(
+					'h2',
+					null,
+					'Public?',
+					React.createElement('i', { className: checkBox, 'aria-hidden': 'true', onClick: this.updatePrivacy })
+				),
 				React.createElement(
 					'button',
 					{ onClick: this.createNewBoard },
@@ -34302,13 +34309,16 @@
 	
 	  render: function () {
 	
+	    var icon = this.props.board.private ? React.createElement('i', { className: 'fa fa-user', 'aria-hidden': 'true' }) : React.createElement('i', { className: 'fa fa-users', 'aria-hidden': 'true' });
+	
 	    return React.createElement(
 	      Link,
 	      { to: "/boards/" + this.props.board.id },
 	      React.createElement(
 	        'li',
 	        null,
-	        this.props.board.title
+	        this.props.board.title,
+	        icon
 	      )
 	    );
 	  }
@@ -34391,7 +34401,9 @@
 	          React.createElement(
 	            'li',
 	            { className: 'header-logo' },
-	            'CatTrello'
+	            React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' }),
+	            'CatTrello',
+	            React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' })
 	          )
 	        ),
 	        React.createElement(SessionButtons, null)
@@ -34568,7 +34580,6 @@
 	var React = __webpack_require__(1);
 	var SearchResultsStore = __webpack_require__(278);
 	var ApiUtil = __webpack_require__(241);
-	var Link = __webpack_require__(159).Link;
 	
 	var Search = React.createClass({
 		displayName: 'Search',
@@ -35166,6 +35177,8 @@
 	var BoardStore = __webpack_require__(217);
 	var CardStore = __webpack_require__(288);
 	var EditBoardButton = __webpack_require__(298);
+	var SessionStore = __webpack_require__(276);
+	
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
 	
@@ -35210,12 +35223,25 @@
 	  },
 	
 	  render: function () {
+	
 	    if (!this.state.board) {
 	
-	      return React.createElement('div', null);
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement('i', { className: 'fa fa-spinner fa-spin fa-3x fa-fw margin-bottom' })
+	      );
 	    }
 	
 	    var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
+	    var current = SessionStore.currentUser();
+	    var edit = this.state.board.author_id == current.id ? React.createElement(EditBoardButton, { boardId: this.props.params.board_id }) : React.createElement('div', null);
+	    var del = this.state.board.author_id == current.id ? React.createElement(
+	      'button',
+	      { className: 'delete-board-button', onClick: this.deleteBoard },
+	      'Delete this board...'
+	    ) : React.createElement('div', null);
+	    var isCurrent = this.state.board.author_id == current.id ? true : false;
 	
 	    return React.createElement(
 	      'section',
@@ -35233,14 +35259,10 @@
 	      React.createElement(
 	        'ul',
 	        { className: 'list-index group' },
-	        React.createElement(ListIndex, { boardId: this.props.params.board_id, lists: this.state.board.lists })
+	        React.createElement(ListIndex, { boardId: this.props.params.board_id, lists: this.state.board.lists, current: isCurrent })
 	      ),
-	      React.createElement(
-	        'button',
-	        { className: 'delete-board-button', onClick: this.deleteBoard },
-	        'Delete this board...'
-	      ),
-	      React.createElement(EditBoardButton, { boardId: this.props.params.board_id })
+	      del,
+	      edit
 	    );
 	  }
 	
@@ -35267,15 +35289,19 @@
 	      return React.createElement('div', null);
 	    }
 	
+	    var current = this.props.current;
+	
 	    var listItems = this.props.lists.map(function (list) {
-	      return React.createElement(ListIndexItem, { key: list.id, list: list });
+	      return React.createElement(ListIndexItem, { key: list.id, list: list, current: current });
 	    });
+	
+	    var nlb = this.props.current ? React.createElement(NewListButton, { boardId: this.props.boardId }) : React.createElement('div', null);
 	
 	    return React.createElement(
 	      'ul',
 	      { className: 'list-index' },
 	      listItems,
-	      React.createElement(NewListButton, { boardId: this.props.boardId })
+	      nlb
 	    );
 	  }
 	
@@ -35306,7 +35332,7 @@
 	        null,
 	        this.props.list.title
 	      ),
-	      React.createElement(ListDetail, { boardId: this.props.list.board_id, listId: this.props.list.id })
+	      React.createElement(ListDetail, { boardId: this.props.list.board_id, listId: this.props.list.id, current: this.props.current })
 	    );
 	  }
 	});
@@ -35363,17 +35389,21 @@
 	
 	  render: function () {
 	
+	    var ncb = this.props.current ? React.createElement(NewCardButton, { boardId: this.props.boardId, listId: this.props.listId }) : React.createElement('div', null);
+	    var elb = this.props.current ? React.createElement(EditListButton, { listId: this.props.listId, boardId: this.props.boardId }) : React.createElement('div', null);
+	    var dlb = this.props.current ? React.createElement(
+	      'button',
+	      { className: 'delete-list-button', onClick: this.deleteList },
+	      'Delete this list...'
+	    ) : React.createElement('div', null);
+	
 	    return React.createElement(
 	      'section',
 	      { className: 'list-detail group' },
-	      React.createElement(CardIndex, { cards: this.state.cards, listId: this.props.listId, boardId: this.props.boardId }),
-	      React.createElement(NewCardButton, { boardId: this.props.boardId, listId: this.props.listId }),
-	      React.createElement(EditListButton, { listId: this.props.listId, boardId: this.props.boardId }),
-	      React.createElement(
-	        'button',
-	        { className: 'delete-list-button', onClick: this.deleteList },
-	        'Delete this list...'
-	      )
+	      React.createElement(CardIndex, { cards: this.state.cards, listId: this.props.listId, boardId: this.props.boardId, current: this.props.current }),
+	      ncb,
+	      elb,
+	      dlb
 	    );
 	  }
 	
@@ -35424,9 +35454,10 @@
 	    }
 	
 	    var boardId = this.props.boardId;
+	    var current = this.props.current;
 	
 	    var cardIndexItems = this.props.cards.map(function (card) {
-	      return React.createElement(CardIndexItem, { key: card.id, card: card, listId: card.list_id, boardId: boardId });
+	      return React.createElement(CardIndexItem, { key: card.id, card: card, listId: card.list_id, boardId: boardId, current: current });
 	    });
 	
 	    return React.createElement(
@@ -35599,17 +35630,19 @@
 	  },
 	
 	  render: function () {
+	    var dcb = this.props.current ? React.createElement(
+	      'button',
+	      { onClick: this.deleteCard },
+	      React.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' })
+	    ) : React.createElement('div', null);
+	    var ecb = this.props.current ? React.createElement(EditCardButton, { boardId: this.props.boardId, listId: this.props.listId, cardId: this.props.card.id }) : React.createElement('div', null);
 	
 	    return React.createElement(
 	      'li',
 	      { className: 'card-index-item' },
 	      this.props.card.title,
-	      React.createElement(
-	        'button',
-	        { onClick: this.deleteCard },
-	        React.createElement('i', { className: 'fa fa-times', 'aria-hidden': 'true' })
-	      ),
-	      React.createElement(EditCardButton, { boardId: this.props.boardId, listId: this.props.listId, cardId: this.props.card.id })
+	      dcb,
+	      ecb
 	    );
 	  }
 	});
@@ -35706,7 +35739,8 @@
 				React.createElement(
 					'h1',
 					null,
-					'Update Card'
+					'Update Card',
+					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true', onClick: this.props.closeModal })
 				),
 				React.createElement(
 					'h2',
@@ -35812,7 +35846,8 @@
 				React.createElement(
 					'h1',
 					null,
-					'Create Card'
+					'Create Card',
+					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true', onClick: this.props.closeModal })
 				),
 				React.createElement(
 					'h2',
@@ -35922,7 +35957,8 @@
 				React.createElement(
 					'h1',
 					null,
-					'Update List'
+					'Update List',
+					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true', onClick: this.props.closeModal })
 				),
 				React.createElement(
 					'h2',
@@ -36025,7 +36061,8 @@
 				React.createElement(
 					"h1",
 					null,
-					"Create List"
+					"Create List",
+					React.createElement("i", { className: "fa fa-times xout", "aria-hidden": "true", onClick: this.props.closeModal })
 				),
 				React.createElement(
 					"h2",
@@ -36134,13 +36171,16 @@
 	
 		render: function () {
 	
+			var checkBox = this.state.private == true ? "fa fa-square-o" : "fa fa-check-square-o";
+	
 			return React.createElement(
 				'form',
 				{ className: 'edit-board-form' },
 				React.createElement(
 					'h1',
 					null,
-					'Update Board'
+					'Update Board',
+					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true', onClick: this.props.closeModal })
 				),
 				React.createElement(
 					'h2',
@@ -36148,7 +36188,12 @@
 					'Title'
 				),
 				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
-				React.createElement('input', { className: 'checkbox', type: 'checkbox', onClick: this.updatePrivacy }),
+				React.createElement(
+					'h2',
+					null,
+					'Public?',
+					React.createElement('i', { className: checkBox, 'aria-hidden': 'true', onClick: this.updatePrivacy })
+				),
 				React.createElement(
 					'button',
 					{ onClick: this.editBoard },
@@ -36169,11 +36214,15 @@
 	var UserStore = __webpack_require__(301);
 	var SessionStore = __webpack_require__(276);
 	var ApiUtil = __webpack_require__(241);
+	var Link = __webpack_require__(159).Link;
 	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
 	
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	  getInitialState: function () {
 	    return { user: UserStore.all(), current: SessionStore.currentUser() };
 	  },
@@ -36195,17 +36244,37 @@
 	    this.setState({ user: UserStore.all() });
 	  },
 	
+	  goToBoard: function (id) {
+	    this.hideResults();
+	    this.context.router.push("/boards/" + id);
+	  },
+	
 	  render: function () {
-	    console.log(this.state);
+	
 	    if (!this.state.user) {
 	      return React.createElement('div', null);
 	    };
-	    var boards = this.state.user.boards ? this.state.user.boards.length : "";
+	
+	    var boards = this.state.user.boards ? this.state.user.boards : [];
+	
+	    if (boards.length >= 1) {
+	      var boardLis = this.state.user.boards.map(function (board) {
+	        if (!board.private) {
+	          return React.createElement(
+	            Link,
+	            { key: board.id, to: "/boards/" + board.id },
+	            board.title
+	          );
+	        }
+	      });
+	    };
 	
 	    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().replace(".", "").split(" ").join(".") + "@catmail.com" : "";
 	
 	    var dateEls = this.state.user.created_at ? this.state.user.created_at.slice(0, this.state.user.created_at.indexOf("T")).split("-") : "";
+	
 	    var month = function (dateEls) {
+	
 	      if (dateEls) {
 	        if (dateEls[1][0] == "0") {
 	          return dateEls[1].slice(1);
@@ -36229,7 +36298,6 @@
 	
 	    var pic = this.state.user.user_name && pics[this.state.user.user_name] ? pics[this.state.user.user_name] : "user-pic";
 	
-	    // else {
 	    return React.createElement(
 	      'section',
 	      { className: 'user-profile group' },
@@ -36273,9 +36341,10 @@
 	            'h2',
 	            null,
 	            'Boards: ',
-	            boards
+	            boards.length
 	          )
-	        )
+	        ),
+	        boardLis
 	      )
 	    );
 	  }

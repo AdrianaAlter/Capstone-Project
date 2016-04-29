@@ -3,6 +3,8 @@ var ListIndex = require('./list_index.jsx');
 var BoardStore = require('../store/board_store.js');
 var CardStore = require('../store/card_store.js');
 var EditBoardButton = require('./edit_board_button.jsx');
+var SessionStore = require('../store/session_store.js');
+
 var BoardDetail = React.createClass({
 
   contextTypes: {
@@ -43,14 +45,19 @@ var BoardDetail = React.createClass({
   },
 
   render: function () {
+
     if (!this.state.board) {
 
       return (
-        <div></div>
+        <div><i className="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i></div>
       );
     }
 
     var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
+    var current = SessionStore.currentUser();
+    var edit = this.state.board.author_id == current.id ? <EditBoardButton boardId={this.props.params.board_id} /> : <div></div>;
+    var del = this.state.board.author_id == current.id ? <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button> : <div></div>;
+    var isCurrent = this.state.board.author_id == current.id ? true : false;
 
     return (
             <section className="board-detail group">
@@ -59,10 +66,10 @@ var BoardDetail = React.createClass({
 
               </section>
               <ul className="list-index group">
-                <ListIndex boardId={this.props.params.board_id} lists={this.state.board.lists} />
+                <ListIndex boardId={this.props.params.board_id} lists={this.state.board.lists} current={isCurrent}/>
               </ul>
-              <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button>
-              <EditBoardButton boardId={this.props.params.board_id} />
+              {del}
+              {edit}
             </section>
           );
     }

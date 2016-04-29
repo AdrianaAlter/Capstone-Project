@@ -35,12 +35,14 @@ var EditBoardForm = React.createClass({
 
 	render: function () {
 
-	   return(
+		var checkBox = this.state.private == true ? "fa fa-square-o" : "fa fa-check-square-o";
+
+	  return(
 				<form className="edit-board-form">
-          <h1>Update Board</h1>
+          <h1>Update Board<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.closeModal}></i></h1>
 					<h2>Title</h2>
 					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
-					<input className="checkbox" type="checkbox" onClick={this.updatePrivacy}></input>
+					<h2>Public?<i className={checkBox} aria-hidden="true" onClick={this.updatePrivacy}></i></h2>
 					<button onClick={this.editBoard}>Update</button>
 				</form>
 		);

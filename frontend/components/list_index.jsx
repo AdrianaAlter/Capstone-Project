@@ -4,7 +4,7 @@ var NewListButton = require('./new_list_button.jsx');
 var ApiUtil = require('../util/api_util.js');
 
 var ListIndex = React.createClass({
- 
+
   render: function () {
 
     if (!this.props.lists) {
@@ -13,16 +13,20 @@ var ListIndex = React.createClass({
       );
     }
 
+    var current = this.props.current;
+
 
     var listItems = this.props.lists.map(function (list) {
-      return <ListIndexItem key={list.id} list={list} />;
+      return <ListIndexItem key={list.id} list={list} current={current} />;
     });
+
+    var nlb = this.props.current ? <NewListButton boardId={this.props.boardId}/> : <div></div>;
 
 
     return (
         <ul className="list-index">
             {listItems}
-            <NewListButton boardId={this.props.boardId}/>
+            {nlb}
   			</ul>
   	  );
     }

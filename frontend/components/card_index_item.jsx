@@ -12,13 +12,16 @@ var CardIndexItem = React.createClass({
 
   },
 
+
   render: function () {
+    var dcb = this.props.current ? <button onClick={this.deleteCard}><i className="fa fa-trash" aria-hidden="true"></i></button> : <div></div>;
+    var ecb = this.props.current ? <EditCardButton boardId={this.props.boardId} listId={this.props.listId} cardId={this.props.card.id} /> : <div></div>;
 
     return(
       <li className="card-index-item">
         {this.props.card.title}
-        <button onClick={this.deleteCard}><i className="fa fa-times" aria-hidden="true"></i></button>
-        <EditCardButton boardId={this.props.boardId} listId={this.props.listId} cardId={this.props.card.id} />
+        {dcb}
+        {ecb}
       </li>
     );
   }

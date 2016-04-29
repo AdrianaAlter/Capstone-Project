@@ -38,9 +38,10 @@ var CardIndex = React.createClass({
 
 
     var boardId = this.props.boardId;
+    var current = this.props.current;
 
     var cardIndexItems = this.props.cards.map(function (card) {
-      return <CardIndexItem key={card.id} card={card} listId={card.list_id} boardId={boardId}/>;
+      return <CardIndexItem key={card.id} card={card} listId={card.list_id} boardId={boardId} current={current} />;
     });
 
     return (

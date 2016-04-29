@@ -13,9 +13,11 @@ var BoardIndexItem = React.createClass({
   },
 
   render: function () {
+    
+    var icon = this.props.board.private ? <i className="fa fa-user" aria-hidden="true"></i> : <i className="fa fa-users" aria-hidden="true"></i>;
 
     return(
-      <Link to={"/boards/" + this.props.board.id}><li>{this.props.board.title}</li></Link>
+      <Link to={"/boards/" + this.props.board.id}><li>{this.props.board.title}{icon}</li></Link>
     );
   }
 

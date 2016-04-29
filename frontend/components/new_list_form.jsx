@@ -28,7 +28,7 @@ var NewListForm = React.createClass({
 
 	return(
 				<form className="new-list-form">
-          <h1>Create List</h1>
+          <h1>Create List<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.closeModal}></i></h1>
 					<h2>Title</h2>
 					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
 					<button onClick={this.createNewList}>Create</button>

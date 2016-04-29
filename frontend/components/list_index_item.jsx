@@ -13,7 +13,7 @@ var ListIndexItem = React.createClass({
 
         <section className="list-index-item">
           <h1>{this.props.list.title}</h1>
-          <ListDetail boardId={this.props.list.board_id} listId={this.props.list.id}/>
+          <ListDetail boardId={this.props.list.board_id} listId={this.props.list.id} current={this.props.current}/>
         </section>
 
     );

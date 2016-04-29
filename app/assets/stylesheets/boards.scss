@@ -37,6 +37,12 @@
   cursor: pointer;
 }
 
+.board-items .fa {
+  float: right;
+  margin: 0;
+  color: #cc7766;
+}
+
 .board-items li:hover {
   background: darkred;
 }
@@ -117,7 +123,6 @@
 }
 
 .board-detail button {
-
   box-shadow: none;
   width: 120px;
   font-size: 14px;
@@ -171,7 +176,7 @@
 	color: #4d4d4d;
 	font-size: 14px;
 	position: relative;
-	margin-bottom: 4px;
+	margin: 6px 0;
 }
 
 .new-board-form input {
@@ -193,7 +198,7 @@
 	padding: 7px 30px;
 	width: 45px;
   height: 22px;
-	margin: 8px 4px 0 0;
+	margin: 4px 4px 0 0;
 	cursor: pointer;
 	position: absolute;
 }
@@ -315,7 +320,7 @@
 	padding: 7px 30px;
 	width: 45px;
   height: 22px;
-	margin: 8px 4px 0 0;
+	margin: 4px 4px 0 0;
 	cursor: pointer;
 	position: absolute;
 }

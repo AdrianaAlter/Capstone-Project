@@ -52,3 +52,8 @@ footer {
   width: 540px;
   padding-bottom: 20px;
 }
+
+.xout {
+  float: right;
+  cursor: pointer;
+}

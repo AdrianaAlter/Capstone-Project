@@ -43,14 +43,17 @@ var ListDetail = React.createClass({
 
   render: function () {
 
+  var ncb = this.props.current ? <NewCardButton boardId={this.props.boardId} listId={this.props.listId}/> : <div></div>;
+  var elb = this.props.current ? <EditListButton listId={this.props.listId} boardId={this.props.boardId}/> : <div></div>;
+  var dlb = this.props.current ? <button className="delete-list-button" onClick={this.deleteList}>Delete this list...</button> : <div></div>;
 
   return (
 
       <section className="list-detail group">
-        <CardIndex cards={this.state.cards} listId={this.props.listId} boardId={this.props.boardId}/>
-        <NewCardButton boardId={this.props.boardId} listId={this.props.listId}/>
-        <EditListButton listId={this.props.listId} boardId={this.props.boardId}/>
-        <button className="delete-list-button" onClick={this.deleteList}>Delete this list...</button>
+        <CardIndex cards={this.state.cards} listId={this.props.listId} boardId={this.props.boardId} current={this.props.current}/>
+        {ncb}
+        {elb}
+        {dlb}
       </section>
     );
   }
