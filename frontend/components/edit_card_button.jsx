@@ -25,8 +25,8 @@ var EditCardButton = React.createClass({
     };
 
     return (
-      <button className="edit-card-button" onClick={this.openModal}>
-        +
+      <button onClick={this.openModal}>
+        <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
         <Modal className="modal" isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}
           style={styles}>

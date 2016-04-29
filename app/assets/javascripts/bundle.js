@@ -32256,7 +32256,7 @@
 	
 	
 		getInitialState: function () {
-			return { title: "" };
+			return { title: "", private: true };
 		},
 	
 		createNewBoard: function (e) {
@@ -32264,6 +32264,7 @@
 			e.preventDefault();
 			var board = {};
 			board.title = this.state.title;
+			board.private = this.state.private;
 			ApiUtil.createNewBoard(board);
 			this.setState({ title: "" });
 			this.props.closeModal();
@@ -32272,6 +32273,10 @@
 		updateTitle: function (e) {
 			var newTitle = e.currentTarget.value;
 			this.setState({ title: newTitle });
+		},
+	
+		updatePrivacy: function (e) {
+			this.state.private == true ? this.setState({ private: false }) : this.setState({ private: true });
 		},
 	
 		render: function () {
@@ -32290,6 +32295,7 @@
 					'Title'
 				),
 				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
+				React.createElement('input', { className: 'checkbox', type: 'checkbox', onClick: this.updatePrivacy }),
 				React.createElement(
 					'button',
 					{ onClick: this.createNewBoard },
@@ -35209,13 +35215,20 @@
 	      return React.createElement('div', null);
 	    }
 	
+	    var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
+	
 	    return React.createElement(
 	      'section',
 	      { className: 'board-detail group' },
 	      React.createElement(
-	        'h1',
+	        'section',
 	        null,
-	        this.state.board.title
+	        React.createElement(
+	          'h1',
+	          null,
+	          this.state.board.title,
+	          React.createElement('i', { className: status, 'aria-hidden': 'true' })
+	        )
 	      ),
 	      React.createElement(
 	        'ul',
@@ -35593,8 +35606,8 @@
 	      this.props.card.title,
 	      React.createElement(
 	        'button',
-	        { className: 'card-delete-button', onClick: this.deleteCard },
-	        'x'
+	        { onClick: this.deleteCard },
+	        React.createElement('i', { className: 'fa fa-times', 'aria-hidden': 'true' })
 	      ),
 	      React.createElement(EditCardButton, { boardId: this.props.boardId, listId: this.props.listId, cardId: this.props.card.id })
 	    );
@@ -35637,8 +35650,8 @@
 	
 	    return React.createElement(
 	      'button',
-	      { className: 'edit-card-button', onClick: this.openModal },
-	      '+',
+	      { onClick: this.openModal },
+	      React.createElement('i', { className: 'fa fa-pencil-square-o', 'aria-hidden': 'true' }),
 	      React.createElement(
 	        Modal,
 	        { className: 'modal', isOpen: this.state.modalOpen,
@@ -36097,14 +36110,14 @@
 	
 			var startingBoard = BoardStore.find(boardId);
 	
-			return { title: startingBoard.title };
+			return { title: startingBoard.title, private: startingBoard.private };
 		},
 	
 		editBoard: function (e) {
 			e.preventDefault();
 			var board = {};
 			board.title = this.state.title;
-	
+			board.private = this.state.private;
 			ApiUtil.editBoard(board, this.props.boardId, this.props.listId);
 			this.setState({ title: "" });
 			this.props.closeModal();
@@ -36113,6 +36126,10 @@
 		updateTitle: function (e) {
 			var newTitle = e.currentTarget.value;
 			this.setState({ title: newTitle });
+		},
+	
+		updatePrivacy: function (e) {
+			this.state.private == true ? this.setState({ private: false }) : this.setState({ private: true });
 		},
 	
 		render: function () {
@@ -36131,6 +36148,7 @@
 					'Title'
 				),
 				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
+				React.createElement('input', { className: 'checkbox', type: 'checkbox', onClick: this.updatePrivacy }),
 				React.createElement(
 					'button',
 					{ onClick: this.editBoard },

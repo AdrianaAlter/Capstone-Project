@@ -9,7 +9,7 @@ var EditBoardForm = React.createClass({
 
     var startingBoard = BoardStore.find(boardId);
 
-		return({ title: startingBoard.title });
+		return({ title: startingBoard.title, private: startingBoard.private });
 	},
 
 
@@ -17,7 +17,7 @@ var EditBoardForm = React.createClass({
       e.preventDefault();
       var board = {};
       board.title = this.state.title;
-
+			board.private = this.state.private;
       ApiUtil.editBoard(board, this.props.boardId, this.props.listId);
       this.setState({ title: "" });
       this.props.closeModal();
@@ -28,6 +28,10 @@ var EditBoardForm = React.createClass({
 		this.setState({ title: newTitle });
 	},
 
+	updatePrivacy: function (e) {
+		this.state.private == true ? this.setState({ private: false }) : this.setState({ private: true });
+	},
+
 
 	render: function () {
 
@@ -36,6 +40,7 @@ var EditBoardForm = React.createClass({
           <h1>Update Board</h1>
 					<h2>Title</h2>
 					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
+					<input className="checkbox" type="checkbox" onClick={this.updatePrivacy}></input>
 					<button onClick={this.editBoard}>Update</button>
 				</form>
 		);

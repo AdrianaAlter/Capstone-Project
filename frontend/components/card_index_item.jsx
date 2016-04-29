@@ -5,11 +5,11 @@ var CardIndexItem = React.createClass({
 
   deleteCard: function () {
     var boardId = this.props.boardId;
-   
+
     var id = this.props.card.id;
 
     ApiUtil.deleteCard(boardId, id);
-  
+
   },
 
   render: function () {
@@ -17,7 +17,7 @@ var CardIndexItem = React.createClass({
     return(
       <li className="card-index-item">
         {this.props.card.title}
-        <button className="card-delete-button" onClick={this.deleteCard}>x</button>
+        <button onClick={this.deleteCard}><i className="fa fa-times" aria-hidden="true"></i></button>
         <EditCardButton boardId={this.props.boardId} listId={this.props.listId} cardId={this.props.card.id} />
       </li>
     );

@@ -79,9 +79,21 @@
   line-height: 30px;
 }
 
+.board-detail > section {
+  margin: 0 14px;
+  padding: 20px 0;
+  width: 250px;
+}
 .board-detail > h1 {
-  display: block;
   padding: 12px;
+}
+
+
+.fa {
+  margin: 0 10px;
+  height: 16px;
+  width: 16px;
+
 }
 
 .delete-board-button {

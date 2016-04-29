@@ -50,10 +50,14 @@ var BoardDetail = React.createClass({
       );
     }
 
+    var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
 
     return (
             <section className="board-detail group">
-              <h1>{this.state.board.title}</h1>
+              <section>
+                <h1>{this.state.board.title}<i className={status} aria-hidden="true"></i></h1>
+
+              </section>
               <ul className="list-index group">
                 <ListIndex boardId={this.props.params.board_id} lists={this.state.board.lists} />
               </ul>
