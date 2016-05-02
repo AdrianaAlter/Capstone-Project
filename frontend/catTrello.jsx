@@ -25,6 +25,7 @@ var routes = (
         <Route path="users/:user_id" component={UserProfile} />
       </Route>
       <Route path="/login" component={LogInForm}/>
+
     </Router>
 );
 

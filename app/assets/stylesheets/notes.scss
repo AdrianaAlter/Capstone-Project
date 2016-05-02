@@ -1,0 +1,38 @@
+// Place all the styles related to the Notes controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.new-note-form {
+  border: 1px solid black;
+  border-radius: 3px;
+
+  // padding: 20px;
+  background: #994433;
+
+  float: left;
+
+  display: block;
+  width: 265px;
+  padding: 5px;
+  // color: #666;
+  // border-radius: 3px;
+  margin: 0 4px 8px 4px;
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: bold;
+  position: relative;
+}
+
+.new-note-form h1 {
+  font-size: 14px;
+  margin: 0 0 0 12px;
+}
+
+.content-field {
+  background: #BB4433;
+  border-radius: 3px;
+  height: 60px;
+  overflow-y: scroll;
+  padding: 0 !important;
+  margin: 12px 0 0 12px;
+}

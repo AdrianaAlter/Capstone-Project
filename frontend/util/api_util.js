@@ -3,6 +3,7 @@ var SessionActions = require('../actions/session_actions.js');
 var SearchResultActions = require('../actions/search_result_actions.js');
 var CardActions = require('../actions/card_actions.js');
 var UserActions = require('../actions/user_actions.js');
+var NoteActions = require('../actions/note_actions.js');
 
 ApiUtil = {
 
@@ -49,6 +50,23 @@ ApiUtil = {
       },
       error: function () {
         console.log('Error in ApiUtil fetch all cards function');
+      }
+
+    });
+
+  },
+
+  fetchAllNotes: function (boardId) {
+
+    $.ajax({
+      url: "api/boards/" + boardId + "/notes",
+      type: "GET",
+      dataType: "json",
+      success: function (notes) {
+        NoteActions.receiveAllNotes(notes);
+      },
+      error: function () {
+        console.log('Error in ApiUtil fetch all notes function');
       }
 
     });
@@ -156,6 +174,23 @@ ApiUtil = {
         error: function () {
           alert("Did you try to create a card with no title?  The cat is not amused.")
           console.log("Error in ApiUtil createNewCard function");
+        }
+      });
+  },
+
+  createNewNote: function (note, boardId, callback) {
+
+      $.ajax({
+        url: "api/boards/" + boardId + "/notes",
+        type: "POST",
+        data: { note: note },
+        success: function (note) {
+          NoteActions.receiveSingleNote(note);
+          callback && callback(note.id);
+        },
+        error: function () {
+          alert("Did you try to create a blank note?  The cat is not amused.")
+          console.log("Error in ApiUtil createNewNote function");
         }
       });
   },

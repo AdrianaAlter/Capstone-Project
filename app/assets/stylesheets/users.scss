@@ -118,8 +118,20 @@
   width: 300px;
   border: 5px dotted #026AA7;
   border-radius: 3%;
+  padding: 10px;
+  overflow-y: scroll;
 }
 
+.board-link {
+  width: 180px;
+  margin: auto;
+  padding: 0 !important;
+  text-align: left;
+}
+
+.board-link a {
+  padding-left: 20px;
+}
 .board-link:hover {
   cursor: pointer;
   color: #014a75;

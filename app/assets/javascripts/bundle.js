@@ -24934,7 +24934,6 @@
 	      BoardStore.__emitChange();
 	      break;
 	    case BoardConstants.SINGLE_LIST_RECEIVED:
-	
 	      BoardStore.resetSingleList(payload.list);
 	      BoardStore.__emitChange();
 	      break;
@@ -31766,6 +31765,7 @@
 	var SearchResultActions = __webpack_require__(244);
 	var CardActions = __webpack_require__(246);
 	var UserActions = __webpack_require__(248);
+	var NoteActions = __webpack_require__(303);
 	
 	ApiUtil = {
 	
@@ -31810,6 +31810,22 @@
 	      },
 	      error: function () {
 	        console.log('Error in ApiUtil fetch all cards function');
+	      }
+	
+	    });
+	  },
+	
+	  fetchAllNotes: function (boardId) {
+	
+	    $.ajax({
+	      url: "api/boards/" + boardId + "/notes",
+	      type: "GET",
+	      dataType: "json",
+	      success: function (notes) {
+	        NoteActions.receiveAllNotes(notes);
+	      },
+	      error: function () {
+	        console.log('Error in ApiUtil fetch all notes function');
 	      }
 	
 	    });
@@ -31909,6 +31925,23 @@
 	      error: function () {
 	        alert("Did you try to create a card with no title?  The cat is not amused.");
 	        console.log("Error in ApiUtil createNewCard function");
+	      }
+	    });
+	  },
+	
+	  createNewNote: function (note, boardId, callback) {
+	
+	    $.ajax({
+	      url: "api/boards/" + boardId + "/notes",
+	      type: "POST",
+	      data: { note: note },
+	      success: function (note) {
+	        NoteActions.receiveSingleNote(note);
+	        callback && callback(note.id);
+	      },
+	      error: function () {
+	        alert("Did you try to create a blank note?  The cat is not amused.");
+	        console.log("Error in ApiUtil createNewNote function");
 	      }
 	    });
 	  },
@@ -35178,6 +35211,8 @@
 	var CardStore = __webpack_require__(288);
 	var EditBoardButton = __webpack_require__(298);
 	var SessionStore = __webpack_require__(276);
+	var NoteIndex = __webpack_require__(305);
+	var NewNoteForm = __webpack_require__(306);
 	
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
@@ -35205,10 +35240,7 @@
 	
 	  componentDidMount: function () {
 	    this.listener = BoardStore.addListener(this.setNewState);
-	
 	    ApiUtil.fetchSingleBoard(this.props.params.board_id);
-	
-	    // ApiUtil.fetchAllCards(this.props.params.board_id);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -35246,6 +35278,7 @@
 	      'Delete this board...'
 	    ) : React.createElement('div', null);
 	    var isCurrent = this.state.board.author_id == current.id ? true : false;
+	    var Notes = isCurrent ? React.createElement(NoteIndex, { boardId: this.props.params.board_id }) : React.createElement(NewNoteForm, { boardId: this.props.params.board_id });
 	
 	    return React.createElement(
 	      'section',
@@ -35266,7 +35299,8 @@
 	        React.createElement(ListIndex, { boardId: this.props.params.board_id, lists: this.state.board.lists, current: isCurrent })
 	      ),
 	      del,
-	      edit
+	      edit,
+	      Notes
 	    );
 	  }
 	
@@ -36263,15 +36297,16 @@
 	      return React.createElement('div', null);
 	    };
 	
-	    var boards = this.state.user.boards ? this.state.user.boards : [];
+	    var boards = this.state.user.boards ? this.state.user.boards : null;
 	    var isAuthor = this.state.user.user_name == this.state.current.user_name;
-	    if (boards.length >= 1) {
-	      var boardLis = this.state.user.boards.map(function (board) {
-	        if (!board.private || isAuthor) {
+	
+	    if (boards && boards.length >= 1) {
+	      var boardLis = boards.map(function (board) {
+	        if (!board.private) {
 	          return React.createElement(
 	            'li',
 	            { key: board.id, className: 'board-link' },
-	            React.createElement('i', { className: 'fa-li fa fa-paw', 'aria-hidden': 'true' }),
+	            React.createElement('i', { className: 'fa-li fa fa-paw fa-fw', 'aria-hidden': 'true' }),
 	            React.createElement(
 	              Link,
 	              { to: "/boards/" + board.id },
@@ -36279,6 +36314,11 @@
 	            )
 	          );
 	        }
+	      });
+	    };
+	    if (boardLis && boardLis.length > 1) {
+	      boardLis = boardLis.filter(function (n) {
+	        return n != undefined;
 	      });
 	    };
 	
@@ -36361,7 +36401,7 @@
 	        'h2',
 	        { className: 'user-board-list' },
 	        React.createElement('i', { className: 'fa fa-caret-square-o-down', 'aria-hidden': 'true', onClick: this.toggleDisplay }),
-	        'Boards: ',
+	        'Public Boards: ',
 	        boardCount,
 	        React.createElement(
 	          'ul',
@@ -36414,6 +36454,240 @@
 	};
 	
 	module.exports = UserStore;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var Dispatcher = __webpack_require__(236);
+	var NoteConstants = __webpack_require__(304);
+	
+	var NoteStore = new Store(Dispatcher);
+	var _notes = [];
+	
+	NoteStore.all = function () {
+	  return _notes;
+	};
+	
+	NoteStore.resetNotes = function (notes) {
+	  _notes = notes;
+	};
+	
+	NoteStore.resetNote = function (note) {
+	  var i = NoteStore.findOutIndex(note);
+	  if (_notes[i]) {
+	    _notes[i] = note;
+	  } else {
+	    _notes.push(note);
+	  }
+	};
+	
+	NoteStore.findOutIndex = function (note) {
+	  for (var i = 0; i < _notes.length; i++) {
+	    if (_notes[i].id == note.id) {
+	      return i;
+	    }
+	  }
+	};
+	
+	NoteStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case NoteConstants.ALL_NOTES_RECEIVED:
+	      NoteStore.resetNotes(payload.notes);
+	      NoteStore.__emitChange();
+	      break;
+	    case NoteConstants.SINGLE_NOTE_RECEIVED:
+	      NoteStore.resetNote(payload.note);
+	      NoteStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = NoteStore;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var NoteConstants = __webpack_require__(304);
+	var Dispatcher = __webpack_require__(236);
+	
+	var NoteActions = {
+	
+	  receiveAllNotes: function (notes) {
+	    Dispatcher.dispatch({
+	      actionType: NoteConstants.ALL_NOTES_RECEIVED,
+	      notes: notes
+	    });
+	  },
+	
+	  receiveSingleNote: function (note) {
+	    Dispatcher.dispatch({
+	      actionType: NoteConstants.SINGLE_NOTE_RECEIVED,
+	      note: note
+	    });
+	  }
+	
+	};
+	
+	module.exports = NoteActions;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports) {
+
+	var NoteConstants = {
+	  ALL_NOTES_RECEIVED: "ALL_NOTES_RECEIVED",
+	  SINGLE_NOTE_RECEIVED: "SINGLE_NOTE_RECEIVED"
+	};
+	
+	module.exports = NoteConstants;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var NoteStore = __webpack_require__(302);
+	var ApiUtil = __webpack_require__(241);
+	
+	var NoteIndex = React.createClass({
+	  displayName: 'NoteIndex',
+	
+	
+	  getInitialState: function () {
+	    return { notes: this.getStateFromStore() };
+	  },
+	
+	  getStateFromStore: function () {
+	    return NoteStore.all();
+	  },
+	
+	  setNewState: function () {
+	    this.setState({ notes: this.getStateFromStore() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = NoteStore.addListener(this.setNewState);
+	    ApiUtil.fetchAllNotes(this.props.boardId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    if (this.listener) {
+	      this.listener.remove();
+	    }
+	  },
+	
+	  render: function () {
+	
+	    if (!this.state.notes) {
+	      return React.createElement('div', null);
+	    };
+	    if (this.state.notes.length < 1) {
+	      return React.createElement(
+	        'h1',
+	        null,
+	        'No notes'
+	      );
+	    };
+	
+	    var noteItems = this.state.notes.map(function (note) {
+	      return React.createElement(
+	        'li',
+	        { key: note.id },
+	        note.content,
+	        React.createElement(
+	          'p',
+	          null,
+	          'by ',
+	          note.noter.user_name
+	        )
+	      );
+	    });
+	
+	    return React.createElement(
+	      'section',
+	      { className: 'note-index group' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Notes'
+	      ),
+	      React.createElement(
+	        'ul',
+	        null,
+	        noteItems
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = NoteIndex;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var NoteActions = __webpack_require__(240);
+	var SessionStore = __webpack_require__(276);
+	
+	var NewNoteForm = React.createClass({
+		displayName: 'NewNoteForm',
+	
+	
+		getInitialState: function () {
+			return { content: "", formDisplayed: false };
+		},
+	
+		createNewNote: function (e) {
+			e.preventDefault();
+			var note = {};
+			note.content = this.state.content;
+			ApiUtil.createNewNote(note, this.props.boardId);
+			this.setState({ content: "" });
+		},
+	
+		updateNote: function (e) {
+			var newContent = e.currentTarget.value;
+			this.setState({ content: newContent });
+		},
+	
+		toggleDisplay: function () {
+			this.state.formDisplayed ? this.setState({ formDisplayed: false }) : this.setState({ formDisplayed: true });
+		},
+	
+		render: function () {
+			var current = SessionStore.currentUser();
+			var formDisplayed = this.state.formDisplayed ? "form-content" : "hidden";
+	
+			return React.createElement(
+				'form',
+				{ className: 'new-note-form group' },
+				React.createElement(
+					'h1',
+					null,
+					'Leave a note!',
+					React.createElement('i', { className: 'fa fa-pencil', 'aria-hidden': 'true', onClick: this.toggleDisplay })
+				),
+				React.createElement(
+					'section',
+					{ className: formDisplayed },
+					React.createElement('input', { className: 'content-field', type: 'text', value: this.state.content, onChange: this.updateNote }),
+					React.createElement(
+						'button',
+						{ onClick: this.createNewNote },
+						'Submit'
+					)
+				)
+			);
+		}
+	
+	});
+	
+	module.exports = NewNoteForm;
 
 /***/ }
 /******/ ]);

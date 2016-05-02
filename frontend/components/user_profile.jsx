@@ -46,22 +46,26 @@ var UserProfile = React.createClass({
 
 
 
-    var boards = this.state.user.boards ? this.state.user.boards : [];
+    var boards = this.state.user.boards ? this.state.user.boards : null;
     var isAuthor = (this.state.user.user_name == this.state.current.user_name)
-    if (boards.length >= 1) {
-    var boardLis = this.state.user.boards.map(function (board) {
-      if (!board.private || isAuthor) { return <li key={board.id} className="board-link"><i className="fa-li fa fa-paw" aria-hidden="true"></i><Link to={"/boards/" + board.id}>{board.title}</Link></li>; }
-    });
-   };
+
+    if (boards && boards.length >= 1) {
+      var boardLis = boards.map(function (board) {
+        if (!board.private) {
+          return <li key={board.id} className="board-link"><i className="fa-li fa fa-paw fa-fw" aria-hidden="true"></i><Link to={"/boards/" + board.id}>{board.title}</Link></li>;
+        }
+      });
+    };
+   if (boardLis && boardLis.length > 1) { boardLis = boardLis.filter(function(n){ return n != undefined }); };
 
    var none = !boardLis ? <p>{this.state.user.user_name} doesn't have any public boards yet!</p> : null;
    var boardCount = boardLis ? boardLis.length : 0;
 
-    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().replace(".", "").split(" ").join(".") + "@catmail.com" : "";
+   var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().replace(".", "").split(" ").join(".") + "@catmail.com" : "";
 
-    var dateEls = this.state.user.created_at ? this.state.user.created_at.slice(0, this.state.user.created_at.indexOf("T")).split("-") : "";
+   var dateEls = this.state.user.created_at ? this.state.user.created_at.slice(0, this.state.user.created_at.indexOf("T")).split("-") : "";
 
-    var month = function(dateEls) {
+   var month = function(dateEls) {
 
       if(dateEls) {
         if (dateEls[1][0] == "0") {
@@ -94,7 +98,7 @@ var UserProfile = React.createClass({
               <li><h2>CatTrello User since {date}</h2></li>
             </ul>
 
-            <h2 className="user-board-list"><i className="fa fa-caret-square-o-down" aria-hidden="true" onClick={this.toggleDisplay}></i>Boards: {boardCount}
+            <h2 className="user-board-list"><i className="fa fa-caret-square-o-down" aria-hidden="true" onClick={this.toggleDisplay}></i>Public Boards: {boardCount}
             <ul className={boardsDisplayed}>
               {none}
               {boardLis}

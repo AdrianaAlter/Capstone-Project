@@ -34,7 +34,9 @@ card2 = Card.create(title: "...ambush...", list_id: list1.id)
 card3 = Card.create(title: "...POUNCE!", list_id: list1.id)
 card4 = Card.create(title: "Hone claws on scratching post (e.g. nearest human's leg)", list_id: list2.id)
 
+Note.destroy_all
 
+note1 = Note.create(content: "Hello!", board_id: board13.id, noter_id: user6.id)
 # board4 = Board.create(author_id: user2.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
 # board5 = Board.create(author_id: user2.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
 # board6 = Board.create(author_id: user2.id, title: "#{Faker::Hacker.noun}", description: "#{Faker::Hacker.say_something_smart}")
