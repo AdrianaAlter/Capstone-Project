@@ -11,6 +11,10 @@
   width: 242px;
   cursor: pointer;
 }
+
+.note-index > h1:hover .fa {
+  color: #5D231F;
+}
 .note-index-item {
   display: block;
   min-height: 24px;
@@ -37,10 +41,16 @@
 .note-index-item h1 {
   margin-bottom: 10px;
 }
+
 .note-index-item h2 {
   font-size: 12px;
   font-style: italic;
   text-align: right;
+}
+
+.noter-name:hover {
+  cursor: pointer;
+  color: #5D231F;
 }
 
 .note-index-item button {
@@ -97,7 +107,7 @@
   width: 242px;
   font-size: 14px;
   overflow-y: scroll;
-  padding: 0 !important;
+  padding: 0 0 0 5px !important;
   margin: 12px 0 0 12px;
   line-height: 19px;
 }

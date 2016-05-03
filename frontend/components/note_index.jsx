@@ -35,7 +35,7 @@ var NoteIndex = React.createClass({
     if (!this.state.notes || this.state.notes.length < 1) { return <div></div>};
 
     var noteItems = this.state.notes.map(function (note) {
-      return <NoteIndexItem key={note.id} id={note.id} content={note.content} noter={note.noter.user_name} boardId={note.board_id} />;
+      return <NoteIndexItem key={note.id} id={note.id} content={note.content} noter={note.noter.user_name} noterId={note.noter.id} boardId={note.board_id} date={note.created_at}/>;
     });
 
     var notesDisplayed = this.state.notesDisplayed ? "notes-list" : "hidden";

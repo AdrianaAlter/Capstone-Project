@@ -31841,7 +31841,6 @@
 	        BoardActions.receiveSingleBoard(board);
 	      },
 	      error: function () {
-	        alert("We can't find that board!  The cat must have eaten it.");
 	        console.log('Error in AJAX request to fetch single board via ApiUtil');
 	      }
 	    });
@@ -34669,6 +34668,7 @@
 	var Search = React.createClass({
 		displayName: 'Search',
 	
+	
 		contextTypes: {
 			router: React.PropTypes.object.isRequired
 		},
@@ -36341,7 +36341,7 @@
 	    };
 	
 	    var noteItems = this.state.notes.map(function (note) {
-	      return React.createElement(NoteIndexItem, { key: note.id, id: note.id, content: note.content, noter: note.noter.user_name, boardId: note.board_id });
+	      return React.createElement(NoteIndexItem, { key: note.id, id: note.id, content: note.content, noter: note.noter.user_name, noterId: note.noter.id, boardId: note.board_id, date: note.created_at });
 	    });
 	
 	    var notesDisplayed = this.state.notesDisplayed ? "notes-list" : "hidden";
@@ -36425,9 +36425,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	
+	var Link = __webpack_require__(159).Link;
 	var NoteIndexItem = React.createClass({
-	  displayName: "NoteIndexItem",
+	  displayName: 'NoteIndexItem',
 	
 	
 	  deleteNote: function () {
@@ -36438,27 +36438,50 @@
 	
 	  render: function () {
 	    var dnb = React.createElement(
-	      "button",
+	      'button',
 	      { onClick: this.deleteNote },
-	      React.createElement("i", { className: "fa fa-trash", "aria-hidden": "true" })
+	      React.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' })
 	    );
 	
+	    var dateEls = this.props.date.slice(0, this.props.date.indexOf("T")).split("-");
+	    var month = function (dateEls) {
+	      if (dateEls) {
+	        if (dateEls[1][0] == "0") {
+	          return dateEls[1].slice(1);
+	        } else {
+	          return dateEls[1];
+	        };
+	      } else {
+	        return "";
+	      };
+	    };
+	    var date = month(dateEls) + "/" + dateEls[2] + "/" + dateEls[0];
+	
 	    return React.createElement(
-	      "li",
-	      { className: "note-index-item" },
+	      'li',
+	      { className: 'note-index-item' },
 	      React.createElement(
-	        "section",
+	        'section',
 	        null,
 	        React.createElement(
-	          "h1",
+	          'h1',
 	          null,
 	          this.props.content
 	        ),
 	        React.createElement(
-	          "h2",
+	          'h2',
 	          null,
-	          "by ",
-	          this.props.noter
+	          'by ',
+	          React.createElement(
+	            Link,
+	            { to: "/users/" + this.props.noterId, className: 'noter-name' },
+	            this.props.noter
+	          )
+	        ),
+	        React.createElement(
+	          'h2',
+	          null,
+	          date
 	        )
 	      ),
 	      dnb
@@ -36604,6 +36627,7 @@
 	        }
 	      });
 	    };
+	
 	    if (boardLis && boardLis.length > 1) {
 	      boardLis = boardLis.filter(function (n) {
 	        return n != undefined;

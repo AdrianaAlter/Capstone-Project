@@ -84,7 +84,6 @@ ApiUtil = {
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
-        alert("We can't find that board!  The cat must have eaten it.");
         console.log('Error in AJAX request to fetch single board via ApiUtil');
       }
     });

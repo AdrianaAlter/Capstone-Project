@@ -44,8 +44,6 @@ var UserProfile = React.createClass({
 
     if (!this.state.user) { return(<div></div>);};
 
-
-
     var boards = this.state.user.boards ? this.state.user.boards : null;
     var isAuthor = (this.state.user.user_name == this.state.current.user_name)
 
@@ -56,6 +54,7 @@ var UserProfile = React.createClass({
         }
       });
     };
+
    if (boardLis && boardLis.length > 1) { boardLis = boardLis.filter(function(n){ return n != undefined }); };
 
    var none = !boardLis ? <p>{this.state.user.user_name} doesn't have any public boards yet!</p> : null;

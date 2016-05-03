@@ -5,6 +5,7 @@ var ApiUtil = require('../util/api_util');
 
 
 var Search = React.createClass({
+	
 	contextTypes: {
     router: React.PropTypes.object.isRequired
   },
