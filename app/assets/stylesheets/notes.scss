@@ -10,11 +10,18 @@
   margin-left: 0;
   width: 242px;
   cursor: pointer;
+  text-shadow: 2px 2px 2px #5D231F;
+}
+
+.note-index > h1:hover {
+  color: #5D231F;
 }
 
 .note-index > h1:hover .fa {
   color: #5D231F;
 }
+
+
 .note-index-item {
   display: block;
   min-height: 24px;
@@ -36,6 +43,7 @@
   padding: 15px;
   margin: 10px;
   border-radius: 3px;
+  box-shadow: 2px 2px 2px #5D231F;
 }
 
 .note-index-item h1 {
@@ -46,6 +54,13 @@
   font-size: 12px;
   font-style: italic;
   text-align: right;
+}
+
+.noter-name {
+  font-family: 'Parisienne', cursive;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .noter-name:hover {
@@ -59,11 +74,16 @@
   width: 40px;
   padding: 0;
   text-align: center;
+  margin: 12px;
 }
 
 .note-index-item button:hover {
-  background: #994433;
-  box-shadow: none;
+  background: #BB4433;
+  box-shadow: 2px 2px 2px #5D231F;
+}
+
+.note-index-item button:active {
+  box-shadow: inset 2px 2px 2px #5D231F;
 }
 
 .note-index-item button:hover .fa {
@@ -82,12 +102,19 @@
   line-height: 18px;
   font-weight: bold;
   position: relative;
+  box-shadow: 2px 2px 2px #5D231F;
+}
+
+.new-note-form:active {
+  box-shadow: inset 2px 2px 2px #5D231F;
+  text-shadow: inset 2px 2px 2px #5D231F;
 }
 
 .new-note-form h1 {
   cursor: pointer;
   font-size: 14px;
   margin: 0 0 0 12px;
+  text-shadow: 2px 2px 2px #5D231F;
 }
 
 .new-note-form h1 .fa {
@@ -100,6 +127,7 @@
 .new-note-form h1:hover .fa {
   color: #4D2219;
 }
+
 .content-field {
   background: #BB4433;
   border-radius: 3px;
@@ -112,11 +140,18 @@
   line-height: 19px;
 }
 
+.content-field:focus {
+  box-shadow: inset 2px 2px 2px #5D231F;
+}
 .new-note-form button {
   background: #BB4433;
 }
 
 .new-note-form button:hover {
-  background: #994433;
-  box-shadow: none;
+  background: #BB4433;
+  box-shadow: 2px 2px 2px #5D231F;
+}
+
+.new-note-form button:active {
+  box-shadow: inset 2px 2px 2px #5D231F;
 }
