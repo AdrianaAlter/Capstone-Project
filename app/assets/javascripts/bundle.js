@@ -50,16 +50,16 @@
 	var Route = __webpack_require__(159).Route;
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var BoardIndex = __webpack_require__(216);
-	var App = __webpack_require__(273);
-	var LogInForm = __webpack_require__(280);
+	var App = __webpack_require__(275);
+	var LogInForm = __webpack_require__(282);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ApiUtil = __webpack_require__(241);
-	var SessionStore = __webpack_require__(276);
-	var NewBoardButton = __webpack_require__(251);
-	var BoardDetail = __webpack_require__(283);
+	var SessionStore = __webpack_require__(278);
+	var NewBoardButton = __webpack_require__(253);
+	var BoardDetail = __webpack_require__(285);
 	var browserHistory = __webpack_require__(159).browserHistory;
-	var Modal = __webpack_require__(252);
-	var UserProfile = __webpack_require__(300);
+	var Modal = __webpack_require__(254);
+	var UserProfile = __webpack_require__(306);
 	
 	var routes = React.createElement(
 	  Router,
@@ -24787,9 +24787,9 @@
 	var BoardStore = __webpack_require__(217);
 	var BoardActions = __webpack_require__(240);
 	var ApiUtil = __webpack_require__(241);
-	var NewBoardForm = __webpack_require__(250);
-	var NewBoardButton = __webpack_require__(251);
-	var BoardIndexItem = __webpack_require__(272);
+	var NewBoardForm = __webpack_require__(252);
+	var NewBoardButton = __webpack_require__(253);
+	var BoardIndexItem = __webpack_require__(274);
 	
 	var BoardIndex = React.createClass({
 	  displayName: 'BoardIndex',
@@ -31765,7 +31765,7 @@
 	var SearchResultActions = __webpack_require__(244);
 	var CardActions = __webpack_require__(246);
 	var UserActions = __webpack_require__(248);
-	var NoteActions = __webpack_require__(303);
+	var NoteActions = __webpack_require__(250);
 	
 	ApiUtil = {
 	
@@ -31938,6 +31938,7 @@
 	      success: function (note) {
 	        NoteActions.receiveSingleNote(note);
 	        callback && callback(note.id);
+	        alert("Congratulations; the cat has deigned to send your note!");
 	      },
 	      error: function () {
 	        alert("Did you try to create a blank note?  The cat is not amused.");
@@ -31982,7 +31983,6 @@
 	      url: "api/boards/" + boardId + "/cards/" + id,
 	      type: "DELETE",
 	      success: function (list) {
-	
 	        BoardActions.receiveSingleList(list);
 	        CardActions.receiveList(list);
 	      },
@@ -31997,8 +31997,8 @@
 	    $.ajax({
 	      url: "api/boards/" + boardId + "/notes/" + id,
 	      type: "DELETE",
-	      success: function (board) {
-	        BoardActions.receiveSingleBoard(board);
+	      success: function (notes) {
+	        NoteActions.receiveAllNotes(notes);
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil delete note function");
@@ -32295,6 +32295,44 @@
 /* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var NoteConstants = __webpack_require__(251);
+	var Dispatcher = __webpack_require__(236);
+	
+	var NoteActions = {
+	
+	  receiveAllNotes: function (notes) {
+	    Dispatcher.dispatch({
+	      actionType: NoteConstants.ALL_NOTES_RECEIVED,
+	      notes: notes
+	    });
+	  },
+	
+	  receiveSingleNote: function (note) {
+	    Dispatcher.dispatch({
+	      actionType: NoteConstants.SINGLE_NOTE_RECEIVED,
+	      note: note
+	    });
+	  }
+	
+	};
+	
+	module.exports = NoteActions;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports) {
+
+	var NoteConstants = {
+	  ALL_NOTES_RECEIVED: "ALL_NOTES_RECEIVED",
+	  SINGLE_NOTE_RECEIVED: "SINGLE_NOTE_RECEIVED"
+	};
+	
+	module.exports = NoteConstants;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	var BoardActions = __webpack_require__(240);
 	
@@ -32363,14 +32401,14 @@
 	module.exports = NewBoardForm;
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var NewBoardForm = __webpack_require__(250);
+	var Modal = __webpack_require__(254);
+	var NewBoardForm = __webpack_require__(252);
 	
 	var NewBoardButton = React.createClass({
 	  displayName: 'NewBoardButton',
@@ -32412,23 +32450,23 @@
 	module.exports = NewBoardButton;
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(253);
+	module.exports = __webpack_require__(255);
 	
 
 
 /***/ },
-/* 253 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(254);
-	var ModalPortal = React.createFactory(__webpack_require__(255));
-	var ariaAppHider = __webpack_require__(270);
-	var elementClass = __webpack_require__(271);
+	var ExecutionEnvironment = __webpack_require__(256);
+	var ModalPortal = React.createFactory(__webpack_require__(257));
+	var ariaAppHider = __webpack_require__(272);
+	var elementClass = __webpack_require__(273);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32507,7 +32545,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 254 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32552,14 +32590,14 @@
 
 
 /***/ },
-/* 255 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(256);
-	var scopeTab = __webpack_require__(258);
-	var Assign = __webpack_require__(259);
+	var focusManager = __webpack_require__(258);
+	var scopeTab = __webpack_require__(260);
+	var Assign = __webpack_require__(261);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32756,10 +32794,10 @@
 
 
 /***/ },
-/* 256 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(257);
+	var findTabbable = __webpack_require__(259);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -32830,7 +32868,7 @@
 
 
 /***/ },
-/* 257 */
+/* 259 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32886,10 +32924,10 @@
 
 
 /***/ },
-/* 258 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(257);
+	var findTabbable = __webpack_require__(259);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -32907,7 +32945,7 @@
 
 
 /***/ },
-/* 259 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32918,9 +32956,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(260),
-	    createAssigner = __webpack_require__(266),
-	    keys = __webpack_require__(262);
+	var baseAssign = __webpack_require__(262),
+	    createAssigner = __webpack_require__(268),
+	    keys = __webpack_require__(264);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -32993,7 +33031,7 @@
 
 
 /***/ },
-/* 260 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33004,8 +33042,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(261),
-	    keys = __webpack_require__(262);
+	var baseCopy = __webpack_require__(263),
+	    keys = __webpack_require__(264);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -33026,7 +33064,7 @@
 
 
 /***/ },
-/* 261 */
+/* 263 */
 /***/ function(module, exports) {
 
 	/**
@@ -33064,7 +33102,7 @@
 
 
 /***/ },
-/* 262 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33075,9 +33113,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(263),
-	    isArguments = __webpack_require__(264),
-	    isArray = __webpack_require__(265);
+	var getNative = __webpack_require__(265),
+	    isArguments = __webpack_require__(266),
+	    isArray = __webpack_require__(267);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33306,7 +33344,7 @@
 
 
 /***/ },
-/* 263 */
+/* 265 */
 /***/ function(module, exports) {
 
 	/**
@@ -33449,7 +33487,7 @@
 
 
 /***/ },
-/* 264 */
+/* 266 */
 /***/ function(module, exports) {
 
 	/**
@@ -33698,7 +33736,7 @@
 
 
 /***/ },
-/* 265 */
+/* 267 */
 /***/ function(module, exports) {
 
 	/**
@@ -33884,7 +33922,7 @@
 
 
 /***/ },
-/* 266 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33895,9 +33933,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(267),
-	    isIterateeCall = __webpack_require__(268),
-	    restParam = __webpack_require__(269);
+	var bindCallback = __webpack_require__(269),
+	    isIterateeCall = __webpack_require__(270),
+	    restParam = __webpack_require__(271);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -33942,7 +33980,7 @@
 
 
 /***/ },
-/* 267 */
+/* 269 */
 /***/ function(module, exports) {
 
 	/**
@@ -34013,7 +34051,7 @@
 
 
 /***/ },
-/* 268 */
+/* 270 */
 /***/ function(module, exports) {
 
 	/**
@@ -34151,7 +34189,7 @@
 
 
 /***/ },
-/* 269 */
+/* 271 */
 /***/ function(module, exports) {
 
 	/**
@@ -34224,7 +34262,7 @@
 
 
 /***/ },
-/* 270 */
+/* 272 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -34271,7 +34309,7 @@
 
 
 /***/ },
-/* 271 */
+/* 273 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -34336,7 +34374,7 @@
 
 
 /***/ },
-/* 272 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34375,14 +34413,14 @@
 	module.exports = BoardIndexItem;
 
 /***/ },
-/* 273 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Header = __webpack_require__(274);
-	var Footer = __webpack_require__(279);
+	var Header = __webpack_require__(276);
+	var Footer = __webpack_require__(281);
 	var BoardIndex = __webpack_require__(216);
-	var SessionStore = __webpack_require__(276);
+	var SessionStore = __webpack_require__(278);
 	var ApiUtil = __webpack_require__(241);
 	
 	var App = React.createClass({
@@ -34404,13 +34442,13 @@
 	module.exports = App;
 
 /***/ },
-/* 274 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var SessionButtons = __webpack_require__(275);
-	var Search = __webpack_require__(277);
+	var SessionButtons = __webpack_require__(277);
+	var Search = __webpack_require__(279);
 	var Link = __webpack_require__(159).Link;
 	
 	var Header = React.createClass({
@@ -34463,13 +34501,13 @@
 	module.exports = Header;
 
 /***/ },
-/* 275 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(276);
+	var SessionStore = __webpack_require__(278);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
+	var Modal = __webpack_require__(254);
 	var Link = __webpack_require__(159).Link;
 	
 	var SessionButtons = React.createClass({
@@ -34580,7 +34618,7 @@
 	module.exports = SessionButtons;
 
 /***/ },
-/* 276 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -34621,11 +34659,11 @@
 	module.exports = SessionStore;
 
 /***/ },
-/* 277 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SearchResultsStore = __webpack_require__(278);
+	var SearchResultsStore = __webpack_require__(280);
 	var ApiUtil = __webpack_require__(241);
 	
 	var Search = React.createClass({
@@ -34738,7 +34776,7 @@
 	module.exports = Search;
 
 /***/ },
-/* 278 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -34771,7 +34809,7 @@
 	module.exports = SearchResultsStore;
 
 /***/ },
-/* 279 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34919,14 +34957,14 @@
 	module.exports = Footer;
 
 /***/ },
-/* 280 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var Footer = __webpack_require__(279);
-	var SignUpButton = __webpack_require__(281);
+	var Modal = __webpack_require__(254);
+	var Footer = __webpack_require__(281);
+	var SignUpButton = __webpack_require__(283);
 	
 	var LogInForm = React.createClass({
 	  displayName: 'LogInForm',
@@ -35101,13 +35139,13 @@
 	module.exports = LogInForm;
 
 /***/ },
-/* 281 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var SignUpForm = __webpack_require__(282);
+	var Modal = __webpack_require__(254);
+	var SignUpForm = __webpack_require__(284);
 	
 	var SignUpButton = React.createClass({
 	  displayName: 'SignUpButton',
@@ -35145,7 +35183,7 @@
 	module.exports = SignUpButton;
 
 /***/ },
-/* 282 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35216,17 +35254,17 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 283 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListIndex = __webpack_require__(284);
+	var ListIndex = __webpack_require__(286);
 	var BoardStore = __webpack_require__(217);
-	var CardStore = __webpack_require__(288);
-	var EditBoardButton = __webpack_require__(298);
-	var SessionStore = __webpack_require__(276);
-	var NoteIndex = __webpack_require__(305);
-	var NewNoteForm = __webpack_require__(306);
+	var CardStore = __webpack_require__(290);
+	var EditBoardButton = __webpack_require__(300);
+	var SessionStore = __webpack_require__(278);
+	var NoteIndex = __webpack_require__(302);
+	var NewNoteForm = __webpack_require__(305);
 	
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
@@ -35323,12 +35361,12 @@
 	module.exports = BoardDetail;
 
 /***/ },
-/* 284 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListIndexItem = __webpack_require__(285);
-	var NewListButton = __webpack_require__(296);
+	var ListIndexItem = __webpack_require__(287);
+	var NewListButton = __webpack_require__(298);
 	var ApiUtil = __webpack_require__(241);
 	
 	var ListIndex = React.createClass({
@@ -35362,11 +35400,11 @@
 	module.exports = ListIndex;
 
 /***/ },
-/* 285 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListDetail = __webpack_require__(286);
+	var ListDetail = __webpack_require__(288);
 	
 	var BoardStore = __webpack_require__(217);
 	
@@ -35392,15 +35430,15 @@
 	module.exports = ListIndexItem;
 
 /***/ },
-/* 286 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardIndex = __webpack_require__(287);
-	var NewCardButton = __webpack_require__(292);
-	var CardStore = __webpack_require__(288);
+	var CardIndex = __webpack_require__(289);
+	var NewCardButton = __webpack_require__(294);
+	var CardStore = __webpack_require__(290);
 	var BoardStore = __webpack_require__(217);
-	var EditListButton = __webpack_require__(294);
+	var EditListButton = __webpack_require__(296);
 	var ListDetail = React.createClass({
 	  displayName: 'ListDetail',
 	
@@ -35464,14 +35502,14 @@
 	module.exports = ListDetail;
 
 /***/ },
-/* 287 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardStore = __webpack_require__(288);
+	var CardStore = __webpack_require__(290);
 	
 	var CardActions = __webpack_require__(246);
-	var CardIndexItem = __webpack_require__(289);
+	var CardIndexItem = __webpack_require__(291);
 	var ApiUtil = __webpack_require__(241);
 	
 	var CardIndex = React.createClass({
@@ -35524,7 +35562,7 @@
 	module.exports = CardIndex;
 
 /***/ },
-/* 288 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -35663,11 +35701,11 @@
 	module.exports = CardStore;
 
 /***/ },
-/* 289 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var EditCardButton = __webpack_require__(290);
+	var EditCardButton = __webpack_require__(292);
 	
 	var CardIndexItem = React.createClass({
 	  displayName: 'CardIndexItem',
@@ -35700,13 +35738,13 @@
 	module.exports = CardIndexItem;
 
 /***/ },
-/* 290 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var EditCardForm = __webpack_require__(291);
+	var Modal = __webpack_require__(254);
+	var EditCardForm = __webpack_require__(293);
 	
 	var EditCardButton = React.createClass({
 	  displayName: 'EditCardButton',
@@ -35749,12 +35787,12 @@
 	module.exports = EditCardButton;
 
 /***/ },
-/* 291 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var CardActions = __webpack_require__(246);
-	var CardStore = __webpack_require__(288);
+	var CardStore = __webpack_require__(290);
 	
 	var EditCardForm = React.createClass({
 		displayName: 'EditCardForm',
@@ -35811,14 +35849,14 @@
 	module.exports = EditCardForm;
 
 /***/ },
-/* 292 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardStore = __webpack_require__(288);
+	var CardStore = __webpack_require__(290);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var NewCardForm = __webpack_require__(293);
+	var Modal = __webpack_require__(254);
+	var NewCardForm = __webpack_require__(295);
 	
 	var NewCardButton = React.createClass({
 	  displayName: 'NewCardButton',
@@ -35860,7 +35898,7 @@
 	module.exports = NewCardButton;
 
 /***/ },
-/* 293 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35918,13 +35956,13 @@
 	module.exports = NewCardForm;
 
 /***/ },
-/* 294 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var EditListForm = __webpack_require__(295);
+	var Modal = __webpack_require__(254);
+	var EditListForm = __webpack_require__(297);
 	
 	var EditListButton = React.createClass({
 	  displayName: 'EditListButton',
@@ -35967,7 +36005,7 @@
 	module.exports = EditListButton;
 
 /***/ },
-/* 295 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36029,14 +36067,14 @@
 	module.exports = EditListForm;
 
 /***/ },
-/* 296 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var NewListForm = __webpack_require__(297);
+	var Modal = __webpack_require__(254);
+	var NewListForm = __webpack_require__(299);
 	
 	var NewListButton = React.createClass({
 	  displayName: 'NewListButton',
@@ -36076,7 +36114,7 @@
 	module.exports = NewListButton;
 
 /***/ },
-/* 297 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36133,14 +36171,14 @@
 	module.exports = NewListForm;
 
 /***/ },
-/* 298 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(252);
-	var EditBoardForm = __webpack_require__(299);
+	var Modal = __webpack_require__(254);
+	var EditBoardForm = __webpack_require__(301);
 	var EditBoardButton = React.createClass({
 	  displayName: 'EditBoardButton',
 	
@@ -36181,7 +36219,7 @@
 	module.exports = EditBoardButton;
 
 /***/ },
-/* 299 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36257,12 +36295,250 @@
 	module.exports = EditBoardForm;
 
 /***/ },
-/* 300 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(301);
-	var SessionStore = __webpack_require__(276);
+	var NoteStore = __webpack_require__(303);
+	var NoteIndexItem = __webpack_require__(304);
+	var ApiUtil = __webpack_require__(241);
+	
+	var NoteIndex = React.createClass({
+	  displayName: 'NoteIndex',
+	
+	
+	  getInitialState: function () {
+	    return { notes: this.getStateFromStore(), notesDisplayed: false };
+	  },
+	
+	  getStateFromStore: function () {
+	    return NoteStore.all();
+	  },
+	
+	  setNewState: function () {
+	    this.setState({ notes: this.getStateFromStore() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = NoteStore.addListener(this.setNewState);
+	    ApiUtil.fetchAllNotes(this.props.boardId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    if (this.listener) {
+	      this.listener.remove();
+	    }
+	  },
+	
+	  toggleDisplay: function () {
+	    this.state.notesDisplayed ? this.setState({ notesDisplayed: false }) : this.setState({ notesDisplayed: true });
+	  },
+	
+	  render: function () {
+	
+	    if (!this.state.notes || this.state.notes.length < 1) {
+	      return React.createElement('div', null);
+	    };
+	
+	    var noteItems = this.state.notes.map(function (note) {
+	      return React.createElement(NoteIndexItem, { key: note.id, id: note.id, content: note.content, noter: note.noter.user_name, boardId: note.board_id });
+	    });
+	
+	    var notesDisplayed = this.state.notesDisplayed ? "notes-list" : "hidden";
+	
+	    return React.createElement(
+	      'section',
+	      { className: 'note-index group' },
+	      React.createElement(
+	        'h1',
+	        { onClick: this.toggleDisplay },
+	        React.createElement('i', { className: 'fa fa-bars', 'aria-hidden': 'true' }),
+	        'Notes (',
+	        noteItems.length,
+	        ')'
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: notesDisplayed },
+	        noteItems
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = NoteIndex;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var Dispatcher = __webpack_require__(236);
+	var NoteConstants = __webpack_require__(251);
+	
+	var NoteStore = new Store(Dispatcher);
+	var _notes = [];
+	
+	NoteStore.all = function () {
+	  return _notes;
+	};
+	
+	NoteStore.resetNotes = function (notes) {
+	  _notes = notes;
+	};
+	
+	NoteStore.resetNote = function (note) {
+	  var i = NoteStore.findOutIndex(note);
+	  if (_notes[i]) {
+	    _notes[i] = note;
+	  } else {
+	    _notes.push(note);
+	  }
+	};
+	
+	NoteStore.findOutIndex = function (note) {
+	  for (var i = 0; i < _notes.length; i++) {
+	    if (_notes[i].id == note.id) {
+	      return i;
+	    }
+	  }
+	};
+	
+	NoteStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case NoteConstants.ALL_NOTES_RECEIVED:
+	      NoteStore.resetNotes(payload.notes);
+	      NoteStore.__emitChange();
+	      break;
+	    case NoteConstants.SINGLE_NOTE_RECEIVED:
+	      NoteStore.resetNote(payload.note);
+	      NoteStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = NoteStore;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var NoteIndexItem = React.createClass({
+	  displayName: "NoteIndexItem",
+	
+	
+	  deleteNote: function () {
+	    var boardId = this.props.boardId;
+	    var id = this.props.id;
+	    ApiUtil.deleteNote(id, boardId);
+	  },
+	
+	  render: function () {
+	    var dnb = React.createElement(
+	      "button",
+	      { onClick: this.deleteNote },
+	      React.createElement("i", { className: "fa fa-trash", "aria-hidden": "true" })
+	    );
+	
+	    return React.createElement(
+	      "li",
+	      { className: "note-index-item" },
+	      React.createElement(
+	        "section",
+	        null,
+	        React.createElement(
+	          "h1",
+	          null,
+	          this.props.content
+	        ),
+	        React.createElement(
+	          "h2",
+	          null,
+	          "by ",
+	          this.props.noter
+	        )
+	      ),
+	      dnb
+	    );
+	  }
+	});
+	
+	module.exports = NoteIndexItem;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var NoteActions = __webpack_require__(240);
+	var SessionStore = __webpack_require__(278);
+	
+	var NewNoteForm = React.createClass({
+		displayName: 'NewNoteForm',
+	
+	
+		getInitialState: function () {
+			return { content: "", formDisplayed: false };
+		},
+	
+		createNewNote: function (e) {
+			e.preventDefault();
+			var note = {};
+			note.content = this.state.content;
+			ApiUtil.createNewNote(note, this.props.boardId);
+			this.setState({ content: "" });
+			this.toggleDisplay();
+		},
+	
+		updateNote: function (e) {
+			var newContent = e.currentTarget.value;
+			this.setState({ content: newContent });
+		},
+	
+		toggleDisplay: function () {
+			this.state.formDisplayed ? this.setState({ formDisplayed: false }) : this.setState({ formDisplayed: true });
+		},
+	
+		render: function () {
+			var current = SessionStore.currentUser();
+			var formDisplayed = this.state.formDisplayed ? "form-content" : "hidden";
+	
+			return React.createElement(
+				'form',
+				{ className: 'new-note-form group' },
+				React.createElement(
+					'h1',
+					{ onClick: this.toggleDisplay },
+					'Leave a note!',
+					React.createElement('i', { className: 'fa fa-pencil', 'aria-hidden': 'true' })
+				),
+				React.createElement(
+					'section',
+					{ className: formDisplayed },
+					React.createElement('input', { className: 'content-field', type: 'text', value: this.state.content, onChange: this.updateNote }),
+					React.createElement(
+						'button',
+						{ onClick: this.createNewNote },
+						'Submit'
+					)
+				)
+			);
+		}
+	
+	});
+	
+	module.exports = NewNoteForm;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(307);
+	var SessionStore = __webpack_require__(278);
 	var ApiUtil = __webpack_require__(241);
 	var Link = __webpack_require__(159).Link;
 	
@@ -36430,7 +36706,7 @@
 	module.exports = UserProfile;
 
 /***/ },
-/* 301 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -36466,281 +36742,6 @@
 	};
 	
 	module.exports = UserStore;
-
-/***/ },
-/* 302 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var Dispatcher = __webpack_require__(236);
-	var NoteConstants = __webpack_require__(304);
-	
-	var NoteStore = new Store(Dispatcher);
-	var _notes = [];
-	
-	NoteStore.all = function () {
-	  return _notes;
-	};
-	
-	NoteStore.resetNotes = function (notes) {
-	  _notes = notes;
-	};
-	
-	NoteStore.resetNote = function (note) {
-	  var i = NoteStore.findOutIndex(note);
-	  if (_notes[i]) {
-	    _notes[i] = note;
-	  } else {
-	    _notes.push(note);
-	  }
-	};
-	
-	NoteStore.findOutIndex = function (note) {
-	  for (var i = 0; i < _notes.length; i++) {
-	    if (_notes[i].id == note.id) {
-	      return i;
-	    }
-	  }
-	};
-	
-	NoteStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case NoteConstants.ALL_NOTES_RECEIVED:
-	      NoteStore.resetNotes(payload.notes);
-	      NoteStore.__emitChange();
-	      break;
-	    case NoteConstants.SINGLE_NOTE_RECEIVED:
-	      NoteStore.resetNote(payload.note);
-	      NoteStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = NoteStore;
-
-/***/ },
-/* 303 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var NoteConstants = __webpack_require__(304);
-	var Dispatcher = __webpack_require__(236);
-	
-	var NoteActions = {
-	
-	  receiveAllNotes: function (notes) {
-	    Dispatcher.dispatch({
-	      actionType: NoteConstants.ALL_NOTES_RECEIVED,
-	      notes: notes
-	    });
-	  },
-	
-	  receiveSingleNote: function (note) {
-	    Dispatcher.dispatch({
-	      actionType: NoteConstants.SINGLE_NOTE_RECEIVED,
-	      note: note
-	    });
-	  }
-	
-	};
-	
-	module.exports = NoteActions;
-
-/***/ },
-/* 304 */
-/***/ function(module, exports) {
-
-	var NoteConstants = {
-	  ALL_NOTES_RECEIVED: "ALL_NOTES_RECEIVED",
-	  SINGLE_NOTE_RECEIVED: "SINGLE_NOTE_RECEIVED"
-	};
-	
-	module.exports = NoteConstants;
-
-/***/ },
-/* 305 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var NoteStore = __webpack_require__(302);
-	var NoteIndexItem = __webpack_require__(307);
-	var ApiUtil = __webpack_require__(241);
-	
-	var NoteIndex = React.createClass({
-	  displayName: 'NoteIndex',
-	
-	
-	  getInitialState: function () {
-	    return { notes: this.getStateFromStore() };
-	  },
-	
-	  getStateFromStore: function () {
-	    return NoteStore.all();
-	  },
-	
-	  setNewState: function () {
-	    this.setState({ notes: this.getStateFromStore() });
-	  },
-	
-	  componentDidMount: function () {
-	    this.listener = NoteStore.addListener(this.setNewState);
-	    ApiUtil.fetchAllNotes(this.props.boardId);
-	  },
-	
-	  componentWillUnmount: function () {
-	    if (this.listener) {
-	      this.listener.remove();
-	    }
-	  },
-	
-	  render: function () {
-	
-	    if (!this.state.notes) {
-	      return React.createElement('div', null);
-	    };
-	    if (this.state.notes.length < 1) {
-	      return React.createElement(
-	        'h1',
-	        null,
-	        'No notes'
-	      );
-	    };
-	
-	    var noteItems = this.state.notes.map(function (note) {
-	      return React.createElement(NoteIndexItem, { key: note.id, note: note });
-	    });
-	
-	    return React.createElement(
-	      'section',
-	      { className: 'note-index group' },
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Notes (',
-	        noteItems.length,
-	        ')'
-	      ),
-	      React.createElement(
-	        'ul',
-	        null,
-	        noteItems
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = NoteIndex;
-
-/***/ },
-/* 306 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var NoteActions = __webpack_require__(240);
-	var SessionStore = __webpack_require__(276);
-	
-	var NewNoteForm = React.createClass({
-		displayName: 'NewNoteForm',
-	
-	
-		getInitialState: function () {
-			return { content: "", formDisplayed: false };
-		},
-	
-		createNewNote: function (e) {
-			e.preventDefault();
-			var note = {};
-			note.content = this.state.content;
-			ApiUtil.createNewNote(note, this.props.boardId);
-			this.setState({ content: "" });
-		},
-	
-		updateNote: function (e) {
-			var newContent = e.currentTarget.value;
-			this.setState({ content: newContent });
-		},
-	
-		toggleDisplay: function () {
-			this.state.formDisplayed ? this.setState({ formDisplayed: false }) : this.setState({ formDisplayed: true });
-		},
-	
-		render: function () {
-			var current = SessionStore.currentUser();
-			var formDisplayed = this.state.formDisplayed ? "form-content" : "hidden";
-	
-			return React.createElement(
-				'form',
-				{ className: 'new-note-form group' },
-				React.createElement(
-					'h1',
-					null,
-					'Leave a note!',
-					React.createElement('i', { className: 'fa fa-pencil', 'aria-hidden': 'true', onClick: this.toggleDisplay })
-				),
-				React.createElement(
-					'section',
-					{ className: formDisplayed },
-					React.createElement('input', { className: 'content-field', type: 'text', value: this.state.content, onChange: this.updateNote }),
-					React.createElement(
-						'button',
-						{ onClick: this.createNewNote },
-						'Submit'
-					)
-				)
-			);
-		}
-	
-	});
-	
-	module.exports = NewNoteForm;
-
-/***/ },
-/* 307 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var NoteIndexItem = React.createClass({
-	  displayName: "NoteIndexItem",
-	
-	
-	  deleteNote: function () {
-	    var boardId = this.props.note.board_id;
-	    var id = this.props.note.id;
-	    ApiUtil.deleteNote(id, boardId);
-	  },
-	
-	  render: function () {
-	    var dnb = React.createElement(
-	      "button",
-	      { onClick: this.deleteNote },
-	      React.createElement("i", { className: "fa fa-trash", "aria-hidden": "true" })
-	    );
-	
-	    return React.createElement(
-	      "li",
-	      { className: "note-index-item" },
-	      React.createElement(
-	        "section",
-	        null,
-	        React.createElement(
-	          "h1",
-	          null,
-	          this.props.note.content
-	        ),
-	        React.createElement(
-	          "h2",
-	          null,
-	          "by ",
-	          this.props.note.noter.user_name
-	        )
-	      ),
-	      dnb
-	    );
-	  }
-	});
-	
-	module.exports = NoteIndexItem;
 
 /***/ }
 /******/ ]);

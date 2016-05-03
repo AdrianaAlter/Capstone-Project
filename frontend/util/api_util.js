@@ -187,6 +187,7 @@ ApiUtil = {
         success: function (note) {
           NoteActions.receiveSingleNote(note);
           callback && callback(note.id);
+          alert("Congratulations; the cat has deigned to send your note!")
         },
         error: function () {
           alert("Did you try to create a blank note?  The cat is not amused.")
@@ -231,7 +232,6 @@ ApiUtil = {
       url: "api/boards/" + boardId + "/cards/" + id,
       type: "DELETE",
       success: function (list) {
-
           BoardActions.receiveSingleList(list);
           CardActions.receiveList(list);
       },
@@ -246,8 +246,8 @@ ApiUtil = {
     $.ajax({
       url: "api/boards/" + boardId + "/notes/" + id,
       type: "DELETE",
-      success: function (board) {
-        BoardActions.receiveSingleBoard(board);
+      success: function (notes) {
+        NoteActions.receiveAllNotes(notes);
       },
       error: function () {
         console.log("Error in ApiUtil delete note function");

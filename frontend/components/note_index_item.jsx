@@ -3,8 +3,8 @@ var React = require('react');
 var NoteIndexItem = React.createClass({
 
   deleteNote: function () {
-    var boardId = this.props.note.board_id;
-    var id = this.props.note.id;
+    var boardId = this.props.boardId;
+    var id = this.props.id;
     ApiUtil.deleteNote(id, boardId);
   },
 
@@ -14,8 +14,8 @@ var NoteIndexItem = React.createClass({
     return(
       <li className="note-index-item">
         <section>
-          <h1>{this.props.note.content}</h1>
-          <h2>by {this.props.note.noter.user_name}</h2>
+          <h1>{this.props.content}</h1>
+          <h2>by {this.props.noter}</h2>
         </section>
         {dnb}
       </li>

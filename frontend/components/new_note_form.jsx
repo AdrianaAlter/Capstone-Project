@@ -14,7 +14,8 @@ var NewNoteForm = React.createClass({
       var note = {};
 		  note.content = this.state.content;
 		  ApiUtil.createNewNote(note, this.props.boardId);
-      this.setState({ content: "" });
+	    this.setState({ content: "" });
+			this.toggleDisplay();
   },
 
 	updateNote: function (e) {
@@ -32,7 +33,7 @@ var NewNoteForm = React.createClass({
 
 			return(
 				<form className="new-note-form group">
-					<h1>Leave a note!<i className="fa fa-pencil" aria-hidden="true" onClick={this.toggleDisplay}></i></h1>
+					<h1 onClick={this.toggleDisplay}>Leave a note!<i className="fa fa-pencil" aria-hidden="true"></i></h1>
 					<section className={formDisplayed}>
 						<input className="content-field" type="text" value={this.state.content} onChange={this.updateNote}></input>
 						<button onClick={this.createNewNote}>Submit</button>

@@ -6,7 +6,7 @@ var ApiUtil = require('../util/api_util.js');
 var NoteIndex = React.createClass({
 
   getInitialState: function () {
-    return { notes: this.getStateFromStore() };
+    return { notes: this.getStateFromStore(), notesDisplayed: false };
   },
 
   getStateFromStore: function () {
@@ -26,20 +26,24 @@ var NoteIndex = React.createClass({
     if (this.listener) {this.listener.remove();}
   },
 
+  toggleDisplay: function () {
+    this.state.notesDisplayed ? this.setState({ notesDisplayed: false }) : this.setState({ notesDisplayed: true });
+  },
+
   render: function () {
 
-
-    if (!this.state.notes) { return <div></div>};
-    if (this.state.notes.length < 1) { return <h1>No notes</h1> };
+    if (!this.state.notes || this.state.notes.length < 1) { return <div></div>};
 
     var noteItems = this.state.notes.map(function (note) {
-      return <NoteIndexItem key={note.id} note={note} />;
+      return <NoteIndexItem key={note.id} id={note.id} content={note.content} noter={note.noter.user_name} boardId={note.board_id} />;
     });
+
+    var notesDisplayed = this.state.notesDisplayed ? "notes-list" : "hidden";
 
     return (
             <section className="note-index group">
-              <h1>Notes ({noteItems.length})</h1>
-                <ul>
+              <h1 onClick={this.toggleDisplay}><i className="fa fa-bars" aria-hidden="true"></i>Notes ({noteItems.length})</h1>
+                <ul className={notesDisplayed}>
                   {noteItems}
                 </ul>
             </section>
