@@ -47,6 +47,22 @@
   background: darkred;
 }
 
+.note-count {
+  display: block;
+  padding: 2px 6px;
+  margin: 6px 10px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 3px;
+  color: #cc7766;
+}
+
+.board-items li:hover .note-count {
+  background: #cc7766;
+  color: darkred;
+}
+
 .board-items .new-board-button {
   background: #e2e4e6;
   color: #8c8c8c;

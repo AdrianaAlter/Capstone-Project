@@ -1,6 +1,7 @@
 var React = require('react');
 var NoteActions = require('../actions/board_actions.js');
 var SessionStore = require('../store/session_store.js');
+var SweetAlert = require('sweetalert-react');
 
 var NewNoteForm = React.createClass({
 
@@ -11,10 +12,10 @@ var NewNoteForm = React.createClass({
 
   createNewNote: function (e) {
       e.preventDefault();
-      var note = {};
+			var note = {};
 		  note.content = this.state.content;
 		  ApiUtil.createNewNote(note, this.props.boardId);
-	    this.setState({ content: "" });
+		  this.setState({ content: ""});
 			this.toggleDisplay();
   },
 
@@ -38,7 +39,7 @@ var NewNoteForm = React.createClass({
 						<input className="content-field" type="text" value={this.state.content} onChange={this.updateNote}></input>
 						<button onClick={this.createNewNote}>Submit</button>
 					</section>
-			 </form>
+				 </form>
 		);
 	}
 

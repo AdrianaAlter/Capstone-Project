@@ -5,7 +5,7 @@ var ApiUtil = require('../util/api_util');
 
 
 var Search = React.createClass({
-	
+
 	contextTypes: {
     router: React.PropTypes.object.isRequired
   },
@@ -38,6 +38,7 @@ var Search = React.createClass({
 
 	search: function (e) {
 		ApiUtil.search(this.state.query, 1);
+		this.setState({ query: "" });
 	},
 
 	nextPage: function () {
@@ -48,16 +49,19 @@ var Search = React.createClass({
 	goToBoard: function (id) {
 		this.hideResults();
 		this.context.router.push("/boards/" + id);
+		this.setState({ query: "" });
 	},
 
 	goToUser: function (id) {
 		this.hideResults();
 		this.context.router.push("/users/" + id);
+		this.setState({ query: "" });
 	},
 
 	toggleResults: function () {
 		this.state.display == "displayed group" ? this.setState({ display: "hidden" }) : this.setState({display: "displayed group" });
 	},
+
 	hideResults: function () {
 		if (this.state.display == "displayed group") { this.setState({ display: "hidden" }); }
 	},
@@ -84,10 +88,6 @@ var Search = React.createClass({
 
 			var meta = SearchResultsStore.meta();
 			var resultItems = this.resultLis();
-
-			// if (resultItems[0]) {
-			// 	var first = resultItems[0].title ? "boards/" + resultItems[0].id : "users/" + resultItems[0].id;
-			// }
 
 			return (
 				<div>

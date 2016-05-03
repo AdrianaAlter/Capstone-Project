@@ -1,1 +1,1 @@
-json.array! @boards, :title, :id, :author_id, :lists, :private
+json.array! @boards, :title, :id, :author_id, :lists, :notes, :private

@@ -40,6 +40,7 @@
     "react-popups": "^1.2.2",
     "react-router": "2.0.1",
     "react-s-alert": "^1.1.1",
+    "react-simple-alert": "0.0.2",
     "webpack": "^1.12.14"
   },
   "engines": {

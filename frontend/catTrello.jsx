@@ -15,8 +15,6 @@ var browserHistory = require('react-router').browserHistory;
 var Modal = require('react-modal');
 var UserProfile = require('./components/user_profile.jsx');
 
-
-
 var routes = (
     <Router history={hashHistory}>
       <Route path="/" component={App} onEnter={_mustLogIn}>

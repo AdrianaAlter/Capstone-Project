@@ -21,6 +21,10 @@ Features:
 --Search for boards.
 --Search for users.
 --View users' profile pages.
+--View other users' public boards.
+
+--Leave notes on other users' boards.
+--View and delete notes from other users.
 
 In future, CatTrello users will also be able to:
 

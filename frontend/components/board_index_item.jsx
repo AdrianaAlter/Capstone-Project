@@ -15,9 +15,10 @@ var BoardIndexItem = React.createClass({
   render: function () {
 
     var icon = this.props.board.private ? <i className="fa fa-user" aria-hidden="true"></i> : <i className="fa fa-users" aria-hidden="true"></i>;
+    var noteCount = this.props.board.notes.length > 0 ? <h2 className="note-count">{this.props.board.notes.length}</h2> : null;
 
     return(
-      <Link to={"/boards/" + this.props.board.id}><li>{this.props.board.title}{icon}</li></Link>
+      <Link to={"/boards/" + this.props.board.id}><li>{this.props.board.title}{icon}{noteCount}</li></Link>
     );
   }
 
