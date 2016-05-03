@@ -241,6 +241,20 @@ ApiUtil = {
     });
   },
 
+  deleteNote: function (id, boardId) {
+
+    $.ajax({
+      url: "api/boards/" + boardId + "/notes/" + id,
+      type: "DELETE",
+      success: function (board) {
+        BoardActions.receiveSingleBoard(board);
+      },
+      error: function () {
+        console.log("Error in ApiUtil delete note function");
+      }
+    });
+  },
+
   editBoard: function (board, id) {
 
     $.ajax({

@@ -2,11 +2,56 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
+.note-index-item {
+  display: block;
+  min-height: 24px;
+  width: 232px;
+  padding: 5px;
+  line-height: 20px;
+  background: #994433;
+  font-size: 14px;
+  font-weight: normal;
+  border-radius: 3px;
+  margin: 6px 0;
+  color: white;
+}
+
+.note-index-item section {
+  background: #BB4433;
+  width: 180px;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 3px;
+}
+
+.note-index-item h2 {
+  font-size: 12px;
+  font-style: italic;
+  text-align: right;
+}
+
+.note-index-item button {
+  background: #BB4433;
+  height: 40px;
+  width: 40px;
+  padding: 0;
+  text-align: center;
+}
+
+.note-index-item button:hover {
+  background: #994433;
+  box-shadow: none;
+}
+
+.note-index-item button:hover .fa {
+  color: #5D231F;
+}
+
 .new-note-form {
   border: 1px solid black;
   border-radius: 3px;
 
-  // padding: 20px;
   background: #994433;
 
   float: left;

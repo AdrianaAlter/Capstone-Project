@@ -13,10 +13,21 @@ class Api::NotesController < ApplicationController
     render :show
   end
 
+  def destroy
+    @note = Note.find(params[:id])
+    @note.destroy
+    @board = Board.find(current_board_id)
+    render "api/boards/show"
+  end
+
   private
 
   def note_params
     params.require(:note).permit(:content)
   end
+
+  def current_board_id
+		params[:board_id]
+	end
 
 end

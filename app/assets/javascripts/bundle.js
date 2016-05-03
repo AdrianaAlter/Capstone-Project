@@ -31992,6 +31992,20 @@
 	    });
 	  },
 	
+	  deleteNote: function (id, boardId) {
+	
+	    $.ajax({
+	      url: "api/boards/" + boardId + "/notes/" + id,
+	      type: "DELETE",
+	      success: function (board) {
+	        BoardActions.receiveSingleBoard(board);
+	      },
+	      error: function () {
+	        console.log("Error in ApiUtil delete note function");
+	      }
+	    });
+	  },
+	
 	  editBoard: function (board, id) {
 	
 	    $.ajax({
@@ -35661,9 +35675,7 @@
 	
 	  deleteCard: function () {
 	    var boardId = this.props.boardId;
-	
 	    var id = this.props.card.id;
-	
 	    ApiUtil.deleteCard(boardId, id);
 	  },
 	
@@ -36550,6 +36562,7 @@
 
 	var React = __webpack_require__(1);
 	var NoteStore = __webpack_require__(302);
+	var NoteIndexItem = __webpack_require__(307);
 	var ApiUtil = __webpack_require__(241);
 	
 	var NoteIndex = React.createClass({
@@ -36593,17 +36606,7 @@
 	    };
 	
 	    var noteItems = this.state.notes.map(function (note) {
-	      return React.createElement(
-	        'li',
-	        { key: note.id },
-	        note.content,
-	        React.createElement(
-	          'p',
-	          null,
-	          'by ',
-	          note.noter.user_name
-	        )
-	      );
+	      return React.createElement(NoteIndexItem, { key: note.id, note: note });
 	    });
 	
 	    return React.createElement(
@@ -36612,7 +36615,9 @@
 	      React.createElement(
 	        'h1',
 	        null,
-	        'Notes'
+	        'Notes (',
+	        noteItems.length,
+	        ')'
 	      ),
 	      React.createElement(
 	        'ul',
@@ -36688,6 +36693,54 @@
 	});
 	
 	module.exports = NewNoteForm;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var NoteIndexItem = React.createClass({
+	  displayName: "NoteIndexItem",
+	
+	
+	  deleteNote: function () {
+	    var boardId = this.props.note.board_id;
+	    var id = this.props.note.id;
+	    ApiUtil.deleteNote(id, boardId);
+	  },
+	
+	  render: function () {
+	    var dnb = React.createElement(
+	      "button",
+	      { onClick: this.deleteNote },
+	      React.createElement("i", { className: "fa fa-trash", "aria-hidden": "true" })
+	    );
+	
+	    return React.createElement(
+	      "li",
+	      { className: "note-index-item" },
+	      React.createElement(
+	        "section",
+	        null,
+	        React.createElement(
+	          "h1",
+	          null,
+	          this.props.note.content
+	        ),
+	        React.createElement(
+	          "h2",
+	          null,
+	          "by ",
+	          this.props.note.noter.user_name
+	        )
+	      ),
+	      dnb
+	    );
+	  }
+	});
+	
+	module.exports = NoteIndexItem;
 
 /***/ }
 /******/ ]);

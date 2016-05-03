@@ -36,7 +36,6 @@ class Api::ListsController < ApplicationController
   def destroy
     @list = List.find(params[:id])
     @list.destroy
-
     @board = Board.find(current_board_id)
     render "api/boards/show"
   end
@@ -50,7 +49,5 @@ class Api::ListsController < ApplicationController
 	def current_board_id
 		params[:board_id]
 	end
-
-
 
 end

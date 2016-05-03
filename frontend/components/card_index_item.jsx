@@ -5,11 +5,8 @@ var CardIndexItem = React.createClass({
 
   deleteCard: function () {
     var boardId = this.props.boardId;
-
     var id = this.props.card.id;
-
     ApiUtil.deleteCard(boardId, id);
-
   },
 
 

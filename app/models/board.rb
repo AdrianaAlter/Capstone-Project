@@ -5,7 +5,7 @@ class Board < ActiveRecord::Base
                   :using => {
                     :tsearch => {:prefix => true}
                   }
-									
+
   validates :title, presence: true
   validates :author_id, presence: true
 
@@ -28,6 +28,13 @@ class Board < ActiveRecord::Base
     through: :lists,
     source: :cards
   )
+
+	has_many(
+		:notes,
+		class_name: "Note",
+		primary_key: :id,
+		foreign_key: :board_id
+	)
 
 
 end

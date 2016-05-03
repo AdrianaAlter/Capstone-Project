@@ -1,5 +1,6 @@
 var React = require('react');
 var NoteStore = require('../store/note_store.js');
+var NoteIndexItem = require('./note_index_item.jsx');
 var ApiUtil = require('../util/api_util.js');
 
 var NoteIndex = React.createClass({
@@ -27,16 +28,17 @@ var NoteIndex = React.createClass({
 
   render: function () {
 
+
     if (!this.state.notes) { return <div></div>};
     if (this.state.notes.length < 1) { return <h1>No notes</h1> };
 
     var noteItems = this.state.notes.map(function (note) {
-      return <li key={note.id}>{note.content}<p>by {note.noter.user_name}</p></li>;
+      return <NoteIndexItem key={note.id} note={note} />;
     });
-    
+
     return (
             <section className="note-index group">
-              <h1>Notes</h1>
+              <h1>Notes ({noteItems.length})</h1>
                 <ul>
                   {noteItems}
                 </ul>

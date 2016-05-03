@@ -2,7 +2,7 @@ class Api::CardsController < ApplicationController
   def index
     board = Board.find(current_board_id)
     @cards = board.cards
-    
+
     render :index
   end
 
@@ -29,9 +29,7 @@ class Api::CardsController < ApplicationController
 
   def destroy
     @card = Card.find(params[:id])
-
     @card.destroy
-
     @list = List.find(@card.list_id)
     render "api/lists/show"
   end
