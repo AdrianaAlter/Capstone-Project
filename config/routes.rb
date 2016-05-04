@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 		    resources :lists, only: [:index, :new, :create, :show, :destroy, :update]
         resources :cards, only: [:index, :new, :create, :show, :destroy, :update]
         resources :notes, only: [:index, :create, :destroy]
+        resources :notifications, only: [:index, :create, :destroy]
     end
 	end
    get "auth/facebook/callback", to: "omniauth#facebook"

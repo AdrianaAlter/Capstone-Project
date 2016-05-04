@@ -16,6 +16,13 @@ class Note < ActiveRecord::Base
     foreign_key: :noter_id
   )
 
+  has_many(
+    :notifications,
+    class_name: 'Notification',
+    primary_key: :id,
+    foreign_key: :note_id
+  )
+  
   def noted_on
     User.all.select { |user| note.board.author == user }
   end

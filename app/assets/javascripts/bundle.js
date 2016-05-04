@@ -34737,7 +34737,7 @@
 		resultLis: function () {
 	
 			if (!this.state.results) {
-				return React.createElement('li', { className: 'placeholder' });
+				return React.createElement('div', null);
 			}
 			var toggle = this.toggleResults;
 	

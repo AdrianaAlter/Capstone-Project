@@ -17,6 +17,7 @@
   padding: 5px;
   color: #666;
   border-radius: 3px;
+  box-shadow: 2px 2px 2px #5F231F;
   margin: 0 4px 8px 4px;
   font-size: 15px;
   line-height: 18px;
@@ -26,11 +27,16 @@
 
 .list-index .list-index-item:hover {
   background: #666;
+  box-shadow: inset 2px 2px 2px #4d4d4d;
   color: black;
 }
 
 .list-index .list-index-item > h1 {
     padding: 8px 10px;
+}
+
+.list-index .list-index-item:hover > h1 {
+  text-shadow: 2px 2px 2px #4d4d4d;
 }
 
 .list-index .list-index-item .list-detail {

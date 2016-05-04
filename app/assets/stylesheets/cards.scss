@@ -8,6 +8,10 @@
   width: 252px;
 }
 
+.list-index-item:hover .card-index-item {
+  box-shadow: 2px 2px 2px #333333;
+}
+
 .card-index-item {
   display: block;
   min-height: 24px;
@@ -30,6 +34,7 @@
 
 .card-index-item:hover {
   background: #aaa;
+  box-shadow: inset 2px 2px 2px #333333;
 }
 .card-index-item:hover > button {
   background: #aaa;

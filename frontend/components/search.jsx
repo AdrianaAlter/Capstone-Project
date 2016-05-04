@@ -68,7 +68,7 @@ var Search = React.createClass({
 
 	resultLis: function () {
 
-		if (!this.state.results) { return (<li className="placeholder"></li>);}
+		if (!this.state.results) { return (<div></div>);}
 		var toggle = this.toggleResults;
 
 		var resultItems = this.state.results.map(function (result) {
@@ -83,7 +83,7 @@ var Search = React.createClass({
 		return resultItems;
 	},
 
-	render: function () {
+		render: function () {
 
 
 			var meta = SearchResultsStore.meta();
