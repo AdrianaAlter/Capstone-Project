@@ -30,6 +30,13 @@ var NotificationIndex = React.createClass({
     this.state.notificationsDisplayed ? this.setState({ notificationsDisplayed: false }) : this.setState({ notificationsDisplayed: true });
   },
 
+  show: function () {
+    this.setState({ notificationsDisplayed: true });
+  },
+  hide: function () {
+    this.setState({ notificationsDisplayed: false });
+  },
+
   render: function () {
 
     if (!this.state.notifications || this.state.notifications.length < 1) { return <div></div>};
@@ -41,9 +48,9 @@ var NotificationIndex = React.createClass({
     var notificationsDisplayed = this.state.notificationsDisplayed ? "notifications-list" : "hidden";
 
     return (
-            <li className="notifications-index group" onClick={this.toggleDisplay}><h1>{notificationItems.length}</h1>
+            <li className="notifications-index group" onMouseOver={this.show} onClick={this.toggleDisplay}><h1>{notificationItems.length}</h1>
 
-                <ul className={notificationsDisplayed} onClick={this.toggleDisplay}>
+                <ul className={notificationsDisplayed} onClick={this.toggleDisplay} onMouseLeave={this.hide}>
                   {notificationItems}
                 </ul>
 

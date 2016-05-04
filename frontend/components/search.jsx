@@ -47,13 +47,13 @@ var Search = React.createClass({
 	},
 
 	goToBoard: function (id) {
-		this.hideResults();
+		this.hide();
 		this.context.router.push("/boards/" + id);
 		this.setState({ query: "" });
 	},
 
 	goToUser: function (id) {
-		this.hideResults();
+		this.hide();
 		this.context.router.push("/users/" + id);
 		this.setState({ query: "" });
 	},
@@ -62,9 +62,13 @@ var Search = React.createClass({
 		this.state.display == "displayed group" ? this.setState({ display: "hidden" }) : this.setState({display: "displayed group" });
 	},
 
-	hideResults: function () {
-		if (this.state.display == "displayed group") { this.setState({ display: "hidden" }); }
+  show: function () {
+	    this.setState({ display: "displayed group" });
 	},
+
+  hide: function () {
+    this.setState({ display: "hidden" });
+  },
 
 	resultLis: function () {
 
@@ -92,7 +96,7 @@ var Search = React.createClass({
 			return (
 				<div>
 					<input type="text" tabIndex="0" onClick={this.toggleResults} onChange={this.handleInputChange} onSubmit={this.search}></input>
-						<ul className={this.state.display}>{resultItems}</ul>
+						<ul className={this.state.display} onMouseLeave={this.hide}>{resultItems}</ul>
 				</div>
 
 			);

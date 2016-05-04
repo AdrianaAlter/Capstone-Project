@@ -171,6 +171,11 @@
   border-radius: 50%;
   text-align: center;
   position: relative;
+  background: #B04632;
+}
+
+.header-nav > .session-buttons > li:first-child:hover {
+  background: #8B0000;
 }
 
 .header-nav > .session-buttons > li:first-child > ul {

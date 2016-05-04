@@ -34763,13 +34763,13 @@
 		},
 	
 		goToBoard: function (id) {
-			this.hideResults();
+			this.hide();
 			this.context.router.push("/boards/" + id);
 			this.setState({ query: "" });
 		},
 	
 		goToUser: function (id) {
-			this.hideResults();
+			this.hide();
 			this.context.router.push("/users/" + id);
 			this.setState({ query: "" });
 		},
@@ -34778,10 +34778,12 @@
 			this.state.display == "displayed group" ? this.setState({ display: "hidden" }) : this.setState({ display: "displayed group" });
 		},
 	
-		hideResults: function () {
-			if (this.state.display == "displayed group") {
-				this.setState({ display: "hidden" });
-			}
+		show: function () {
+			this.setState({ display: "displayed group" });
+		},
+	
+		hide: function () {
+			this.setState({ display: "hidden" });
 		},
 	
 		resultLis: function () {
@@ -34821,7 +34823,7 @@
 				React.createElement('input', { type: 'text', tabIndex: '0', onClick: this.toggleResults, onChange: this.handleInputChange, onSubmit: this.search }),
 				React.createElement(
 					'ul',
-					{ className: this.state.display },
+					{ className: this.state.display, onMouseLeave: this.hide },
 					resultItems
 				)
 			);
@@ -41078,6 +41080,13 @@
 	    this.state.notificationsDisplayed ? this.setState({ notificationsDisplayed: false }) : this.setState({ notificationsDisplayed: true });
 	  },
 	
+	  show: function () {
+	    this.setState({ notificationsDisplayed: true });
+	  },
+	  hide: function () {
+	    this.setState({ notificationsDisplayed: false });
+	  },
+	
 	  render: function () {
 	
 	    if (!this.state.notifications || this.state.notifications.length < 1) {
@@ -41092,7 +41101,7 @@
 	
 	    return React.createElement(
 	      'li',
-	      { className: 'notifications-index group', onClick: this.toggleDisplay },
+	      { className: 'notifications-index group', onMouseOver: this.show, onClick: this.toggleDisplay },
 	      React.createElement(
 	        'h1',
 	        null,
@@ -41100,7 +41109,7 @@
 	      ),
 	      React.createElement(
 	        'ul',
-	        { className: notificationsDisplayed, onClick: this.toggleDisplay },
+	        { className: notificationsDisplayed, onClick: this.toggleDisplay, onMouseLeave: this.hide },
 	        notificationItems
 	      )
 	    );
