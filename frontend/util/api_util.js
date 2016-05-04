@@ -133,7 +133,7 @@ ApiUtil = {
 			type: "POST",
 			data: { board: board },
       success: function (board) {
-    		BoardActions.receiveSingleBoard(board);
+        BoardActions.receiveSingleBoard(board);
         callback && callback(board.id);
 			},
 			error: function () {

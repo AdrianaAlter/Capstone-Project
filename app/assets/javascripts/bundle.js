@@ -59,7 +59,7 @@
 	var BoardDetail = __webpack_require__(285);
 	var browserHistory = __webpack_require__(159).browserHistory;
 	var Modal = __webpack_require__(254);
-	var UserProfile = __webpack_require__(306);
+	var UserProfile = __webpack_require__(332);
 	
 	var routes = React.createElement(
 	  Router,
@@ -34394,7 +34394,7 @@
 	  render: function () {
 	
 	    var icon = this.props.board.private ? React.createElement('i', { className: 'fa fa-user', 'aria-hidden': 'true' }) : React.createElement('i', { className: 'fa fa-users', 'aria-hidden': 'true' });
-	    var noteCount = this.props.board.notes.length > 0 ? React.createElement(
+	    var noteCount = this.props.board.notes && this.props.board.notes.length > 0 ? React.createElement(
 	      'h2',
 	      { className: 'note-count' },
 	      this.props.board.notes.length
@@ -36504,7 +36504,7 @@
 	var React = __webpack_require__(1);
 	var NoteActions = __webpack_require__(240);
 	var SessionStore = __webpack_require__(278);
-	var SweetAlert = __webpack_require__(308);
+	var SweetAlert = __webpack_require__(306);
 	
 	var NewNoteForm = React.createClass({
 		displayName: 'NewNoteForm',
@@ -36566,218 +36566,6 @@
 /* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(307);
-	var SessionStore = __webpack_require__(278);
-	var ApiUtil = __webpack_require__(241);
-	var Link = __webpack_require__(159).Link;
-	
-	var UserProfile = React.createClass({
-	  displayName: 'UserProfile',
-	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	  getInitialState: function () {
-	    return { user: UserStore.all(), current: SessionStore.currentUser(), boardsDisplayed: false };
-	  },
-	
-	  componentDidMount: function () {
-	    this.listener = UserStore.addListener(this._onChange);
-	    ApiUtil.fetchSingleUser(this.props.params.user_id);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
-	
-	  componentWillReceiveProps: function (nextProps) {
-	    ApiUtil.fetchSingleUser(nextProps.params.user_id);
-	  },
-	
-	  _onChange: function () {
-	    this.setState({ user: UserStore.all() });
-	  },
-	
-	  goToBoard: function (id) {
-	    this.hideResults();
-	    this.context.router.push("/boards/" + id);
-	  },
-	
-	  toggleDisplay: function () {
-	    this.state.boardsDisplayed ? this.setState({ boardsDisplayed: false }) : this.setState({ boardsDisplayed: true });
-	  },
-	
-	  render: function () {
-	
-	    if (!this.state.user) {
-	      return React.createElement('div', null);
-	    };
-	
-	    var boards = this.state.user.boards ? this.state.user.boards : null;
-	    var isAuthor = this.state.user.user_name == this.state.current.user_name;
-	
-	    if (boards && boards.length >= 1) {
-	      var boardLis = boards.map(function (board) {
-	        if (!board.private) {
-	          return React.createElement(
-	            'li',
-	            { key: board.id, className: 'board-link' },
-	            React.createElement('i', { className: 'fa-li fa fa-paw fa-fw', 'aria-hidden': 'true' }),
-	            React.createElement(
-	              Link,
-	              { to: "/boards/" + board.id },
-	              board.title
-	            )
-	          );
-	        }
-	      });
-	    };
-	
-	    if (boardLis && boardLis.length > 1) {
-	      boardLis = boardLis.filter(function (n) {
-	        return n != undefined;
-	      });
-	    };
-	
-	    var none = !boardLis ? React.createElement(
-	      'p',
-	      null,
-	      this.state.user.user_name,
-	      ' doesn\'t have any public boards yet!'
-	    ) : null;
-	    var boardCount = boardLis ? boardLis.length : 0;
-	
-	    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().replace(".", "").split(" ").join(".") + "@catmail.com" : "";
-	
-	    var dateEls = this.state.user.created_at ? this.state.user.created_at.slice(0, this.state.user.created_at.indexOf("T")).split("-") : "";
-	
-	    var month = function (dateEls) {
-	
-	      if (dateEls) {
-	        if (dateEls[1][0] == "0") {
-	          return dateEls[1].slice(1);
-	        } else {
-	          return dateEls[1];
-	        };
-	      } else {
-	        return "";
-	      };
-	    };
-	
-	    var date = month(dateEls) + "/" + dateEls[2] + "/" + dateEls[0];
-	
-	    // var pic = (this.state.user && this.state.user.user_name == this.state.current.user_name) ? "user-pic" : "user-pic-two";
-	
-	    var pics = {
-	      "Mr. Cat": "user-pic-two",
-	      "Ineffective Mouser": "mouser",
-	      "Unsubtle Impostor": "dog"
-	    };
-	
-	    var pic = this.state.user.user_name && pics[this.state.user.user_name] ? pics[this.state.user.user_name] : "user-pic";
-	    var boardsDisplayed = this.state.boardsDisplayed ? "fa-ul" : "hidden";
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'user-profile group' },
-	      React.createElement('section', { className: pic }),
-	      React.createElement(
-	        'ul',
-	        null,
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'h1',
-	            null,
-	            this.state.user.user_name
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'h2',
-	            null,
-	            'Email: ',
-	            emailString
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'h2',
-	            null,
-	            'CatTrello User since ',
-	            date
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'h2',
-	        { className: 'user-board-list' },
-	        React.createElement('i', { className: 'fa fa-caret-square-o-down', 'aria-hidden': 'true', onClick: this.toggleDisplay }),
-	        'Public Boards: ',
-	        boardCount,
-	        React.createElement(
-	          'ul',
-	          { className: boardsDisplayed },
-	          none,
-	          boardLis
-	        )
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = UserProfile;
-
-/***/ },
-/* 307 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var Dispatcher = __webpack_require__(236);
-	var UserConstants = __webpack_require__(249);
-	
-	var UserStore = new Store(Dispatcher);
-	var _users = [];
-	
-	UserStore.all = function () {
-	  return _users;
-	};
-	
-	UserStore.find = function (id) {
-	  for (var i = 0; i < _users.length; i++) {
-	    if (_users[i].id == id) {
-	      return _users[i];
-	    }
-	  }
-	};
-	
-	UserStore.resetUsers = function (user) {
-	  _users = user;
-	};
-	
-	UserStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case UserConstants.SINGLE_USER_RECEIVED:
-	      UserStore.resetUsers(payload.user);
-	      UserStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = UserStore;
-
-/***/ },
-/* 308 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 	
 	exports.__esModule = true;
@@ -36794,23 +36582,23 @@
 	
 	var _react = __webpack_require__(1);
 	
-	var _sweetalert = __webpack_require__(309);
+	var _sweetalert = __webpack_require__(307);
 	
 	var _sweetalert2 = _interopRequireDefault(_sweetalert);
 	
-	var _lodashPick = __webpack_require__(318);
+	var _lodashPick = __webpack_require__(316);
 	
 	var _lodashPick2 = _interopRequireDefault(_lodashPick);
 	
-	var _mousetrap = __webpack_require__(330);
+	var _mousetrap = __webpack_require__(328);
 	
 	var _mousetrap2 = _interopRequireDefault(_mousetrap);
 	
-	var _warning = __webpack_require__(331);
+	var _warning = __webpack_require__(329);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _utilsOutsideTargetHandlerFactory = __webpack_require__(332);
+	var _utilsOutsideTargetHandlerFactory = __webpack_require__(330);
 	
 	var _utilsOutsideTargetHandlerFactory2 = _interopRequireDefault(_utilsOutsideTargetHandlerFactory);
 	
@@ -37017,7 +36805,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 309 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37035,35 +36823,35 @@
 	 * jQuery-like functions for manipulating the DOM
 	 */
 	
-	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(310);
+	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(308);
 	
 	/*
 	 * Handy utilities
 	 */
 	
-	var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(311);
+	var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(309);
 	
 	/*
 	 *  Handle sweetAlert's DOM elements
 	 */
 	
-	var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(312);
+	var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(310);
 	
 	// Handle button events and keyboard events
 	
-	var _handleButton$handleConfirm$handleCancel = __webpack_require__(315);
+	var _handleButton$handleConfirm$handleCancel = __webpack_require__(313);
 	
-	var _handleKeyDown = __webpack_require__(316);
+	var _handleKeyDown = __webpack_require__(314);
 	
 	var _handleKeyDown2 = _interopRequireWildcard(_handleKeyDown);
 	
 	// Default values
 	
-	var _defaultParams = __webpack_require__(313);
+	var _defaultParams = __webpack_require__(311);
 	
 	var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 	
-	var _setParameters = __webpack_require__(317);
+	var _setParameters = __webpack_require__(315);
 	
 	var _setParameters2 = _interopRequireWildcard(_setParameters);
 	
@@ -37325,7 +37113,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 310 */
+/* 308 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37521,7 +37309,7 @@
 	exports.stopEventPropagation = stopEventPropagation;
 
 /***/ },
-/* 311 */
+/* 309 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37599,7 +37387,7 @@
 	exports.colorLuminance = colorLuminance;
 
 /***/ },
-/* 312 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37610,11 +37398,11 @@
 	  value: true
 	});
 	
-	var _hexToRgb = __webpack_require__(311);
+	var _hexToRgb = __webpack_require__(309);
 	
-	var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(310);
+	var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(308);
 	
-	var _defaultParams = __webpack_require__(313);
+	var _defaultParams = __webpack_require__(311);
 	
 	var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 	
@@ -37622,7 +37410,7 @@
 	 * Add modal + overlay to DOM
 	 */
 	
-	var _injectedHTML = __webpack_require__(314);
+	var _injectedHTML = __webpack_require__(312);
 	
 	var _injectedHTML2 = _interopRequireWildcard(_injectedHTML);
 	
@@ -37771,7 +37559,7 @@
 	exports.fixVerticalPosition = fixVerticalPosition;
 
 /***/ },
-/* 313 */
+/* 311 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37808,7 +37596,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 314 */
+/* 312 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37855,7 +37643,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 315 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37864,11 +37652,11 @@
 	  value: true
 	});
 	
-	var _colorLuminance = __webpack_require__(311);
+	var _colorLuminance = __webpack_require__(309);
 	
-	var _getModal = __webpack_require__(312);
+	var _getModal = __webpack_require__(310);
 	
-	var _hasClass$isDescendant = __webpack_require__(310);
+	var _hasClass$isDescendant = __webpack_require__(308);
 	
 	/*
 	 * User clicked on "Confirm"/"OK" or "Cancel"
@@ -37995,7 +37783,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 316 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38004,9 +37792,9 @@
 	  value: true
 	});
 	
-	var _stopEventPropagation$fireClick = __webpack_require__(310);
+	var _stopEventPropagation$fireClick = __webpack_require__(308);
 	
-	var _setFocusStyle = __webpack_require__(312);
+	var _setFocusStyle = __webpack_require__(310);
 	
 	var handleKeyDown = function handleKeyDown(event, params, modal) {
 	  var e = event || window.event;
@@ -38079,7 +37867,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 317 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38088,11 +37876,11 @@
 	  value: true
 	});
 	
-	var _isIE8 = __webpack_require__(311);
+	var _isIE8 = __webpack_require__(309);
 	
-	var _getModal$getInput$setFocusStyle = __webpack_require__(312);
+	var _getModal$getInput$setFocusStyle = __webpack_require__(310);
 	
-	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(310);
+	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(308);
 	
 	var alertTypes = ['error', 'warning', 'info', 'success', 'input', 'prompt'];
 	
@@ -38309,7 +38097,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 318 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -38320,11 +38108,11 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFlatten = __webpack_require__(319),
-	    bindCallback = __webpack_require__(322),
-	    pickByArray = __webpack_require__(323),
-	    pickByCallback = __webpack_require__(324),
-	    restParam = __webpack_require__(329);
+	var baseFlatten = __webpack_require__(317),
+	    bindCallback = __webpack_require__(320),
+	    pickByArray = __webpack_require__(321),
+	    pickByCallback = __webpack_require__(322),
+	    restParam = __webpack_require__(327);
 	
 	/**
 	 * Creates an object composed of the picked `object` properties. Property
@@ -38365,7 +38153,7 @@
 
 
 /***/ },
-/* 319 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -38376,8 +38164,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(320),
-	    isArray = __webpack_require__(321);
+	var isArguments = __webpack_require__(318),
+	    isArray = __webpack_require__(319);
 	
 	/**
 	 * Checks if `value` is object-like.
@@ -38502,7 +38290,7 @@
 
 
 /***/ },
-/* 320 */
+/* 318 */
 /***/ function(module, exports) {
 
 	/**
@@ -38751,7 +38539,7 @@
 
 
 /***/ },
-/* 321 */
+/* 319 */
 /***/ function(module, exports) {
 
 	/**
@@ -38937,7 +38725,7 @@
 
 
 /***/ },
-/* 322 */
+/* 320 */
 /***/ function(module, exports) {
 
 	/**
@@ -39008,7 +38796,7 @@
 
 
 /***/ },
-/* 323 */
+/* 321 */
 /***/ function(module, exports) {
 
 	/**
@@ -39087,7 +38875,7 @@
 
 
 /***/ },
-/* 324 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -39098,8 +38886,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFor = __webpack_require__(325),
-	    keysIn = __webpack_require__(326);
+	var baseFor = __webpack_require__(323),
+	    keysIn = __webpack_require__(324);
 	
 	/**
 	 * The base implementation of `_.forIn` without support for callback
@@ -39137,7 +38925,7 @@
 
 
 /***/ },
-/* 325 */
+/* 323 */
 /***/ function(module, exports) {
 
 	/**
@@ -39191,7 +38979,7 @@
 
 
 /***/ },
-/* 326 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -39202,8 +38990,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(327),
-	    isArray = __webpack_require__(328);
+	var isArguments = __webpack_require__(325),
+	    isArray = __webpack_require__(326);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -39329,7 +39117,7 @@
 
 
 /***/ },
-/* 327 */
+/* 325 */
 /***/ function(module, exports) {
 
 	/**
@@ -39578,7 +39366,7 @@
 
 
 /***/ },
-/* 328 */
+/* 326 */
 /***/ function(module, exports) {
 
 	/**
@@ -39764,7 +39552,7 @@
 
 
 /***/ },
-/* 329 */
+/* 327 */
 /***/ function(module, exports) {
 
 	/**
@@ -39837,7 +39625,7 @@
 
 
 /***/ },
-/* 330 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -40864,7 +40652,7 @@
 
 
 /***/ },
-/* 331 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -40931,7 +40719,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 332 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40941,7 +40729,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _isDOMEquals = __webpack_require__(333);
+	var _isDOMEquals = __webpack_require__(331);
 	
 	var _isDOMEquals2 = _interopRequireDefault(_isDOMEquals);
 	
@@ -40962,7 +40750,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 333 */
+/* 331 */
 /***/ function(module, exports) {
 
 	/**
@@ -40982,6 +40770,218 @@
 	}
 	
 	module.exports = exports["default"];
+
+/***/ },
+/* 332 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(333);
+	var SessionStore = __webpack_require__(278);
+	var ApiUtil = __webpack_require__(241);
+	var Link = __webpack_require__(159).Link;
+	
+	var UserProfile = React.createClass({
+	  displayName: 'UserProfile',
+	
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	  getInitialState: function () {
+	    return { user: UserStore.all(), current: SessionStore.currentUser(), boardsDisplayed: false };
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = UserStore.addListener(this._onChange);
+	    ApiUtil.fetchSingleUser(this.props.params.user_id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  componentWillReceiveProps: function (nextProps) {
+	    ApiUtil.fetchSingleUser(nextProps.params.user_id);
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ user: UserStore.all() });
+	  },
+	
+	  goToBoard: function (id) {
+	    this.hideResults();
+	    this.context.router.push("/boards/" + id);
+	  },
+	
+	  toggleDisplay: function () {
+	    this.state.boardsDisplayed ? this.setState({ boardsDisplayed: false }) : this.setState({ boardsDisplayed: true });
+	  },
+	
+	  render: function () {
+	
+	    if (!this.state.user) {
+	      return React.createElement('div', null);
+	    };
+	
+	    var boards = this.state.user.boards ? this.state.user.boards : null;
+	    var isAuthor = this.state.user.user_name == this.state.current.user_name;
+	
+	    if (boards && boards.length >= 1) {
+	      var boardLis = boards.map(function (board) {
+	        if (!board.private) {
+	          return React.createElement(
+	            'li',
+	            { key: board.id, className: 'board-link' },
+	            React.createElement('i', { className: 'fa-li fa fa-paw fa-fw', 'aria-hidden': 'true' }),
+	            React.createElement(
+	              Link,
+	              { to: "/boards/" + board.id },
+	              board.title
+	            )
+	          );
+	        }
+	      });
+	    };
+	
+	    if (boardLis && boardLis.length > 1) {
+	      boardLis = boardLis.filter(function (n) {
+	        return n != undefined;
+	      });
+	    };
+	
+	    var none = !boardLis ? React.createElement(
+	      'p',
+	      null,
+	      this.state.user.user_name,
+	      ' doesn\'t have any public boards yet!'
+	    ) : null;
+	    var boardCount = boardLis ? boardLis.length : 0;
+	
+	    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().replace(".", "").split(" ").join(".") + "@catmail.com" : "";
+	
+	    var dateEls = this.state.user.created_at ? this.state.user.created_at.slice(0, this.state.user.created_at.indexOf("T")).split("-") : "";
+	
+	    var month = function (dateEls) {
+	
+	      if (dateEls) {
+	        if (dateEls[1][0] == "0") {
+	          return dateEls[1].slice(1);
+	        } else {
+	          return dateEls[1];
+	        };
+	      } else {
+	        return "";
+	      };
+	    };
+	
+	    var date = month(dateEls) + "/" + dateEls[2] + "/" + dateEls[0];
+	
+	    // var pic = (this.state.user && this.state.user.user_name == this.state.current.user_name) ? "user-pic" : "user-pic-two";
+	
+	    var pics = {
+	      "Mr. Cat": "user-pic-two",
+	      "Ineffective Mouser": "mouser",
+	      "Unsubtle Impostor": "dog"
+	    };
+	
+	    var pic = this.state.user.user_name && pics[this.state.user.user_name] ? pics[this.state.user.user_name] : "user-pic";
+	    var boardsDisplayed = this.state.boardsDisplayed ? "fa-ul" : "hidden";
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'user-profile group' },
+	      React.createElement('section', { className: pic }),
+	      React.createElement(
+	        'ul',
+	        null,
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'h1',
+	            null,
+	            this.state.user.user_name
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'h2',
+	            null,
+	            'Email: ',
+	            emailString
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'h2',
+	            null,
+	            'CatTrello User since ',
+	            date
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'h2',
+	        { className: 'user-board-list' },
+	        React.createElement('i', { className: 'fa fa-caret-square-o-down', 'aria-hidden': 'true', onClick: this.toggleDisplay }),
+	        'Public Boards: ',
+	        boardCount,
+	        React.createElement(
+	          'ul',
+	          { className: boardsDisplayed },
+	          none,
+	          boardLis
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = UserProfile;
+
+/***/ },
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var Dispatcher = __webpack_require__(236);
+	var UserConstants = __webpack_require__(249);
+	
+	var UserStore = new Store(Dispatcher);
+	var _users = [];
+	
+	UserStore.all = function () {
+	  return _users;
+	};
+	
+	UserStore.find = function (id) {
+	  for (var i = 0; i < _users.length; i++) {
+	    if (_users[i].id == id) {
+	      return _users[i];
+	    }
+	  }
+	};
+	
+	UserStore.resetUsers = function (user) {
+	  _users = user;
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case UserConstants.SINGLE_USER_RECEIVED:
+	      UserStore.resetUsers(payload.user);
+	      UserStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = UserStore;
 
 /***/ }
 /******/ ]);
