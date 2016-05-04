@@ -13,7 +13,7 @@ class NotificationsController < ApplicationController
   def destroy
     @notification = Notification.find(params[:id])
     @notification.destroy
-    @notifications = Notification.where(note.noter.id: current_user.id)
+    # @notifications = Notification.where(note.noter.id: current_user.id)
     render :index
   end
 
