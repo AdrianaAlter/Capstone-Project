@@ -35,6 +35,12 @@ class Board < ActiveRecord::Base
 		primary_key: :id,
 		foreign_key: :board_id
 	)
+	has_many(
+		:notifications,
+		class_name: "Notification",
+		primary_key: :id,
+		foreign_key: :board_id
+	)
 
 
 end

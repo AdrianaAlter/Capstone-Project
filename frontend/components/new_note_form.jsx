@@ -15,6 +15,11 @@ var NewNoteForm = React.createClass({
 			var note = {};
 		  note.content = this.state.content;
 		  ApiUtil.createNewNote(note, this.props.boardId);
+			var notification = {};
+			notification.user_id = this.props.notedOnId;
+			notification.author_id = SessionStore.currentUser().id
+			notification.board_id = this.props.boardId;
+			ApiUtil.createNewNotification(notification);
 		  this.setState({ content: ""});
 			this.toggleDisplay();
   },

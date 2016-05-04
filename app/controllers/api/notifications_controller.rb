@@ -1,11 +1,11 @@
-class NotificationsController < ApplicationController
+class Api::NotificationsController < ApplicationController
 
   def index
-    # @notifications = Notification.where(note.noter.id: current_user.id)
+    @notifications = Notification.where(user_id: current_user.id)
   end
 
   def create
-    @notification = Note.new(params[:note_id])
+    @notification = Notification.new(user_id: params[:notification][:user_id], author_id: params[:notification][:author_id], board_id: params[:notification][:board_id])
     @notification.save!
     render :show
   end
@@ -13,7 +13,7 @@ class NotificationsController < ApplicationController
   def destroy
     @notification = Notification.find(params[:id])
     @notification.destroy
-    # @notifications = Notification.where(note.noter.id: current_user.id)
+    @notifications = Notification.where(user_id: current_user.id)
     render :index
   end
 

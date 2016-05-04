@@ -166,8 +166,23 @@
   float: left;
 }
 
-.user-name {
+.header-nav > .session-buttons > li:first-child {
+  padding: 6px 12px;
+  border-radius: 50%;
+  text-align: center;
+  position: relative;
+}
 
+.header-nav > .session-buttons > li:first-child > ul {
+  position: absolute;
+  top: 30px;
+  right: -25%;
+  padding: 0;
+  font-size: 12px !important;
+}
+
+
+.user-name {
 	display: block;
 	font-weight: bold;
 	margin-right: 8px;

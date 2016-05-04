@@ -31766,6 +31766,7 @@
 	var CardActions = __webpack_require__(246);
 	var UserActions = __webpack_require__(248);
 	var NoteActions = __webpack_require__(250);
+	var NotificationActions = __webpack_require__(338);
 	
 	ApiUtil = {
 	
@@ -31826,6 +31827,22 @@
 	      },
 	      error: function () {
 	        console.log('Error in ApiUtil fetch all notes function');
+	      }
+	
+	    });
+	  },
+	
+	  fetchAllNotifications: function () {
+	
+	    $.ajax({
+	      url: "api/notifications",
+	      type: "GET",
+	      dataType: "json",
+	      success: function (notifications) {
+	        NotificationActions.receiveAllNotifications(notifications);
+	      },
+	      error: function () {
+	        console.log('Error in ApiUtil fetch all notifications function');
 	      }
 	
 	    });
@@ -31946,6 +31963,22 @@
 	    });
 	  },
 	
+	  createNewNotification: function (notification, callback) {
+	
+	    $.ajax({
+	      url: "api/notifications",
+	      type: "POST",
+	      data: { notification: notification },
+	      success: function (notification) {
+	        NotificationActions.receiveSingleNotification(notification);
+	        callback && callback(notification.id);
+	      },
+	      error: function () {
+	        console.log("Error in ApiUtil createNewNotification function");
+	      }
+	    });
+	  },
+	
 	  deleteBoard: function (id) {
 	
 	    $.ajax({
@@ -32001,6 +32034,20 @@
 	      },
 	      error: function () {
 	        console.log("Error in ApiUtil delete note function");
+	      }
+	    });
+	  },
+	
+	  deleteNotification: function (id) {
+	
+	    $.ajax({
+	      url: "api/notifications/" + id,
+	      type: "DELETE",
+	      success: function (notifications) {
+	        NotificationActions.receiveAllNotifications(notifications);
+	      },
+	      error: function () {
+	        console.log("Error in ApiUtil delete notification function");
 	      }
 	    });
 	  },
@@ -34454,6 +34501,7 @@
 	var ApiUtil = __webpack_require__(241);
 	var SessionButtons = __webpack_require__(277);
 	var Search = __webpack_require__(279);
+	
 	var Link = __webpack_require__(159).Link;
 	
 	var Header = React.createClass({
@@ -34514,6 +34562,7 @@
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(254);
 	var Link = __webpack_require__(159).Link;
+	var NotificationIndex = __webpack_require__(334);
 	
 	var SessionButtons = React.createClass({
 	  displayName: 'SessionButtons',
@@ -34614,6 +34663,7 @@
 	    return React.createElement(
 	      'ul',
 	      { className: 'session-buttons group' },
+	      React.createElement(NotificationIndex, null),
 	      loggedInAs,
 	      logout
 	    );
@@ -35336,7 +35386,7 @@
 	      'Delete this board...'
 	    ) : React.createElement('div', null);
 	    var isCurrent = this.state.board.author_id == current.id ? true : false;
-	    var Notes = isCurrent ? React.createElement(NoteIndex, { boardId: this.props.params.board_id }) : React.createElement(NewNoteForm, { boardId: this.props.params.board_id });
+	    var Notes = isCurrent ? React.createElement(NoteIndex, { boardId: this.props.params.board_id }) : React.createElement(NewNoteForm, { boardId: this.props.params.board_id, notedOnId: this.state.board.author_id });
 	
 	    return React.createElement(
 	      'section',
@@ -36519,6 +36569,11 @@
 			var note = {};
 			note.content = this.state.content;
 			ApiUtil.createNewNote(note, this.props.boardId);
+			var notification = {};
+			notification.user_id = this.props.notedOnId;
+			notification.author_id = SessionStore.currentUser().id;
+			notification.board_id = this.props.boardId;
+			ApiUtil.createNewNotification(notification);
 			this.setState({ content: "" });
 			this.toggleDisplay();
 		},
@@ -40982,6 +41037,206 @@
 	};
 	
 	module.exports = UserStore;
+
+/***/ },
+/* 334 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var NotificationStore = __webpack_require__(335);
+	var NotificationIndexItem = __webpack_require__(337);
+	var ApiUtil = __webpack_require__(241);
+	
+	var NotificationIndex = React.createClass({
+	  displayName: 'NotificationIndex',
+	
+	
+	  getInitialState: function () {
+	    return { notifications: this.getStateFromStore(), notificationsDisplayed: false };
+	  },
+	
+	  getStateFromStore: function () {
+	    return NotificationStore.all();
+	  },
+	
+	  setNewState: function () {
+	    this.setState({ notifications: this.getStateFromStore() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = NotificationStore.addListener(this.setNewState);
+	    ApiUtil.fetchAllNotifications(this.props.boardId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    if (this.listener) {
+	      this.listener.remove();
+	    }
+	  },
+	
+	  toggleDisplay: function () {
+	    this.state.notificationsDisplayed ? this.setState({ notificationsDisplayed: false }) : this.setState({ notificationsDisplayed: true });
+	  },
+	
+	  render: function () {
+	
+	    if (!this.state.notifications || this.state.notifications.length < 1) {
+	      return React.createElement('div', null);
+	    };
+	
+	    var notificationItems = this.state.notifications.map(function (notification) {
+	      return React.createElement(NotificationIndexItem, { key: notification.id, id: notification.id, boardId: notification.board_id, author: notification.author.user_name });
+	    });
+	
+	    var notificationsDisplayed = this.state.notificationsDisplayed ? "notifications-list" : "hidden";
+	
+	    return React.createElement(
+	      'li',
+	      { className: 'notifications-index group', onClick: this.toggleDisplay },
+	      React.createElement(
+	        'h1',
+	        null,
+	        notificationItems.length
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: notificationsDisplayed, onClick: this.toggleDisplay },
+	        notificationItems
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = NotificationIndex;
+
+/***/ },
+/* 335 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var Dispatcher = __webpack_require__(236);
+	var NotificationConstants = __webpack_require__(336);
+	
+	var NotificationStore = new Store(Dispatcher);
+	var _notifications = [];
+	
+	NotificationStore.all = function () {
+	  return _notifications;
+	};
+	
+	NotificationStore.resetNotifications = function (notifications) {
+	  _notifications = notifications;
+	};
+	
+	NotificationStore.resetNotification = function (notification) {
+	  var i = NotificationStore.findOutIndex(notification);
+	  if (_notifications[i]) {
+	    _notifications[i] = notification;
+	  } else {
+	    _notifications.push(notification);
+	  }
+	};
+	
+	NotificationStore.findOutIndex = function (notification) {
+	  for (var i = 0; i < _notifications.length; i++) {
+	    if (_notifications[i].id == notification.id) {
+	      return i;
+	    }
+	  }
+	};
+	
+	NotificationStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case NotificationConstants.ALL_NOTIFICATIONS_RECEIVED:
+	      NotificationStore.resetNotifications(payload.notifications);
+	      NotificationStore.__emitChange();
+	      break;
+	    case NotificationConstants.SINGLE_NOTIFICATION_RECEIVED:
+	      NotificationStore.resetNotification(payload.notification);
+	      NotificationStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = NotificationStore;
+
+/***/ },
+/* 336 */
+/***/ function(module, exports) {
+
+	var NotificationConstants = {
+	  ALL_NOTIFICATIONS_RECEIVED: "ALL_NOTIFICATIONS_RECEIVED",
+	  SINGLE_NOTIFICATION_RECEIVED: "SINGLE_NOTIFICATION_RECEIVED"
+	};
+	
+	module.exports = NotificationConstants;
+
+/***/ },
+/* 337 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
+	var NotificationIndexItem = React.createClass({
+	  displayName: 'NotificationIndexItem',
+	
+	
+	  deleteNotification: function () {
+	    var boardId = this.props.boardId;
+	    var id = this.props.id;
+	    ApiUtil.deleteNotification(id);
+	  },
+	
+	  render: function () {
+	    var dnb = React.createElement('i', { className: 'fa fa-check-circle', 'aria-hidden': 'true', onClick: this.deleteNotification });
+	
+	    return React.createElement(
+	      'li',
+	      { className: 'notification-index-item' },
+	      React.createElement(
+	        Link,
+	        { to: "/boards/" + this.props.boardId },
+	        React.createElement(
+	          'h1',
+	          null,
+	          this.props.author,
+	          ' left you a note!'
+	        )
+	      ),
+	      dnb
+	    );
+	  }
+	});
+	
+	module.exports = NotificationIndexItem;
+
+/***/ },
+/* 338 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var NotificationConstants = __webpack_require__(336);
+	var Dispatcher = __webpack_require__(236);
+	
+	var NotificationActions = {
+	
+	  receiveAllNotifications: function (notifications) {
+	    Dispatcher.dispatch({
+	      actionType: NotificationConstants.ALL_NOTIFICATIONS_RECEIVED,
+	      notifications: notifications
+	    });
+	  },
+	
+	  receiveSingleNotification: function (notification) {
+	    Dispatcher.dispatch({
+	      actionType: NotificationConstants.SINGLE_NOTIFICATION_RECEIVED,
+	      notification: notification
+	    });
+	  }
+	
+	};
+	
+	module.exports = NotificationActions;
 
 /***/ }
 /******/ ]);

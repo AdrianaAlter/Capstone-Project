@@ -4,6 +4,7 @@ var SearchResultActions = require('../actions/search_result_actions.js');
 var CardActions = require('../actions/card_actions.js');
 var UserActions = require('../actions/user_actions.js');
 var NoteActions = require('../actions/note_actions.js');
+var NotificationActions = require('../actions/notification_actions.js');
 
 ApiUtil = {
 
@@ -67,6 +68,23 @@ ApiUtil = {
       },
       error: function () {
         console.log('Error in ApiUtil fetch all notes function');
+      }
+
+    });
+
+  },
+
+  fetchAllNotifications: function () {
+
+    $.ajax({
+      url: "api/notifications",
+      type: "GET",
+      dataType: "json",
+      success: function (notifications) {
+        NotificationActions.receiveAllNotifications(notifications);
+      },
+      error: function () {
+        console.log('Error in ApiUtil fetch all notifications function');
       }
 
     });
@@ -195,6 +213,22 @@ ApiUtil = {
       });
   },
 
+  createNewNotification: function (notification, callback) {
+
+      $.ajax({
+        url: "api/notifications",
+        type: "POST",
+        data: { notification: notification },
+        success: function (notification) {
+          NotificationActions.receiveSingleNotification(notification);
+          callback && callback(notification.id);
+        },
+        error: function () {
+          console.log("Error in ApiUtil createNewNotification function");
+        }
+      });
+  },
+
   deleteBoard: function (id) {
 
     $.ajax({
@@ -250,6 +284,20 @@ ApiUtil = {
       },
       error: function () {
         console.log("Error in ApiUtil delete note function");
+      }
+    });
+  },
+
+  deleteNotification: function (id) {
+
+    $.ajax({
+      url: "api/notifications/" + id,
+      type: "DELETE",
+      success: function (notifications) {
+        NotificationActions.receiveAllNotifications(notifications);
+      },
+      error: function () {
+        console.log("Error in ApiUtil delete notification function");
       }
     });
   },

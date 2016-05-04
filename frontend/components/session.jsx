@@ -3,6 +3,7 @@ var SessionStore = require('../store/session_store.js');
 var ApiUtil = require('../util/api_util');
 var Modal = require('react-modal');
 var Link = require('react-router').Link;
+var NotificationIndex = require('./notification_index.jsx');
 
 var SessionButtons = React.createClass ({
 
@@ -76,6 +77,7 @@ var SessionButtons = React.createClass ({
 
 		return(
 			<ul className="session-buttons group">
+				<NotificationIndex />
         {loggedInAs}
 				{logout}
 			</ul>

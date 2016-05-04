@@ -8,7 +8,6 @@ var BoardIndexItem = require('./board_index_item.jsx');
 
 var BoardIndex = React.createClass({
 
-
   getInitialState: function () {
     return { boards: BoardStore.all() };
   },

@@ -65,7 +65,7 @@ var BoardDetail = React.createClass({
     var edit = this.state.board.author_id == current.id ? <EditBoardButton boardId={this.props.params.board_id} /> : <div></div>;
     var del = this.state.board.author_id == current.id ? <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button> : <div></div>;
     var isCurrent = this.state.board.author_id == current.id ? true : false;
-    var Notes = isCurrent ? <NoteIndex boardId={this.props.params.board_id} /> : <NewNoteForm boardId={this.props.params.board_id} />;
+    var Notes = isCurrent ? <NoteIndex boardId={this.props.params.board_id} /> : <NewNoteForm boardId={this.props.params.board_id} notedOnId={this.state.board.author_id}/>;
 
     return (
             <section className="board-detail group">
@@ -77,7 +77,7 @@ var BoardDetail = React.createClass({
               </ul>
               {del}
               {edit}
-              {Notes}              
+              {Notes}
             </section>
           );
     }

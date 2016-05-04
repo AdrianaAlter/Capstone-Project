@@ -18,9 +18,6 @@ class Api::NotesController < ApplicationController
     @note.destroy
     @notes = Note.where(board_id: current_board_id)
     render :index
-    # @board = Board.find(current_board_id)
-    # debugger
-    # render "api/boards/show"
   end
 
   private

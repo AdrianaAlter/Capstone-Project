@@ -1,0 +1,6 @@
+var NotificationConstants = {
+  ALL_NOTIFICATIONS_RECEIVED: "ALL_NOTIFICATIONS_RECEIVED",
+  SINGLE_NOTIFICATION_RECEIVED: "SINGLE_NOTIFICATION_RECEIVED",
+};
+
+module.exports = NotificationConstants;
