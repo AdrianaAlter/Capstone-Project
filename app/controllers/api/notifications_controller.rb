@@ -1,7 +1,7 @@
 class NotificationsController < ApplicationController
 
   def index
-    @notifications = Notification.where(note.noter.id: current_user.id)
+    # @notifications = Notification.where(note.noter.id: current_user.id)
   end
 
   def create
