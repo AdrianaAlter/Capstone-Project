@@ -34741,17 +34741,17 @@
 			}
 			var toggle = this.toggleResults;
 	
-			var resultItems = this.state.results.map(function (result) {
+			var resultItems = this.state.results.map(function (result, idx) {
 				if (result.title) {
 					return React.createElement(
 						'li',
-						{ key: result.id, className: "board-result", onClick: this.goToBoard.bind(this, result.id) },
+						{ key: idx, className: "board-result", onClick: this.goToBoard.bind(this, result.id) },
 						result.title
 					);
 				} else if (result.user_name) {
 					return React.createElement(
 						'li',
-						{ key: result.id, className: "user-result", onClick: this.goToUser.bind(this, result.id) },
+						{ key: idx, className: "user-result", onClick: this.goToUser.bind(this, result.id) },
 						result.user_name
 					);
 				}

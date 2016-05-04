@@ -71,12 +71,12 @@ var Search = React.createClass({
 		if (!this.state.results) { return (<div></div>);}
 		var toggle = this.toggleResults;
 
-		var resultItems = this.state.results.map(function (result) {
+		var resultItems = this.state.results.map(function (result, idx) {
 			if (result.title) {
-				return (<li key={result.id} className={"board-result"} onClick={this.goToBoard.bind(this, result.id)}>{result.title}</li>);
+				return (<li key={idx} className={"board-result"} onClick={this.goToBoard.bind(this, result.id)}>{result.title}</li>);
 			}
 			else if (result.user_name) {
-				return (<li key={result.id} className={"user-result"} onClick={this.goToUser.bind(this, result.id)}>{result.user_name}</li>);
+				return (<li key={idx} className={"user-result"} onClick={this.goToUser.bind(this, result.id)}>{result.user_name}</li>);
 			}
 		}.bind(this));
 
