@@ -15,4 +15,11 @@ class Notification < ActiveRecord::Base
     foreign_key: :author_id
   )
 
+  belongs_to(
+    :user,
+    class_name: 'User',
+    primary_key: :id,
+    foreign_key: :user_id
+  )
+
 end

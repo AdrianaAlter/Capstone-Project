@@ -1,5 +1,7 @@
 var React = require('react');
 var NoteStore = require('../store/note_store.js');
+var NotificationStore = require('../store/notification_store.js');
+var SessionStore = require('../store/session_store.js');
 var NoteIndexItem = require('./note_index_item.jsx');
 var ApiUtil = require('../util/api_util.js');
 
@@ -28,6 +30,17 @@ var NoteIndex = React.createClass({
 
   toggleDisplay: function () {
     this.state.notesDisplayed ? this.setState({ notesDisplayed: false }) : this.setState({ notesDisplayed: true });
+    this.clearNotifications();
+  },
+
+  clearNotifications: function () {
+    var notifications = NotificationStore.forBoard(SessionStore.currentUser().id, this.props.boardId);
+    if (notifications) {
+      for (var i = 0; i < notifications.length; i++) {
+        ApiUtil.deleteNotification(notifications[i].id);
+      };
+      NotificationStore.forUser(SessionStore.currentUser().id);
+    };
   },
 
   render: function () {

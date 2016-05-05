@@ -1,5 +1,6 @@
 var React = require('react');
 var NotificationStore = require('../store/notification_store.js');
+var SessionStore = require('../store/session_store.js');
 var NotificationIndexItem = require('./notification_index_item.jsx');
 var ApiUtil = require('../util/api_util.js');
 
@@ -10,7 +11,7 @@ var NotificationIndex = React.createClass({
   },
 
   getStateFromStore: function () {
-    return NotificationStore.all();
+    return NotificationStore.forUser(SessionStore.currentUser().id);
   },
 
   setNewState: function () {
@@ -19,7 +20,7 @@ var NotificationIndex = React.createClass({
 
   componentDidMount: function () {
     this.listener = NotificationStore.addListener(this.setNewState);
-    ApiUtil.fetchAllNotifications(this.props.boardId);
+    ApiUtil.fetchAllNotifications();
   },
 
   componentWillUnmount: function () {
@@ -39,7 +40,7 @@ var NotificationIndex = React.createClass({
 
   render: function () {
 
-    if (!this.state.notifications || this.state.notifications.length < 1) { return <div></div>};
+    if (!this.state.notifications) { return <div></div>};
 
     var notificationItems = this.state.notifications.map(function (notification) {
       return <NotificationIndexItem key={notification.id} id={notification.id} boardId={notification.board_id} author={notification.author.user_name} />;
