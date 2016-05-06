@@ -37,8 +37,8 @@
 body {
   font-size: 14px;
   box-sizing: content-box;
-  color: black;
-  background: white;
+  color: #1a1a1a;
+  background: ivory !important;
   font-family: 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: bold;
   line-height: 18px;

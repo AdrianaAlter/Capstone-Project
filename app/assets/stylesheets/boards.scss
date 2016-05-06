@@ -13,7 +13,7 @@
   margin-left: 16px;
   font-size: 16px;
   color: #4d4d4d;
-  text-shadow: #3d4b54;
+  text-shadow: 2px 2px 2px #aaa;
 }
 
 .board-items {
@@ -26,8 +26,8 @@
 
 .board-items li {
   background: #B04632;
-  box-shadow: 2px 2px 2px #883627;
-  color: #fff;
+  box-shadow: 2px 2px 2px #aaa;
+  color: ivory;
   cursor: pointer;
   border-radius: 3px;
   height: 60px;
@@ -46,12 +46,16 @@
   color: #cc7766;
 }
 
-.board-items li:hover {
+.board-items li:active {
   background: darkred;
   box-shadow: inset 2px 2px 2px #250000;
   text-shadow: 2px 2px 2px #250000;
 }
 
+.board-items li:hover {
+  background: darkred;
+  text-shadow: 2px 2px 2px #250000;
+}
 .note-count {
   display: block;
   padding: 2px 6px;
@@ -91,10 +95,17 @@
 
 .board-items .new-board-button:hover {
   	background: #acb0b6;
-    box-shadow: inset 2px 2px 2px #91969e;
   	color: darkred;
     text-shadow: 2px 2px 2px #250000;
 }
+
+.new-board-button:active {
+  background: #acb0b6;
+  box-shadow: inset 2px 2px 2px #91969e;
+}
+
+
+
 
 .board-detail {
   display: block;
@@ -102,7 +113,7 @@
   margin-bottom: 0;
   width: 100%;
   background-color: #b43;
-  color: white;
+  color: ivory;
   font-weight: bold;
   font-size: 18px;
   line-height: 30px;
@@ -112,10 +123,12 @@
   margin: 0 14px;
   padding: 20px 0;
   width: 250px;
+  text-shadow: 2px 2px 2px #6b271d;
 }
 
 .board-detail > h1 {
   padding: 12px;
+
 }
 
 
@@ -130,13 +143,12 @@
   cursor: pointer;
 }
 
-.delete-board-button {
-
-  box-shadow: none;
+.delete-board-button, .edit-board-button, .new-list-button {
   font-size: 14px;
   font-weight: normal;
-  color: #e2e4e6;
+  color:ivory;
   background: #a43;
+  box-shadow: 2px 2px 2px #6b271d;
   display: block;
   border-radius: 3px;
   height: 32px;
@@ -145,34 +157,15 @@
   margin: 24px 12px;
 }
 
-.delete-board-button:hover {
-  box-shadow: none;
+.delete-board-button:hover, .edit-board-button:hover, .new-list-button:hover {
+  box-shadow: 2px 2px 2px #6b271d;
   background: #943;
+  text-shadow: 2px 2px 2px #4d2219;
 }
 
-.board-detail button {
-  box-shadow: none;
-  width: 120px;
-  font-size: 14px;
-  font-weight: normal;
-  color: #e2e4e6;
-  background: #a43;
-  display: block;
-  border-radius: 3px;
-  height: 32px;
-  width: auto;
-  padding: 5px 20px;
-  margin: 24px 12px;
-}
-
-.edit-board-button:hover {
+.delete-board-button:active, .edit-board-button:active, .new-list-button:active {
+  box-shadow: inset 2px 2px 2px #6b271d;
   background: #943;
-  box-shadow: none;
-}
-
-.board-detail .new-list-button:hover {
-  background: #943;
-  box-shadow: none;
 }
 
 .new-board-form {

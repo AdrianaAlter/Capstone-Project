@@ -23,6 +23,7 @@
 
 
 .note-index-item {
+  box-shadow: inset 2px 2px 2px #5D231F;
   display: block;
   min-height: 24px;
   width: 232px;
@@ -78,15 +79,18 @@
   width: 40px;
   padding: 0;
   text-align: center;
+  box-shadow: 2px 2px 2px #5D231F;
   margin: 12px;
 }
 
 .note-index-item button:hover {
-  background: #BB4433;
-  box-shadow: 2px 2px 2px #5D231F;
+  // background: #BB4433;
+  // box-shadow: 2px 2px 2px #5D231F;
+  text-shadow: 2px 2px 2px #5D231F;
 }
 
 .note-index-item button:active {
+  background: #BB4433;
   box-shadow: inset 2px 2px 2px #5D231F;
 }
 

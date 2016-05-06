@@ -5,6 +5,7 @@
 .welcome-page {
   font-family: "jaf-facitweb", "Helvetica Neue", Arial,sans-serif;
   color: #4d4d4d;
+  text-shadow: 2px 2px 2px #aaa;
   width: 100%;
 }
 
@@ -23,6 +24,10 @@ button {
 }
 
 button:hover {
+  text-shadow: 2px 2px 2px #346327;
+}
+
+ button:active {
   background: linear-gradient(to bottom, #4b9e3b 0, #478736 100%);
   box-shadow: inset 0 0 0 2px  #3f6f21;
 }
@@ -58,6 +63,7 @@ button:hover {
     display: block;
     margin-bottom: 8px;
     margin-left: 8px;
+    text-shadow: none;
 }
 
 .log-in-form input {
@@ -67,23 +73,33 @@ button:hover {
   margin-left: 8px;
   background: #edeff0;
   border-radius: 4px;
+  color: #4d4d4d;
   border: 1px solid #cdd2d4;
 }
 
 .log-in-form input:hover {
   border: 1px solid #a4a8aa;
+  text-shadow: 2px 2px 2px #a4a8aa;
+  box-shadow: 2px 2px 2px #98c6dc;
+}
+
+.log-in-form input:focus, .sign-up-form input:focus {
+  box-shadow: inset 2px 2px 2px #a4a8aa;
 }
 
 .sign-up-form {
   width: 400px;
   height: 400px;
   display: block;
+  color: #4d4d4d;
   margin: auto;
   padding: 0;
   text-align: left;
 }
 
 .sign-up-form > h1 {
+
+  text-shadow: 2px 2px 2px #aaa;
   font-size: 35.54px;
   line-height: 35px;
   margin-bottom: 23.812px;
@@ -110,26 +126,16 @@ button:hover {
   border: 1px solid #a4a8aa;
 }
 
-.fb {
+.fb, .guest-log-in {
   color: #aaa;
   text-decoration: underline;
   padding: 10px;
   cursor: pointer;
 }
 
-.fb:hover {
-  color: black;
-}
-
-.guest-log-in {
-  color: #aaa;
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 10px;
-}
-
-.guest-log-in:hover {
-  color: black;
+.fb:hover, .guest-log-in:hover {
+  color: #1a1a1a;
+  text-shadow: 2px 2px 2px black;
 }
 
 .info-page {
@@ -172,6 +178,7 @@ button:hover {
   height: 96px;
   padding: 80px 20px;
   background: #0079bf;
+  text-shadow: 2px 2px 2px #003959;
   text-align: center;
   position: relative;
 }
@@ -189,6 +196,7 @@ button:hover {
   background-repeat: no-repeat;
   display: block;
   border-radius: 50%;
+  box-shadow: 2px 2px 2px #003959;
 }
 
 .cat-logo p {
@@ -226,7 +234,8 @@ footer ul li {
 }
 
 footer ul li:hover {
-  color: black;
+  color: #1a1a1a;
+  text-shadow: 2px 2px 2px black;
 }
 
 footer ul li:last-child {
