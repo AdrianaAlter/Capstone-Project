@@ -35082,16 +35082,17 @@
 	
 			var meta = SearchResultsStore.meta();
 			var resultItems = this.resultLis();
+			var ul = resultItems.length > 0 ? React.createElement(
+				'ul',
+				{ className: this.state.display, onMouseLeave: this.hide },
+				resultItems
+			) : null;
 	
 			return React.createElement(
 				'div',
 				null,
 				React.createElement('input', { type: 'text', tabIndex: '0', onClick: this.toggleResults, onChange: this.handleInputChange, onSubmit: this.search }),
-				React.createElement(
-					'ul',
-					{ className: this.state.display, onMouseLeave: this.hide },
-					resultItems
-				)
+				ul
 			);
 		}
 	
@@ -36187,7 +36188,7 @@
 	
 	
 	  getInitialState: function () {
-	    return { modalOpen: false };
+	    return { modalOpen: false, display: "button" };
 	  },
 	
 	  openModal: function () {
@@ -36198,24 +36199,21 @@
 	    this.setState({ modalOpen: false });
 	  },
 	
-	  render: function () {
-	    var styles = {
-	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
-	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
-	    };
+	  toggleDisplay: function () {
+	    this.state.display == "button" ? this.setState({ display: "form" }) : this.setState({ display: "button" });
+	  },
 	
-	    return React.createElement(
-	      'li',
-	      { className: 'new-card-button', onClick: this.openModal },
-	      'Add a new card...',
-	      React.createElement(
-	        Modal,
-	        { className: 'modal', isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: styles },
-	        React.createElement(NewCardForm, { boardId: this.props.boardId, listId: this.props.listId, closeModal: this.closeModal })
-	      )
-	    );
+	  render: function () {
+	
+	    if (this.state.display == "button") {
+	      return React.createElement(
+	        'li',
+	        { className: 'new-card-button', onClick: this.toggleDisplay },
+	        'Add a new card...'
+	      );
+	    } else {
+	      return React.createElement(NewCardForm, { boardId: this.props.boardId, listId: this.props.listId, toggleDisplay: this.toggleDisplay });
+	    };
 	  }
 	});
 	
@@ -36242,7 +36240,7 @@
 			card.list_id = this.props.listId;
 			ApiUtil.createNewCard(card, this.props.boardId);
 			this.setState({ title: "" });
-			this.props.closeModal();
+			this.props.toggleDisplay();
 		},
 	
 		updateTitle: function (e) {
@@ -36254,23 +36252,17 @@
 	
 			return React.createElement(
 				'form',
-				{ className: 'new-card-form' },
-				React.createElement(
-					'h1',
-					null,
-					'Create Card',
-					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true', onClick: this.props.closeModal })
-				),
-				React.createElement(
-					'h2',
-					null,
-					'Title'
-				),
+				{ className: 'new-card-form', onSubmit: this.createNewCard },
 				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
 				React.createElement(
 					'button',
+					{ onClick: this.props.toggleDisplay },
+					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true' })
+				),
+				React.createElement(
+					'button',
 					{ onClick: this.createNewCard },
-					'Create'
+					React.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
 				)
 			);
 		}

@@ -13,7 +13,7 @@ var NewCardForm = React.createClass({
       card.list_id = this.props.listId;
       ApiUtil.createNewCard(card, this.props.boardId);
       this.setState({ title: "" });
-      this.props.closeModal();
+      this.props.toggleDisplay();
   },
 
 	updateTitle: function (e) {
@@ -24,11 +24,10 @@ var NewCardForm = React.createClass({
 	render: function () {
 
 	return(
-				<form className="new-card-form">
-          <h1>Create Card<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.closeModal}></i></h1>
-					<h2>Title</h2>
+				<form className="new-card-form" onSubmit={this.createNewCard}>
 					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
-					<button onClick={this.createNewCard}>Create</button>
+					<button onClick={this.props.toggleDisplay}><i className="fa fa-times xout" aria-hidden="true"></i></button>
+					<button onClick={this.createNewCard}><i className="fa fa-check" aria-hidden="true"></i></button>
 				</form>
 		);
 	}

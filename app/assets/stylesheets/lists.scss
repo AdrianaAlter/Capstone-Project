@@ -26,14 +26,20 @@
 }
 
 .list-index .list-index-item:hover {
-  background: #666;
   box-shadow: inset 2px 2px 2px #4d4d4d;
-  color: black;
+  color: #4D2219;
 }
 
-// .list-index-item:hover .new-card-button, .edit-list-button, .delete-list-button {
-//   box-shadow: 2px 2px 2px #333;
-// }
+.list-index .list-index-item:hover .list-detail > button {
+  background: #a43;
+  box-shadow: 2px 2px 2px #333;
+  color: white;
+}
+.list-index-item:hover .new-card-button {
+  background: #a43;
+  box-shadow: 2px 2px 2px #333;
+  color: white;
+}
 
 .list-index .list-index-item > h1 {
     padding: 8px 10px;
@@ -43,15 +49,9 @@
   text-shadow: 2px 2px 2px #4d4d4d;
 }
 
-.list-index .list-index-item .list-detail {
-
-}
-
-
-
-.list-index .list-index-item .list-detail > button {
+.list-index .list-index-item .list-detail > button, .new-card-button {
   float: left;
-  background: #e2e4e6;
+  background: transparent;
   box-shadow: none;
   display: block;
   width: 245px;
@@ -65,21 +65,33 @@
   cursor: pointer;
 }
 
-
-
 .list-index .list-index-item .list-detail > button:hover {
-  color: #1a1a1a;
+  color: white;
+  background: #994433;
+  text-shadow: 2px 2px 2px #4D2219;
   box-shadow: 2px 2px 2px #333;
 }
+
+.new-card-button:hover {
+  color: white;
+  background: #994433;
+  text-shadow: 2px 2px 2px #4D2219 !important;
+  box-shadow: 2px 2px 2px #333;
+}
+
 .list-index .list-index-item .list-detail > button:active {
-  color: #1a1a1a;
-  box-shadow: inset 2px 2px 2px #91969e;
+  color: white;
+  box-shadow: inset 2px 2px 2px #4d2219;
+  background: #943;
+}
+
+.new-card-button:active {
+  color: white;
+  box-shadow: inset 2px 2px 2px #4d2219 !important;
+  background: #943;
 }
 
 
-// .list-index .list-index-item .list-detail .li:hover {
-//   color: #666;
-// }
 
 .new-list-button {
   float: left;

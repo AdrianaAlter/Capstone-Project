@@ -7,7 +7,7 @@ var NewCardForm = require('./new_card_form.jsx');
 var NewCardButton = React.createClass({
 
   getInitialState: function () {
-    return({ modalOpen: false });
+    return({ modalOpen: false, display: "button" });
   },
 
   openModal: function () {
@@ -18,22 +18,18 @@ var NewCardButton = React.createClass({
     this.setState({ modalOpen: false });
   },
 
-  render: function () {
-    var styles = {
-      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
-      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
-    };
+  toggleDisplay: function () {
+    this.state.display == "button" ? this.setState({ display: "form" }) : this.setState({ display: "button" })
+  },
 
-    return (
-      <li className="new-card-button" onClick={this.openModal}>
-        Add a new card...
-        <Modal className="modal" isOpen={this.state.modalOpen}
-          onRequestClose={this.closeModal}
-          style={styles}>
-          <NewCardForm boardId={this.props.boardId} listId={this.props.listId} closeModal={this.closeModal}/>
-        </Modal>
-    </li>
-    );
+  render: function () {
+
+
+    if (this.state.display == "button")
+      { return <li className="new-card-button" onClick={this.toggleDisplay}>Add a new card...</li> }
+    else { return (<NewCardForm boardId={this.props.boardId} listId={this.props.listId} toggleDisplay={this.toggleDisplay}/>)};
+
+
   }
 });
 

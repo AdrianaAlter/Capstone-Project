@@ -8,11 +8,11 @@
   width: 252px;
 }
 
-.list-index-item:hover .card-index-item {
+.list-index-item:hover .card-index-item, .list-index-item:hover .new-card-form {
   box-shadow: 2px 2px 2px #333333;
 }
 
-.card-index-item {
+.card-index-item, .new-card-form, .title-field {
   display: block;
   min-height: 24px;
   width: 232px;
@@ -27,21 +27,41 @@
   color: #4d4d4d;
 }
 
-.card-index-item > h1 {
-  width: 198px;
+.card-index-item {
+  box-shadow: 2px 2px 2px #acb0b6;
+}
+
+.new-card-form {
+  padding: 0;
+  width: 243px;
+}
+
+.card-index-item > h1, .title-field {
+  width: 150px;
   margin: 0;
+  display: inline;
+  border: none;
 }
 
 .card-index-item:hover {
-  background: #aaa;
-  box-shadow: inset 2px 2px 2px #333333;
+  box-shadow: inset 2px 2px 2px #333333 !important;
+  text-shadow: 2px 2px 2px #333333;
 }
-.card-index-item:hover > button {
-  background: #aaa;
+.card-index-item:hover > button, .new-card-form:hover > button {
+  box-shadow: none;
+  text-shadow: 2px 2px 2px #333333;
   color: #BB4433;
 }
 
-.card-index-item > button {
+.new-card-form:hover > button {
+  background: transparent;
+}
+
+.title-field:focus {
+  box-shadow: inset 2px 2px 2px #333333;
+}
+
+.card-index-item > button, .new-card-form > button {
   display: inline;
   text-align: center;
   color: #aaa;
@@ -50,83 +70,43 @@
   width: 22px;
   padding: 0;
   line-height: 20px;
-  background: white;
+  background: transparent;
   font-size: 14px;
   font-weight: normal;
   cursor: pointer;
   box-shadow: none;
   margin: 0 2px 0 0;
+  transition: font-size 1s ease;
   border: 1px solid transparent;
 }
 
-.card-index-item > button:hover {
-  color: #994433;
-  box-shadow: none;
+.new-card-form > button {
+  margin: 6px 17px 5px 10px;
   background: transparent;
-//   border: 1px solid #4d4d4d;
+  width: 16px;
+}
+
+.new-card-form > button:first-of-type {
+  margin-right: -5px;
+}
+.new-card-form > i {
+  margin: 0 !important;
+}
+
+.card-index-item > button:hover, .new-card-form > button:hover {
+  color: #994433 !important;
+  box-shadow: none !important;
+  text-shadow: 2px 2px 2px #767676 !important;
+  font-size: 18px;
+  background: transparent;
 }
 
 .new-card-form {
-  display: block;
-  border: 1px solid #8c8c8c;
-  padding: 10px;
-  border-radius: 3px;
-  width: 280px;
-  height: 227px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: 10px;
 }
 
-.new-card-form h1 {
-	display: block;
-	padding: 0 32px;
-	box-sizing: border-box;
-	color: #8c8c8c;
-	font-size: 14px;
-	position: relative;
-	border-bottom: 1px solid #8c8c8c;
-	text-align: center;
-	margin: 0 10px;
-}
 
-.new-card-form h2 {
-	display: block;
-	color: #4d4d4d;
-	font-size: 14px;
-	position: relative;
-	margin-bottom: 4px;
-}
 
-.new-card-form input {
-	width: 266px;
-	margin: 0;
-  padding: 7px;
-	background: #e2e4e6;
-  border-radius: 4px;
-  border: 1px solid #cdd2d4;
-}
-
-.new-card-form input:hover {
-  border: 1px solid #A4A8AA;
-}
-
-.new-card-form > button {
-	display: block;
-	color: white;
-  font-size: 14px;
-	text-align: center;
-	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
-	box-shadow: 0 1px 0 #3f6f21;
-	border-radius: 4px;
-	font-weight: bold;
-	padding: 7px 30px;
-	width: 45px;
-  height: 22px;
-	margin: 8px 4px 0 0;
-	cursor: pointer;
-	position: absolute;
-}
 
 .edit-card-form {
   display: block;

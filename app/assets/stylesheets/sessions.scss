@@ -2,11 +2,21 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+html {
+ background: #ffffbd;
+}
 .welcome-page {
   font-family: "jaf-facitweb", "Helvetica Neue", Arial,sans-serif;
   color: #4d4d4d;
   text-shadow: 2px 2px 2px #aaa;
   width: 100%;
+}
+
+.welcome-page > form > h1 {
+  font-family: 'Parisienne', cursive;
+  text-align: center;
+  font-weight: bold;
+  font-size: 40px !important;
 }
 
 button {
@@ -66,6 +76,10 @@ button:hover {
     text-shadow: none;
 }
 
+.log-in-form label:hover {
+  text-shadow: 2px 2px 2px #aaa;
+}
+
 .log-in-form input {
   padding: 10px;
   width: 333px;
@@ -77,13 +91,13 @@ button:hover {
   border: 1px solid #cdd2d4;
 }
 
-.log-in-form input:hover {
+ .log-in-form input:hover, .sign-up-form input:hover {
   border: 1px solid #a4a8aa;
   text-shadow: 2px 2px 2px #a4a8aa;
   box-shadow: 2px 2px 2px #98c6dc;
 }
 
-.log-in-form input:focus, .sign-up-form input:focus {
+ .log-in-form input:focus, .sign-up-form input:focus {
   box-shadow: inset 2px 2px 2px #a4a8aa;
 }
 
@@ -140,7 +154,7 @@ button:hover {
 
 .info-page {
   width: 100%;
-  background: white;
+
   text-align: center;
   font-weight: bold;
   color: #4d4d4d;
@@ -203,7 +217,6 @@ button:hover {
   color: white;
   font-size: 20px;
   font-weight: normal;
-
   top: 50%;
   transform: translateY(200%);
 }
@@ -241,5 +254,5 @@ footer ul li:hover {
 footer ul li:last-child {
   text-decoration: none;
   text-align: center;
-  margin: 8px auto;
+  margin: 8px 38px;
 }

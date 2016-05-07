@@ -89,14 +89,14 @@ var Search = React.createClass({
 
 		render: function () {
 
-
 			var meta = SearchResultsStore.meta();
 			var resultItems = this.resultLis();
+			var ul = resultItems.length > 0 ? <ul className={this.state.display} onMouseLeave={this.hide}>{resultItems}</ul> : null;
 
 			return (
 				<div>
 					<input type="text" tabIndex="0" onClick={this.toggleResults} onChange={this.handleInputChange} onSubmit={this.search}></input>
-						<ul className={this.state.display} onMouseLeave={this.hide}>{resultItems}</ul>
+						{ul}
 				</div>
 
 			);
