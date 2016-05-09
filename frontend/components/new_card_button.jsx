@@ -1,21 +1,13 @@
 var React = require('react');
 var CardStore = require('../store/card_store.js');
 var ApiUtil = require('../util/api_util.js');
-var Modal = require('react-modal');
+
 var NewCardForm = require('./new_card_form.jsx');
 
 var NewCardButton = React.createClass({
 
   getInitialState: function () {
-    return({ modalOpen: false, display: "button" });
-  },
-
-  openModal: function () {
-    this.setState({ modalOpen: true });
-  },
-
-  closeModal: function () {
-    this.setState({ modalOpen: false });
+    return({ display: "button" });
   },
 
   toggleDisplay: function () {

@@ -14,10 +14,9 @@ var EditCardForm = React.createClass({
       var card = {};
       card.title = this.state.title;
       card.listId = this.props.listId;
-
       ApiUtil.editCard(card, this.props.boardId, this.props.cardId);
       this.setState({ title: "" });
-      this.props.closeModal();
+      this.props.toggle();
   },
 
 	updateTitle: function (e) {
@@ -30,10 +29,9 @@ var EditCardForm = React.createClass({
 
 	   return(
 				<form className="edit-card-form">
-          <h1>Update Card<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.closeModal}></i></h1>
-					<h2>Title</h2>
-					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
-					<button onClick={this.editCard}>Update</button>
+          <input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
+					<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.toggle}></i>
+					<i className="fa fa-check" aria-hidden="true" onClick={this.editCard}></i>
 				</form>
 		);
 	}

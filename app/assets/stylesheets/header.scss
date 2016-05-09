@@ -1,9 +1,10 @@
 .header {
   height: 30px;
   padding: 5px;
-  background: #026AA7;
+  background: linear-gradient(#026AA7, #397ca2, #026AA7);
   color: #f3f3f3;
   font-size: 14px;
+  border-bottom: 1px solid #012a42;
 }
 
 .header-red {
@@ -24,6 +25,7 @@
   float: left;
   margin: auto 8px auto 0;
   cursor: pointer;
+  box-shadow: 2px 2px 2px #012a42;
 }
 
 .header-nav > li:first-child {
@@ -176,6 +178,8 @@
 
 .header-nav > .session-buttons > li:first-child:hover {
   background: #8B0000;
+  text-shadow: 2px 2px 2px #250000;
+  box-shadow: inset 2px 2px 2px #250000;
 }
 
 .header-nav > .session-buttons > li:first-child > ul {

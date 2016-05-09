@@ -4,6 +4,7 @@
 .notifications-list {
   z-index: 3 !important;
 }
+
 .notification-index-item {
   width: 220px !important;
   padding: 5px !important;
@@ -11,6 +12,7 @@
   background: #add8e6 !important;
   color: #026AA7 !important;
   border: 3px outset #026AA7;
+  text-shadow: none !important;
 }
 
 .notification-index-item:hover {
@@ -18,6 +20,7 @@
   background: #5fb2ce !important;
   color: #add8e6 !important;
   text-shadow: 2px 2px 2px #026AA7 !important;
+  box-shadow: none !important;
 }
 
 .notification-index-item .fa {
@@ -36,5 +39,7 @@
 }
 
 .notification-index-item .fa:hover {
-  color: #39792d;
+  color: #39792d !important;
+  text-shadow: none !important;
+  box-shadow: none !important
 }

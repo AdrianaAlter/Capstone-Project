@@ -26,8 +26,8 @@ var NewCardForm = React.createClass({
 	return(
 				<form className="new-card-form" onSubmit={this.createNewCard}>
 					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
-					<button onClick={this.props.toggleDisplay}><i className="fa fa-times xout" aria-hidden="true"></i></button>
-					<button onClick={this.createNewCard}><i className="fa fa-check" aria-hidden="true"></i></button>
+					<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.toggleDisplay}></i>
+					<i className="fa fa-check" aria-hidden="true" onClick={this.createNewCard}></i>
 				</form>
 		);
 	}

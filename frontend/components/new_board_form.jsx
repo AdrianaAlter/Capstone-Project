@@ -16,7 +16,7 @@ var NewBoardForm = React.createClass({
 			board.private = this.state.private;
       ApiUtil.createNewBoard(board);
       this.setState({ title: "" });
-      this.props.closeModal();
+      this.props.toggleDisplay();
   },
 
 
@@ -35,8 +35,8 @@ var NewBoardForm = React.createClass({
 
 		return(
 				<form className="new-board-form">
-          <h1>Create Board<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.closeModal}></i></h1>
-					<h2>Title</h2>
+
+					<h2>Title<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.toggleDisplay}></i></h2>
 					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
 					<h2>Public?<i className={checkBox} aria-hidden="true" onClick={this.updatePrivacy}></i></h2>
 					<button onClick={this.createNewBoard}>Create</button>

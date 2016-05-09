@@ -1,5 +1,6 @@
 var React = require('react');
 var NotificationStore = require('../store/notification_store.js');
+var NoteStore = require('../store/note_store.js');
 var SessionStore = require('../store/session_store.js');
 var NotificationIndexItem = require('./notification_index_item.jsx');
 var ApiUtil = require('../util/api_util.js');
@@ -20,11 +21,13 @@ var NotificationIndex = React.createClass({
 
   componentDidMount: function () {
     this.listener = NotificationStore.addListener(this.setNewState);
+    this.noteListener = NoteStore.addListener(this.setNewState);
     ApiUtil.fetchAllNotifications();
   },
 
   componentWillUnmount: function () {
     if (this.listener) {this.listener.remove();}
+    if (this.noteListener) {this.noteListener.remove();}
   },
 
   toggleDisplay: function () {
