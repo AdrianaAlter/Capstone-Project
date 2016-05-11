@@ -7,33 +7,18 @@ var EditListForm = require('./edit_list_form.jsx');
 var EditListButton = React.createClass({
 
   getInitialState: function () {
-    return({ modalOpen: false });
+    return({ display: "button" });
   },
 
-  openModal: function () {
-    this.setState({ modalOpen: true });
-  },
-
-  closeModal: function () {
-    this.setState({ modalOpen: false });
+  toggleDisplay: function () {
+    this.state.display == "button" ? this.setState({ display:"form" }) : this.setState({ display: "button" });
   },
 
   render: function () {
 
-    var styles = {
-      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
-      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
-    };
-
+    var component = this.state.display == "button" ? <button className="edit-list-button" onClick={this.toggleDisplay}>Update this list...</button> : <EditListForm listId={this.props.listId} boardId={this.props.boardId} toggleDisplay={this.toggleDisplay}/>
     return (
-      <button className="edit-list-button" onClick={this.openModal}>
-        Update this list...
-        <Modal className="modal" isOpen={this.state.modalOpen}
-          onRequestClose={this.closeModal}
-          style={styles}>
-          <EditListForm listId={this.props.listId} boardId={this.props.boardId} closeModal={this.closeModal}/>
-        </Modal>
-    </button>
+      component
     );
   }
 });

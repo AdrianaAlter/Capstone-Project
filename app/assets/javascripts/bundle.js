@@ -32470,7 +32470,7 @@
 				React.createElement(
 					'button',
 					{ onClick: this.createNewBoard },
-					'Create'
+					React.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
 				)
 			);
 		}
@@ -34793,6 +34793,11 @@
 	    });
 	
 	    var notificationsDisplayed = this.state.notificationsDisplayed ? "notifications-list" : "hidden";
+	    var none = notificationItems.length < 1 ? React.createElement(
+	      'li',
+	      null,
+	      'No notifications'
+	    ) : null;
 	
 	    return React.createElement(
 	      'li',
@@ -34805,6 +34810,7 @@
 	      React.createElement(
 	        'ul',
 	        { className: notificationsDisplayed, onClick: this.toggleDisplay, onMouseLeave: this.hide },
+	        none,
 	        notificationItems
 	      )
 	    );
@@ -36259,36 +36265,21 @@
 	
 	
 	  getInitialState: function () {
-	    return { modalOpen: false };
+	    return { display: "button" };
 	  },
 	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
+	  toggleDisplay: function () {
+	    this.state.display == "button" ? this.setState({ display: "form" }) : this.setState({ display: "button" });
 	  },
 	
 	  render: function () {
 	
-	    var styles = {
-	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
-	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
-	    };
-	
-	    return React.createElement(
+	    var component = this.state.display == "button" ? React.createElement(
 	      'button',
-	      { className: 'edit-list-button', onClick: this.openModal },
-	      'Update this list...',
-	      React.createElement(
-	        Modal,
-	        { className: 'modal', isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: styles },
-	        React.createElement(EditListForm, { listId: this.props.listId, boardId: this.props.boardId, closeModal: this.closeModal })
-	      )
-	    );
+	      { className: 'edit-list-button', onClick: this.toggleDisplay },
+	      'Update this list...'
+	    ) : React.createElement(EditListForm, { listId: this.props.listId, boardId: this.props.boardId, toggleDisplay: this.toggleDisplay });
+	    return component;
 	  }
 	});
 	
@@ -36319,7 +36310,7 @@
 	
 			ApiUtil.editList(list, this.props.boardId, this.props.listId);
 			this.setState({ title: "" });
-			this.props.closeModal();
+			this.props.toggleDisplay();
 		},
 	
 		updateTitle: function (e) {
@@ -36335,19 +36326,14 @@
 				React.createElement(
 					'h1',
 					null,
-					'Update List',
-					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true', onClick: this.props.closeModal })
-				),
-				React.createElement(
-					'h2',
-					null,
-					'Title'
+					'Title',
+					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true', onClick: this.props.toggleDisplay })
 				),
 				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
 				React.createElement(
 					'button',
 					{ onClick: this.editList },
-					'Update'
+					React.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
 				)
 			);
 		}
@@ -36461,7 +36447,7 @@
 	
 	
 	  getInitialState: function () {
-	    return { modalOpen: false };
+	    return { display: "button" };
 	  },
 	
 	  openModal: function () {
@@ -36472,24 +36458,23 @@
 	    this.setState({ modalOpen: false });
 	  },
 	
+	  toggleDisplay: function () {
+	    this.state.display == "button" ? this.setState({ display: "form" }) : this.setState({ display: "button" });
+	  },
+	
 	  render: function () {
 	    var styles = {
 	      content: { maxHeight: "249px", maxWidth: "302px", padding: "0", border: "none" },
 	      overlay: { maxHeight: "350px", maxWidth: "400px", position: "absolute", padding: "0", border: "none", backgroundColor: "none" }
 	    };
 	
-	    return React.createElement(
+	    var component = this.state.display == "button" ? React.createElement(
 	      'button',
-	      { className: 'edit-board-button', onClick: this.openModal },
-	      'Update this board...',
-	      React.createElement(
-	        Modal,
-	        { className: 'modal', isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: styles },
-	        React.createElement(EditBoardForm, { boardId: this.props.boardId, listId: this.props.listId, closeModal: this.closeModal })
-	      )
-	    );
+	      { className: 'edit-board-button', onClick: this.toggleDisplay },
+	      'Update this board...'
+	    ) : React.createElement(EditBoardForm, { boardId: this.props.boardId, listId: this.props.listId, toggleDisplay: this.toggleDisplay });
+	
+	    return component;
 	  }
 	});
 	
@@ -36522,7 +36507,7 @@
 			board.private = this.state.private;
 			ApiUtil.editBoard(board, this.props.boardId, this.props.listId);
 			this.setState({ title: "" });
-			this.props.closeModal();
+			this.props.toggleDisplay();
 		},
 	
 		updateTitle: function (e) {
@@ -36542,15 +36527,10 @@
 				'form',
 				{ className: 'edit-board-form' },
 				React.createElement(
-					'h1',
-					null,
-					'Update Board',
-					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true', onClick: this.props.closeModal })
-				),
-				React.createElement(
 					'h2',
 					null,
-					'Title'
+					'Title',
+					React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true', onClick: this.props.toggleDisplay })
 				),
 				React.createElement('input', { className: 'title-field', type: 'text', value: this.state.title, onChange: this.updateTitle }),
 				React.createElement(
@@ -36562,7 +36542,7 @@
 				React.createElement(
 					'button',
 					{ onClick: this.editBoard },
-					'Update'
+					React.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
 				)
 			);
 		}
@@ -36790,7 +36770,7 @@
 					React.createElement(
 						'button',
 						{ onClick: this.createNewNote },
-						React.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
+						React.createElement('i', { className: 'fa fa-paper-plane', 'aria-hidden': 'true' })
 					),
 					React.createElement(
 						'button',

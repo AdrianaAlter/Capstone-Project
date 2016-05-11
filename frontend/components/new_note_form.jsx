@@ -42,7 +42,7 @@ var NewNoteForm = React.createClass({
 					<h1 onClick={this.toggleDisplay}>Leave a note!<i className="fa fa-pencil" aria-hidden="true"></i></h1>
 					<section className={formDisplayed}>
 						<input className="content-field" type="text" value={this.state.content} onChange={this.updateNote}></input>
-						<button onClick={this.createNewNote}><i className="fa fa-check" aria-hidden="true"></i></button>
+						<button onClick={this.createNewNote}><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
 						<button onClick={this.toggleDisplay}><i className="fa fa-times xout" aria-hidden="true"></i></button>
 					</section>
 				 </form>

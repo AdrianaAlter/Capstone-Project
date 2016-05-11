@@ -20,7 +20,7 @@ var EditBoardForm = React.createClass({
 			board.private = this.state.private;
       ApiUtil.editBoard(board, this.props.boardId, this.props.listId);
       this.setState({ title: "" });
-      this.props.closeModal();
+      this.props.toggleDisplay();
   },
 
 	updateTitle: function (e) {
@@ -39,11 +39,10 @@ var EditBoardForm = React.createClass({
 
 	  return(
 				<form className="edit-board-form">
-          <h1>Update Board<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.closeModal}></i></h1>
-					<h2>Title</h2>
+					<h2>Title<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.toggleDisplay}></i></h2>
 					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
 					<h2>Public?<i className={checkBox} aria-hidden="true" onClick={this.updatePrivacy}></i></h2>
-					<button onClick={this.editBoard}>Update</button>
+					<button onClick={this.editBoard}><i className="fa fa-check" aria-hidden="true"></i></button>
 				</form>
 		);
 	}

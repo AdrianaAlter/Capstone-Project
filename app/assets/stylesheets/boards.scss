@@ -181,41 +181,60 @@
   font-weight: bold !important;
   position: relative;
   background: #acb0b6;
-  box-shadow: 2px 2px 2px #8c8c8c;
-  color: #1a1a1a;
+  box-shadow: inset 2px 2px 2px #4d4d4d;
+  color: oldlace;
   font-weight: normal;
-  text-shadow: 2px 2px 2px #767c86;
+  text-shadow: 2px 2px 1px #1a1a1a;
   height: 180px;
  }
 
 .new-board-form h2 {
 	display: block;
-	font-size: 14px;
+	font-size: 18px;
 	position: relative;
 	margin: 8px;
 }
 
 .new-board-form input {
-	margin: 8px !important;
+	margin: 12px 8px !important;
   padding: 5px;
 	background: #FFFFBD;
   border-radius: 4px;
-  border: 1px solid #cdd2d4;
-  box-shadow: 2px 2px 2px #767c86;
+  box-shadow: 2px 2px 2px #4d4d4d;
   width: 200px;
+  font-weight: bold;
+  color: #4d2219;
+  text-shadow: 2px 2px 1px #acb0b6;
 }
 
 .new-board-form input:focus {
-  box-shadow: inset 2px 2px 2px #a4a8aa;
+  box-shadow: inset 2px 2px 2px #4d4d4d;
 }
 
 .new-board-form > button {
   font-size: 14px;
-	margin: 8px !important;
+  background: linear-gradient(#c85a48, #4d2219);
+  box-shadow: 1px 1px 1px #1a1a1a;
+	margin: 12px 8px 8px 8px !important;
+  padding: 10px 20px;
 }
 
-.new-board-form .fa {
-  color: #3f6f21;
+.new-board-form > h2 > .fa:hover {
+  color: #733326;
+}
+
+.new-board-form > button:active {
+  background: linear-gradient(#743324, #26110c);
+  box-shadow: inset 1px 1px 1px black;
+  text-shadow: 2px 2px 2px #1a1a1a;
+}
+.new-board-form > h2 > .fa {
+  color: oldlace;
+  text-shadow: 2px 2px 1px #1a1a1a;
+}
+.new-board-form > button > .fa {
+  color: oldlace;
+  text-shadow: 2px 2px 2px #26110c;
   font-weight: bold;
   cursor: pointer;
 }
@@ -225,62 +244,63 @@
 
 
 .edit-board-form {
-  display: block;
-  border: 1px solid #8c8c8c;
-  padding: 10px;
-  border-radius: 3px;
-  width: 280px;
-  height: 227px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  display: inline-block;
+  background: #994433;
+  color: ivory;
+  margin: 0 12px;
+  width: 190px;
+  padding: 5px 20px;
+  box-shadow: 2px 2px 2px #5D231F;
+  text-shadow: 2px 2px 2px #5D231F;
+  border-radius: 4px;
 }
 
-.edit-board-form h1 {
-	display: block;
-	padding: 0 32px;
-	box-sizing: border-box;
-	color: #8c8c8c;
-	font-size: 14px;
-	position: relative;
-	border-bottom: 1px solid #8c8c8c;
-	text-align: center;
-	margin: 0 10px;
-}
-
-.edit-board-form h2 {
-	display: block;
-	color: #4d4d4d;
-	font-size: 14px;
-	position: relative;
-	margin-bottom: 4px;
+.edit-board-form h1, .edit-board-form h2 {
+  margin-top: 8px;
+  width: 200px;
 }
 
 .edit-board-form input {
-	width: 266px;
-	margin: 0;
-  padding: 7px;
-	background: #e2e4e6;
-  border-radius: 4px;
-  border: 1px solid #cdd2d4;
-}
-.edit-board-form input:hover {
-  border: 1px solid #A4A8AA;
+  background: #BB4433;
+  color: ivory;
+  font-weight: bold;
+  border: none;
+  margin: 12px 0 !important;
+  width: 180px;
+  box-shadow: 2px 2px 2px #5D231F;
+  text-shadow: 2px 2px 2px #5D231F;
+  padding: 0 5px;
+  overflow: scroll;
 }
 
+.edit-board-form input:focus, .edit-board-form > button:active {
+  border: none;
+  background: #BB4433;
+  box-shadow: inset 2px 2px 2px #5D231F;
+}
+
+.edit-board-form input:hover {
+  border: none;
+}
+
+
 .edit-board-form > button {
-	display: block;
-	color: white;
-  font-size: 14px;
-	text-align: center;
-	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
-	box-shadow: 0 1px 0 #3f6f21;
-	border-radius: 4px;
-	font-weight: bold;
-	padding: 7px 30px;
-	width: 45px;
-  height: 22px;
-	margin: 4px 4px 0 0;
-	cursor: pointer;
-	position: absolute;
+	background: transparent;
+  color: oldlace;
+  height: 28px;
+  width: 30px;
+  padding: 2px;
+  text-align: center;
+  margin: 12px -9px;
+  box-shadow: none;
+  text-shadow: 2px 2px 2px #5D231F;
+}
+
+.edit-board-form button:hover {
+  text-shadow: 2px 2px 2px #5D231F;
+}
+
+.edit-board-form button:active {
+  background: #BB4433;
+  box-shadow: inset 2px 2px 2px #5D231F;
 }

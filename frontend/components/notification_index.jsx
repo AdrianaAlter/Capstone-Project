@@ -50,11 +50,13 @@ var NotificationIndex = React.createClass({
     });
 
     var notificationsDisplayed = this.state.notificationsDisplayed ? "notifications-list" : "hidden";
+    var none = notificationItems.length < 1 ? <li>No notifications</li> : null;
 
     return (
             <li className="notifications-index group" onMouseOver={this.show} onClick={this.toggleDisplay}><h1>{notificationItems.length}</h1>
 
                 <ul className={notificationsDisplayed} onClick={this.toggleDisplay} onMouseLeave={this.hide}>
+                  {none}
                   {notificationItems}
                 </ul>
 

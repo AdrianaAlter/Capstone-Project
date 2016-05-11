@@ -18,7 +18,7 @@ var EditListForm = React.createClass({
 
       ApiUtil.editList(list, this.props.boardId, this.props.listId);
       this.setState({ title: "" });
-      this.props.closeModal();
+      this.props.toggleDisplay();
   },
 
 	updateTitle: function (e) {
@@ -31,10 +31,9 @@ var EditListForm = React.createClass({
 
 	   return(
 				<form className="edit-list-form">
-          <h1>Update List<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.closeModal}></i></h1>
-					<h2>Title</h2>
+        	<h1>Title<i className="fa fa-times xout" aria-hidden="true" onClick={this.props.toggleDisplay}></i></h1>
 					<input className="title-field" type="text" value={this.state.title} onChange={this.updateTitle}></input>
-					<button onClick={this.editList}>Update</button>
+					<button onClick={this.editList}><i className="fa fa-check" aria-hidden="true"></i></button>
 				</form>
 		);
 	}
