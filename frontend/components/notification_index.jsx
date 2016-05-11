@@ -21,13 +21,13 @@ var NotificationIndex = React.createClass({
 
   componentDidMount: function () {
     this.listener = NotificationStore.addListener(this.setNewState);
-    this.noteListener = NoteStore.addListener(this.setNewState);
+    // this.noteListener = NoteStore.addListener(this.setNewState);
     ApiUtil.fetchAllNotifications();
   },
 
   componentWillUnmount: function () {
     if (this.listener) {this.listener.remove();}
-    if (this.noteListener) {this.noteListener.remove();}
+    // if (this.noteListener) {this.noteListener.remove();}
   },
 
   toggleDisplay: function () {

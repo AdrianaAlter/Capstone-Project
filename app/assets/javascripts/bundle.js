@@ -50,15 +50,15 @@
 	var Route = __webpack_require__(159).Route;
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var BoardIndex = __webpack_require__(216);
-	var App = __webpack_require__(277);
-	var LogInForm = __webpack_require__(287);
+	var App = __webpack_require__(257);
+	var LogInForm = __webpack_require__(288);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ApiUtil = __webpack_require__(241);
-	var SessionStore = __webpack_require__(280);
+	var SessionStore = __webpack_require__(260);
 	var NewBoardButton = __webpack_require__(255);
-	var BoardDetail = __webpack_require__(290);
+	var BoardDetail = __webpack_require__(291);
 	var browserHistory = __webpack_require__(159).browserHistory;
-	var Modal = __webpack_require__(256);
+	var Modal = __webpack_require__(261);
 	var UserProfile = __webpack_require__(337);
 	
 	var routes = React.createElement(
@@ -24789,7 +24789,7 @@
 	var ApiUtil = __webpack_require__(241);
 	var NewBoardForm = __webpack_require__(254);
 	var NewBoardButton = __webpack_require__(255);
-	var BoardIndexItem = __webpack_require__(276);
+	var BoardIndexItem = __webpack_require__(256);
 	
 	var BoardIndex = React.createClass({
 	  displayName: 'BoardIndex',
@@ -32517,20 +32517,314 @@
 /* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(257);
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
 	
-
+	var BoardIndexItem = React.createClass({
+	  displayName: 'BoardIndexItem',
+	
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  goTo: function () {
+	    this.context.router.push("/boards/" + this.props.board.id);
+	  },
+	
+	  render: function () {
+	
+	    var icon = this.props.board.private ? React.createElement('i', { className: 'fa fa-user', 'aria-hidden': 'true' }) : React.createElement('i', { className: 'fa fa-users', 'aria-hidden': 'true' });
+	    var noteCount = this.props.board.notes && this.props.board.notes.length > 0 ? React.createElement(
+	      'h2',
+	      { className: 'note-count' },
+	      this.props.board.notes.length
+	    ) : null;
+	
+	    return React.createElement(
+	      Link,
+	      { to: "/boards/" + this.props.board.id },
+	      React.createElement(
+	        'li',
+	        null,
+	        this.props.board.title,
+	        icon,
+	        noteCount
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = BoardIndexItem;
 
 /***/ },
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var React = __webpack_require__(1);
+	var Header = __webpack_require__(258);
+	var Footer = __webpack_require__(287);
+	var BoardIndex = __webpack_require__(216);
+	var SessionStore = __webpack_require__(260);
+	var ApiUtil = __webpack_require__(241);
+	
+	var App = React.createClass({
+	  displayName: 'App',
+	
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { id: 'app' },
+	      React.createElement(Header, null),
+	      this.props.children,
+	      React.createElement(Footer, null)
+	    );
+	  }
+	});
+	
+	module.exports = App;
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(241);
+	var SessionButtons = __webpack_require__(259);
+	var Search = __webpack_require__(285);
+	
+	var Link = __webpack_require__(159).Link;
+	
+	var Header = React.createClass({
+	  displayName: 'Header',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  boards: function () {
+	    this.context.router.push("/");
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'header',
+	      { className: 'header' },
+	      React.createElement(
+	        'nav',
+	        { className: 'header-nav group' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            { onClick: this.boards },
+	            'Boards'
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'search' },
+	            React.createElement(Search, null)
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'header-logo' },
+	            React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' }),
+	            'CatTrello',
+	            React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' })
+	          )
+	        ),
+	        React.createElement(SessionButtons, null)
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = Header;
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(260);
+	var ApiUtil = __webpack_require__(241);
+	var Modal = __webpack_require__(261);
+	var Link = __webpack_require__(159).Link;
+	var NotificationIndex = __webpack_require__(281);
+	
+	var SessionButtons = React.createClass({
+	  displayName: 'SessionButtons',
+	
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      currentUser: null,
+	      modalOpen: false
+	    };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  logOut: function () {
+	    ApiUtil.logOut();
+	    this.context.router.push("/login");
+	  },
+	
+	  componentDidMount: function () {
+	    this.sessionStoreToken = SessionStore.addListener(this.handleChange);
+	    this.handleChange();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.sessionStoreToken.remove();
+	  },
+	
+	  handleChange: function () {
+	    if (SessionStore.isLoggedIn()) {
+	      this.setState({ currentUser: SessionStore.currentUser() });
+	    }
+	  },
+	
+	  render: function () {
+	    var surprise = React.createElement(
+	      'section',
+	      { className: 'surprise' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Congratulations, you have discovered the extra-special bonus content!!!!!'
+	      ),
+	      React.createElement('div', { className: 'surprise-pic' }),
+	      React.createElement(
+	        'h2',
+	        null,
+	        '(It\'s a cat.)'
+	      ),
+	      React.createElement(
+	        'h3',
+	        null,
+	        '(Meow.)'
+	      )
+	    );
+	
+	    var styles = {
+	      content: { backgroundColor: "#e4f0f6" }
+	    };
+	    var logout;
+	    var loggedInAs;
+	    if (this.state.currentUser) {
+	      logout = React.createElement(
+	        'li',
+	        {
+	          className: 'logout-button',
+	          onClick: this.logOut },
+	        'Logout'
+	      );
+	      loggedInAs = React.createElement(
+	        'li',
+	        { className: 'user-name', onDoubleClick: this.openModal },
+	        React.createElement(
+	          Link,
+	          { to: "users/" + this.state.currentUser.id },
+	          this.state.currentUser.user_name
+	        ),
+	        React.createElement(
+	          Modal,
+	          { className: 'modal', isOpen: this.state.modalOpen,
+	            onRequestClose: this.closeModal,
+	            style: styles },
+	          surprise
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'session-buttons group' },
+	      React.createElement(NotificationIndex, null),
+	      loggedInAs,
+	      logout
+	    );
+	  }
+	});
+	
+	module.exports = SessionButtons;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var SessionConstants = __webpack_require__(243);
+	var Dispatcher = __webpack_require__(236);
+	
+	var SessionStore = new Store(Dispatcher);
+	
+	var _currentUser;
+	var _currentUserFetched = false;
+	
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
+	SessionStore.currentUserFetched = function () {
+	  return _currentUserFetched;
+	};
+	
+	SessionStore.isLoggedIn = function () {
+	  return !!_currentUser;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.CURRENT_USER_RECEIVED:
+	      _currentUser = payload.currentUser;
+	      _currentUserFetched = true;
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _currentUser = null;
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(262);
+	
+
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(258);
-	var ModalPortal = React.createFactory(__webpack_require__(259));
-	var ariaAppHider = __webpack_require__(274);
-	var elementClass = __webpack_require__(275);
+	var ExecutionEnvironment = __webpack_require__(263);
+	var ModalPortal = React.createFactory(__webpack_require__(264));
+	var ariaAppHider = __webpack_require__(279);
+	var elementClass = __webpack_require__(280);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32609,7 +32903,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 258 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32654,14 +32948,14 @@
 
 
 /***/ },
-/* 259 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(260);
-	var scopeTab = __webpack_require__(262);
-	var Assign = __webpack_require__(263);
+	var focusManager = __webpack_require__(265);
+	var scopeTab = __webpack_require__(267);
+	var Assign = __webpack_require__(268);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32858,10 +33152,10 @@
 
 
 /***/ },
-/* 260 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(261);
+	var findTabbable = __webpack_require__(266);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -32932,7 +33226,7 @@
 
 
 /***/ },
-/* 261 */
+/* 266 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32988,10 +33282,10 @@
 
 
 /***/ },
-/* 262 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(261);
+	var findTabbable = __webpack_require__(266);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -33009,7 +33303,7 @@
 
 
 /***/ },
-/* 263 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33020,9 +33314,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(264),
-	    createAssigner = __webpack_require__(270),
-	    keys = __webpack_require__(266);
+	var baseAssign = __webpack_require__(269),
+	    createAssigner = __webpack_require__(275),
+	    keys = __webpack_require__(271);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -33095,7 +33389,7 @@
 
 
 /***/ },
-/* 264 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33106,8 +33400,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(265),
-	    keys = __webpack_require__(266);
+	var baseCopy = __webpack_require__(270),
+	    keys = __webpack_require__(271);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -33128,7 +33422,7 @@
 
 
 /***/ },
-/* 265 */
+/* 270 */
 /***/ function(module, exports) {
 
 	/**
@@ -33166,7 +33460,7 @@
 
 
 /***/ },
-/* 266 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33177,9 +33471,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(267),
-	    isArguments = __webpack_require__(268),
-	    isArray = __webpack_require__(269);
+	var getNative = __webpack_require__(272),
+	    isArguments = __webpack_require__(273),
+	    isArray = __webpack_require__(274);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33408,7 +33702,7 @@
 
 
 /***/ },
-/* 267 */
+/* 272 */
 /***/ function(module, exports) {
 
 	/**
@@ -33551,7 +33845,7 @@
 
 
 /***/ },
-/* 268 */
+/* 273 */
 /***/ function(module, exports) {
 
 	/**
@@ -33800,7 +34094,7 @@
 
 
 /***/ },
-/* 269 */
+/* 274 */
 /***/ function(module, exports) {
 
 	/**
@@ -33986,7 +34280,7 @@
 
 
 /***/ },
-/* 270 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33997,9 +34291,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(271),
-	    isIterateeCall = __webpack_require__(272),
-	    restParam = __webpack_require__(273);
+	var bindCallback = __webpack_require__(276),
+	    isIterateeCall = __webpack_require__(277),
+	    restParam = __webpack_require__(278);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -34044,7 +34338,7 @@
 
 
 /***/ },
-/* 271 */
+/* 276 */
 /***/ function(module, exports) {
 
 	/**
@@ -34115,7 +34409,7 @@
 
 
 /***/ },
-/* 272 */
+/* 277 */
 /***/ function(module, exports) {
 
 	/**
@@ -34253,7 +34547,7 @@
 
 
 /***/ },
-/* 273 */
+/* 278 */
 /***/ function(module, exports) {
 
 	/**
@@ -34326,7 +34620,7 @@
 
 
 /***/ },
-/* 274 */
+/* 279 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -34373,7 +34667,7 @@
 
 
 /***/ },
-/* 275 */
+/* 280 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -34438,308 +34732,14 @@
 
 
 /***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(159).Link;
-	
-	var BoardIndexItem = React.createClass({
-	  displayName: 'BoardIndexItem',
-	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  goTo: function () {
-	    this.context.router.push("/boards/" + this.props.board.id);
-	  },
-	
-	  render: function () {
-	
-	    var icon = this.props.board.private ? React.createElement('i', { className: 'fa fa-user', 'aria-hidden': 'true' }) : React.createElement('i', { className: 'fa fa-users', 'aria-hidden': 'true' });
-	    var noteCount = this.props.board.notes && this.props.board.notes.length > 0 ? React.createElement(
-	      'h2',
-	      { className: 'note-count' },
-	      this.props.board.notes.length
-	    ) : null;
-	
-	    return React.createElement(
-	      Link,
-	      { to: "/boards/" + this.props.board.id },
-	      React.createElement(
-	        'li',
-	        null,
-	        this.props.board.title,
-	        icon,
-	        noteCount
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = BoardIndexItem;
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Header = __webpack_require__(278);
-	var Footer = __webpack_require__(286);
-	var BoardIndex = __webpack_require__(216);
-	var SessionStore = __webpack_require__(280);
-	var ApiUtil = __webpack_require__(241);
-	
-	var App = React.createClass({
-	  displayName: 'App',
-	
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { id: 'app' },
-	      React.createElement(Header, null),
-	      this.props.children,
-	      React.createElement(Footer, null)
-	    );
-	  }
-	});
-	
-	module.exports = App;
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(241);
-	var SessionButtons = __webpack_require__(279);
-	var Search = __webpack_require__(284);
-	
-	var Link = __webpack_require__(159).Link;
-	
-	var Header = React.createClass({
-	  displayName: 'Header',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  boards: function () {
-	    this.context.router.push("/");
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'header',
-	      { className: 'header' },
-	      React.createElement(
-	        'nav',
-	        { className: 'header-nav group' },
-	        React.createElement(
-	          'ul',
-	          null,
-	          React.createElement(
-	            'li',
-	            { onClick: this.boards },
-	            'Boards'
-	          ),
-	          React.createElement(
-	            'li',
-	            { className: 'search' },
-	            React.createElement(Search, null)
-	          ),
-	          React.createElement(
-	            'li',
-	            { className: 'header-logo' },
-	            React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' }),
-	            'CatTrello',
-	            React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' })
-	          )
-	        ),
-	        React.createElement(SessionButtons, null)
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = Header;
-
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(280);
-	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(256);
-	var Link = __webpack_require__(159).Link;
-	var NotificationIndex = __webpack_require__(281);
-	
-	var SessionButtons = React.createClass({
-	  displayName: 'SessionButtons',
-	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      currentUser: null,
-	      modalOpen: false
-	    };
-	  },
-	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
-	
-	  logOut: function () {
-	    ApiUtil.logOut();
-	    this.context.router.push("/login");
-	  },
-	
-	  componentDidMount: function () {
-	    this.sessionStoreToken = SessionStore.addListener(this.handleChange);
-	    this.handleChange();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.sessionStoreToken.remove();
-	  },
-	
-	  handleChange: function () {
-	    if (SessionStore.isLoggedIn()) {
-	      this.setState({ currentUser: SessionStore.currentUser() });
-	    }
-	  },
-	
-	  render: function () {
-	    var surprise = React.createElement(
-	      'section',
-	      { className: 'surprise' },
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Congratulations, you have discovered the extra-special bonus content!!!!!'
-	      ),
-	      React.createElement('div', { className: 'surprise-pic' }),
-	      React.createElement(
-	        'h2',
-	        null,
-	        '(It\'s a cat.)'
-	      ),
-	      React.createElement(
-	        'h3',
-	        null,
-	        '(Meow.)'
-	      )
-	    );
-	
-	    var styles = {
-	      content: { backgroundColor: "#e4f0f6" }
-	    };
-	    var logout;
-	    var loggedInAs;
-	    if (this.state.currentUser) {
-	      logout = React.createElement(
-	        'li',
-	        {
-	          className: 'logout-button',
-	          onClick: this.logOut },
-	        'Logout'
-	      );
-	      loggedInAs = React.createElement(
-	        'li',
-	        { className: 'user-name', onDoubleClick: this.openModal },
-	        React.createElement(
-	          Link,
-	          { to: "users/" + this.state.currentUser.id },
-	          this.state.currentUser.user_name
-	        ),
-	        React.createElement(
-	          Modal,
-	          { className: 'modal', isOpen: this.state.modalOpen,
-	            onRequestClose: this.closeModal,
-	            style: styles },
-	          surprise
-	        )
-	      );
-	    }
-	
-	    return React.createElement(
-	      'ul',
-	      { className: 'session-buttons group' },
-	      React.createElement(NotificationIndex, null),
-	      loggedInAs,
-	      logout
-	    );
-	  }
-	});
-	
-	module.exports = SessionButtons;
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var SessionConstants = __webpack_require__(243);
-	var Dispatcher = __webpack_require__(236);
-	
-	var SessionStore = new Store(Dispatcher);
-	
-	var _currentUser;
-	var _currentUserFetched = false;
-	
-	SessionStore.currentUser = function () {
-	  return _currentUser;
-	};
-	
-	SessionStore.currentUserFetched = function () {
-	  return _currentUserFetched;
-	};
-	
-	SessionStore.isLoggedIn = function () {
-	  return !!_currentUser;
-	};
-	
-	SessionStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case SessionConstants.CURRENT_USER_RECEIVED:
-	      _currentUser = payload.currentUser;
-	      _currentUserFetched = true;
-	      SessionStore.__emitChange();
-	      break;
-	    case SessionConstants.LOGOUT:
-	      _currentUser = null;
-	      SessionStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = SessionStore;
-
-/***/ },
 /* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var NotificationStore = __webpack_require__(282);
-	var NoteStore = __webpack_require__(308);
-	var SessionStore = __webpack_require__(280);
-	var NotificationIndexItem = __webpack_require__(283);
+	var NoteStore = __webpack_require__(283);
+	var SessionStore = __webpack_require__(260);
+	var NotificationIndexItem = __webpack_require__(284);
 	var ApiUtil = __webpack_require__(241);
 	
 	var NotificationIndex = React.createClass({
@@ -34760,7 +34760,7 @@
 	
 	  componentDidMount: function () {
 	    this.listener = NotificationStore.addListener(this.setNewState);
-	    this.noteListener = NoteStore.addListener(this.setNewState);
+	    // this.noteListener = NoteStore.addListener(this.setNewState);
 	    ApiUtil.fetchAllNotifications();
 	  },
 	
@@ -34768,9 +34768,7 @@
 	    if (this.listener) {
 	      this.listener.remove();
 	    }
-	    if (this.noteListener) {
-	      this.noteListener.remove();
-	    }
+	    // if (this.noteListener) {this.noteListener.remove();}
 	  },
 	
 	  toggleDisplay: function () {
@@ -34822,6 +34820,7 @@
 
 	var Store = __webpack_require__(218).Store;
 	var Dispatcher = __webpack_require__(236);
+	var SessionStore = __webpack_require__(260);
 	
 	var NotificationConstants = __webpack_require__(253);
 	
@@ -34885,6 +34884,11 @@
 	  }
 	};
 	
+	NotificationStore.resetForUser = function (userId, notifications) {
+	  _notifications[userId] = [];
+	  _notifications[userId] = notifications;
+	};
+	
 	NotificationStore.forUser = function (userId) {
 	  return _notifications[userId];
 	};
@@ -34913,7 +34917,7 @@
 	NotificationStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case NotificationConstants.ALL_NOTIFICATIONS_RECEIVED:
-	      NotificationStore.resetNotifications(payload.notifications);
+	      NotificationStore.resetForUser(SessionStore.currentUser().id, payload.notifications);
 	      NotificationStore.__emitChange();
 	      break;
 	    case NotificationConstants.SINGLE_NOTIFICATION_RECEIVED:
@@ -34929,11 +34933,66 @@
 /* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Store = __webpack_require__(218).Store;
+	var Dispatcher = __webpack_require__(236);
+	var NoteConstants = __webpack_require__(251);
+	
+	var NoteStore = new Store(Dispatcher);
+	var _notes = [];
+	
+	NoteStore.all = function () {
+	  return _notes;
+	};
+	
+	NoteStore.resetNotes = function (notes) {
+	  _notes = notes;
+	};
+	
+	NoteStore.resetNote = function (note) {
+	  var i = NoteStore.findOutIndex(note);
+	  if (_notes[i]) {
+	    _notes[i] = note;
+	  } else {
+	    _notes.push(note);
+	  }
+	};
+	
+	NoteStore.findOutIndex = function (note) {
+	  for (var i = 0; i < _notes.length; i++) {
+	    if (_notes[i].id == note.id) {
+	      return i;
+	    }
+	  }
+	};
+	
+	NoteStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case NoteConstants.ALL_NOTES_RECEIVED:
+	      NoteStore.resetNotes(payload.notes);
+	      NoteStore.__emitChange();
+	      break;
+	    case NoteConstants.SINGLE_NOTE_RECEIVED:
+	      NoteStore.resetNote(payload.note);
+	      NoteStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = NoteStore;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
 	var NotificationIndexItem = React.createClass({
 	  displayName: 'NotificationIndexItem',
 	
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	
 	  deleteNotification: function () {
 	    var boardId = this.props.boardId;
@@ -34941,21 +35000,21 @@
 	    ApiUtil.deleteNotification(id);
 	  },
 	
+	  goToBoard: function () {
+	    this.context.router.push("/boards/" + this.props.boardId);
+	  },
+	
 	  render: function () {
 	    var dnb = React.createElement('i', { className: 'fa fa-check-circle', 'aria-hidden': 'true', onClick: this.deleteNotification });
 	
 	    return React.createElement(
 	      'li',
-	      { className: 'notification-index-item' },
+	      { className: 'notification-index-item', onClick: this.goToBoard },
 	      React.createElement(
-	        Link,
-	        { to: "/boards/" + this.props.boardId },
-	        React.createElement(
-	          'h1',
-	          null,
-	          this.props.author,
-	          ' left you a note!'
-	        )
+	        'h1',
+	        null,
+	        this.props.author,
+	        ' left you a note!'
 	      ),
 	      dnb
 	    );
@@ -34965,11 +35024,11 @@
 	module.exports = NotificationIndexItem;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SearchResultsStore = __webpack_require__(285);
+	var SearchResultsStore = __webpack_require__(286);
 	var ApiUtil = __webpack_require__(241);
 	
 	var Search = React.createClass({
@@ -35086,7 +35145,7 @@
 	module.exports = Search;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -35119,7 +35178,7 @@
 	module.exports = SearchResultsStore;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35267,14 +35326,14 @@
 	module.exports = Footer;
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(256);
-	var Footer = __webpack_require__(286);
-	var SignUpButton = __webpack_require__(288);
+	var Modal = __webpack_require__(261);
+	var Footer = __webpack_require__(287);
+	var SignUpButton = __webpack_require__(289);
 	
 	var LogInForm = React.createClass({
 	  displayName: 'LogInForm',
@@ -35449,13 +35508,13 @@
 	module.exports = LogInForm;
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(256);
-	var SignUpForm = __webpack_require__(289);
+	var Modal = __webpack_require__(261);
+	var SignUpForm = __webpack_require__(290);
 	
 	var SignUpButton = React.createClass({
 	  displayName: 'SignUpButton',
@@ -35493,7 +35552,7 @@
 	module.exports = SignUpButton;
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35564,16 +35623,16 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListIndex = __webpack_require__(291);
+	var ListIndex = __webpack_require__(292);
 	var BoardStore = __webpack_require__(217);
-	var CardStore = __webpack_require__(295);
-	var EditBoardButton = __webpack_require__(305);
-	var SessionStore = __webpack_require__(280);
-	var NoteIndex = __webpack_require__(307);
+	var CardStore = __webpack_require__(296);
+	var EditBoardButton = __webpack_require__(306);
+	var SessionStore = __webpack_require__(260);
+	var NoteIndex = __webpack_require__(308);
 	var NewNoteForm = __webpack_require__(310);
 	
 	var BoardDetail = React.createClass({
@@ -35671,12 +35730,12 @@
 	module.exports = BoardDetail;
 
 /***/ },
-/* 291 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListIndexItem = __webpack_require__(292);
-	var NewListButton = __webpack_require__(303);
+	var ListIndexItem = __webpack_require__(293);
+	var NewListButton = __webpack_require__(304);
 	var ApiUtil = __webpack_require__(241);
 	
 	var ListIndex = React.createClass({
@@ -35710,11 +35769,11 @@
 	module.exports = ListIndex;
 
 /***/ },
-/* 292 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListDetail = __webpack_require__(293);
+	var ListDetail = __webpack_require__(294);
 	
 	var BoardStore = __webpack_require__(217);
 	
@@ -35740,15 +35799,15 @@
 	module.exports = ListIndexItem;
 
 /***/ },
-/* 293 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardIndex = __webpack_require__(294);
-	var NewCardButton = __webpack_require__(299);
-	var CardStore = __webpack_require__(295);
+	var CardIndex = __webpack_require__(295);
+	var NewCardButton = __webpack_require__(300);
+	var CardStore = __webpack_require__(296);
 	var BoardStore = __webpack_require__(217);
-	var EditListButton = __webpack_require__(301);
+	var EditListButton = __webpack_require__(302);
 	var ListDetail = React.createClass({
 	  displayName: 'ListDetail',
 	
@@ -35812,14 +35871,14 @@
 	module.exports = ListDetail;
 
 /***/ },
-/* 294 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardStore = __webpack_require__(295);
+	var CardStore = __webpack_require__(296);
 	
 	var CardActions = __webpack_require__(246);
-	var CardIndexItem = __webpack_require__(296);
+	var CardIndexItem = __webpack_require__(297);
 	var ApiUtil = __webpack_require__(241);
 	
 	var CardIndex = React.createClass({
@@ -35850,7 +35909,7 @@
 	module.exports = CardIndex;
 
 /***/ },
-/* 295 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -35989,12 +36048,12 @@
 	module.exports = CardStore;
 
 /***/ },
-/* 296 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var EditCardButton = __webpack_require__(297);
-	var EditCardForm = __webpack_require__(298);
+	var EditCardButton = __webpack_require__(298);
+	var EditCardForm = __webpack_require__(299);
 	
 	var CardIndexItem = React.createClass({
 	  displayName: 'CardIndexItem',
@@ -36037,13 +36096,13 @@
 	module.exports = CardIndexItem;
 
 /***/ },
-/* 297 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(256);
-	var EditCardForm = __webpack_require__(298);
+	var Modal = __webpack_require__(261);
+	var EditCardForm = __webpack_require__(299);
 	
 	var EditCardButton = React.createClass({
 	  displayName: 'EditCardButton',
@@ -36058,12 +36117,12 @@
 	module.exports = EditCardButton;
 
 /***/ },
-/* 298 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var CardActions = __webpack_require__(246);
-	var CardStore = __webpack_require__(295);
+	var CardStore = __webpack_require__(296);
 	
 	var EditCardForm = React.createClass({
 		displayName: 'EditCardForm',
@@ -36105,14 +36164,14 @@
 	module.exports = EditCardForm;
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardStore = __webpack_require__(295);
+	var CardStore = __webpack_require__(296);
 	var ApiUtil = __webpack_require__(241);
 	
-	var NewCardForm = __webpack_require__(300);
+	var NewCardForm = __webpack_require__(301);
 	
 	var NewCardButton = React.createClass({
 	  displayName: 'NewCardButton',
@@ -36143,7 +36202,7 @@
 	module.exports = NewCardButton;
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36187,13 +36246,13 @@
 	module.exports = NewCardForm;
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(256);
-	var EditListForm = __webpack_require__(302);
+	var Modal = __webpack_require__(261);
+	var EditListForm = __webpack_require__(303);
 	
 	var EditListButton = React.createClass({
 	  displayName: 'EditListButton',
@@ -36236,7 +36295,7 @@
 	module.exports = EditListButton;
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36298,14 +36357,14 @@
 	module.exports = EditListForm;
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(256);
-	var NewListForm = __webpack_require__(304);
+	var Modal = __webpack_require__(261);
+	var NewListForm = __webpack_require__(305);
 	
 	var NewListButton = React.createClass({
 	  displayName: 'NewListButton',
@@ -36337,7 +36396,7 @@
 	module.exports = NewListButton;
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36389,14 +36448,14 @@
 	module.exports = NewListForm;
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(256);
-	var EditBoardForm = __webpack_require__(306);
+	var Modal = __webpack_require__(261);
+	var EditBoardForm = __webpack_require__(307);
 	var EditBoardButton = React.createClass({
 	  displayName: 'EditBoardButton',
 	
@@ -36437,7 +36496,7 @@
 	module.exports = EditBoardButton;
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36513,13 +36572,13 @@
 	module.exports = EditBoardForm;
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var NoteStore = __webpack_require__(308);
+	var NoteStore = __webpack_require__(283);
 	var NotificationStore = __webpack_require__(282);
-	var SessionStore = __webpack_require__(280);
+	var SessionStore = __webpack_require__(260);
 	var NoteIndexItem = __webpack_require__(309);
 	var ApiUtil = __webpack_require__(241);
 	
@@ -36601,57 +36660,6 @@
 	module.exports = NoteIndex;
 
 /***/ },
-/* 308 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var Dispatcher = __webpack_require__(236);
-	var NoteConstants = __webpack_require__(251);
-	
-	var NoteStore = new Store(Dispatcher);
-	var _notes = [];
-	
-	NoteStore.all = function () {
-	  return _notes;
-	};
-	
-	NoteStore.resetNotes = function (notes) {
-	  _notes = notes;
-	};
-	
-	NoteStore.resetNote = function (note) {
-	  var i = NoteStore.findOutIndex(note);
-	  if (_notes[i]) {
-	    _notes[i] = note;
-	  } else {
-	    _notes.push(note);
-	  }
-	};
-	
-	NoteStore.findOutIndex = function (note) {
-	  for (var i = 0; i < _notes.length; i++) {
-	    if (_notes[i].id == note.id) {
-	      return i;
-	    }
-	  }
-	};
-	
-	NoteStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case NoteConstants.ALL_NOTES_RECEIVED:
-	      NoteStore.resetNotes(payload.notes);
-	      NoteStore.__emitChange();
-	      break;
-	    case NoteConstants.SINGLE_NOTE_RECEIVED:
-	      NoteStore.resetNote(payload.note);
-	      NoteStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = NoteStore;
-
-/***/ },
 /* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36728,7 +36736,7 @@
 
 	var React = __webpack_require__(1);
 	var NoteActions = __webpack_require__(240);
-	var SessionStore = __webpack_require__(280);
+	var SessionStore = __webpack_require__(260);
 	var SweetAlert = __webpack_require__(311);
 	
 	var NewNoteForm = React.createClass({
@@ -41012,7 +41020,7 @@
 
 	var React = __webpack_require__(1);
 	var UserStore = __webpack_require__(338);
-	var SessionStore = __webpack_require__(280);
+	var SessionStore = __webpack_require__(260);
 	var ApiUtil = __webpack_require__(241);
 	var Link = __webpack_require__(159).Link;
 	

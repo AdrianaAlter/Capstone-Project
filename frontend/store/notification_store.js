@@ -1,5 +1,6 @@
 var Store = require('flux/utils').Store;
 var Dispatcher = require('../dispatcher/dispatcher.js');
+var SessionStore = require('./session_store.js')
 
 var NotificationConstants = require('../constants/notification_constants.js');
 
@@ -41,7 +42,7 @@ NotificationStore.resetNotifications = function (notifications) {
       _notifications[userId].push(notification);
     }
   }
-  
+
   return _notifications;
 };
 
@@ -65,6 +66,11 @@ NotificationStore.resetNotification = function (notification) {
   else {
     userCards.push(notification);
   }
+};
+
+NotificationStore.resetForUser = function (userId, notifications) {
+    _notifications[userId] = [];
+    _notifications[userId] = notifications;
 };
 
 NotificationStore.forUser = function(userId) {
@@ -94,7 +100,7 @@ NotificationStore.forBoard = function (userId, boardId) {
 NotificationStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case NotificationConstants.ALL_NOTIFICATIONS_RECEIVED:
-      NotificationStore.resetNotifications(payload.notifications);
+      NotificationStore.resetForUser(SessionStore.currentUser().id, payload.notifications);
       NotificationStore.__emitChange();
       break;
     case NotificationConstants.SINGLE_NOTIFICATION_RECEIVED:
