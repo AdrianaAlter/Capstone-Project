@@ -57,7 +57,7 @@ var UserProfile = React.createClass({
 
    if (boardLis && boardLis.length > 1) { boardLis = boardLis.filter(function(n){ return n != undefined }); };
 
-   var none = !boardLis ? <p>{this.state.user.user_name} doesn't have any public boards yet!</p> : null;
+   var none = (!boardLis || boardLis.length < 1) ? <p>{this.state.user.user_name} doesn't have any public boards yet!</p> : null;
    var boardCount = boardLis ? boardLis.length : 0;
 
    var emailString = this.state.user.user_name ? this.state.user.user_name.toLowerCase().replace(".", "").split(" ").join(".") + "@catmail.com" : "";

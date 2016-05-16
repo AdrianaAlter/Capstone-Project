@@ -41073,7 +41073,7 @@
 	      });
 	    };
 	
-	    var none = !boardLis ? React.createElement(
+	    var none = !boardLis || boardLis.length < 1 ? React.createElement(
 	      'p',
 	      null,
 	      this.state.user.user_name,

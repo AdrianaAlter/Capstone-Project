@@ -72,28 +72,28 @@
   color: #5D231F;
 }
 
-.note-index-item button, .new-note-form button {
-  background: #BB4433;
-  height: 40px;
-  width: 40px;
-  padding: 0;
-  text-align: center;
-  box-shadow: 2px 2px 2px #5D231F;
-  margin: 12px;
-}
-
-.note-index-item button:hover, .new-note-form button:hover {
-  text-shadow: 2px 2px 2px #5D231F;
-}
-
-.note-index-item button:active, .new-note-form button:active {
-  background: #BB4433;
-  box-shadow: inset 2px 2px 2px #5D231F;
-}
-
-.note-index-item button:hover .fa {
-  color: #5D231F;
-}
+// .note-index-item button, .new-note-form button {
+//   background: #BB4433;
+//   height: 40px;
+//   width: 40px;
+//   padding: 0;
+//   text-align: center;
+//   box-shadow: 2px 2px 2px #5D231F;
+//   margin: 12px;
+// }
+//
+// .note-index-item button:hover, .new-note-form button:hover {
+//   text-shadow: 2px 2px 2px #5D231F;
+// }
+//
+// .note-index-item button:active, .new-note-form button:active {
+//   background: #BB4433;
+//   box-shadow: inset 2px 2px 2px #5D231F;
+// }
+//
+// .note-index-item button:hover .fa {
+//   color: #5D231F;
+// }
 
 
 .new-note-form {
@@ -151,18 +151,18 @@
   box-shadow: inset 2px 2px 2px #5D231F;
 }
 
-.new-note-form button {
-  display: inline;
-  float: left;
-  font-size: 12px;
-}
-
-.new-note-form button:hover {
-  background: #BB4433;
-  box-shadow: 2px 2px 2px #5D231F;
-  text-shadow: 2px 2px 2px #5D231F;
-}
-
-.new-note-form button:active {
-  box-shadow: inset 2px 2px 2px #5D231F;
-}
+// .new-note-form button {
+//   display: inline;
+//   float: left;
+//   font-size: 12px;
+// }
+//
+// .new-note-form button:hover {
+//   background: #BB4433;
+//   box-shadow: 2px 2px 2px #5D231F;
+//   text-shadow: 2px 2px 2px #5D231F;
+// }
+//
+// .new-note-form button:active {
+//   box-shadow: inset 2px 2px 2px #5D231F;
+// }

@@ -118,7 +118,7 @@
   margin: 0 4px;
   width: 190px;
   padding: 5px 20px;
-  box-shadow: 2px 2px 2px #5D231F;
+  box-shadow: inset 2px 2px 2px #5D231F;
   text-shadow: 2px 2px 2px #5D231F;
   border-radius: 4px;
 }
@@ -155,26 +155,9 @@
   border: none;
 }
 
-.new-list-form > button, .edit-list-form > button {
-	background: transparent;
-  height: 28px;
-  width: 30px;
-  padding: 2px;
-  text-align: center;
-  margin: 12px -9px;
-  box-shadow: none;
-  text-shadow: 2px 2px 2px #5D231F;
+.new-list-form > button {
+  margin-left: 0 !important;
 }
-
-.new-list-form button:hover, .edit-list-form button:hover {
-  text-shadow: 2px 2px 2px #5D231F;
-}
-
-.new-list-form button:active, .edit-list-form button:active {
-  background: #BB4433;
-  box-shadow: inset 2px 2px 2px #5D231F;
-}
-
 .note-index-item button:hover .fa {
   color: #5D231F;
 }

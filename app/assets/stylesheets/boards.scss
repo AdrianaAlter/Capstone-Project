@@ -169,7 +169,7 @@
 }
 
 
-.new-board-form {
+.new-board-form, {
   border-radius: 3px;
   float: left;
   display: block;
@@ -199,6 +199,7 @@
 	margin: 12px 8px !important;
   padding: 5px;
 	background: #FFFFBD;
+
   border-radius: 4px;
   box-shadow: 2px 2px 2px #4d4d4d;
   width: 200px;
@@ -211,9 +212,12 @@
   box-shadow: inset 2px 2px 2px #4d4d4d;
 }
 
-.new-board-form > button {
-  font-size: 14px;
-  background: linear-gradient(#c85a48, #4d2219);
+.new-board-form > button, .edit-board-form > button, .new-list-form > button, .new-note-form button, .note-index-item button {
+  font-size: 14px !important;
+  display: inline;
+  float: left;
+  // background: linear-gradient(#c85a48, #4d2219);
+  background: linear-gradient(#fdfdfe, #333333);
   box-shadow: 1px 1px 1px #1a1a1a;
 	margin: 12px 8px 8px 8px !important;
   padding: 10px 20px;
@@ -223,40 +227,37 @@
   color: #733326;
 }
 
-.new-board-form > button:active {
-  background: linear-gradient(#743324, #26110c);
+.new-board-form > button:active, .edit-board-form > button:active, .new-list-form > button:active, .new-note-form > button:active, .note-index-item button:active {
+  background: linear-gradient(#743324, #26110c) !important;
   box-shadow: inset 1px 1px 1px black;
   text-shadow: 2px 2px 2px #1a1a1a;
 }
+
 .new-board-form > h2 > .fa {
   color: oldlace;
   text-shadow: 2px 2px 1px #1a1a1a;
 }
-.new-board-form > button > .fa {
+.new-board-form > button > .fa, .edit-board-form > button > .fa, .new-list-form > button > .fa {
   color: oldlace;
   text-shadow: 2px 2px 2px #26110c;
   font-weight: bold;
   cursor: pointer;
 }
 
-
-
-
-
 .edit-board-form {
   display: inline-block;
   background: #994433;
   color: ivory;
   margin: 0 12px;
-  width: 190px;
-  padding: 5px 20px;
-  box-shadow: 2px 2px 2px #5D231F;
+  width: 230px;
+  padding: 10px;
+  box-shadow: inset 2px 2px 2px #5D231F;
   text-shadow: 2px 2px 2px #5D231F;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 .edit-board-form h1, .edit-board-form h2 {
-  margin-top: 8px;
+  margin: 8px;
   width: 200px;
 }
 
@@ -265,7 +266,7 @@
   color: ivory;
   font-weight: bold;
   border: none;
-  margin: 12px 0 !important;
+  margin: 12px 8px !important;
   width: 180px;
   box-shadow: 2px 2px 2px #5D231F;
   text-shadow: 2px 2px 2px #5D231F;
@@ -283,24 +284,7 @@
   border: none;
 }
 
-
-.edit-board-form > button {
-	background: transparent;
-  color: oldlace;
-  height: 28px;
-  width: 30px;
-  padding: 2px;
-  text-align: center;
-  margin: 12px -9px;
-  box-shadow: none;
-  text-shadow: 2px 2px 2px #5D231F;
-}
-
-.edit-board-form button:hover {
-  text-shadow: 2px 2px 2px #5D231F;
-}
-
-.edit-board-form button:active {
-  background: #BB4433;
-  box-shadow: inset 2px 2px 2px #5D231F;
+.edit-board-form > button, .new-list-form > button, .new-note-form button, .note-index-item button {
+  background: linear-gradient(#d06251, #431812) !important;
+  padding: 5px 10px !important;
 }
