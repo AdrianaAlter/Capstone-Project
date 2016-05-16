@@ -20,27 +20,39 @@ html {
   font-size: 40px !important;
 }
 
-button {
+.welcome-page button, .sign-up-form button {
   display: block;
+  float: left;
   font-size: 20px;
   margin-top: 20px;
   margin-left: 8px;
-  color: white;
-  background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
-  box-shadow: 0 2px 0 #3f6f21;
-  border-radius: 4px;
+  color: oldlace;
+  background: linear-gradient(#45b9fd, #014a75);
+  box-shadow: 0 2px 0 #1e4557;
+  border-radius: 3px;
   font-weight: bold;
   padding: 9px 20px;
   cursor: pointer;
 }
 
-button:hover {
-  text-shadow: 2px 2px 2px #346327;
+.sign-up-button, .guest-log-in {
+  margin-top: 42px !important;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
 }
 
-button:active {
-  background: linear-gradient(to bottom, #4b9e3b 0, #478736 100%);
-  box-shadow: inset 0 0 0 2px  #3f6f21;
+.guest-log-in {
+  margin: 16px 0 !important;
+}
+
+.welcome-page button:hover, .sign-up-form button:hover, .sign-up-button:hover, .guest-log-in:hover {
+  text-shadow: 2px 2px 2px #000a10;
+}
+
+.welcome-page button:active, .sign-up-form button:active, .sign-up-button:active, .guest-log-in:active {
+  background: linear-gradient(#014a75 0,#1e4557 100%);
+  box-shadow: inset 2px 2px 2px #000a10;
 }
 
 .log-in-page {
@@ -55,7 +67,8 @@ button:active {
 }
 
 .log-in-form {
-  width: 400px;
+
+  width: 430px;
   height: 400px;
   display: block;
   margin: auto;
@@ -64,11 +77,13 @@ button:active {
 }
 
 .log-in-form > h1 {
-  font-size: 35.54px;
-  line-height: 19px;
-  margin-bottom: 23.812px;
+  font-size: 40px;
+  margin-bottom: 24px;
   display: block;
   font-weight: bold;
+  color: #026AA7;
+  font-family: 'Parisienne', cursive;
+
 }
 .log-in-form label {
     display: block;
@@ -90,6 +105,7 @@ button:active {
   border-radius: 4px;
   color: #4d4d4d;
   border: 1px solid #cdd2d4;
+  display: block;
 }
 
  .log-in-form input:hover, .sign-up-form input:hover {
@@ -141,21 +157,18 @@ button:active {
   border: 1px solid #a4a8aa;
 }
 
-.fb, .guest-log-in {
-  color: #aaa;
+.fb {
+  color: #909090;
+  margin: 20px 0 !important;
   text-decoration: underline;
   padding: 10px;
+  text-shadow: none !important;
   cursor: pointer;
-}
-
-.fb:hover, .guest-log-in:hover {
-  color: #1a1a1a;
-  text-shadow: 2px 2px 2px black;
 }
 
 .info-page {
   width: 100%;
-
+  height: 300px;
   text-align: center;
   font-weight: bold;
   color: #4d4d4d;

@@ -22,8 +22,8 @@ var SignUpButton = React.createClass({
       content: {backgroundColor: "#e4f0f6"}
     };
     return(
-      <button onClick={this.openModal}>
-        Sign up!  (Meow.)
+      <button className="sign-up-button" onClick={this.openModal}>
+        <i className="fa fa-paw" aria-hidden="true"></i>Sign up!  (Meow.)<i className="fa fa-paw" aria-hidden="true"></i>
         <Modal isOpen={this.state.modalOpen} onRequestClose={this.closeModal} style={styles}>
           <SignUpForm closeModal={this.closeModal}/>
         </Modal>

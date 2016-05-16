@@ -35385,46 +35385,6 @@
 	      { className: 'welcome-page group' },
 	      React.createElement(
 	        'section',
-	        { className: 'log-in-page group' },
-	        React.createElement(
-	          'form',
-	          { className: 'log-in-form group', onSubmit: this.handleSubmit },
-	          React.createElement(
-	            'h1',
-	            null,
-	            'Welcome to CatTrello!'
-	          ),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'name' },
-	            'Name'
-	          ),
-	          React.createElement('input', { onChange: this.updateName, type: 'text', value: this.state.name }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'password' },
-	            'Password'
-	          ),
-	          React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
-	          React.createElement(
-	            'button',
-	            null,
-	            'Log In'
-	          )
-	        ),
-	        React.createElement(
-	          'h2',
-	          { className: 'guest-log-in', onClick: this.guestLogIn },
-	          'Log in as a guest'
-	        ),
-	        React.createElement(
-	          'a',
-	          { className: 'fb', href: '/auth/facebook' },
-	          'Log in with Facebook'
-	        )
-	      ),
-	      React.createElement(
-	        'section',
 	        { className: 'info-page group' },
 	        React.createElement(
 	          'h1',
@@ -35441,7 +35401,13 @@
 	          null,
 	          'Because cats are widely known for their organizational skills.  Obviously.'
 	        ),
-	        React.createElement(SignUpButton, null)
+	        React.createElement(
+	          'button',
+	          { className: 'guest-log-in', onClick: this.guestLogIn },
+	          React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' }),
+	          'Log in as a guest',
+	          React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' })
+	        )
 	      ),
 	      React.createElement(
 	        'section',
@@ -35450,7 +35416,51 @@
 	        React.createElement(
 	          'p',
 	          null,
-	          'Here, have a random picture of a cat.'
+	          'Here, have a random picture of a cat.',
+	          React.createElement(SignUpButton, null)
+	        )
+	      ),
+	      React.createElement(
+	        'section',
+	        { className: 'log-in-page group' },
+	        React.createElement(
+	          'form',
+	          { className: 'log-in-form group', onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'h1',
+	            null,
+	            'Welcome back to CatTrello!'
+	          ),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'name' },
+	            'Name'
+	          ),
+	          React.createElement('input', { onChange: this.updateName, type: 'text', value: this.state.name }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'password' },
+	            'Password'
+	          ),
+	          React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	          React.createElement(
+	            'button',
+	            null,
+	            React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' }),
+	            'Log In',
+	            React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' })
+	          ),
+	          React.createElement(
+	            'button',
+	            null,
+	            React.createElement(
+	              'a',
+	              { href: '/auth/facebook' },
+	              React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' }),
+	              'Log in with Facebook',
+	              React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' })
+	            )
+	          )
 	        )
 	      ),
 	      React.createElement(
@@ -35544,8 +35554,10 @@
 	    };
 	    return React.createElement(
 	      'button',
-	      { onClick: this.openModal },
+	      { className: 'sign-up-button', onClick: this.openModal },
+	      React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' }),
 	      'Sign up!  (Meow.)',
+	      React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' }),
 	      React.createElement(
 	        Modal,
 	        { isOpen: this.state.modalOpen, onRequestClose: this.closeModal, style: styles },

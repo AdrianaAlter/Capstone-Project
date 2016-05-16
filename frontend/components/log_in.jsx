@@ -46,9 +46,22 @@ var LogInForm = React.createClass({
 
     return(
       <div className="welcome-page group">
+
+        <section className="info-page group">
+          <h1>CatTrello</h1>
+          <h2>CatTrello is a gratuitously cat-themed web app for organizing projects and tasks!</h2>
+          <p>Because cats are widely known for their organizational skills.  Obviously.</p>
+          <button className="guest-log-in" onClick={this.guestLogIn}><i className="fa fa-paw" aria-hidden="true"></i>Log in as a guest<i className="fa fa-paw" aria-hidden="true"></i></button>
+
+        </section>
+        <section className="cat-logo group">
+          <div className="cat-pic"></div>
+          <p>Here, have a random picture of a cat.<SignUpButton /></p>
+
+        </section>
         <section className="log-in-page group">
             <form className="log-in-form group" onSubmit={this.handleSubmit}>
-                <h1>Welcome to CatTrello!</h1>
+                <h1>Welcome back to CatTrello!</h1>
 
                 <label htmlFor="name">Name</label>
                 <input onChange={this.updateName} type="text" value={this.state.name}/>
@@ -56,20 +69,11 @@ var LogInForm = React.createClass({
                 <label htmlFor="password">Password</label>
                 <input onChange={this.updatePassword} type="password" value={this.state.password}/>
 
-              <button>Log In</button>
+              <button><i className="fa fa-paw" aria-hidden="true"></i>Log In<i className="fa fa-paw" aria-hidden="true"></i></button>
+              <button><a href="/auth/facebook"><i className="fa fa-paw" aria-hidden="true"></i>Log in with Facebook<i className="fa fa-paw" aria-hidden="true"></i></a></button>
             </form>
-            <h2 className="guest-log-in" onClick={this.guestLogIn}>Log in as a guest</h2>
-             <a className="fb" href="/auth/facebook">Log in with Facebook</a>
-        </section>
-        <section className="info-page group">
-          <h1>CatTrello</h1>
-          <h2>CatTrello is a gratuitously cat-themed web app for organizing projects and tasks!</h2>
-          <p>Because cats are widely known for their organizational skills.  Obviously.</p>
-          <SignUpButton />
-        </section>
-        <section className="cat-logo group">
-          <div className="cat-pic"></div>
-          <p>Here, have a random picture of a cat.</p>
+
+
         </section>
 
         <footer group>
