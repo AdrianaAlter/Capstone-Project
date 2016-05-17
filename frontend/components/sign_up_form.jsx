@@ -41,7 +41,7 @@ var SignUpForm = React.createClass({
           <label htmlFor="password">Password</label>
           <input onChange={this.updatePassword} type="password" value={this.state.password}/>
 
-        <button>Sign Up</button>
+        <button><i className="fa fa-paw" aria-hidden="true"></i>Sign Up<i className="fa fa-paw" aria-hidden="true"></i></button>
       </form>
     );
   }

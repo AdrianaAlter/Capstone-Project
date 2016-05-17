@@ -74,7 +74,7 @@
 
 .card-index-item:hover {
   box-shadow: inset 2px 2px 2px #333333 !important;
-  text-shadow: 2px 2px 2px #333333;
+  // text-shadow: 2px 2px 2px #333333;
 }
 
 .new-card-form:hover > .fa, .edit-card-form:hover > .fa {
@@ -100,7 +100,7 @@
   cursor: pointer;
   box-shadow: none;
   margin: 0 2px 0 0;
-  transition: font-size 1s ease;
+  // transition: font-size 1s ease;
   border: 1px solid transparent;
 }
 
@@ -118,8 +118,8 @@
 .card-index-item .fa:hover, .new-card-form .fa:hover, .edit-card-form .fa:hover {
   color: #994433 !important;
   box-shadow: none !important;
-  text-shadow: 2px 2px 2px #767676 !important;
-  font-size: 18px;
+  // text-shadow: 2px 2px 2px #767676 !important;
+  // font-size: 18px;
   background: transparent;
 }
 

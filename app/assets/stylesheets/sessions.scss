@@ -9,12 +9,12 @@ html {
 .welcome-page {
   font-family: "jaf-facitweb", "Helvetica Neue", Arial,sans-serif;
   color: #4d4d4d;
-  text-shadow: 2px 2px 2px #aaa;
   width: 100%;
 }
 
 .welcome-page > form > h1 {
   font-family: 'Parisienne', cursive;
+  text-shadow: 2px 2px 2px #aaa;
   text-align: center;
   font-weight: bold;
   font-size: 40px !important;
@@ -83,7 +83,7 @@ html {
   font-weight: bold;
   color: #026AA7;
   font-family: 'Parisienne', cursive;
-
+  text-shadow: 2px 2px 2px #aaa;
 }
 .log-in-form label {
     display: block;
@@ -130,7 +130,7 @@ html {
 
 .sign-up-form > h1 {
 
-  text-shadow: 2px 2px 2px #aaa;
+  // text-shadow: 2px 2px 2px #aaa;
   font-size: 35.54px;
   line-height: 35px;
   margin-bottom: 23.812px;
@@ -178,6 +178,7 @@ html {
   font-size: 64px;
   color: #026AA7;
   font-family: 'Parisienne', cursive;
+  text-shadow: 2px 2px 2px #aaa;
   margin-top: 100px;
   margin-bottom: 40px;
 }
@@ -206,7 +207,7 @@ html {
   height: 96px;
   padding: 80px 20px;
   background: #0079bf;
-  text-shadow: 2px 2px 2px #003959;
+  // text-shadow: 2px 2px 2px #003959;
   text-align: center;
   position: relative;
 }
@@ -262,7 +263,7 @@ footer ul li {
 
 footer ul li:hover {
   color: #1a1a1a;
-  text-shadow: 2px 2px 2px black;
+  // text-shadow: 2px 2px 2px black;
 }
 
 footer ul li:last-child {

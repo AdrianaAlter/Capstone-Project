@@ -79,7 +79,7 @@
 
 .user-profile li {
   padding-top: 10px;
-  text-shadow: 2px 2px 2px #2c5f7c;
+  // text-shadow: 2px 2px 2px #2c5f7c;
 }
 
 .user-profile h1 {
@@ -91,8 +91,6 @@
 }
 
 .user-profile h2 {
-  // font-family: 'Horta';
-  // font-weight: lighter;
   font-size: 16px;
 }
 
@@ -101,10 +99,10 @@
   text-align: center;
   padding: 20px;
   color: #D9D4D0 !important;
-  text-shadow: 2px 2px 2px #2c5f7c;
 }
 
 .user-profile h2 .fa:hover {
+  text-shadow: 2px 2px 2px #2c5f7c;
   cursor: pointer;
   color: #014a75;
 }

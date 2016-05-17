@@ -105,9 +105,6 @@
 	padding-left: 8px;
 }
 
-.header-nav .search ul > li:first-child {
-  // border-top: 5px dotted #026AA7;
-}
 
 .user-result {
   background: #E4F0F6 !important;
@@ -116,7 +113,7 @@
 .user-result:hover {
   background: #026AA7 !important;
   color: #E4F0F6 !important;
-  text-shadow: 2px 2px 2px #012a42;
+  // text-shadow: 2px 2px 2px #012a42;
 }
 
 .board-result {
@@ -127,7 +124,7 @@
 .board-result:hover {
   background: #F3F3CE !important;
   color: #4d4d4d !important;
-  text-shadow: 2px 2px 2px #dfdf7c;
+  // text-shadow: 2px 2px 2px #dfdf7c;
 }
 
 .header-nav .header-logo {
@@ -145,9 +142,9 @@
 }
 
 .header-nav .header-logo .fa {
-    padding: 5px;
-    font-size: 14px;
-    line-height: 5px;
+  padding: 5px;
+  font-size: 14px;
+  line-height: 5px;
 }
 
 .header-nav .header-logo:hover {
