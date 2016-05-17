@@ -27,4 +27,8 @@ In future, CatTrello users will also be able to:
 
 * Create teams.
 
-<img src="./screenshot1.png" width="600px"/>
+<img src="./landing.png" width="700px"/>
+<img src="./login.png" width="700px"/>
+<img src="./board_index.png" width="700px"/>
+<img src="./list_view.png" width="350px"/>
+<img src="./note_form.png" width="350px"/>
