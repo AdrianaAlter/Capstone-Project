@@ -19,7 +19,7 @@ ApiUtil = {
         BoardActions.receiveAllBoards(boards);
       },
       error: function () {
-        console.log('Error in AJAX request to fetch all boards via ApiUtil');
+        // console.log('Error in AJAX request to fetch all boards via ApiUtil');
       }
     });
   },
@@ -33,7 +33,7 @@ ApiUtil = {
         BoardActions.receiveAllLists(lists);
       },
       error: function () {
-        console.log('Error in ApiUtil fetch all lists function');
+        // console.log('Error in ApiUtil fetch all lists function');
       }
 
     });
@@ -50,7 +50,7 @@ ApiUtil = {
         CardActions.receiveAllCards(cards);
       },
       error: function () {
-        console.log('Error in ApiUtil fetch all cards function');
+        // console.log('Error in ApiUtil fetch all cards function');
       }
 
     });
@@ -67,7 +67,7 @@ ApiUtil = {
         NoteActions.receiveAllNotes(notes);
       },
       error: function () {
-        console.log('Error in ApiUtil fetch all notes function');
+        // console.log('Error in ApiUtil fetch all notes function');
       }
 
     });
@@ -84,7 +84,7 @@ ApiUtil = {
         NotificationActions.receiveAllNotifications(notifications);
       },
       error: function () {
-        console.log('Error in ApiUtil fetch all notifications function');
+        // console.log('Error in ApiUtil fetch all notifications function');
       }
 
     });
@@ -102,7 +102,8 @@ ApiUtil = {
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
-        console.log('Error in AJAX request to fetch single board via ApiUtil');
+        alert("We can't find that board!  Maybe the cat ate it.");
+        // console.log('Error in AJAX request to fetch single board via ApiUtil');
       }
     });
 
@@ -119,7 +120,7 @@ ApiUtil = {
         UserActions.receiveSingleUser(user);
       },
       error: function () {
-        console.log('Error in AJAX request to fetch single user via ApiUtil');
+        // console.log('Error in AJAX request to fetch single user via ApiUtil');
       }
     });
 
@@ -137,7 +138,7 @@ ApiUtil = {
         BoardActions.receiveSingleList(list);
       },
       error: function () {
-        console.log('Error in AJAX request to fetch single list via ApiUtil');
+        // console.log('Error in AJAX request to fetch single list via ApiUtil');
       }
     });
 
@@ -156,7 +157,7 @@ ApiUtil = {
 			},
 			error: function () {
         alert("Did you try to create a board with no title?  The cat is not amused.");
-        console.log("Error in ApiUtil createNewBoard function");
+        // console.log("Error in ApiUtil createNewBoard function");
 			}
 		});
   },
@@ -172,8 +173,8 @@ ApiUtil = {
           callback && callback(list.id);
         },
         error: function () {
-          alert("Did you try to create a list with no title?  The cat is not amused.")
-          console.log("Error in ApiUtil createNewList function");
+          alert("Did you try to create a list with no title?  The cat is not amused.");
+          // console.log("Error in ApiUtil createNewList function");
         }
       });
   },
@@ -189,8 +190,8 @@ ApiUtil = {
           callback && callback(card.id);
         },
         error: function () {
-          alert("Did you try to create a card with no title?  The cat is not amused.")
-          console.log("Error in ApiUtil createNewCard function");
+          alert("Did you try to create a card with no title?  The cat is not amused.");
+          // console.log("Error in ApiUtil createNewCard function");
         }
       });
   },
@@ -204,11 +205,11 @@ ApiUtil = {
         success: function (note) {
           NoteActions.receiveSingleNote(note);
           callback && callback(note.id);
-          alert("Congratulations; the cat has deigned to send your note!")
+          alert("Congratulations; the cat has deigned to send your note!");
         },
         error: function () {
-          alert("Did you try to create a blank note?  The cat is not amused.")
-          console.log("Error in ApiUtil createNewNote function");
+          alert("Did you try to create a blank note?  The cat is not amused.");
+          // console.log("Error in ApiUtil createNewNote function");
         }
       });
   },
@@ -240,7 +241,7 @@ ApiUtil = {
         window.location.href= "/";
       },
       error: function () {
-        console.log("Error in ApiUtil delete board");
+        // console.log("Error in ApiUtil delete board");
       }
     });
   },
@@ -254,7 +255,7 @@ ApiUtil = {
           BoardActions.receiveSingleBoard(board);
       },
       error: function () {
-        console.log("Error in ApiUtil deleteList function");
+        // console.log("Error in ApiUtil deleteList function");
       }
     });
   },
@@ -269,7 +270,7 @@ ApiUtil = {
           CardActions.receiveList(list);
       },
       error: function () {
-        console.log("Error in ApiUtil deleteCard function");
+        // console.log("Error in ApiUtil deleteCard function");
       }
     });
   },
@@ -283,7 +284,7 @@ ApiUtil = {
         NoteActions.receiveAllNotes(notes);
       },
       error: function () {
-        console.log("Error in ApiUtil delete note function");
+        // console.log("Error in ApiUtil delete note function");
       }
     });
   },
@@ -297,7 +298,7 @@ ApiUtil = {
         NotificationActions.receiveAllNotifications(notifications);
       },
       error: function () {
-        console.log("Error in ApiUtil delete notification function");
+        // console.log("Error in ApiUtil delete notification function");
       }
     });
   },
@@ -314,7 +315,7 @@ ApiUtil = {
       },
       error: function () {
         alert("Did you try to get rid of this board's title?  The cat is not amused.");
-        console.log('Error in AJAX request to edit board via ApiUtil');
+        // console.log('Error in AJAX request to edit board via ApiUtil');
       }
     });
 
@@ -332,7 +333,7 @@ ApiUtil = {
       },
       error: function () {
         alert("Did you try to get rid of this list's title?  The cat is not amused.");
-        console.log('Error in AJAX request to edit list via ApiUtil');
+        // console.log('Error in AJAX request to edit list via ApiUtil');
       }
     });
 
@@ -351,7 +352,7 @@ ApiUtil = {
       },
       error: function () {
         alert("Did you try to get rid of this card's title?  The cat is not amused.");
-        console.log('Error in AJAX request to edit card via ApiUtil');
+        // console.log('Error in AJAX request to edit card via ApiUtil');
       }
     });
 
@@ -386,7 +387,7 @@ ApiUtil = {
           alert("The cat misses you already; don't forget to come back soon!");
       },
       error: function () {
-        console.log('Error in ApiUtil logout');
+        // console.log('Error in ApiUtil logout');
       }
 
     });
@@ -403,7 +404,7 @@ ApiUtil = {
         callback && callback();
       },
       error: function () {
-        console.log('Error in ApiUtil sign up');
+        // console.log('Error in ApiUtil sign up');
       }
     });
   },
@@ -418,7 +419,7 @@ ApiUtil = {
 			},
       error: function () {
 				SessionActions.currentUserReceived(null);
-        console.log('Error fetching current user');
+        // console.log('Error fetching current user');
       },
       complete: function () {
         completion && completion();
@@ -439,7 +440,7 @@ ApiUtil = {
         SearchResultActions.receiveResults(response);
 			},
 			error: function () {
-				console.log('Error in ApiUtil search function');
+				// console.log('Error in ApiUtil search function');
 			}
 		});
 
