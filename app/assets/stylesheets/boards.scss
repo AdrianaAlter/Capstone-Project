@@ -26,7 +26,7 @@
 
 .board-items li {
   background: #B04632;
-  box-shadow: 2px 2px 2px #aaa;
+  // box-shadow: 2px 2px 2px #aaa;
   color: ivory;
   cursor: pointer;
   border-radius: 3px;
@@ -55,6 +55,7 @@
 .board-items li:hover {
   background: darkred;
   text-shadow: 2px 2px 2px #250000;
+  box-shadow: 2px 2px 2px #aaa;
 }
 .note-count {
   display: block;
@@ -74,7 +75,7 @@
 
 .board-items .new-board-button {
   background: #e2e4e6;
-  box-shadow: 2px 2px 2px #8c8c8c;
+  // box-shadow: 2px 2px 2px #8c8c8c;
   color: #8c8c8c;
   font-weight: normal;
   font-size: 14px;
@@ -96,6 +97,8 @@
 .board-items .new-board-button:hover {
   	background: #acb0b6;
   	color: darkred;
+    box-shadow: 2px 2px 2px #8c8c8c;
+    text-shadow: none !important;
     // text-shadow: 2px 2px 2px #250000;
 }
 
@@ -148,7 +151,7 @@
   font-weight: normal;
   color:ivory;
   background: #a43;
-  box-shadow: 2px 2px 2px #6b271d;
+  // box-shadow: 2px 2px 2px #6b271d;
   display: block;
   border-radius: 3px;
   height: 32px;
@@ -169,7 +172,7 @@
 }
 
 
-.new-board-form, {
+.new-board-form {
   border-radius: 3px;
   float: left;
   display: block;
@@ -199,7 +202,6 @@
 	margin: 12px 8px !important;
   padding: 5px;
 	background: #FFFFBD;
-
   border-radius: 4px;
   box-shadow: 2px 2px 2px #4d4d4d;
   width: 200px;
