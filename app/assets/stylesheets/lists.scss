@@ -46,7 +46,7 @@
 }
 
 .list-index .list-index-item:hover > h1 {
-  text-shadow: 2px 2px 2px #4d4d4d;
+  // text-shadow: 2px 2px 2px #4d4d4d;
 }
 
 .list-index .list-index-item .list-detail > button, .new-card-button {
@@ -139,6 +139,7 @@
   // text-shadow: 2px 2px 2px #5D231F;
   padding: 0 5px;
   overflow: scroll;
+  cursor: text;
 }
 
 .edit-list-form h1 {

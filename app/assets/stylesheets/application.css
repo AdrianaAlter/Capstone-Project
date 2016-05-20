@@ -53,6 +53,10 @@ footer {
   padding-bottom: 20px;
 }
 
+input {
+  cursor: text !important;
+}
+
 .xout {
   float: right;
   cursor: pointer;
