@@ -5,6 +5,7 @@ var CardActions = require('../actions/card_actions.js');
 var UserActions = require('../actions/user_actions.js');
 var NoteActions = require('../actions/note_actions.js');
 var NotificationActions = require('../actions/notification_actions.js');
+var AlertActions = require('../actions/alert_actions.js');
 
 ApiUtil = {
 
@@ -102,7 +103,7 @@ ApiUtil = {
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
-        alert("We can't find that board!  Maybe the cat ate it.");
+        AlertActions.boardNotFound();
         // console.log('Error in AJAX request to fetch single board via ApiUtil');
       }
     });
@@ -134,7 +135,6 @@ ApiUtil = {
       type: "GET",
       dataType: "json",
       success: function (list) {
-
         BoardActions.receiveSingleList(list);
       },
       error: function () {
@@ -156,7 +156,7 @@ ApiUtil = {
         callback && callback(board.id);
 			},
 			error: function () {
-        alert("Did you try to create a board with no title?  The cat is not amused.");
+        AlertActions.blankTitle();
         // console.log("Error in ApiUtil createNewBoard function");
 			}
 		});
@@ -173,7 +173,7 @@ ApiUtil = {
           callback && callback(list.id);
         },
         error: function () {
-          alert("Did you try to create a list with no title?  The cat is not amused.");
+          AlertActions.blankTitle();
           // console.log("Error in ApiUtil createNewList function");
         }
       });
@@ -190,7 +190,7 @@ ApiUtil = {
           callback && callback(card.id);
         },
         error: function () {
-          alert("Did you try to create a card with no title?  The cat is not amused.");
+          AlertActions.blankTitle();
           // console.log("Error in ApiUtil createNewCard function");
         }
       });
@@ -205,10 +205,10 @@ ApiUtil = {
         success: function (note) {
           NoteActions.receiveSingleNote(note);
           callback && callback(note.id);
-          alert("Congratulations; the cat has deigned to send your note!");
+          AlertActions.noteSent();
         },
         error: function () {
-          alert("Did you try to create a blank note?  The cat is not amused.");
+          AlertActions.blankTitle();
           // console.log("Error in ApiUtil createNewNote function");
         }
       });
@@ -236,8 +236,8 @@ ApiUtil = {
       url: "api/boards/" + id,
       type: "DELETE",
       success: function (boards) {
+        AlertActions.boardDeleted();
         BoardActions.receiveAllBoards(boards);
-        alert("Success; the cat has shredded this board!");
         window.location.href= "/";
       },
       error: function () {
@@ -314,7 +314,7 @@ ApiUtil = {
         BoardActions.receiveSingleBoard(board);
       },
       error: function () {
-        alert("Did you try to get rid of this board's title?  The cat is not amused.");
+        AlertActions.blankTitle();
         // console.log('Error in AJAX request to edit board via ApiUtil');
       }
     });
@@ -332,7 +332,7 @@ ApiUtil = {
         BoardActions.receiveSingleList(list);
       },
       error: function () {
-        alert("Did you try to get rid of this list's title?  The cat is not amused.");
+        AlertActions.blankTitle();
         // console.log('Error in AJAX request to edit list via ApiUtil');
       }
     });
@@ -347,11 +347,10 @@ ApiUtil = {
       dataType: "json",
       data: { card: card },
       success: function (card) {
-
         CardActions.receiveSingleCard(card);
       },
       error: function () {
-        alert("Did you try to get rid of this card's title?  The cat is not amused.");
+        AlertActions.blankTitle();
         // console.log('Error in AJAX request to edit card via ApiUtil');
       }
     });
@@ -370,10 +369,9 @@ ApiUtil = {
         callback && callback();
       },
       error: function () {
-        alert("You are obviously a dangerous (albeit fairly inept) impostor.  Or maybe you typed your credentials wrong, but that seems less plausible.  Either way, the cat does not approve.");
+        AlertActions.invalidLogin();
       }
     });
-
   },
 
   logOut: function () {
@@ -384,7 +382,7 @@ ApiUtil = {
       dataType: "json",
       success: function () {
           SessionActions.logOut();
-          alert("The cat misses you already; don't forget to come back soon!");
+          AlertActions.logOut();
       },
       error: function () {
         // console.log('Error in ApiUtil logout');
@@ -436,7 +434,6 @@ ApiUtil = {
 			dataType: "json",
 			data: {query: query, page: page},
 			success: function (response) {
-
         SearchResultActions.receiveResults(response);
 			},
 			error: function () {

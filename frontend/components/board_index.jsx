@@ -5,6 +5,7 @@ var ApiUtil = require('../util/api_util.js');
 var NewBoardForm = require('./new_board_form.jsx');
 var NewBoardButton = require('./new_board_button.jsx');
 var BoardIndexItem = require('./board_index_item.jsx');
+var Alerts = require('./alerts.jsx');
 
 var BoardIndex = React.createClass({
 
@@ -33,6 +34,7 @@ var BoardIndex = React.createClass({
 
     return (
       <div className="board-index">
+        <Alerts />
         <h1>My Boards</h1>
         <ul className="board-items group">
           {boardItems}

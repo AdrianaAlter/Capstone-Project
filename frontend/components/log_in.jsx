@@ -3,6 +3,7 @@ var ApiUtil = require('../util/api_util.js');
 var Modal = require('react-modal');
 var Footer = require('./footer.jsx');
 var SignUpButton = require('./sign_up_button.jsx');
+var Alerts = require('./alerts.jsx');
 
 var LogInForm = React.createClass({
   contextTypes: { router: React.PropTypes.object.isRequired },
@@ -41,12 +42,10 @@ var LogInForm = React.createClass({
 
 
   render: function () {
-
-
-
+    
     return(
       <div className="welcome-page group">
-
+        <Alerts />
         <section className="info-page group">
           <h1>CatTrello</h1>
           <h2>CatTrello is a gratuitously cat-themed web app for organizing projects and tasks!</h2>

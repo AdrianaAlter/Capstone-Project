@@ -6,6 +6,7 @@ var EditBoardButton = require('./edit_board_button.jsx');
 var SessionStore = require('../store/session_store.js');
 var NoteIndex = require('./note_index.jsx');
 var NewNoteForm = require('./new_note_form.jsx');
+var Alerts = require('./alerts.jsx');
 
 var BoardDetail = React.createClass({
 
@@ -69,6 +70,7 @@ var BoardDetail = React.createClass({
 
     return (
             <section className="board-detail group">
+              <Alerts />
               <section>
                 <h1>{this.state.board.title}<i className={status} aria-hidden="true" onClick={statusClick}></i></h1>
               </section>
