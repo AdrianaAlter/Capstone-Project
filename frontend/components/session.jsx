@@ -57,6 +57,7 @@ var SessionButtons = React.createClass ({
     var styles = {
       content: {backgroundColor: "#e4f0f6"}
     };
+		
 		var logout;
     var loggedInAs;
     if (this.state.currentUser) {

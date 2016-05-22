@@ -50,16 +50,16 @@
 	var Route = __webpack_require__(159).Route;
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var BoardIndex = __webpack_require__(216);
-	var App = __webpack_require__(259);
-	var LogInForm = __webpack_require__(290);
+	var App = __webpack_require__(260);
+	var LogInForm = __webpack_require__(291);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ApiUtil = __webpack_require__(241);
-	var SessionStore = __webpack_require__(262);
+	var SessionStore = __webpack_require__(263);
 	var NewBoardButton = __webpack_require__(257);
-	var BoardDetail = __webpack_require__(295);
+	var BoardDetail = __webpack_require__(294);
 	var browserHistory = __webpack_require__(159).browserHistory;
-	var Modal = __webpack_require__(263);
-	var UserProfile = __webpack_require__(341);
+	var Modal = __webpack_require__(264);
+	var UserProfile = __webpack_require__(340);
 	
 	var routes = React.createElement(
 	  Router,
@@ -24790,7 +24790,7 @@
 	var NewBoardForm = __webpack_require__(256);
 	var NewBoardButton = __webpack_require__(257);
 	var BoardIndexItem = __webpack_require__(258);
-	var Alerts = __webpack_require__(293);
+	var Alerts = __webpack_require__(259);
 	
 	var BoardIndex = React.createClass({
 	  displayName: 'BoardIndex',
@@ -32627,10 +32627,96 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Header = __webpack_require__(260);
-	var Footer = __webpack_require__(289);
+	var ReactDom = __webpack_require__(158);
+	var AlertStore = __webpack_require__(342);
+	var Modal = __webpack_require__(264);
+	
+	var Alerts = React.createClass({
+	  displayName: 'Alerts',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  componentDidMount: function () {
+	    this.getStateFromStore();
+	    this.listener = AlertStore.addListener(this.getStateFromStore);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  getStateFromStore: function () {
+	    var alertContent = AlertStore.all();
+	
+	    if (alertContent.length > 0) {
+	      this.setState({ alertTitle: alertContent[0] });
+	      this.setState({ alertText: alertContent[1] });
+	      this.setState({ modalOpen: true });
+	      alertContent = [];
+	    }
+	  },
+	
+	  clearAlert: function () {
+	    AlertStore.clear();
+	    this.setState({ alertTitle: null, alertText: null, modalOpen: false });
+	  },
+	
+	  render: function () {
+	    var styles = {
+	      content: {
+	        width: '500px',
+	        height: '225px',
+	        padding: '0px',
+	        border: '1px solid #026AA7',
+	        left: '30%',
+	        top: '30%'
+	      }
+	    };
+	
+	    var alert = React.createElement(
+	      'section',
+	      { className: 'alert' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        this.state.alertTitle,
+	        React.createElement(
+	          'button',
+	          { className: 'xout', onClick: this.clearAlert },
+	          React.createElement('i', { className: 'fa fa-times xout', 'aria-hidden': 'true' })
+	        )
+	      ),
+	      React.createElement(
+	        'h2',
+	        null,
+	        this.state.alertText
+	      )
+	    );
+	
+	    return React.createElement(
+	      Modal,
+	      { isOpen: this.state.modalOpen, style: styles,
+	        onRequestClose: this.clearAlert },
+	      alert
+	    );
+	  }
+	
+	});
+	
+	module.exports = Alerts;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Header = __webpack_require__(261);
+	var Footer = __webpack_require__(290);
 	var BoardIndex = __webpack_require__(216);
-	var SessionStore = __webpack_require__(262);
+	var SessionStore = __webpack_require__(263);
 	var ApiUtil = __webpack_require__(241);
 	
 	var App = React.createClass({
@@ -32652,13 +32738,13 @@
 	module.exports = App;
 
 /***/ },
-/* 260 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var SessionButtons = __webpack_require__(261);
-	var Search = __webpack_require__(287);
+	var SessionButtons = __webpack_require__(262);
+	var Search = __webpack_require__(288);
 	
 	var Link = __webpack_require__(159).Link;
 	
@@ -32712,126 +32798,127 @@
 	module.exports = Header;
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(262);
+	var SessionStore = __webpack_require__(263);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(263);
+	var Modal = __webpack_require__(264);
 	var Link = __webpack_require__(159).Link;
-	var NotificationIndex = __webpack_require__(283);
+	var NotificationIndex = __webpack_require__(284);
 	
 	var SessionButtons = React.createClass({
-	  displayName: 'SessionButtons',
+		displayName: 'SessionButtons',
 	
 	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
+		contextTypes: {
+			router: React.PropTypes.object.isRequired
+		},
 	
-	  getInitialState: function () {
-	    return {
-	      currentUser: null,
-	      modalOpen: false
-	    };
-	  },
+		getInitialState: function () {
+			return {
+				currentUser: null,
+				modalOpen: false
+			};
+		},
 	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
+		openModal: function () {
+			this.setState({ modalOpen: true });
+		},
 	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
+		closeModal: function () {
+			this.setState({ modalOpen: false });
+		},
 	
-	  logOut: function () {
-	    ApiUtil.logOut();
-	    this.context.router.push("/login");
-	  },
+		logOut: function () {
+			ApiUtil.logOut();
+			this.context.router.push("/login");
+		},
 	
-	  componentDidMount: function () {
-	    this.sessionStoreToken = SessionStore.addListener(this.handleChange);
-	    this.handleChange();
-	  },
+		componentDidMount: function () {
+			this.sessionStoreToken = SessionStore.addListener(this.handleChange);
+			this.handleChange();
+		},
 	
-	  componentWillUnmount: function () {
-	    this.sessionStoreToken.remove();
-	  },
+		componentWillUnmount: function () {
+			this.sessionStoreToken.remove();
+		},
 	
-	  handleChange: function () {
-	    if (SessionStore.isLoggedIn()) {
-	      this.setState({ currentUser: SessionStore.currentUser() });
-	    }
-	  },
+		handleChange: function () {
+			if (SessionStore.isLoggedIn()) {
+				this.setState({ currentUser: SessionStore.currentUser() });
+			}
+		},
 	
-	  render: function () {
-	    var surprise = React.createElement(
-	      'section',
-	      { className: 'surprise' },
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Congratulations, you have discovered the extra-special bonus content!!!!!'
-	      ),
-	      React.createElement('div', { className: 'surprise-pic' }),
-	      React.createElement(
-	        'h2',
-	        null,
-	        '(It\'s a cat.)'
-	      ),
-	      React.createElement(
-	        'h3',
-	        null,
-	        '(Meow.)'
-	      )
-	    );
+		render: function () {
+			var surprise = React.createElement(
+				'section',
+				{ className: 'surprise' },
+				React.createElement(
+					'h1',
+					null,
+					'Congratulations, you have discovered the extra-special bonus content!!!!!'
+				),
+				React.createElement('div', { className: 'surprise-pic' }),
+				React.createElement(
+					'h2',
+					null,
+					'(It\'s a cat.)'
+				),
+				React.createElement(
+					'h3',
+					null,
+					'(Meow.)'
+				)
+			);
 	
-	    var styles = {
-	      content: { backgroundColor: "#e4f0f6" }
-	    };
-	    var logout;
-	    var loggedInAs;
-	    if (this.state.currentUser) {
-	      logout = React.createElement(
-	        'li',
-	        {
-	          className: 'logout-button',
-	          onClick: this.logOut },
-	        'Logout'
-	      );
-	      loggedInAs = React.createElement(
-	        'li',
-	        { className: 'user-name', onDoubleClick: this.openModal },
-	        React.createElement(
-	          Link,
-	          { to: "users/" + this.state.currentUser.id },
-	          this.state.currentUser.user_name
-	        ),
-	        React.createElement(
-	          Modal,
-	          { className: 'modal', isOpen: this.state.modalOpen,
-	            onRequestClose: this.closeModal,
-	            style: styles },
-	          surprise
-	        )
-	      );
-	    }
+			var styles = {
+				content: { backgroundColor: "#e4f0f6" }
+			};
 	
-	    return React.createElement(
-	      'ul',
-	      { className: 'session-buttons group' },
-	      React.createElement(NotificationIndex, null),
-	      loggedInAs,
-	      logout
-	    );
-	  }
+			var logout;
+			var loggedInAs;
+			if (this.state.currentUser) {
+				logout = React.createElement(
+					'li',
+					{
+						className: 'logout-button',
+						onClick: this.logOut },
+					'Logout'
+				);
+				loggedInAs = React.createElement(
+					'li',
+					{ className: 'user-name', onDoubleClick: this.openModal },
+					React.createElement(
+						Link,
+						{ to: "users/" + this.state.currentUser.id },
+						this.state.currentUser.user_name
+					),
+					React.createElement(
+						Modal,
+						{ className: 'modal', isOpen: this.state.modalOpen,
+							onRequestClose: this.closeModal,
+							style: styles },
+						surprise
+					)
+				);
+			}
+	
+			return React.createElement(
+				'ul',
+				{ className: 'session-buttons group' },
+				React.createElement(NotificationIndex, null),
+				loggedInAs,
+				logout
+			);
+		}
 	});
 	
 	module.exports = SessionButtons;
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -32872,23 +32959,23 @@
 	module.exports = SessionStore;
 
 /***/ },
-/* 263 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(264);
+	module.exports = __webpack_require__(265);
 	
 
 
 /***/ },
-/* 264 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(265);
-	var ModalPortal = React.createFactory(__webpack_require__(266));
-	var ariaAppHider = __webpack_require__(281);
-	var elementClass = __webpack_require__(282);
+	var ExecutionEnvironment = __webpack_require__(266);
+	var ModalPortal = React.createFactory(__webpack_require__(267));
+	var ariaAppHider = __webpack_require__(282);
+	var elementClass = __webpack_require__(283);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32967,7 +33054,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 265 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -33012,14 +33099,14 @@
 
 
 /***/ },
-/* 266 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(267);
-	var scopeTab = __webpack_require__(269);
-	var Assign = __webpack_require__(270);
+	var focusManager = __webpack_require__(268);
+	var scopeTab = __webpack_require__(270);
+	var Assign = __webpack_require__(271);
 	
 	
 	// so that our CSS is statically analyzable
@@ -33216,10 +33303,10 @@
 
 
 /***/ },
-/* 267 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(268);
+	var findTabbable = __webpack_require__(269);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -33290,7 +33377,7 @@
 
 
 /***/ },
-/* 268 */
+/* 269 */
 /***/ function(module, exports) {
 
 	/*!
@@ -33346,10 +33433,10 @@
 
 
 /***/ },
-/* 269 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(268);
+	var findTabbable = __webpack_require__(269);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -33367,7 +33454,7 @@
 
 
 /***/ },
-/* 270 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33378,9 +33465,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(271),
-	    createAssigner = __webpack_require__(277),
-	    keys = __webpack_require__(273);
+	var baseAssign = __webpack_require__(272),
+	    createAssigner = __webpack_require__(278),
+	    keys = __webpack_require__(274);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -33453,7 +33540,7 @@
 
 
 /***/ },
-/* 271 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33464,8 +33551,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(272),
-	    keys = __webpack_require__(273);
+	var baseCopy = __webpack_require__(273),
+	    keys = __webpack_require__(274);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -33486,7 +33573,7 @@
 
 
 /***/ },
-/* 272 */
+/* 273 */
 /***/ function(module, exports) {
 
 	/**
@@ -33524,7 +33611,7 @@
 
 
 /***/ },
-/* 273 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33535,9 +33622,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(274),
-	    isArguments = __webpack_require__(275),
-	    isArray = __webpack_require__(276);
+	var getNative = __webpack_require__(275),
+	    isArguments = __webpack_require__(276),
+	    isArray = __webpack_require__(277);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33766,7 +33853,7 @@
 
 
 /***/ },
-/* 274 */
+/* 275 */
 /***/ function(module, exports) {
 
 	/**
@@ -33909,7 +33996,7 @@
 
 
 /***/ },
-/* 275 */
+/* 276 */
 /***/ function(module, exports) {
 
 	/**
@@ -34158,7 +34245,7 @@
 
 
 /***/ },
-/* 276 */
+/* 277 */
 /***/ function(module, exports) {
 
 	/**
@@ -34344,7 +34431,7 @@
 
 
 /***/ },
-/* 277 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34355,9 +34442,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(278),
-	    isIterateeCall = __webpack_require__(279),
-	    restParam = __webpack_require__(280);
+	var bindCallback = __webpack_require__(279),
+	    isIterateeCall = __webpack_require__(280),
+	    restParam = __webpack_require__(281);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -34402,7 +34489,7 @@
 
 
 /***/ },
-/* 278 */
+/* 279 */
 /***/ function(module, exports) {
 
 	/**
@@ -34473,7 +34560,7 @@
 
 
 /***/ },
-/* 279 */
+/* 280 */
 /***/ function(module, exports) {
 
 	/**
@@ -34611,7 +34698,7 @@
 
 
 /***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports) {
 
 	/**
@@ -34684,7 +34771,7 @@
 
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -34731,7 +34818,7 @@
 
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -34796,14 +34883,14 @@
 
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var NotificationStore = __webpack_require__(284);
-	var NoteStore = __webpack_require__(285);
-	var SessionStore = __webpack_require__(262);
-	var NotificationIndexItem = __webpack_require__(286);
+	var NotificationStore = __webpack_require__(285);
+	var NoteStore = __webpack_require__(286);
+	var SessionStore = __webpack_require__(263);
+	var NotificationIndexItem = __webpack_require__(287);
 	var ApiUtil = __webpack_require__(241);
 	
 	var NotificationIndex = React.createClass({
@@ -34885,12 +34972,12 @@
 	module.exports = NotificationIndex;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
 	var Dispatcher = __webpack_require__(236);
-	var SessionStore = __webpack_require__(262);
+	var SessionStore = __webpack_require__(263);
 	
 	var NotificationConstants = __webpack_require__(253);
 	
@@ -35000,7 +35087,7 @@
 	module.exports = NotificationStore;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -35051,7 +35138,7 @@
 	module.exports = NoteStore;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35094,11 +35181,11 @@
 	module.exports = NotificationIndexItem;
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SearchResultsStore = __webpack_require__(288);
+	var SearchResultsStore = __webpack_require__(289);
 	var ApiUtil = __webpack_require__(241);
 	
 	var Search = React.createClass({
@@ -35215,7 +35302,7 @@
 	module.exports = Search;
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -35248,7 +35335,7 @@
 	module.exports = SearchResultsStore;
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35396,15 +35483,15 @@
 	module.exports = Footer;
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(263);
-	var Footer = __webpack_require__(289);
-	var SignUpButton = __webpack_require__(291);
-	var Alerts = __webpack_require__(293);
+	var Modal = __webpack_require__(264);
+	var Footer = __webpack_require__(290);
+	var SignUpButton = __webpack_require__(292);
+	var Alerts = __webpack_require__(259);
 	
 	var LogInForm = React.createClass({
 	  displayName: 'LogInForm',
@@ -35491,7 +35578,7 @@
 	        { className: 'log-in-page group' },
 	        React.createElement(
 	          'form',
-	          { className: 'log-in-form group', onSubmit: this.handleSubmit },
+	          { className: 'log-in-form group' },
 	          React.createElement(
 	            'h1',
 	            null,
@@ -35511,7 +35598,7 @@
 	          React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
 	          React.createElement(
 	            'button',
-	            null,
+	            { onClick: this.handleSubmit },
 	            React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' }),
 	            'Log In',
 	            React.createElement('i', { className: 'fa fa-paw', 'aria-hidden': 'true' })
@@ -35590,13 +35677,13 @@
 	module.exports = LogInForm;
 
 /***/ },
-/* 291 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(263);
-	var SignUpForm = __webpack_require__(292);
+	var Modal = __webpack_require__(264);
+	var SignUpForm = __webpack_require__(293);
 	
 	var SignUpButton = React.createClass({
 	  displayName: 'SignUpButton',
@@ -35636,7 +35723,7 @@
 	module.exports = SignUpButton;
 
 /***/ },
-/* 292 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35709,125 +35796,18 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 293 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ReactDom = __webpack_require__(158);
-	var AlertStore = __webpack_require__(294);
-	var Alert = __webpack_require__(343);
-	
-	var Alerts = React.createClass({
-	  displayName: 'Alerts',
-	
-	
-	  getInitialState: function () {
-	    return { alert: false };
-	  },
-	
-	  componentDidMount: function () {
-	    this.getStateFromStore();
-	    this.listener = AlertStore.addListener(this.getStateFromStore);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
-	
-	  getStateFromStore: function () {
-	    var alertContent = AlertStore.all();
-	    if (alertContent.length > 0) {
-	      // debugger
-	      this.setState({ alertTitle: alertContent[0] });
-	      this.setState({ alertText: alertContent[1] });
-	      this.setState({ alert: true });
-	    }
-	  },
-	
-	  closeAlert: function () {
-	    this.setState({ alert: false });
-	  },
-	
-	  render: function () {
-	
-	    var rsaOptions = {
-	      title: this.state.alertTitle,
-	      message: this.state.alertText,
-	      alert: this.state.alert
-	    };
-	
-	    return React.createElement(Alert, { options: rsaOptions });
-	  }
-	
-	});
-	
-	module.exports = Alerts;
-
-/***/ },
 /* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(218).Store;
-	var Dispatcher = __webpack_require__(236);
-	var AlertConstants = __webpack_require__(255);
-	
-	var AlertStore = new Store(Dispatcher);
-	var _alerts = [];
-	
-	AlertStore.all = function () {
-	  return _alerts.slice();
-	};
-	
-	AlertStore.newAlert = function (title, alert) {
-	  _alerts = [];
-	  _alerts.push(title);
-	  _alerts.push(alert);
-	};
-	
-	AlertStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case AlertConstants.INVALID_LOGIN:
-	      AlertStore.newAlert("Invalid Login", "You are obviously a dangerous (albeit fairly inept) impostor.  Or maybe you typed your credentials wrong, but that seems less plausible.  Either way, the cat does not approve.");
-	      AlertStore.__emitChange();
-	      break;
-	    case AlertConstants.LOG_OUT:
-	      AlertStore.newAlert("Goodbye!", "The cat misses you already; don't forget to come back soon!");
-	      AlertStore.__emitChange();
-	      break;
-	    case AlertConstants.BOARD_NOT_FOUND:
-	      AlertStore.newAlert("We can't find that board!", "Maybe the cat ate it.");
-	      AlertStore.__emitChange();
-	      break;
-	    case AlertConstants.BLANK_TITLE:
-	      AlertStore.newAlert("You left it blank!", "The cat is not amused.");
-	      AlertStore.__emitChange();
-	      break;
-	    case AlertConstants.NOTE_SENT:
-	      AlertStore.newAlert("Congratulations!", "The cat has deigned to send your note!");
-	      AlertStore.__emitChange();
-	      break;
-	    case AlertConstants.BOARD_DELETED:
-	      AlertStore.newAlert("Success!", "The cat has shredded this board!");
-	      AlertStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = AlertStore;
-
-/***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var React = __webpack_require__(1);
-	var ListIndex = __webpack_require__(296);
+	var ListIndex = __webpack_require__(295);
 	var BoardStore = __webpack_require__(217);
-	var CardStore = __webpack_require__(300);
-	var EditBoardButton = __webpack_require__(310);
-	var SessionStore = __webpack_require__(262);
-	var NoteIndex = __webpack_require__(312);
-	var NewNoteForm = __webpack_require__(314);
-	var Alerts = __webpack_require__(293);
+	var CardStore = __webpack_require__(299);
+	var EditBoardButton = __webpack_require__(309);
+	var SessionStore = __webpack_require__(263);
+	var NoteIndex = __webpack_require__(311);
+	var NewNoteForm = __webpack_require__(313);
+	var Alerts = __webpack_require__(259);
 	
 	var BoardDetail = React.createClass({
 	  displayName: 'BoardDetail',
@@ -35925,12 +35905,12 @@
 	module.exports = BoardDetail;
 
 /***/ },
-/* 296 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListIndexItem = __webpack_require__(297);
-	var NewListButton = __webpack_require__(308);
+	var ListIndexItem = __webpack_require__(296);
+	var NewListButton = __webpack_require__(307);
 	var ApiUtil = __webpack_require__(241);
 	
 	var ListIndex = React.createClass({
@@ -35964,11 +35944,11 @@
 	module.exports = ListIndex;
 
 /***/ },
-/* 297 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ListDetail = __webpack_require__(298);
+	var ListDetail = __webpack_require__(297);
 	
 	var BoardStore = __webpack_require__(217);
 	
@@ -35994,15 +35974,15 @@
 	module.exports = ListIndexItem;
 
 /***/ },
-/* 298 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardIndex = __webpack_require__(299);
-	var NewCardButton = __webpack_require__(304);
-	var CardStore = __webpack_require__(300);
+	var CardIndex = __webpack_require__(298);
+	var NewCardButton = __webpack_require__(303);
+	var CardStore = __webpack_require__(299);
 	var BoardStore = __webpack_require__(217);
-	var EditListButton = __webpack_require__(306);
+	var EditListButton = __webpack_require__(305);
 	var ListDetail = React.createClass({
 	  displayName: 'ListDetail',
 	
@@ -36066,14 +36046,14 @@
 	module.exports = ListDetail;
 
 /***/ },
-/* 299 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardStore = __webpack_require__(300);
+	var CardStore = __webpack_require__(299);
 	
 	var CardActions = __webpack_require__(246);
-	var CardIndexItem = __webpack_require__(301);
+	var CardIndexItem = __webpack_require__(300);
 	var ApiUtil = __webpack_require__(241);
 	
 	var CardIndex = React.createClass({
@@ -36104,7 +36084,7 @@
 	module.exports = CardIndex;
 
 /***/ },
-/* 300 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -36243,12 +36223,12 @@
 	module.exports = CardStore;
 
 /***/ },
-/* 301 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var EditCardButton = __webpack_require__(302);
-	var EditCardForm = __webpack_require__(303);
+	var EditCardButton = __webpack_require__(301);
+	var EditCardForm = __webpack_require__(302);
 	
 	var CardIndexItem = React.createClass({
 	  displayName: 'CardIndexItem',
@@ -36291,13 +36271,13 @@
 	module.exports = CardIndexItem;
 
 /***/ },
-/* 302 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(263);
-	var EditCardForm = __webpack_require__(303);
+	var Modal = __webpack_require__(264);
+	var EditCardForm = __webpack_require__(302);
 	
 	var EditCardButton = React.createClass({
 	  displayName: 'EditCardButton',
@@ -36312,12 +36292,12 @@
 	module.exports = EditCardButton;
 
 /***/ },
-/* 303 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var CardActions = __webpack_require__(246);
-	var CardStore = __webpack_require__(300);
+	var CardStore = __webpack_require__(299);
 	
 	var EditCardForm = React.createClass({
 		displayName: 'EditCardForm',
@@ -36359,14 +36339,14 @@
 	module.exports = EditCardForm;
 
 /***/ },
-/* 304 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CardStore = __webpack_require__(300);
+	var CardStore = __webpack_require__(299);
 	var ApiUtil = __webpack_require__(241);
 	
-	var NewCardForm = __webpack_require__(305);
+	var NewCardForm = __webpack_require__(304);
 	
 	var NewCardButton = React.createClass({
 	  displayName: 'NewCardButton',
@@ -36397,7 +36377,7 @@
 	module.exports = NewCardButton;
 
 /***/ },
-/* 305 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36441,13 +36421,13 @@
 	module.exports = NewCardForm;
 
 /***/ },
-/* 306 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(263);
-	var EditListForm = __webpack_require__(307);
+	var Modal = __webpack_require__(264);
+	var EditListForm = __webpack_require__(306);
 	
 	var EditListButton = React.createClass({
 	  displayName: 'EditListButton',
@@ -36475,7 +36455,7 @@
 	module.exports = EditListButton;
 
 /***/ },
-/* 307 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36532,14 +36512,14 @@
 	module.exports = EditListForm;
 
 /***/ },
-/* 308 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(263);
-	var NewListForm = __webpack_require__(309);
+	var Modal = __webpack_require__(264);
+	var NewListForm = __webpack_require__(308);
 	
 	var NewListButton = React.createClass({
 	  displayName: 'NewListButton',
@@ -36571,7 +36551,7 @@
 	module.exports = NewListButton;
 
 /***/ },
-/* 309 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36623,14 +36603,14 @@
 	module.exports = NewListForm;
 
 /***/ },
-/* 310 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
-	var Modal = __webpack_require__(263);
-	var EditBoardForm = __webpack_require__(311);
+	var Modal = __webpack_require__(264);
+	var EditBoardForm = __webpack_require__(310);
 	var EditBoardButton = React.createClass({
 	  displayName: 'EditBoardButton',
 	
@@ -36670,7 +36650,7 @@
 	module.exports = EditBoardButton;
 
 /***/ },
-/* 311 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36741,14 +36721,14 @@
 	module.exports = EditBoardForm;
 
 /***/ },
-/* 312 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var NoteStore = __webpack_require__(285);
-	var NotificationStore = __webpack_require__(284);
-	var SessionStore = __webpack_require__(262);
-	var NoteIndexItem = __webpack_require__(313);
+	var NoteStore = __webpack_require__(286);
+	var NotificationStore = __webpack_require__(285);
+	var SessionStore = __webpack_require__(263);
+	var NoteIndexItem = __webpack_require__(312);
 	var ApiUtil = __webpack_require__(241);
 	
 	var NoteIndex = React.createClass({
@@ -36829,7 +36809,7 @@
 	module.exports = NoteIndex;
 
 /***/ },
-/* 313 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36900,13 +36880,13 @@
 	module.exports = NoteIndexItem;
 
 /***/ },
-/* 314 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var NoteActions = __webpack_require__(240);
-	var SessionStore = __webpack_require__(262);
-	var SweetAlert = __webpack_require__(315);
+	var SessionStore = __webpack_require__(263);
+	var SweetAlert = __webpack_require__(314);
 	
 	var NewNoteForm = React.createClass({
 		displayName: 'NewNoteForm',
@@ -36975,7 +36955,7 @@
 	module.exports = NewNoteForm;
 
 /***/ },
-/* 315 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36994,23 +36974,23 @@
 	
 	var _react = __webpack_require__(1);
 	
-	var _sweetalert = __webpack_require__(316);
+	var _sweetalert = __webpack_require__(315);
 	
 	var _sweetalert2 = _interopRequireDefault(_sweetalert);
 	
-	var _lodashPick = __webpack_require__(325);
+	var _lodashPick = __webpack_require__(324);
 	
 	var _lodashPick2 = _interopRequireDefault(_lodashPick);
 	
-	var _mousetrap = __webpack_require__(337);
+	var _mousetrap = __webpack_require__(336);
 	
 	var _mousetrap2 = _interopRequireDefault(_mousetrap);
 	
-	var _warning = __webpack_require__(338);
+	var _warning = __webpack_require__(337);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _utilsOutsideTargetHandlerFactory = __webpack_require__(339);
+	var _utilsOutsideTargetHandlerFactory = __webpack_require__(338);
 	
 	var _utilsOutsideTargetHandlerFactory2 = _interopRequireDefault(_utilsOutsideTargetHandlerFactory);
 	
@@ -37217,7 +37197,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 316 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37235,35 +37215,35 @@
 	 * jQuery-like functions for manipulating the DOM
 	 */
 	
-	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(317);
+	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(316);
 	
 	/*
 	 * Handy utilities
 	 */
 	
-	var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(318);
+	var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(317);
 	
 	/*
 	 *  Handle sweetAlert's DOM elements
 	 */
 	
-	var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(319);
+	var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(318);
 	
 	// Handle button events and keyboard events
 	
-	var _handleButton$handleConfirm$handleCancel = __webpack_require__(322);
+	var _handleButton$handleConfirm$handleCancel = __webpack_require__(321);
 	
-	var _handleKeyDown = __webpack_require__(323);
+	var _handleKeyDown = __webpack_require__(322);
 	
 	var _handleKeyDown2 = _interopRequireWildcard(_handleKeyDown);
 	
 	// Default values
 	
-	var _defaultParams = __webpack_require__(320);
+	var _defaultParams = __webpack_require__(319);
 	
 	var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 	
-	var _setParameters = __webpack_require__(324);
+	var _setParameters = __webpack_require__(323);
 	
 	var _setParameters2 = _interopRequireWildcard(_setParameters);
 	
@@ -37525,7 +37505,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 317 */
+/* 316 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37721,7 +37701,7 @@
 	exports.stopEventPropagation = stopEventPropagation;
 
 /***/ },
-/* 318 */
+/* 317 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37799,7 +37779,7 @@
 	exports.colorLuminance = colorLuminance;
 
 /***/ },
-/* 319 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37810,11 +37790,11 @@
 	  value: true
 	});
 	
-	var _hexToRgb = __webpack_require__(318);
+	var _hexToRgb = __webpack_require__(317);
 	
-	var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(317);
+	var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(316);
 	
-	var _defaultParams = __webpack_require__(320);
+	var _defaultParams = __webpack_require__(319);
 	
 	var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 	
@@ -37822,7 +37802,7 @@
 	 * Add modal + overlay to DOM
 	 */
 	
-	var _injectedHTML = __webpack_require__(321);
+	var _injectedHTML = __webpack_require__(320);
 	
 	var _injectedHTML2 = _interopRequireWildcard(_injectedHTML);
 	
@@ -37971,7 +37951,7 @@
 	exports.fixVerticalPosition = fixVerticalPosition;
 
 /***/ },
-/* 320 */
+/* 319 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38008,7 +37988,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 321 */
+/* 320 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38055,7 +38035,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 322 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38064,11 +38044,11 @@
 	  value: true
 	});
 	
-	var _colorLuminance = __webpack_require__(318);
+	var _colorLuminance = __webpack_require__(317);
 	
-	var _getModal = __webpack_require__(319);
+	var _getModal = __webpack_require__(318);
 	
-	var _hasClass$isDescendant = __webpack_require__(317);
+	var _hasClass$isDescendant = __webpack_require__(316);
 	
 	/*
 	 * User clicked on "Confirm"/"OK" or "Cancel"
@@ -38195,7 +38175,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 323 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38204,9 +38184,9 @@
 	  value: true
 	});
 	
-	var _stopEventPropagation$fireClick = __webpack_require__(317);
+	var _stopEventPropagation$fireClick = __webpack_require__(316);
 	
-	var _setFocusStyle = __webpack_require__(319);
+	var _setFocusStyle = __webpack_require__(318);
 	
 	var handleKeyDown = function handleKeyDown(event, params, modal) {
 	  var e = event || window.event;
@@ -38279,7 +38259,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 324 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38288,11 +38268,11 @@
 	  value: true
 	});
 	
-	var _isIE8 = __webpack_require__(318);
+	var _isIE8 = __webpack_require__(317);
 	
-	var _getModal$getInput$setFocusStyle = __webpack_require__(319);
+	var _getModal$getInput$setFocusStyle = __webpack_require__(318);
 	
-	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(317);
+	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(316);
 	
 	var alertTypes = ['error', 'warning', 'info', 'success', 'input', 'prompt'];
 	
@@ -38509,7 +38489,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 325 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -38520,11 +38500,11 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFlatten = __webpack_require__(326),
-	    bindCallback = __webpack_require__(329),
-	    pickByArray = __webpack_require__(330),
-	    pickByCallback = __webpack_require__(331),
-	    restParam = __webpack_require__(336);
+	var baseFlatten = __webpack_require__(325),
+	    bindCallback = __webpack_require__(328),
+	    pickByArray = __webpack_require__(329),
+	    pickByCallback = __webpack_require__(330),
+	    restParam = __webpack_require__(335);
 	
 	/**
 	 * Creates an object composed of the picked `object` properties. Property
@@ -38565,7 +38545,7 @@
 
 
 /***/ },
-/* 326 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -38576,8 +38556,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(327),
-	    isArray = __webpack_require__(328);
+	var isArguments = __webpack_require__(326),
+	    isArray = __webpack_require__(327);
 	
 	/**
 	 * Checks if `value` is object-like.
@@ -38702,7 +38682,7 @@
 
 
 /***/ },
-/* 327 */
+/* 326 */
 /***/ function(module, exports) {
 
 	/**
@@ -38951,7 +38931,7 @@
 
 
 /***/ },
-/* 328 */
+/* 327 */
 /***/ function(module, exports) {
 
 	/**
@@ -39137,7 +39117,7 @@
 
 
 /***/ },
-/* 329 */
+/* 328 */
 /***/ function(module, exports) {
 
 	/**
@@ -39208,7 +39188,7 @@
 
 
 /***/ },
-/* 330 */
+/* 329 */
 /***/ function(module, exports) {
 
 	/**
@@ -39287,7 +39267,7 @@
 
 
 /***/ },
-/* 331 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -39298,8 +39278,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFor = __webpack_require__(332),
-	    keysIn = __webpack_require__(333);
+	var baseFor = __webpack_require__(331),
+	    keysIn = __webpack_require__(332);
 	
 	/**
 	 * The base implementation of `_.forIn` without support for callback
@@ -39337,7 +39317,7 @@
 
 
 /***/ },
-/* 332 */
+/* 331 */
 /***/ function(module, exports) {
 
 	/**
@@ -39391,7 +39371,7 @@
 
 
 /***/ },
-/* 333 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -39402,8 +39382,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(334),
-	    isArray = __webpack_require__(335);
+	var isArguments = __webpack_require__(333),
+	    isArray = __webpack_require__(334);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -39529,7 +39509,7 @@
 
 
 /***/ },
-/* 334 */
+/* 333 */
 /***/ function(module, exports) {
 
 	/**
@@ -39778,7 +39758,7 @@
 
 
 /***/ },
-/* 335 */
+/* 334 */
 /***/ function(module, exports) {
 
 	/**
@@ -39964,7 +39944,7 @@
 
 
 /***/ },
-/* 336 */
+/* 335 */
 /***/ function(module, exports) {
 
 	/**
@@ -40037,7 +40017,7 @@
 
 
 /***/ },
-/* 337 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -41064,7 +41044,7 @@
 
 
 /***/ },
-/* 338 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -41131,7 +41111,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 339 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41141,7 +41121,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _isDOMEquals = __webpack_require__(340);
+	var _isDOMEquals = __webpack_require__(339);
 	
 	var _isDOMEquals2 = _interopRequireDefault(_isDOMEquals);
 	
@@ -41162,7 +41142,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 340 */
+/* 339 */
 /***/ function(module, exports) {
 
 	/**
@@ -41184,12 +41164,12 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 341 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(342);
-	var SessionStore = __webpack_require__(262);
+	var UserStore = __webpack_require__(341);
+	var SessionStore = __webpack_require__(263);
 	var ApiUtil = __webpack_require__(241);
 	var Link = __webpack_require__(159).Link;
 	
@@ -41358,7 +41338,7 @@
 	module.exports = UserProfile;
 
 /***/ },
-/* 342 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -41396,218 +41376,61 @@
 	module.exports = UserStore;
 
 /***/ },
-/* 343 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(344);
-
-/***/ },
-/* 344 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Header = __webpack_require__(345);
-	var Body = __webpack_require__(347);
-	var Footer = __webpack_require__(348);
-	var style = __webpack_require__(346);
+	var Store = __webpack_require__(218).Store;
+	var Dispatcher = __webpack_require__(236);
+	var AlertConstants = __webpack_require__(255);
 	
-	var ReactSimpleAlert = React.createClass({displayName: "ReactSimpleAlert",
+	var AlertStore = new Store(Dispatcher);
+	var _alerts = [];
 	
-	  propTypes: {
-	    options: React.PropTypes.object.isRequired
-	  },
-	  
-		getInitialState: function() {
-			return {
-				alert: false
-			};
-		},
-	
-		componentWillReceiveProps: function(nextProps) {
-			this.setState({alert: nextProps.options.alert});
-		},
-	
-		render: function() {
-			var alert = null;
-			var bgStyle = style.hide;
-			var options = this.props.options;
-			if(this.state.alert) {
-				alert = (
-					React.createElement("div", {className: "rsa-alert", style: style.alert}, 
-						React.createElement(Header, {title: options.title, close: this._close}), 
-						React.createElement(Body, {message: options.message}), 
-						React.createElement(Footer, {confirmButton: options.confirmButton, close: this._close})
-					)
-				);
-				bgStyle = style.bg;
-			}
-			return (
-				React.createElement("div", {className: "rsa rsa-bg", style: bgStyle}, 
-					alert
-				)
-			);
-		},
-	
-		_close: function(){
-			this.setState({alert: false});
-		}
-	
-	});
-	
-	module.exports = ReactSimpleAlert;
-	
-
-
-/***/ },
-/* 345 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var style = __webpack_require__(346);
-	
-	var Header = React.createClass({displayName: "Header",
-	
-		render: function() {
-			return (
-				React.createElement("div", {className: "rsa-header", style: style.header}, 
-					React.createElement("span", {className: "rsa-title", style: style.title}, this.props.title || "Alert"), 
-					React.createElement("div", {className: "rsa-close close", style: style.close, onClick: this.props.close}, React.createElement("span", null, "×"))
-				)
-			);
-		}
-	
-	});
-	
-	module.exports = Header;
-
-/***/ },
-/* 346 */
-/***/ function(module, exports) {
-
-	module.exports = {
-		hide: {
-			width: "0",
-			height: "0",
-			display: "none"
-		},
-		bg: {
-			position: "fixed",
-			width: "100%",
-			height: "100%",
-			top: "0",
-			left: "0",
-			backgroundColor: "rgba(0, 0, 0, 0.5)",
-			zIndex: "99999999"
-		},
-		alert: {
-			position: "relative",
-			width: "450px",
-			margin: "30px auto",
-			borderRadius: "5px",
-			border: "1px solid #666",
-			backgroundColor: "#fff",
-			fontSize: "14px",
-			color: "#333",
-			fontFamily: "Arial"
-		},
-		header: {
-		  minHeight: "16px",
-		  padding: "15px",
-		  borderBottom: "1px solid #eee"		
-		},
-		body: {
-			padding: "15px"
-		},
-		footer: {
-			padding: "15px",
-			overflow: "hidden"
-		},
-		title: {
-			fontSize: "16px"
-		},
-		close: {
-			cursor: "pointer",
-			float: "right",
-			fontSize: "21px",
-		  fontWeight: "700",
-		  lineHeight: "1"
-		},
-		message: {
-	
-		},
-		btnClose: {
-			cursor: "pointer",
-			float: "right"
-		},
-		confirm: {
-			cursor: "pointer",
-			float: "right"
-		},
-		cancel: {
-			cursor: "pointer",
-			float: "right",
-			marginRight: "10px"
-		}
+	AlertStore.all = function () {
+	  return _alerts.slice();
 	};
-
-/***/ },
-/* 347 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var style = __webpack_require__(346);
 	
-	var Body = React.createClass({displayName: "Body",
+	AlertStore.clear = function () {
+	  _alerts = [];
+	  return _alerts.slice();
+	};
 	
-		render: function() {
-			return (
-				React.createElement("div", {className: "rsa-body", style: style.body}, this.props.message)
-			);
-		}
+	AlertStore.newAlert = function (title, alert) {
+	  _alerts = [];
+	  _alerts.push(title);
+	  _alerts.push(alert);
+	};
 	
-	});
+	AlertStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case AlertConstants.INVALID_LOGIN:
+	      AlertStore.newAlert("Invalid Login", "You are obviously a dangerous (albeit fairly inept) impostor.  Or maybe you typed your credentials wrong, but that seems less plausible.  Either way, the cat does not approve.");
+	      AlertStore.__emitChange();
+	      break;
+	    case AlertConstants.LOG_OUT:
+	      AlertStore.newAlert("Goodbye!", "The cat misses you already; don't forget to come back soon!");
+	      AlertStore.__emitChange();
+	      break;
+	    case AlertConstants.BOARD_NOT_FOUND:
+	      AlertStore.newAlert("We can't find that board!", "Maybe the cat ate it.");
+	      AlertStore.__emitChange();
+	      break;
+	    case AlertConstants.BLANK_TITLE:
+	      AlertStore.newAlert("You left it blank!", "The cat is not amused.");
+	      AlertStore.__emitChange();
+	      break;
+	    case AlertConstants.NOTE_SENT:
+	      AlertStore.newAlert("Congratulations!", "The cat has deigned to send your note!");
+	      AlertStore.__emitChange();
+	      break;
+	    case AlertConstants.BOARD_DELETED:
+	      AlertStore.newAlert("Success!", "The cat has shredded this board!");
+	      AlertStore.__emitChange();
+	      break;
+	  }
+	};
 	
-	module.exports = Body;
-
-/***/ },
-/* 348 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var style = __webpack_require__(346);
-	
-	var Footer = React.createClass({displayName: "Footer",
-	
-		render: function() {
-			var buttons = null;
-			var cfm = this.props.confirmButton;
-	
-			if(!cfm) {
-				buttons = (React.createElement("div", {className: "rsa-ok btn btn-default", onClick: this.props.close, style: style.btnClose}, "Close"));
-			} else {
-				buttons = (
-					React.createElement("div", null, 
-						React.createElement("div", {className: "rsa-confirm btn btn-primary", onClick: this._onConfirm, style: style.confirm}, cfm.text || "OK"), 
-						React.createElement("div", {className: "rsa-cancel btn btn-default", onClick: this.props.close, style: style.cancel}, "Cancel")
-					)
-				);
-			}
-	
-			return (
-				React.createElement("div", {className: "rsa-footer", style: style.footer}, 
-					buttons
-				)
-			);
-		},
-	
-		_onConfirm: function() {
-			this.props.confirmButton.action();
-			this.props.close();
-		}
-	
-	});
-	
-	module.exports = Footer;
+	module.exports = AlertStore;
 
 /***/ }
 /******/ ]);

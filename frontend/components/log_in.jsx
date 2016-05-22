@@ -42,7 +42,7 @@ var LogInForm = React.createClass({
 
 
   render: function () {
-    
+
     return(
       <div className="welcome-page group">
         <Alerts />
@@ -59,7 +59,7 @@ var LogInForm = React.createClass({
 
         </section>
         <section className="log-in-page group">
-            <form className="log-in-form group" onSubmit={this.handleSubmit}>
+            <form className="log-in-form group">
                 <h1>Welcome back to CatTrello!</h1>
 
                 <label htmlFor="name">Name</label>
@@ -68,7 +68,7 @@ var LogInForm = React.createClass({
                 <label htmlFor="password">Password</label>
                 <input onChange={this.updatePassword} type="password" value={this.state.password}/>
 
-              <button><i className="fa fa-paw" aria-hidden="true"></i>Log In<i className="fa fa-paw" aria-hidden="true"></i></button>
+              <button onClick={this.handleSubmit}><i className="fa fa-paw" aria-hidden="true"></i>Log In<i className="fa fa-paw" aria-hidden="true"></i></button>
               <button><a href="/auth/facebook"><i className="fa fa-paw" aria-hidden="true"></i>Log in with Facebook<i className="fa fa-paw" aria-hidden="true"></i></a></button>
             </form>
 

@@ -9,6 +9,11 @@ AlertStore.all = function () {
   return _alerts.slice();
 };
 
+AlertStore.clear = function () {
+  _alerts = [];
+  return _alerts.slice();
+};
+
 AlertStore.newAlert = function (title, alert) {
   _alerts = [];
   _alerts.push(title);
