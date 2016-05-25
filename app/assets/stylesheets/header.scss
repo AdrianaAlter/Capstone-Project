@@ -104,6 +104,7 @@
 	font-size: 13px;
 	padding-right: 30px;
 	padding-left: 8px;
+  text-shadow: none;
 }
 
 
@@ -111,10 +112,10 @@
   background: #E4F0F6 !important;
   color: #026AA7 !important;
 }
+
 .user-result:hover {
   background: #026AA7 !important;
   color: #E4F0F6 !important;
-  // text-shadow: 2px 2px 2px #012a42;
 }
 
 .board-result {
@@ -125,7 +126,6 @@
 .board-result:hover {
   background: #F3F3CE !important;
   color: #4d4d4d !important;
-  // text-shadow: 2px 2px 2px #dfdf7c;
 }
 
 .header-nav .header-logo {

@@ -20,14 +20,20 @@ To sample CatTrello's functionality, just sign in as a guest!
 
 * Search for boards and users.
 
+<img src="./search.png" width="350px"/>
+
 * View users' profile pages.
 * View other users' public boards.
 * Leave notes on other users' boards.
 
+<img src="./profile.png" width="350px"/>
 <img src="./note_form.png" width="350px"/>
 
-* View and delete notes from other users.
 * Receive notifications about new notes.
+* View and delete notes.
+
+<img src="./notifications.png" width="350px"/>
+<img src="./note.png" width="350px"/>
 
 In future, CatTrello users will also be able to:
 
