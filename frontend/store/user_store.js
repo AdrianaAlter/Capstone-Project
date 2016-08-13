@@ -11,7 +11,9 @@ UserStore.all = function () {
 
 UserStore.find = function (id) {
   for (var i = 0; i < _users.length; i++) {
-    if (_users[i].id == id) { return _users[i]; }
+    if (_users[i].id == id) {
+      return _users[i];
+    }
   }
 };
 

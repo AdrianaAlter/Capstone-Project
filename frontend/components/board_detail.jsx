@@ -2,6 +2,7 @@ var React = require('react');
 var ListIndex = require('./list_index.jsx');
 var BoardStore = require('../store/board_store.js');
 var CardStore = require('../store/card_store.js');
+var UserStore = require('../store/user_store.js');
 var EditBoardButton = require('./edit_board_button.jsx');
 var SessionStore = require('../store/session_store.js');
 var NoteIndex = require('./note_index.jsx');
@@ -60,28 +61,34 @@ var BoardDetail = React.createClass({
       );
     }
 
-    var current = SessionStore.currentUser();
-    var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
-    var statusClick = this.state.board.author_id == current.id ? this.updatePrivacy : null;
-    var edit = this.state.board.author_id == current.id ? <EditBoardButton boardId={this.props.params.board_id} /> : <div></div>;
-    var del = this.state.board.author_id == current.id ? <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button> : <div></div>;
-    var isCurrent = this.state.board.author_id == current.id ? true : false;
-    var Notes = isCurrent ? <NoteIndex boardId={this.props.params.board_id} /> : <NewNoteForm boardId={this.props.params.board_id} notedOnId={this.state.board.author_id}/>;
+    else {
 
-    return (
-            <section className="board-detail group">
-              <Alerts />
-              <section>
-                <h1>{this.state.board.title}<i className={status} aria-hidden="true" onClick={statusClick}></i></h1>
+      var current = SessionStore.currentUser();
+      var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
+      var statusClick = this.state.board.author_id == current.id ? this.updatePrivacy : null;
+      if (this.state.board.author) {
+        var byLine = this.state.board.author.user_name == current.user_name ? "" : <span className="byline"> by {this.state.board.author.user_name}</span>;
+      };
+      var edit = this.state.board.author_id == current.id ? <EditBoardButton boardId={this.props.params.board_id} /> : <div></div>;
+      var del = this.state.board.author_id == current.id ? <button className="delete-board-button" onClick={this.deleteBoard}>Delete this board...</button> : <div></div>;
+      var isCurrent = this.state.board.author_id == current.id ? true : false;
+      var Notes = isCurrent ? <NoteIndex boardId={this.props.params.board_id} /> : <NewNoteForm boardId={this.props.params.board_id} notedOnId={this.state.board.author_id}/>;
+
+      return (
+              <section className="board-detail group">
+                <Alerts />
+                <section>
+                  <h1>{this.state.board.title}{byLine}<i className={status} aria-hidden="true" onClick={statusClick}></i></h1>
+                </section>
+                <ul className="list-index group">
+                  <ListIndex boardId={this.props.params.board_id} lists={this.state.board.lists} current={isCurrent}/>
+                </ul>
+                {del}
+                {edit}
+                {Notes}
               </section>
-              <ul className="list-index group">
-                <ListIndex boardId={this.props.params.board_id} lists={this.state.board.lists} current={isCurrent}/>
-              </ul>
-              {del}
-              {edit}
-              {Notes}
-            </section>
-          );
+            );
+      }
     }
 
 });

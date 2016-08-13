@@ -24,7 +24,6 @@ var UserProfile = React.createClass({
 
   componentWillReceiveProps: function (nextProps) {
     ApiUtil.fetchSingleUser(nextProps.params.user_id);
-
   },
 
   _onChange: function () {

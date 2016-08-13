@@ -59,7 +59,7 @@
 	var BoardDetail = __webpack_require__(295);
 	var browserHistory = __webpack_require__(159).browserHistory;
 	var Modal = __webpack_require__(261);
-	var UserProfile = __webpack_require__(341);
+	var UserProfile = __webpack_require__(342);
 	
 	var routes = React.createElement(
 	  Router,
@@ -35009,7 +35009,7 @@
 	
 	    return React.createElement(
 	      'li',
-	      { className: 'notifications-index group', onMouseOver: this.show, onClick: this.toggleDisplay },
+	      { className: 'notifications-index group', onMouseOver: this.show, onClick: this.toggleDisplay, onMouseLeave: this.hide },
 	      React.createElement(
 	        'h1',
 	        null,
@@ -35860,10 +35860,11 @@
 	var ListIndex = __webpack_require__(296);
 	var BoardStore = __webpack_require__(217);
 	var CardStore = __webpack_require__(300);
-	var EditBoardButton = __webpack_require__(310);
+	var UserStore = __webpack_require__(310);
+	var EditBoardButton = __webpack_require__(311);
 	var SessionStore = __webpack_require__(284);
-	var NoteIndex = __webpack_require__(312);
-	var NewNoteForm = __webpack_require__(314);
+	var NoteIndex = __webpack_require__(313);
+	var NewNoteForm = __webpack_require__(315);
 	var Alerts = __webpack_require__(259);
 	
 	var BoardDetail = React.createClass({
@@ -35918,43 +35919,53 @@
 	    if (!this.state.board) {
 	
 	      return React.createElement('div', null);
-	    }
+	    } else {
 	
-	    var current = SessionStore.currentUser();
-	    var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
-	    var statusClick = this.state.board.author_id == current.id ? this.updatePrivacy : null;
-	    var edit = this.state.board.author_id == current.id ? React.createElement(EditBoardButton, { boardId: this.props.params.board_id }) : React.createElement('div', null);
-	    var del = this.state.board.author_id == current.id ? React.createElement(
-	      'button',
-	      { className: 'delete-board-button', onClick: this.deleteBoard },
-	      'Delete this board...'
-	    ) : React.createElement('div', null);
-	    var isCurrent = this.state.board.author_id == current.id ? true : false;
-	    var Notes = isCurrent ? React.createElement(NoteIndex, { boardId: this.props.params.board_id }) : React.createElement(NewNoteForm, { boardId: this.props.params.board_id, notedOnId: this.state.board.author_id });
+	      var current = SessionStore.currentUser();
+	      var status = this.state.board.private ? "fa fa-user" : "fa fa-users";
+	      var statusClick = this.state.board.author_id == current.id ? this.updatePrivacy : null;
+	      if (this.state.board.author) {
+	        var byLine = this.state.board.author.user_name == current.user_name ? "" : React.createElement(
+	          'span',
+	          { className: 'byline' },
+	          ' by ',
+	          this.state.board.author.user_name
+	        );
+	      };
+	      var edit = this.state.board.author_id == current.id ? React.createElement(EditBoardButton, { boardId: this.props.params.board_id }) : React.createElement('div', null);
+	      var del = this.state.board.author_id == current.id ? React.createElement(
+	        'button',
+	        { className: 'delete-board-button', onClick: this.deleteBoard },
+	        'Delete this board...'
+	      ) : React.createElement('div', null);
+	      var isCurrent = this.state.board.author_id == current.id ? true : false;
+	      var Notes = isCurrent ? React.createElement(NoteIndex, { boardId: this.props.params.board_id }) : React.createElement(NewNoteForm, { boardId: this.props.params.board_id, notedOnId: this.state.board.author_id });
 	
-	    return React.createElement(
-	      'section',
-	      { className: 'board-detail group' },
-	      React.createElement(Alerts, null),
-	      React.createElement(
+	      return React.createElement(
 	        'section',
-	        null,
+	        { className: 'board-detail group' },
+	        React.createElement(Alerts, null),
 	        React.createElement(
-	          'h1',
+	          'section',
 	          null,
-	          this.state.board.title,
-	          React.createElement('i', { className: status, 'aria-hidden': 'true', onClick: statusClick })
-	        )
-	      ),
-	      React.createElement(
-	        'ul',
-	        { className: 'list-index group' },
-	        React.createElement(ListIndex, { boardId: this.props.params.board_id, lists: this.state.board.lists, current: isCurrent })
-	      ),
-	      del,
-	      edit,
-	      Notes
-	    );
+	          React.createElement(
+	            'h1',
+	            null,
+	            this.state.board.title,
+	            byLine,
+	            React.createElement('i', { className: status, 'aria-hidden': 'true', onClick: statusClick })
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          { className: 'list-index group' },
+	          React.createElement(ListIndex, { boardId: this.props.params.board_id, lists: this.state.board.lists, current: isCurrent })
+	        ),
+	        del,
+	        edit,
+	        Notes
+	      );
+	    }
 	  }
 	
 	});
@@ -36663,11 +36674,49 @@
 /* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Store = __webpack_require__(218).Store;
+	var Dispatcher = __webpack_require__(236);
+	var UserConstants = __webpack_require__(249);
+	
+	var UserStore = new Store(Dispatcher);
+	var _users = [];
+	
+	UserStore.all = function () {
+	  return _users;
+	};
+	
+	UserStore.find = function (id) {
+	  for (var i = 0; i < _users.length; i++) {
+	    if (_users[i].id == id) {
+	      return _users[i];
+	    }
+	  }
+	};
+	
+	UserStore.resetUsers = function (user) {
+	  _users = user;
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case UserConstants.SINGLE_USER_RECEIVED:
+	      UserStore.resetUsers(payload.user);
+	      UserStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	var BoardStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(241);
 	var Modal = __webpack_require__(261);
-	var EditBoardForm = __webpack_require__(311);
+	var EditBoardForm = __webpack_require__(312);
 	var EditBoardButton = React.createClass({
 	  displayName: 'EditBoardButton',
 	
@@ -36707,7 +36756,7 @@
 	module.exports = EditBoardButton;
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36778,14 +36827,14 @@
 	module.exports = EditBoardForm;
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var NoteStore = __webpack_require__(287);
 	var NotificationStore = __webpack_require__(286);
 	var SessionStore = __webpack_require__(284);
-	var NoteIndexItem = __webpack_require__(313);
+	var NoteIndexItem = __webpack_require__(314);
 	var ApiUtil = __webpack_require__(241);
 	
 	var NoteIndex = React.createClass({
@@ -36866,7 +36915,7 @@
 	module.exports = NoteIndex;
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36937,13 +36986,13 @@
 	module.exports = NoteIndexItem;
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var NoteActions = __webpack_require__(240);
 	var SessionStore = __webpack_require__(284);
-	var SweetAlert = __webpack_require__(315);
+	var SweetAlert = __webpack_require__(316);
 	
 	var NewNoteForm = React.createClass({
 		displayName: 'NewNoteForm',
@@ -37012,7 +37061,7 @@
 	module.exports = NewNoteForm;
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37031,23 +37080,23 @@
 	
 	var _react = __webpack_require__(1);
 	
-	var _sweetalert = __webpack_require__(316);
+	var _sweetalert = __webpack_require__(317);
 	
 	var _sweetalert2 = _interopRequireDefault(_sweetalert);
 	
-	var _lodashPick = __webpack_require__(325);
+	var _lodashPick = __webpack_require__(326);
 	
 	var _lodashPick2 = _interopRequireDefault(_lodashPick);
 	
-	var _mousetrap = __webpack_require__(337);
+	var _mousetrap = __webpack_require__(338);
 	
 	var _mousetrap2 = _interopRequireDefault(_mousetrap);
 	
-	var _warning = __webpack_require__(338);
+	var _warning = __webpack_require__(339);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _utilsOutsideTargetHandlerFactory = __webpack_require__(339);
+	var _utilsOutsideTargetHandlerFactory = __webpack_require__(340);
 	
 	var _utilsOutsideTargetHandlerFactory2 = _interopRequireDefault(_utilsOutsideTargetHandlerFactory);
 	
@@ -37254,7 +37303,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 316 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37272,35 +37321,35 @@
 	 * jQuery-like functions for manipulating the DOM
 	 */
 	
-	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(317);
+	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(318);
 	
 	/*
 	 * Handy utilities
 	 */
 	
-	var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(318);
+	var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(319);
 	
 	/*
 	 *  Handle sweetAlert's DOM elements
 	 */
 	
-	var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(319);
+	var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(320);
 	
 	// Handle button events and keyboard events
 	
-	var _handleButton$handleConfirm$handleCancel = __webpack_require__(322);
+	var _handleButton$handleConfirm$handleCancel = __webpack_require__(323);
 	
-	var _handleKeyDown = __webpack_require__(323);
+	var _handleKeyDown = __webpack_require__(324);
 	
 	var _handleKeyDown2 = _interopRequireWildcard(_handleKeyDown);
 	
 	// Default values
 	
-	var _defaultParams = __webpack_require__(320);
+	var _defaultParams = __webpack_require__(321);
 	
 	var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 	
-	var _setParameters = __webpack_require__(324);
+	var _setParameters = __webpack_require__(325);
 	
 	var _setParameters2 = _interopRequireWildcard(_setParameters);
 	
@@ -37562,7 +37611,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 317 */
+/* 318 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37758,7 +37807,7 @@
 	exports.stopEventPropagation = stopEventPropagation;
 
 /***/ },
-/* 318 */
+/* 319 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37836,7 +37885,7 @@
 	exports.colorLuminance = colorLuminance;
 
 /***/ },
-/* 319 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37847,11 +37896,11 @@
 	  value: true
 	});
 	
-	var _hexToRgb = __webpack_require__(318);
+	var _hexToRgb = __webpack_require__(319);
 	
-	var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(317);
+	var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(318);
 	
-	var _defaultParams = __webpack_require__(320);
+	var _defaultParams = __webpack_require__(321);
 	
 	var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 	
@@ -37859,7 +37908,7 @@
 	 * Add modal + overlay to DOM
 	 */
 	
-	var _injectedHTML = __webpack_require__(321);
+	var _injectedHTML = __webpack_require__(322);
 	
 	var _injectedHTML2 = _interopRequireWildcard(_injectedHTML);
 	
@@ -38008,7 +38057,7 @@
 	exports.fixVerticalPosition = fixVerticalPosition;
 
 /***/ },
-/* 320 */
+/* 321 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38045,7 +38094,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 321 */
+/* 322 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38092,7 +38141,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 322 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38101,11 +38150,11 @@
 	  value: true
 	});
 	
-	var _colorLuminance = __webpack_require__(318);
+	var _colorLuminance = __webpack_require__(319);
 	
-	var _getModal = __webpack_require__(319);
+	var _getModal = __webpack_require__(320);
 	
-	var _hasClass$isDescendant = __webpack_require__(317);
+	var _hasClass$isDescendant = __webpack_require__(318);
 	
 	/*
 	 * User clicked on "Confirm"/"OK" or "Cancel"
@@ -38232,7 +38281,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 323 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38241,9 +38290,9 @@
 	  value: true
 	});
 	
-	var _stopEventPropagation$fireClick = __webpack_require__(317);
+	var _stopEventPropagation$fireClick = __webpack_require__(318);
 	
-	var _setFocusStyle = __webpack_require__(319);
+	var _setFocusStyle = __webpack_require__(320);
 	
 	var handleKeyDown = function handleKeyDown(event, params, modal) {
 	  var e = event || window.event;
@@ -38316,7 +38365,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 324 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38325,11 +38374,11 @@
 	  value: true
 	});
 	
-	var _isIE8 = __webpack_require__(318);
+	var _isIE8 = __webpack_require__(319);
 	
-	var _getModal$getInput$setFocusStyle = __webpack_require__(319);
+	var _getModal$getInput$setFocusStyle = __webpack_require__(320);
 	
-	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(317);
+	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(318);
 	
 	var alertTypes = ['error', 'warning', 'info', 'success', 'input', 'prompt'];
 	
@@ -38546,7 +38595,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 325 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -38557,11 +38606,11 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFlatten = __webpack_require__(326),
-	    bindCallback = __webpack_require__(329),
-	    pickByArray = __webpack_require__(330),
-	    pickByCallback = __webpack_require__(331),
-	    restParam = __webpack_require__(336);
+	var baseFlatten = __webpack_require__(327),
+	    bindCallback = __webpack_require__(330),
+	    pickByArray = __webpack_require__(331),
+	    pickByCallback = __webpack_require__(332),
+	    restParam = __webpack_require__(337);
 	
 	/**
 	 * Creates an object composed of the picked `object` properties. Property
@@ -38602,7 +38651,7 @@
 
 
 /***/ },
-/* 326 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -38613,8 +38662,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(327),
-	    isArray = __webpack_require__(328);
+	var isArguments = __webpack_require__(328),
+	    isArray = __webpack_require__(329);
 	
 	/**
 	 * Checks if `value` is object-like.
@@ -38739,7 +38788,7 @@
 
 
 /***/ },
-/* 327 */
+/* 328 */
 /***/ function(module, exports) {
 
 	/**
@@ -38988,7 +39037,7 @@
 
 
 /***/ },
-/* 328 */
+/* 329 */
 /***/ function(module, exports) {
 
 	/**
@@ -39174,7 +39223,7 @@
 
 
 /***/ },
-/* 329 */
+/* 330 */
 /***/ function(module, exports) {
 
 	/**
@@ -39245,7 +39294,7 @@
 
 
 /***/ },
-/* 330 */
+/* 331 */
 /***/ function(module, exports) {
 
 	/**
@@ -39324,7 +39373,7 @@
 
 
 /***/ },
-/* 331 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -39335,8 +39384,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFor = __webpack_require__(332),
-	    keysIn = __webpack_require__(333);
+	var baseFor = __webpack_require__(333),
+	    keysIn = __webpack_require__(334);
 	
 	/**
 	 * The base implementation of `_.forIn` without support for callback
@@ -39374,7 +39423,7 @@
 
 
 /***/ },
-/* 332 */
+/* 333 */
 /***/ function(module, exports) {
 
 	/**
@@ -39428,7 +39477,7 @@
 
 
 /***/ },
-/* 333 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -39439,8 +39488,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(334),
-	    isArray = __webpack_require__(335);
+	var isArguments = __webpack_require__(335),
+	    isArray = __webpack_require__(336);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -39566,7 +39615,7 @@
 
 
 /***/ },
-/* 334 */
+/* 335 */
 /***/ function(module, exports) {
 
 	/**
@@ -39815,7 +39864,7 @@
 
 
 /***/ },
-/* 335 */
+/* 336 */
 /***/ function(module, exports) {
 
 	/**
@@ -40001,7 +40050,7 @@
 
 
 /***/ },
-/* 336 */
+/* 337 */
 /***/ function(module, exports) {
 
 	/**
@@ -40074,7 +40123,7 @@
 
 
 /***/ },
-/* 337 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -41101,7 +41150,7 @@
 
 
 /***/ },
-/* 338 */
+/* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -41168,7 +41217,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 339 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41178,7 +41227,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _isDOMEquals = __webpack_require__(340);
+	var _isDOMEquals = __webpack_require__(341);
 	
 	var _isDOMEquals2 = _interopRequireDefault(_isDOMEquals);
 	
@@ -41199,7 +41248,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 340 */
+/* 341 */
 /***/ function(module, exports) {
 
 	/**
@@ -41221,11 +41270,11 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 341 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(342);
+	var UserStore = __webpack_require__(310);
 	var SessionStore = __webpack_require__(284);
 	var ApiUtil = __webpack_require__(241);
 	var Link = __webpack_require__(159).Link;
@@ -41393,44 +41442,6 @@
 	});
 	
 	module.exports = UserProfile;
-
-/***/ },
-/* 342 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var Dispatcher = __webpack_require__(236);
-	var UserConstants = __webpack_require__(249);
-	
-	var UserStore = new Store(Dispatcher);
-	var _users = [];
-	
-	UserStore.all = function () {
-	  return _users;
-	};
-	
-	UserStore.find = function (id) {
-	  for (var i = 0; i < _users.length; i++) {
-	    if (_users[i].id == id) {
-	      return _users[i];
-	    }
-	  }
-	};
-	
-	UserStore.resetUsers = function (user) {
-	  _users = user;
-	};
-	
-	UserStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case UserConstants.SINGLE_USER_RECEIVED:
-	      UserStore.resetUsers(payload.user);
-	      UserStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = UserStore;
 
 /***/ }
 /******/ ]);

@@ -112,7 +112,6 @@ ApiUtil = {
 
   fetchSingleUser: function (id) {
 
-
     $.ajax({
       url: "api/users/" + id,
       type: "GET",

@@ -20,7 +20,7 @@ To sample CatTrello's functionality, just sign in as a guest!
 * View other users' public boards.
 * Leave notes on other users' boards.
 
-<img src="./profile.png" width="350px"/>
+<img src="./profile.png" width="350px"/>--w
 <img src="./note_form.png" width="350px"/>
 
 * Receive notifications about new notes.
