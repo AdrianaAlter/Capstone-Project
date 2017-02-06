@@ -1,9 +1,24 @@
 ##Welcome to CatTrello!
-CatTrello is a web application inspired by Trello, and built using Ruby on Rails and React.js.
+<a href="http://www.cattrello.press">CatTrello</a> is a web application inspired by Trello, and built using Ruby on Rails and React.js.
 
 www.cattrello.press
 
 To sample CatTrello's functionality, just sign in as a guest!
+
+###Languages and Technologies:
+
+* Ruby on Rails
+* Postgres
+* OmniAuth
+* Bcrypt
+* PgSearch
+* JSON
+* AJAX
+* JavaScript
+* React.js
+* Flux
+* HTML5
+* CSS3
 
 ###Selected Features:
 
@@ -34,7 +49,3 @@ To sample CatTrello's functionality, just sign in as a guest!
 
 <img src="./app/assets/images/screenshots/landing.png" width="700px"/>
 <img src="./app/assets/images/screenshots/login.png" width="700px"/>
-
-In future, CatTrello users will also be able to:
-
-* Create teams.

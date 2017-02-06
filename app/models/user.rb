@@ -46,7 +46,6 @@ class User < ActiveRecord::Base
     user_name: auth_hash[:extra][:raw_info][:name]
     )
   end
-
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)
@@ -55,6 +54,7 @@ class User < ActiveRecord::Base
   def is_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
+
 
   def reset_session_token!
     self.session_token = SecureRandom.urlsafe_base64(16)
